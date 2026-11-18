@@ -20,10 +20,10 @@ sources:
     resource: repo://src/lib/checklists/souls.ts
   - id: openwiki-source-1addf1a05f8d53fe7dea95d6
     resource: repo://src/lib/dofusdb/map-items-monsters.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Souls checklist (Ocre)
@@ -72,6 +72,8 @@ The view also counts bosses and archmonsters, takes Torre's intro and callouts f
 - `SoulsIntro`, Torre's callouts as he wrote them;
 - a window with `SoulsStrip` (percentage, bar and souls owned), `SoulsTools` (group by stage or region, the type filter, the search, «hide the ones I have» and the «⋯» menu with backup and reset) and `SoulsList`;
 - the progress dialogs, with a reset that removes only the souls.
+
+The `<main>` (`ck sl`) carries `pageSection('dofus')`, so the header marks the Dofus section as current. In preview, the draft notice comes from the layout's `PreviewBar` above the header, as on every page, and the view adds only `LivePreviewRefresh`. Each render of the island writes `data-ck-state` on the `<main>` (`paintProgressState`), so the header egg lights up only when every soul is owned, as on a steps checklist (see [Checklist progress engine](progress.md)).
 
 `SoulsList` renders both views whole, and CSS shows the one the island names in `data-sl-shown` on the window. Each view (`View`) is a list of its stages or regions, each with the souls owned and a bar, and one panel per group (`Panel`): a stage with its big number, the souls owned, a ring and its cards; a region with its cards split by dungeon and subarea. The island shows one panel at a time, with «Anterior» and «Siguiente» at the end. The list is a column beside the panel from 1024px and a scrolling row above it on narrow screens. Without JavaScript every stage shows in a row, with no list, no ticks and no controls, since they would do nothing.
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e6b1c5afe51e09837297755a02608a17a518c3a6cce027dd6a53fa4907017662",
+  "pageVersion": "sha256:e5d74ae7840aa011d3cd28de6332a394847c7ed525ca1376d0a7c854cd9205ad",
   "claims": [
     {
       "id": "claim_5a2e41aa451746678406db0a76ca60ea",
@@ -97,14 +97,14 @@
       "statement": "The proxy answers a path found in the legacy URL table with a redirect to the public site origin or a 410 page before Next renders, in every environment.",
       "evidence": [
         {
-          "resource": "repo://src/proxy.ts#L1-L36",
-          "version": "repo-lines-v1:sha256:09f05a430ffe4776efa64e766b174904452fc518ea37b6092afbea06bf8825f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZGMxMGJlYzEwNjE1OGZlMjhjNWQ4ZjNkYzQzODA4ZjM1OTc0ODU0ODZlZWViMTc5NDZmNTYwNGNjOTZjMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/proxy.ts#L1-L39",
+          "version": "repo-lines-v1:sha256:832b40b0e05a1bb860f5c4da0506a8f50f3e7fd59788673acae8dfc71d38e779:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZGMxMGJlYzEwNjE1OGZlMjhjNWQ4ZjNkYzQzODA4ZjM1OTc0ODU0ODZlZWViMTc5NDZmNTYwNGNjOTZjMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

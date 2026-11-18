@@ -22,6 +22,14 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
   - id: openwiki-source-033c6b075349ca47608b1252
     resource: repo://src/app/(frontend)/%5Bslug%5D/SitePageView.tsx
+  - id: openwiki-source-f6463aeeb13df0785c5218a1
+    resource: repo://src/app/(frontend)/error.tsx
+  - id: openwiki-source-57f8bec0258d7f32b9cf331b
+    resource: repo://src/app/(frontend)/ErrorView.tsx
+  - id: openwiki-source-280e1af53644023b19557c17
+    resource: repo://src/app/(frontend)/not-found.tsx
+  - id: openwiki-source-d91bcfe9b85be5b5860292ba
+    resource: repo://src/app/(frontend)/strings.ts
   - id: openwiki-source-85b41a41ce498767de963f3a
     resource: repo://src/collections/Pages.ts
   - id: openwiki-source-4f2e53306895c158accd92ec
@@ -36,10 +44,12 @@ sources:
     resource: repo://src/lib/pages/queries.ts
   - id: openwiki-source-fb8279296835a1a58ec3f427
     resource: repo://src/lib/site/legacy.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+  - id: openwiki-source-d33df43572e5728236d37447
+    resource: repo://tests/unit/error-pages.test.tsx
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Standalone pages
@@ -69,11 +79,20 @@ The `[slug]` route tries, in order, a quest guide, an achievement page, a Dofus 
 
 1. `loadSitePage` (`src/app/(frontend)/[slug]/page-data.ts`) reads it once per request. With Next's draft mode and a panel session it reads the latest draft as that user, uncached; otherwise it reads the published version through `unstable_cache` under the `pages` tag with a 600-second `revalidate` (`src/lib/pages/cache.ts`). `readSitePage` (`src/lib/pages/queries.ts`) always reads with `overrideAccess: false`, returns a page in any state, and populates only the title, slug and state of the parent.
 2. `sitePageRoute` applies `legacyRoute` (`src/lib/site/legacy.ts`), the same rule as checklists: a published page, or any page in preview, renders; a page «En preparación» redirects to its `legacyHref`, unless that link is missing, invalid or points at this same site, which answers 404.
-3. `SitePageView` renders the quest guide's reading column: the breadcrumb, the title as the `h1` and the body through `GuideSections`, with `PageEnhancements` as the only client island and the preview bar and live preview refresh in draft mode. No quest header, next quest card or progress.
+3. `SitePageView` renders the quest guide's reading column: the breadcrumb, the title as the `h1` and the body through `GuideSections`, with `PageEnhancements` as the only client island and the live preview refresh in draft mode (the preview bar comes from the layout, above the header). No quest header, next quest card or progress.
 
 `sitePageSeo` (`src/lib/pages/page.ts`) gives the metadata: Torre's SEO title and description when written; otherwise the page title, and the first text of the body (rich text, callout or a step's text) clipped at a word to 160 characters, or the title when the body has no text. Open Graph adds the site name and share image from «Ajustes del sitio» (see [Site settings and index texts](../cms/site-copy.md)). A draft in preview is never indexed.
 
 `sitePageBreadcrumb` gives «Inicio», then the parent page only when it is populated and published, then the page itself.
+
+## Not found and error pages
+
+Two pages of the site shell share one look: the page title in Rowdies capitals (`font-title`), a sentence and the filled primary button, left aligned in the page frame (`px-(--frame-pad)`), inside the site header and footer.
+
+- **404.** `src/app/(frontend)/not-found.tsx` renders «Página no encontrada», a line saying the address leads to no guide or page, and «Volver a la portada» as a `ButtonLink` to `/`, a normal link so the home page arrives with the page transition. Next adds `noindex` to the response.
+- **Error.** `src/app/(frontend)/error.tsx` is the client error boundary of the public site. It renders `ErrorView` (`src/app/(frontend)/ErrorView.tsx`): «Algo ha fallado», a line asking to try again or come back later, a primary button that calls `reset` and a secondary link that loads the home page whole. It never shows the error itself, and it has no state or effects, because Next loads it on every page. There is no `global-error.tsx`: it pushed the guide pages past their 150 KB JavaScript budget (see [Performance budgets](../testing/performance-budgets.md)). Its strings are `errorStrings` in `src/app/(frontend)/strings.ts`.
+
+The 410 page for old Squarespace URLs is written by the proxy outside Next, with the same button (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
 
 ## Links from the rest of the site
 
@@ -101,6 +120,7 @@ The class and dungeon import reuses this conversion and the loader's helpers (`b
 
 - `tests/unit/pages-collection.test.ts`: fields, access, hooks.
 - `tests/unit/site-pages.test.ts`: the route rule, SEO, breadcrumb and nav links.
+- `tests/unit/error-pages.test.tsx`: the error page shows the page title and the sentence without the error, retries with the primary button and goes home with the secondary one.
 - `tests/unit/import-pages-convert.test.ts`: the conversion, with fixtures in `tests/fixtures/pages/`.
 - `tests/integration/pages.test.ts` and `tests/integration/import-pages.test.ts`: reads and the import against a real database.
 - `tests/e2e/paginas.spec.ts`: the rendered page, Torre's SEO and the fallback, the redirect of a page «En preparación», the footer links, the header search, the sitemap and axe WCAG 2.2 AA, with seed data in `tests/e2e/seed/pages.ts`.

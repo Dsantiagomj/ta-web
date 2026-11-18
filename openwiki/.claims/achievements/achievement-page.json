@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c24981fcd5ca8f5ec1203054718bdae15a2673a91047521757f5854dce68d216",
+  "pageVersion": "sha256:7efebe6031eaf371a5b3dbc00cf2fbfabfa9e287356f15533c56dacbedab010d",
   "claims": [
     {
       "id": "claim_93262fb2f5024ce793cdd746a57b16e6",
@@ -157,28 +157,28 @@
       "statement": "The achievement page's only client island is PageEnhancements for the rewards bag, plus LivePreviewRefresh in preview.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/AchievementView.tsx#L18-L73",
-          "version": "repo-lines-v1:sha256:d363fa376116e608cb3ba4397d4bdb474788a11e8232dc0d2349465307084ae6:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTk3ZTQ5YjZlNTI4ZGE1OTI0ZGZlYzk3NjMxOTJjMWVmZDM3MjlhMTQwODA5ZjhiOTdmNTUwYzMwYzE0ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/AchievementView.tsx#L19-L75",
+          "version": "repo-lines-v1:sha256:bebcd4d1dee0d981719d2f4c75f05d188e50d6e14e300f1f9d1075db69edb6d0:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NWE3NTE2ODk4Y2U0NmViZDU3ODllMjA5MGExOTMwM2Q4NDBiNmFjNmNlY2IzZTQxNTZmNmZmMTkzYTUzODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
     {
       "id": "claim_d4ed7a10cfef411798313fc94d2a1af6",
-      "statement": "The E2E spec checks the breadcrumb and header with the sheet beside the quests on desktop, the collapsed sheet on phone and tablet with rewards last, the sheet without JavaScript, the three needs groups, quest cards linking only published guides, Cuenta para and previous/next, Torre's prose with the video facade, a hand-picked dungeon boss, a 404 for a preparing page, the phone breadcrumb and axe in both modes.",
+      "statement": "The E2E spec checks the breadcrumb and header with the sheet beside the quests on desktop, the collapsed sheet on phone and tablet with rewards last, the sheet without JavaScript, the three needs groups, quest cards linking only published guides, the hue diamonds, sheet titles and previous/next card borders, Cuenta para and previous/next, Torre's prose with the video facade, a hand-picked dungeon boss, a 404 for a preparing page, the phone breadcrumb and axe in both modes.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/logro.spec.ts#L13-L519",
-          "version": "repo-lines-v1:sha256:cd9aa66fe3653b1c9539c64de7793477b1823a74b3fb04ccc012e06fddea8afd:eyJzZWxlY3RlZExpbmVDb3VudCI6NTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjZjE5MzQ1MzQ2YzIzMzdlNmEyYjE3ZTdmMzI3NjEzNzVhY2FjOWYyM2ZiYTdkYTNlNDg5MTBiMzcyMTZmZTAyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3NmY4MzY0MGNkMjQ1MzE3MGVlNzZiZTZkNjc3NzZlYWNjNjM0MzRiOWRjNGM3MTBiYzBiNDJmYTQxMjg4Yjg1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/logro.spec.ts#L13-L566",
+          "version": "repo-lines-v1:sha256:ba81482502203edaa98feff5257c89919103a49a7f8d9cefcd4fdb45178f8997:eyJzZWxlY3RlZExpbmVDb3VudCI6NTU0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkMGVjNjczOTk3ZTYxYWQ5ODlkODRiN2MyN2FiNjNmZGQxMjgxNTYwNGVkNDE0Y2I1NjE5MmVhN2VkNmFlNjQ1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
     {
       "id": "claim_9963131222ec47fb90893c437ea34400",
-      "statement": "AchievementView renders the breadcrumb, header and AchievementSheet, then a body with the intro, quests, outro, Cuenta para and previous/next nav, with no list of the metalogro's pages; with a sheet the main element gets logro--sheet.",
+      "statement": "AchievementView renders the zone background when there is one, then the breadcrumb, header and AchievementSheet, then a body with the intro, quests, outro, Cuenta para and previous/next nav, with no list of the metalogro's pages; with a sheet the main element gets logro--sheet.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/AchievementView.tsx#L18-L73",
-          "version": "repo-lines-v1:sha256:d363fa376116e608cb3ba4397d4bdb474788a11e8232dc0d2349465307084ae6:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTk3ZTQ5YjZlNTI4ZGE1OTI0ZGZlYzk3NjMxOTJjMWVmZDM3MjlhMTQwODA5ZjhiOTdmNTUwYzMwYzE0ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/AchievementView.tsx#L19-L75",
+          "version": "repo-lines-v1:sha256:bebcd4d1dee0d981719d2f4c75f05d188e50d6e14e300f1f9d1075db69edb6d0:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NWE3NTE2ODk4Y2U0NmViZDU3ODllMjA5MGExOTMwM2Q4NDBiNmFjNmNlY2IzZTQxNTZmNmZmMTkzYTUzODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -205,8 +205,8 @@
       "statement": "readAchievementPage reads the game items whose exact name a guide note uses and the boss image of each dungeon note, passing Torre's dungeon picks.",
       "evidence": [
         {
-          "resource": "repo://src/lib/achievements/queries.ts#L128-L145",
-          "version": "repo-lines-v1:sha256:2648d2669f7405eab07c8a95d0915bd8341f898b305db921edad477613cae8aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YjE5ODJlOGRkNzQ4MTE4MTQ2YjM5YTJkMDA2MmY0MDgxZTM0Nzc5Yjg2NzVjMjM0YzRmYjEyNGRjMzkzOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwMDUzZGY4MjczNGYyOGNkNjE2M2FhMmIxMGU5ZjFjMDU5M2FkZmI0MWRlZTkyMDIwMGQwNWFkODVjNThlZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmZjBmMzliNTE2MWFmOWFlZWI5MGI3YjFiYzU4MzgzNTNjMDcxOWI3N2Y0NDU2ODE1M2YxYTFmMzBhYzgwMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEifQ"
+          "resource": "repo://src/lib/achievements/queries.ts#L133-L139",
+          "version": "repo-lines-v1:sha256:516bedb644fafba1180f6433e08276e85c49ff58a503c0d15bb898a9142fa58b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjY3MDhkYzk1NzMyNzY4NmIzN2ZjMzEyZGFiOTg5OGFiNmE0ODhmZjlkMTE2OWJkYTc0ZmI1Zjk3N2ZjY2JhMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWU1YmY2NWFiYTQzNDhiN2IyZDU5OGM0ODBmNjkyNWZiMDEzMjI2NzdjYmFkMDdkOWU3MTZjYjRlYzBlYTdmZSJ9"
         }
       ]
     },
@@ -275,8 +275,12 @@
       "statement": "From 64rem the sheet is a column beside the quests and PageEnhancements opens every details[data-sheet] and blocks folding it from its summary; below 64rem the folds open on tap.",
       "evidence": [
         {
-          "resource": "repo://src/components/achievement/achievement.css#L56-L100",
-          "version": "repo-lines-v1:sha256:1c1ea9609a305e00e200bcdbdf77cf1f8e75d0898575e41de44f0c0d59c59d40:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZDI3MTI4ODhjYjMxOWNlZTMzODkxZDEzZWUzN2U5ZTMxYThjNGU5NjBiNTE1NjJlMGIwNjQ5ZWY1YmFjNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhNjc5YjQyYWJiZGFiYzBlZWI0M2NhYmRlMWIyNzVmN2Y0NmI0MTZmNGYzYTY3OWUzOWYyYzFjZGM5NzdlNDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2ZmU4YWY0ZDE2NTFmYjJmZjFkZWY5OGJmOWNmZWRjZWNjZWQ3ZDA0MDA3YWJmMWMwODNiM2YwZGY4YTFlOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1MmUyMDEyYjA5MjcwNGM1YjgzYWQxNDM5MWRmZTAwMWYzZmRjZDQwMTNlOWRmODBlYWUyMzUxYWYzMzZkNDQifQ"
+          "resource": "repo://src/components/achievement/achievement.css#L301-L330",
+          "version": "repo-lines-v1:sha256:7c5e78e91f8a00205d1a27ce57bab88d160f9332c14a022e87f6e10dae7a6397:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3YTA0MWY2YWRkNmMwMDJjMWNhZTE3YWQ0MGRjZTA0ODlkYTFhOTZiMmMwOGQ1MzE5ZTY5NTExZmEwZDJhOTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkNzgyODMyNzlmNzNmZGU2Y2ZjYzg2OWNmODcyNzY1N2M2YmQ5ZDczNTdiODkxMjNjMGYyMzEyNzM1YjM2NjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllZWVhMjVjNWY3YmVmY2Q4OGQ4YzRjY2I5MDgzMjA3OGU2ZDY2OTJkNTBjNjdkODU4NmQzMTQ1YjIwMjg5MmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzNjFlODRhZGFjODNkMjA3Mzg3NzJiZjY3ZDI3YTBmZGU1Nzc5MTBmYTc3MzBmZDBlNDRhNzNhNmVhN2RkZmIifQ"
+        },
+        {
+          "resource": "repo://src/components/achievement/achievement.css#L45-L75",
+          "version": "repo-lines-v1:sha256:3485a4148b0ac60ff099ffa8400418847685e569361554d0dae2dd9e99d779bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZDI3MTI4ODhjYjMxOWNlZTMzODkxZDEzZWUzN2U5ZTMxYThjNGU5NjBiNTE1NjJlMGIwNjQ5ZWY1YmFjNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2ZmU4YWY0ZDE2NTFmYjJmZjFkZWY5OGJmOWNmZWRjZWNjZWQ3ZDA0MDA3YWJmMWMwODNiM2YwZGY4YTFlOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxZmM2MzFjMDJhMjk1YWI3YzE3MmI0OTllZjdmZDNhY2VmOWVhNzViNzgzY2VlN2VlNzBmN2QyMjA4MWM5MTQifQ"
         },
         {
           "resource": "repo://src/components/game/PageEnhancements.tsx#L131-L148",
@@ -345,10 +349,52 @@
           "version": "repo-lines-v1:sha256:ad8bb50a44a1f229723c48e6110da0461b097b94173b0cafe4995b0fc037b3ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiOTYzNmVkZDRjYzNhNGNkYmQ5N2YxYWNhNWI4OGE2NDg4ZjQyMTcwNjZjZThhNmFjNjJkNTIyMGQxM2FlMTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlOTFhZTBjYmU2YmU1ZjI4NWQ5N2QwMjk1ODdjZDY3NDY0YjgyMzBmOWNlZjgxNjAzYzlkNmQ5NGVlMzA0Y2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwZWQyMDNiY2U4ZTU0NTBlYmM3OTJkYjdiZGM1MjRmYmEwNmZhNDg1NGIyOWQ2MDgyOWQzZjgyZjBmODMwZTQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_d505a337db254a9abc42dd169d584235",
+      "statement": "An achievement page's zone background is resolved inside the cached read by readZoneBackground, from the page's own background or else the subarea of the first quest in its quest list.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/queries.ts#L140-L144",
+          "version": "repo-lines-v1:sha256:e1fd3b2f889143694fdef49f9ec13c5e9ae664058e9464fad7279134e97502a1:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjg5OTE4OTBjZTNkNDI0NjE3Y2EwNmRjZWU4YjFkMjAwMTVkMWNiODNkZWYzZjcxMGZiOGE2Yjc0YzQ2YWM0OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDQzZmQ4ZWI2MjUwMGQ0MGNmNmZiN2UzNzYwNmUyNmJkZDMyZTU0NzdmMjg0M2YzZjNmOTg4NTk1NTc1YzAyMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDc4MjYzZGZkMDYzZjNkODA2ZGEzOGRiODBjYzFkYzhmYjAwODUyMzdmMTE1YmU1YjMwNDc4YTY2ZGUzZmY3MCJ9"
+        },
+        {
+          "resource": "repo://src/lib/zones/background.ts#L37-L47",
+          "version": "repo-lines-v1:sha256:33240d7dbc2aa3670f7b1657627f62638fa740b9e03055f83ba405527a2f7596:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkOTgwOGU4NzZmZDMzZDYzZWY3MjM0NWNlYzM3NDdmMjY3MmUzYjk0Njk3NThjNzM2NWFhMjczOTk3MDYxNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4MDAzMmZkZGViNzBmMTg0NjBlM2JiZGEyMDRmYjg3ZmVkMmU4ZTQ1N2FkZGFkOGFmZDc2NTA1NGY2NGRhODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjlmZDMwYzMwNGIyOTVmZWVjODZmNjU1NjU5NmNlN2UxMWJjYThmNWI0MDU3ZDVlNTIzYTllZTViNGU5ZTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_158a6fb6589a4794bfa567e1dbf14e9b",
+      "statement": "Achievement list items take one of eight theme hues in order through --v: each quest number sits in a filled diamond of its hue with --color-on-hue ink, and the previous and next cards get a 2px border and eyebrow in their hue.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/achievement.css#L1208-L1236",
+          "version": "repo-lines-v1:sha256:3fba4029762e387bbab48e6c1729271a543f36355807769c691bff1691ab3b1b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkYTM0YTBmNGMyYjBlNzcyOWQ1OGY5ZmIxOWQ3M2FhYTA1OTJiOWRkZDhiNGRjOTRhOTk2ZmJiMzJkNTI2OTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlOGQ2YmE5ZTVhNWNiMzhjNGY0OTczNmU5MTM3YjcwMDdiMWViNmMxNjRhNzQ0ODkyYmYyYzI2M2NjM2NmYzcifQ"
+        },
+        {
+          "resource": "repo://src/components/achievement/achievement.css#L515-L533",
+          "version": "repo-lines-v1:sha256:82931a806a35eb5cb4fd629bef9522b7122641ff965cb2b7b5e1573c78c470d4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwOWRlNjY0OGY4YzMzZTVjNjEyODJhNzAwMGZiOTRmMTg4MTIxZTNiMDZjN2IyOTc3ZjJiZmRhYWE0ZTQzYWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkOGRlZTBhYTE4YTlkNmFlZjk3OTlmZGE3ZmJmYzcyZTFlMjBiY2YxMWFjZGQzZTg2MjQ1ZGM0YWE1Yzk4YTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIwMGJiNjI0ODBhZTkzMWIwYjRhNzdjNDc3Y2RmNzI5NzU4MjZlOTdjOTk2YThhYzc1MzcyZDI5M2JmODJkZTQifQ"
+        },
+        {
+          "resource": "repo://src/components/achievement/achievement.css#L652-L675",
+          "version": "repo-lines-v1:sha256:9137369a8b98f625190d1ffd363290de991ebc326ae6e1b3f28d54eec212abdb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0YWY4Mjg1ZjMxN2I2MzgyYTJjMWViNWJlMTMyZjhkMjBjYzc2ZWJiMTY4MzZjOTkzNGI2ZWFhZWQ0NWI4N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwYmMwMGNhYWJkNjIxZTg1Zjg0MDRiMmFhNDA0NDkyZGMwNTg1N2Y3ZWUyZjM3NGZhYjdmNmQ2MDdiZjJjMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_324cd3ee856b4b308c936d19244683d6",
+      "statement": "The sheet's part titles share the guide header's part hues: Prerrequisitos in --color-hue-5, Necesitarás en total in --color-hue-1 and the rewards in --color-hue-2.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/game/game.css#L229-L247",
+          "version": "repo-lines-v1:sha256:3afa93f3e8e629d09b03e90c4a9078b5e692577b69e71871e62bf41acfe057d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4NzQzMzhmZjZlZDgxNzI3MDZmM2Q4N2QxY2I5NWI2ODg1NmJiODA2N2YyZmUwMWIzYjc1NmQ1ODIxZTY0ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiNDY5ZWI0NjQ5YTA3ZmU3ZWEzZDRkYTU1M2FlNzU2M2FjNWFhYmJjMTNkZTQxNjk0N2IyOTJkZGMwZTI2MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2NmNhNjM3M2QzNmYwMzI1ZmRhNzUxODI0MzliNWVjMTkwN2VhZDVhODkxOTZiMjIyM2I1YzNhYWZmZGZlNzQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

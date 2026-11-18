@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:78d7cf4891c72214068f4d7f2d562e5f7ff2c01bb14270d470c34d126d5d27ee",
+  "pageVersion": "sha256:28d9c394e3ea3add96ae02fb3c4968fa00f245d727c599da3a91d8da37294ae6",
   "claims": [
     {
       "id": "claim_35fde34cdf674edca408fee7ff5d2483",
@@ -54,11 +54,11 @@
     },
     {
       "id": "claim_0788bbcfc16141f2be648685d5c9d452",
-      "statement": "The generated admin import map registers the project's QuestAutofill, SummaryNote, DofusDbNote and DofusDbFill components, the panel components from src/components/admin including the validated text fields and GameDataRefresh, the Lexical rich text field, cell, diff and client feature components including BlocksFeatureClient, Payload's CollectionCards and the S3 client upload handler.",
+      "statement": "The generated admin import map registers the project's QuestAutofill, SummaryNote, DofusDbNote and DofusDbFill components, the panel components from src/components/admin including the validated text fields, GameDataRefresh and ZoneBackgroundButton, the Lexical rich text field, cell, diff and client feature components including BlocksFeatureClient, Payload's CollectionCards and the S3 client upload handler.",
       "evidence": [
         {
-          "resource": "repo://src/app/(payload)/admin/importMap.js#L1-L114",
-          "version": "repo-lines-v1:sha256:ac4e50eeb928f951ea8f88f12b44b26a2ff70094c999464b91c7fcbc4dd5987e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxNTBjZjlhNTE2ZjA2NzY3YmU0OGFlN2E3NDBiMmU4ZDkyMmRmZDJjNmVhZGFkNTk3MmU3MDg3NjlhNTUyZTdmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/app/(payload)/admin/importMap.js#L1-L116",
+          "version": "repo-lines-v1:sha256:83cb20af4779d2046fb17ea0cd90fdce99ae7b2d2be4bd2a0fab627c7a7b0879:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxNTBjZjlhNTE2ZjA2NzY3YmU0OGFlN2E3NDBiMmU4ZDkyMmRmZDJjNmVhZGFkNTk3MmU3MDg3NjlhNTUyZTdmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -219,10 +219,20 @@
           "version": "repo-lines-v1:sha256:61ab84ae394c65c236391cab1379764ed71e458b858753e4bf274355140d0e4c:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODIzMjEyNzZjMzE1MDM0ZWI5NTEyY2UwMTg4OWU3MjU3NzI4YzdlODNkNGUzMDE0Yzg5Y2Y0ODJiOTkzNjYxNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU4ZjhiZDVjNmFjNjdkY2VmNTEyOTFiMTM3ZWExYTQ5MjYwZTE1Nzk0MmMwOWNhNDY1ZDFmYjI5MDc0NjVlNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDIxMWUwNzlkMTNmMGZlZWIwMWUxZDQ4OGNmNDYxODVmMzhhYzU1ZTUwMGJmMGI3OWI5ODE4NTJiMzljZTAxOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_f7625239b3b94776a94113ba2c100736",
+      "statement": "POST /api/subareas/:id/zone-background answers 401 without a user, 403 for a non-admin, 400 for an invalid subarea or map ID, 404 when DofusDB gives no map for the zone and 502 when the fetch fails, always with Cache-Control no-store.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/zone-background.ts#L1-L64",
+          "version": "repo-lines-v1:sha256:2992f53a3377f14ca1b6745e5a4f18550b4b6d10625cb1eaa629961fc99a1581:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwY2I4OTMxNTNkMDhkYTU1MzdmZjg5ZGY4MjQ4YTU4ZWZmMjlkMjkyZDhhOWQ3NjNiMTg2MzMxMmYxYThlMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

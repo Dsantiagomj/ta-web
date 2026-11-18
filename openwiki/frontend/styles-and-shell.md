@@ -14,6 +14,10 @@ sources:
     resource: repo://src/app/(frontend)/page.tsx
   - id: openwiki-source-0391870516225da61a963c2c
     resource: repo://src/components/achievement/MetalogrosIsland.tsx
+  - id: openwiki-source-c614cc57fb9ff835c46ee14d
+    resource: repo://src/components/checklist/checklist.css
+  - id: openwiki-source-9491a82d406f14a4574f8c9d
+    resource: repo://src/components/dofus/dofus-index.css
   - id: openwiki-source-abb20cd71cbe6f9faaed0ea7
     resource: repo://src/components/dofus/DofusIndexIsland.tsx
   - id: openwiki-source-7ba3e6f5057719fdf70c6941
@@ -28,6 +32,8 @@ sources:
     resource: repo://src/components/site/Breadcrumb.tsx
   - id: openwiki-source-2527b990816180ac80987e20
     resource: repo://src/components/site/site.css
+  - id: openwiki-source-8f0ef4d5ed917e5396cdb8e2
+    resource: repo://src/components/ui/ui.css
   - id: openwiki-source-2f580cf8b5193905cc52f99b
     resource: repo://src/components/ui/view-transition.ts
   - id: openwiki-source-ebaecf0b9cf2bccc008459f4
@@ -42,6 +48,8 @@ sources:
     resource: repo://src/styles/theme.css
   - id: openwiki-source-af25dd8eebdd9233b223bd95
     resource: repo://tests/e2e/ambiente.spec.ts
+  - id: openwiki-source-521a6f9330c660134b3f506f
+    resource: repo://tests/e2e/colores-forzados.spec.ts
   - id: openwiki-source-f2beaf80b1decf5de1f10e4c
     resource: repo://tests/e2e/hojas-de-estilo.spec.ts
   - id: openwiki-source-0d3ca97f277fd81c10735a75
@@ -52,14 +60,16 @@ sources:
     resource: repo://tests/unit/emblem.test.tsx
   - id: openwiki-source-a43a9e5ed45afaa192ecca23
     resource: repo://tests/unit/fonts.test.ts
+  - id: openwiki-source-ae95a44d13d5389ffb191459
+    resource: repo://tests/unit/print-css.test.ts
   - id: openwiki-source-058129a0b4275cdaafea29f9
     resource: repo://tests/unit/theme-css.test.ts
   - id: openwiki-source-a6bbe9fe2145f44825758407
     resource: repo://tests/unit/view-transition.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Styles, tokens and site shell
@@ -87,28 +97,30 @@ A page loads at most four stylesheets. Each one blocks the first paint, and over
 `theme.css` has four token layers and one rule for nested themes.
 
 1. **`@theme static`: scales.** It first resets Tailwind's defaults (`--color-*: initial`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`, `--ease-*`, `--breakpoint-*`), so only our tokens exist and a stray `bg-blue-500` does not compile to anything. Then it defines `--spacing`, the type scale (`--text-hero` down to `--text-micro`, with line height, weight and tracking per step; the display steps are weight 600 with no extra tracking), radii (`--radius-xs` … `--radius-pill`, including `--radius-card`), easings and breakpoints (`sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem). `--color-section` defaults to the theme accent; each section root will set it to its own accent.
-2. **`@theme static inline`: semantic tokens.** `--color-bg`, `--color-surface`, `--color-ink`, `--color-accent` and the rest point at raw `--t-*` variables. Fonts (`--font-display`, `--font-body`, `--font-accent`) point at the `next/font` variables (`--font-montserrat` for display and body, `--font-lilita-one` for the accent), then the Linux fallback faces, then the family names. The icon well and slot colors (`--color-well`, `--color-slot` and their lines) point at `--t-well` and `--t-slot`. Shadows are built from per-mode alpha variables. Because these are `inline`, utilities like `bg-surface` resolve to `var(--t-surface)` at use time, so switching a palette is just changing which `--t-*` values apply.
-3. **`:root` plain variables** for things Tailwind has no namespace for: `--z-*` layers, `--duration-*` and `--width-*` containers (`wide` 87.5rem, `page` 75rem, `hero` 68.75rem, `prose` 50rem: 1400, 1200, 1100 and 800px at the 16px root).
-4. **Palettes.** One selector per theme and mode, `[data-theme='…'][data-mode='…']`, for the five themes `arcano`, `amakna`, `bonta`, `brakmar` and `ocre`. Arcano dark is also the `:root` value, so a page with missing or unknown attributes still renders correctly. Status colors and the seven section accents (`misiones`, `logros`, `dofus`, `checklists`, `clases`, `mazmorras`, `herramientas`) depend only on the mode. Shadow alphas are halved in light mode. The game icon wells also depend only on the mode: in dark mode a well is a mix of background and surface; in light mode the well is the raised color. The slot behind a game icon takes the well's colors in both modes (`--t-slot: var(--t-well)`), so it is light in light mode: the game's icons carry an outline and read on a light background.
+2. **`@theme static inline`: semantic tokens.** `--color-bg`, `--color-surface`, `--color-ink`, `--color-accent` and the rest point at raw `--t-*` variables. Option D of the color design added roles: `--color-btn`, `--color-btn-hi` and `--color-btn-ink` (the filled primary button, its hover and its text), `--color-chip` and `--color-chip-hi` (pills such as the header search), `--color-bar` (the header and footer bar), the footer brand colors `--color-discord*` and `--color-kofi*` (the same in every theme), and eight item hues, `--color-hue-1` to `--color-hue-8`, with `--color-on-hue` for text on a hue fill. Each list item, tile or header part takes one hue through `--v`; the hues are vivid in dark mode and deep in light mode, each at 4.5:1 on `bg`, `surface` and `raised` of every theme in its mode (`tests/unit/theme-css.test.ts`). Checklists never use them. Fonts (`--font-display`, `--font-body`, `--font-title`, `--font-ui`, `--font-accent`) point at the `next/font` variables (`--font-montserrat` for display and body, `--font-rowdies` for page titles, `--font-lexend` for the interface, `--font-lilita-one` for the accent), then the Linux fallback faces, then the family names. The icon well and slot colors (`--color-well`, `--color-slot` and their lines) point at `--t-well` and `--t-slot`. Shadows are built from per-mode alpha variables. Because these are `inline`, utilities like `bg-surface` resolve to `var(--t-surface)` at use time, so switching a palette is just changing which `--t-*` values apply.
+3. **`:root` plain variables** for things Tailwind has no namespace for: `--z-*` layers, `--duration-*`, the widths and the page frame. Pages use the full width, left aligned (DESIGN.md, Layout), so the widths are measures for what sits inside a page: `--measure` (75ch, running text), `--width-prose` (50rem), `--width-shot` (36rem, a lone step screenshot, 634px with the 110 percent root), `--width-shot-max` (40rem, the widest step screenshot), `--width-guide` (two shots and a gap, 73rem: where checklist quest rows and the previous and next cards stop), `--width-video` (two widest shots and a gap) and `--width-media` (55rem, loose prose screenshots). The frame: `--gutter` is the side margin, 1rem on phones, 1.5rem from 40rem and from 64rem `clamp(3rem, 5vw, 8rem)` (72px at 1440px, 128px at 2560px); `--frame-max` (110rem, 1936px with the 110 percent root) caps the content, which is centered beyond it; `--frame-pad`, `max(var(--gutter), (100% - var(--frame-max)) / 2)`, is the side padding of every full-width box (the header bar, the footer, each page's `<main>`, the Ko-fi dock), so its background still runs edge to edge. `--frame-pad` resolves against the box it pads, so only edge-to-edge boxes use it; anything that bleeds inside a page uses `--gutter`.
+4. **Palettes.** One selector per theme and mode, `[data-theme='…'][data-mode='…']`, for the five themes `amakna`, `arcano`, `bonta`, `brakmar` and `ocre`. Amakna, Arcano, Bonta and Brâkmar carry option D's colors; Ocre, premium, keeps its earlier palette. Amakna dark, the default theme, is also the `:root` value, so a page with missing or unknown attributes still renders correctly. Status colors, the six section accents (`misiones`, `logros`, `dofus`, `checklists`, `clases`, `mazmorras`), the brand colors and the hues depend only on the mode. Shadow alphas are halved in light mode. The game icon wells also depend only on the mode: in dark mode a well is a mix of background and surface; in light mode the well is the raised color. The slot behind a game icon takes the well's colors in both modes (`--t-slot: var(--t-well)`), so it is light in light mode: the game's icons carry an outline and read on a light background.
 
 The same names work as Tailwind utilities and in hand-written CSS (`var(--color-surface)`), which the ModeToggle stylesheet, `ui.css`, `game.css`, `site.css`, `home.css`, the achievement, Dofus guide and checklist stylesheets rely on.
 
 ### Nested themes
 
-A CSS variable that points at another variable is resolved where it is declared and inherited already resolved. The semantic tokens are declared on `:root`, so without help `var(--color-accent)` inside an element with `data-theme="bonta"` would still give Arcano dark's accent. Utilities are not affected, because they read the `--t-*` values directly; hand-written CSS is. The last block of `theme.css` therefore re-declares every semantic color token (the well and slot colors included), `--color-section` (back to the theme accent) and the four shadows on any `[data-theme]` or `[data-mode]` element. It sits in `@layer base`, so a utility that sets `--color-section` on the same element still wins. The `/sistema` sections and the fullscreen image viewer depend on it. `tests/unit/theme-css.test.ts` reads `theme.css` and checks that every `--color-*: var(--t-*)` token of the inline `@theme` block is re-declared there. See [Component catalog](component-catalog.md).
+A CSS variable that points at another variable is resolved where it is declared and inherited already resolved. The semantic tokens are declared on `:root`, so without help `var(--color-accent)` inside an element with `data-theme="bonta"` would still give Amakna dark's accent. Utilities are not affected, because they read the `--t-*` values directly; hand-written CSS is. The last block of `theme.css` therefore re-declares every semantic color token (the well and slot colors included), `--color-section` (back to the theme accent) and the four shadows on any `[data-theme]` or `[data-mode]` element. It sits in `@layer base`, so a utility that sets `--color-section` on the same element still wins. The `/sistema` sections and the fullscreen image viewer depend on it. `tests/unit/theme-css.test.ts` reads `theme.css` and checks that every `--color-*: var(--t-*)` token of the inline `@theme` block is re-declared there. See [Component catalog](component-catalog.md).
 
 ## Fonts
 
-`src/styles/fonts.ts` loads two families through `next/font/google`: Montserrat for body text and headlines (DESIGN.md, Typography; guide v5) and Lilita One for accent figures in the catalog. Next downloads them at build time and serves them from the site with adjusted fallback metrics, so the swap does not shift layout.
+`src/styles/fonts.ts` loads four families through `next/font/google` (DESIGN.md, Typography; option D of the color design): Montserrat for body text, Rowdies for page titles, Lexend for the interface and Lilita One for accent figures in the catalog. Next downloads them at build time and serves them from the site with adjusted fallback metrics, so the swap does not shift layout.
 
 | Family | Weights | Preloaded | Used for |
 |---|---|---|---|
 | Montserrat | 400, 500, 600, 700, 800 | yes | 400 body text, 500 controls and chips, 600 column titles and the NPC name, 700 the title and bold text, 800 quantities and coordinates |
+| Rowdies | 700 | yes | Each page's `h1`, in capitals. The title is read first and is the LCP on pages without an image at the top; arriving late, its wide capitals would rewrap the title (CLS) |
+| Lexend | 500, 600, 700 | no | The interface: menu, buttons, card names and part headings. Variable, one file for the three weights; short texts that the adjusted fallback paints almost the same meanwhile |
 | Lilita One | 400 | no | Accent figures in the catalog |
 
-Montserrat is a variable font: Google serves one latin file (about 35 KB) with every weight, so the five weights the interface uses come from it, and it is the only preload. A guide's first screen already uses almost all of them. Being one family with all its weights, the browser never synthesizes a bold; `tests/e2e/fonts.spec.ts` checks that on the page. Lilita One loads on demand (`preload: false`) and paints with its adjusted fallback meanwhile. Both variables go on `<html>` through `fontVariables`. AGENTS.md forbids adding another preloaded instance. `tests/unit/fonts.test.ts` pins the families, weights and preload choice.
+Montserrat is a variable font: Google serves one latin file (about 35 KB) with every weight, so the five weights the text uses come from it. Montserrat and Rowdies are the only preloads. A guide's first screen already uses almost all of them. Being one family with all its weights, the browser never synthesizes a bold; `tests/e2e/fonts.spec.ts` checks that on the page. Lexend and Lilita One load on demand (`preload: false`) and paint with their adjusted fallbacks meanwhile. The four variables go on `<html>` through `fontVariables`. AGENTS.md forbids adding another preloaded instance. `tests/unit/fonts.test.ts` pins the families, weights and preload choice.
 
-`next/font`'s generated fallback faces ("Montserrat Fallback", "Lilita One Fallback") are built on `local(Arial)`. Linux and Android ship no Arial, so there the text painted in the wider system sans until the web font arrived, and the line changes shifted the page (CLS 0.19 on the guide in CI with the previous fonts). `src/styles/fonts-fallback.css` adds "Montserrat Fallback Linux" and "Lilita One Fallback Linux" with the same size and ascent/descent overrides over fonts with Arial's metrics (Liberation Sans, Arimo) and, on Android, Roboto. The values are copied from the CSS `next/font` compiles; changing a family means copying them again.
+`next/font`'s generated fallback faces ("Montserrat Fallback", "Lilita One Fallback") are built on `local(Arial)`. Linux and Android ship no Arial, so there the text painted in the wider system sans until the web font arrived, and the line changes shifted the page (CLS 0.19 on the guide in CI with the previous fonts). `src/styles/fonts-fallback.css` adds "Montserrat Fallback Linux", "Lilita One Fallback Linux", "Rowdies Fallback Linux" and "Lexend Fallback Linux" with the same size and ascent/descent overrides over fonts with Arial's metrics (Liberation Sans, Arimo) and, on Android, Roboto. The values are copied from the CSS `next/font` compiles; changing a family means copying them again. Lexend gets two more sets of faces, «Lexend Fallback» over `local('Arial Bold')` and its Linux twin, at weights 600 and 700: without them, and without synthesized bold, its 600 and 700 headings painted in Arial regular, 3 percent narrower than Lexend 700, and when Lexend arrived «Misiones generales e historias» went to two lines and shifted `/metalogros` (CLS 0.12 in Lighthouse CI). Their `size-adjust` is Lexend's width over Arial Bold's for the interface texts.
 
 These choices serve the LCP and CLS budgets in [Performance budgets](../testing/performance-budgets.md).
 
@@ -124,7 +136,16 @@ These choices serve the LCP and CLS budgets in [Performance budgets](../testing/
 - Links, buttons, `summary` and `[role='button']` change color, background, border and underline color over `--duration-fast` (160 ms) with `--ease-standard`. The rule is wrapped in `:where()`, so a component that declares its own transition replaces it.
 - Smooth scrolling for in-page anchors ("Volver arriba", a step link) under `prefers-reduced-motion: no-preference`; the layout sets `data-scroll-behavior="smooth"` on `<html>` so Next turns it off on route changes.
 - Under `prefers-reduced-motion: reduce`, animation and transition durations collapse to near zero and scrolling is instant for every element, its `::before` and `::after`, and `::backdrop`, so the fullscreen viewer's backdrop fade is covered too.
+- Search fields' cancel button (`::-webkit-search-cancel-button`, the × Chrome and Safari draw) as a mask in `--color-muted`, `--color-ink` on hover, instead of the browser's blue.
 - `.amount` and `.amount__th` for `Amount` figures: never wrapped, with the narrow thousands space a fifth of an em wide in its own box, because the site's fonts lack U+202F. They live here and not in `ui.css` because the header uses `Amount` on every page.
+
+### Print
+
+Under `@media print` (DESIGN.md, Print) `globals.css` prints any page light on white paper whatever the screen theme and mode: it sets Amakna light's tokens on `html[data-theme][data-mode]` and every nested `[data-theme]` or `[data-mode]`, with the background, surfaces and bar in white (`tests/unit/print-css.test.ts`), and hides what only serves the screen: the header (with the theme picker), the footer, the floating Ko-fi, the ambience particles, the zone background, the skip link and the preview notice. Shadows are removed; figures, callouts, Torre's tips and the next-quest card do not split across pages, and headings do not end a page. `tests/e2e/impresion.spec.ts` checks it in a browser.
+
+### Forced colors
+
+In forced colors mode (Windows high contrast) the browser swaps backgrounds for `Canvas`, which left a checked checkbox and a progress fill blank. `ui.css`, `checklist.css`, `dofus-index.css` and `site.css` each have a `@media (forced-colors: active)` block that paints those states with system colors (`Highlight`, `HighlightText`, `LinkText`) and `forced-color-adjust: none` where needed, so the state stays visible: the checkbox and progress bar, the checklist's open step, progress bars and souls ring, the chosen Dofus filter and the Ko-fi buttons' border. `tests/e2e/colores-forzados.spec.ts` checks it.
 
 ## Motion
 
@@ -150,23 +171,24 @@ Components animate their own entries and exits with CSS: menu panels and the sea
 `src/app/(frontend)/layout.tsx` is the root layout of the public site. It:
 
 - builds its metadata in `generateMetadata`: `metadataBase` from `NEXT_PUBLIC_SITE_URL`, and the title, description and Open Graph share image from «Ajustes del sitio» (`siteMetadata`, see [Site settings and index texts](../cms/site-copy.md));
+- builds its viewport in `generateViewport`: the `themeColor` of the header bar in the theme and mode of the cookies, so a phone browser's bar matches the header (see [Theme and mode](theme-and-mode.md));
 - renders `<html lang="es">` with `data-theme`, `data-mode`, `data-scroll-behavior`, the font variables and `suppressHydrationWarning` (the inline script may change `data-mode` and set `data-js` before hydration);
 - injects the mode script into `<head>`;
-- loads in parallel the header counts (`loadSiteCounts()`), the Dofus of the menu (`loadDofusNav()`), the checklists (`loadChecklistNav()`), the standalone pages (`loadPageNav()`) and the site settings (`loadSiteSettings()`), and renders `SiteHeader` (the Sello lockup, the section menus, the search and the mode switch), the page, `SiteFooter` and the site's `Ambience`, with the `arriba` anchor on `<body>`. See [Site header, footer and search](site-shell-and-search.md).
+- loads in parallel the header counts (`loadSiteCounts()`), the Dofus of the menu (`loadDofusNav()`), the checklists (`loadChecklistNav()`), the standalone pages (`loadPageNav()`) and the site settings (`loadSiteSettings()`), and renders, in draft mode, the `PreviewBar` above everything, then `SiteHeader` (the Sello lockup, the section menus, the Ko-fi button, the search, the theme picker and the mode switch), the page, the floating Ko-fi (`KofiFloat`), `SiteFooter` and the site's `Ambience`, with the `arriba` anchor on `<body>`. See [Site header, footer and search](site-shell-and-search.md).
 
 ### Ambience
 
 `Ambience` (`src/components/site/Ambience.tsx`, DESIGN.md, Ambience) draws particles that rise toward the header at the top of every page, as the old checklist hub's fireflies did. It is markup and CSS only, with no JavaScript: 14 `<i>` elements whose position, delay, duration and size come from the fixed list `AMBIENCE_PARTICLES` (`src/components/site/ambience-data.ts`), the same on every render. Its styles are in `ambience.css`, which `site.css` imports, so it adds no stylesheet to the page.
 
 - **Layer.** `.amb` is absolute at the top of the page, one small viewport tall (`100svh`), behind the content (`z-index: -1`), `aria-hidden`, without pointer events, with `contain: strict` and a size container so its keyframes measure the layer. Only `transform` and `opacity` animate, so it causes no layout shift and never widens the page.
-- **Theme.** Each theme and mode sets inherited variables (`--amb-anim`, `--amb-bg`, `--amb-glow`, `--amb-shape`, `--amb-pace`, `--amb-start` and others), so the nearest `data-theme` decides its look: Arcano's motes, Amakna's fireflies by night and falling leaves by day, and so on. Light mode lowers the layer's opacity.
+- **Theme.** Each theme and mode sets inherited variables (`--amb-anim`, `--amb-bg`, `--amb-glow`, `--amb-shape`, `--amb-pace`, `--amb-start` and others), so the nearest `data-theme` decides its look: Amakna's fireflies by night and falling leaves by day (also the `:root` default), Arcano's motes, and so on. Light mode lowers the layer's opacity.
 - **Phones and reduced motion.** Below 40rem only the first half of the particles show (that half covers the full width). With `prefers-reduced-motion` there are none.
 - **Checklists.** A checklist page renders its own `Ambience fx` (`snow`, `forest` or `egg`, from the checklist's «Ambiente» field through `checklistAmbience`, with `theme` keeping the site's) inside the page so it inherits the Dofus color; `body:has(.amb--page)` then hides the site's layer. See [Checklist page](../checklists/checklist-page.md).
 - **Catalog.** `demo` boxes the layer inside its container for `/sistema`.
 
-The favicon and the iOS icon are files in `src/app/(frontend)/` that Next links by name: `icon2.svg` (the simple emblem on an Arcano dark tile, light under a light color scheme), `icon1.png` (a 32 px fallback) and `apple-icon.png` (180 px, the full emblem on a square tile). `node scripts/build-icons.ts` generates them from the emblem drawing in `src/components/brand/emblem-art.ts` and the Arcano colors read from `theme.css` by `readPalette` (`src/lib/theme/palette.ts`). `tests/unit/emblem.test.tsx` checks that the committed `icon2.svg` matches what the script generates. See [Design system components](design-system-components.md#brand-srccomponentsbrand).
+The favicon and the iOS icon are files in `src/app/(frontend)/` that Next links by name: `icon2.svg` (the simple emblem on a tile of the default theme, Amakna, dark, and light under a light color scheme), `icon1.png` (a 32 px fallback) and `apple-icon.png` (180 px, the full emblem on a square tile). `node scripts/build-icons.ts` generates them from the emblem drawing in `src/components/brand/emblem-art.ts` and the colors of `DEFAULT_THEME` (Amakna) read from `theme.css` by `readPalette` (`src/lib/theme/palette.ts`). `tests/unit/emblem.test.tsx` checks that the committed `icon2.svg` matches what the script generates. See [Design system components](design-system-components.md#brand-srccomponentsbrand).
 
-Quest guides render at `/<slug>`; see [Public quest guide page](guide-page.md). Achievement pages share that route and `/metalogros` lists them; see [Achievement page](../achievements/achievement-page.md). A missing page renders the Spanish 404 in `not-found.tsx`. `src/app/(frontend)/page.tsx` is the home page, with the hero search and its sections; see [Home page](home-page.md).
+Quest guides render at `/<slug>`; see [Public quest guide page](guide-page.md). Achievement pages share that route and `/metalogros` lists them; see [Achievement page](../achievements/achievement-page.md). A missing page renders the Spanish 404 in `not-found.tsx`, and an error inside a page renders `error.tsx` with the same look (see [Standalone pages](../pages/standalone-pages.md)). `src/app/(frontend)/page.tsx` is the home page, with the hero search and its sections; see [Home page](home-page.md).
 
 ## Copy lives in string modules
 

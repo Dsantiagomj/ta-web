@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3900c3e34a0db7e3470c9fec3b1a47d24af001d957749729fd7a8114cea45afc",
+  "pageVersion": "sha256:da9e4565e59dffe2de8f61cbc3d59f39e33172e41a84658a25dea3ec155da753",
   "claims": [
     {
       "id": "claim_2337c4767f624841a8302780adbb1ac7",
@@ -185,8 +185,8 @@
       "statement": "pnpm import:checklists, pnpm import:checklist-cards, pnpm import:achievement-prose and pnpm redirects:stubs are the package scripts for importing Torre's checklists, their poster art and achievement page prose, and for regenerating the legacy stub redirects.",
       "evidence": [
         {
-          "resource": "repo://package.json#L34-L55",
-          "version": "repo-lines-v1:sha256:f54d1a38bf0ddbd231bc1ca7633b4eebbf0a5a346ffa2ac3356015a2d78480d7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZjI4ODViYmYxZGJiOTI4YWZiOTIwNzU2YTc2M2NmODgyYjc4ZDUyZmQ2Y2I0MTAyNDUwMmUyNGZhMDNlNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNWE2MWNlYjRiZThiYzI3YWZlODE4NjYyYTUwYjFhNTQwZDVlN2Q0NjY1ZmRkNTUwNDUzMGQwNWQyNzM4YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
+          "resource": "repo://package.json#L34-L56",
+          "version": "repo-lines-v1:sha256:24917d71d1d7aa15531b07c746db08f8f218926dbb2864df4e86382484820a3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZjI4ODViYmYxZGJiOTI4YWZiOTIwNzU2YTc2M2NmODgyYjc4ZDUyZmQ2Y2I0MTAyNDUwMmUyNGZhMDNlNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNWE2MWNlYjRiZThiYzI3YWZlODE4NjYyYTUwYjFhNTQwZDVlN2Q0NjY1ZmRkNTUwNDUzMGQwNWQyNzM4YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
         }
       ]
     },
@@ -213,10 +213,24 @@
           "version": "repo-lines-v1:sha256:06f5cdb6c8fd7c8d575555b5db3cbaf85d802f56b09d6714357755952a38080b:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY5M2QxMGM5NWZhMDhlMmVjMzc5NzI2NTY3YzAzM2MyMDhhN2JjODdiOTJiOWEzODYzN2FhZWEzMDE5M2NkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODc3OGI1ZTc2N2JkMjE3OGVmODhjNTk1NGYyNmQyYjI1ZDI0ZDBhZTBkMWE5ZWFiZWFiMWQzZTc5NjFiMzVkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWZmOThhNGFmNGRjMTFkYWYyZTA2MmYxYWQ3YTc0ZWRkMDUxYjg2NzBjYzFmOTc2ZWUzOTU5MmE4OTIyN2M1YyJ9"
         }
       ]
+    },
+    {
+      "id": "claim_dac407ff87cc4b228aa380e568ce6899",
+      "statement": "pnpm zones:backgrounds is the package script that fetches the missing zone backgrounds of the subareas published pages use.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L49-L49",
+          "version": "repo-lines-v1:sha256:91a7df78dc05e8aee5b45728c695f66f4e04b5da4d940c04ef41af39245d2a55:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTFhN2RmNzhkYzA1ZThhZWU1YjQ1NzI4YzY5NWY2NmY0ZTA0YjVkYTRkOTQwYzA0ZWY0MWFmMzkyNDVkMmE1NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTFhN2RmNzhkYzA1ZThhZWU1YjQ1NzI4YzY5NWY2NmY0ZTA0YjVkYTRkOTQwYzA0ZWY0MWFmMzkyNDVkMmE1NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODIxOTFlY2FhZDNhNDc3Mjk1NGVhMTUwZWJmMGVhMTMzYzFmZDViODQyYjc1MzZiNzU3YzA3YzQzOGZiYzgyYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3MjkxNGYxYjQ1ZjcxOWMzZmExNGVjOTQ0NTI2YjI1N2Q5OGMxNmQ3MjYyMWIwMzY5NTU2ZWJlNzU4YTU4NSJ9"
+        },
+        {
+          "resource": "repo://scripts/zone-backgrounds.ts#L1-L11",
+          "version": "repo-lines-v1:sha256:d36e3c6c79beed566a8debddd3e92f1b98da04175e07002d8a4a989ab1b4bb4f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1OTI3ZGRlNDE5MzEyYzg5MzFmNGRlZTA1Mjg1YWRiZTdlZWRlODkzZTM5ODc0OTUyN2IyNDQxNmU4MzMzZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlZTM1ODAzYjk4NWVmNjFhZWE4N2Y2MDA0YzI5OGQ3ODdjNWZlY2VkNWIzMDU1NmZiMDI2NjM1Yzg3MGFiMjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNTgyOGQ1ZGY4OGE4MDRmOGFhYjg3MTk0YWJjNzQ3NTllMDZmNWFlYjY4YWZkZWM2MTM2NWJhMzkwNTQ2OTIifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

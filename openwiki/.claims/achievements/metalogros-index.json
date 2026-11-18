@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9cdb613dc860dd55dff83506ed066cb6a056a0aa37885efbc6bac1999fa352bd",
+  "pageVersion": "sha256:d30bdc89d01bcbf896c9d131fbcba186b03d86d6adddd397ca8bcbbcdfe2825e",
   "claims": [
     {
       "id": "claim_d126db27b5074cfcafc8c6c0f8ae0195",
@@ -85,12 +85,12 @@
       "statement": "Without JavaScript the tiles are links to each zone's list below; the island turns them into buttons that open a panel across their row, with the URL hash following the panel and Esc returning focus.",
       "evidence": [
         {
-          "resource": "repo://src/components/achievement/MetalogrosIndex.tsx#L60-L66",
-          "version": "repo-lines-v1:sha256:88b55ede4a05a958fd66f0649ba17a82da9b75a3d5cab3d9216c853051f024f3:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2E1NDEzMGE3MzE3NmY0MTlmNTFkOWUzM2EwNjI4YmMyOTU3NDViNmFjMWY1YzFkYTI5NDExMzE0ODlhZTAxZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzEzMDA0ODQ3ZTA0ZDg4NDEyZjk0ZWFiNmIwNTY0OWQ2MmIwNDIzZDA0OWJiNGIzMjdhODE2MzE2ZDY0NDNjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWJmODljMjdiMDIxMGRkYWZhN2VmZGY0YjUzYzA4ZDNjYjFjNzMwYzNkMWNjNzU2NjlmMjAxYWE5OWJmMGRjZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmFjNDRhMTM0MzY4ZjJmNDA0OWE5NjE0NjE4NmM0ZTE1ZDZkZTliNzRlNjJlNzhkZmU2Yjc2ZDE3NDIwZjU3ZSJ9"
+          "resource": "repo://src/components/achievement/MetalogrosIndex.tsx#L47-L73",
+          "version": "repo-lines-v1:sha256:3274739762ccdf52a0fa3ec3dbd2bcb000ab3852b13d7acd86714fffdea391f5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmYmJjNDQxMmM4ODFjMTJkNTU5YjBiZjAwYWU3MmNlNzhiMjExNTlkZTQ2ZTI3NDVhNDVkNjZjMjMzZGQ5NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxNmJlNWFjYjY4Yzk3MWQ2ZTUwM2M4ZGZmMzJjMTNmOGRmM2MxODQzMDA2YWMwMzVhNmFjZTFlMjcxNjRiOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlMzJkNmUzYTc0YTU1MzJmZTkwZWFjNTlmOTg5NDVmOWNiMDZkODJhMzNiNTM5NTFhZDhkY2ZjZTBjNjJkYmIifQ"
         },
         {
           "resource": "repo://src/components/achievement/MetalogrosIsland.tsx#L11-L16",
-          "version": "repo-lines-v1:sha256:5051e5637ed23bde1af7203755b9b6402acfbb98091a354ccf569e076b214b96:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWE1NmY4M2U4NGVkZTUwZWFkYTQ4NWJkNGUyYjViYWZjZjRkMWZiYTlhNTQxN2UyYTBhYzVjZGRkNzBkMWZhNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmE0NzA0ZjJmOGMxOWVlNTJjZDlhOWNjMzA2MzljMTUxM2E1ZDI3YWYwNDk3NDFhMGVlY2IwOThkYzM2MGNkMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzk2ZTljNjY4NGJhNzBjMzU3ZTEwMDYzNjExZmIyZTEzNmY4MzU5MDBiYjM1YjcyNTA1NDc0Nzk1NjFjNDU5MCJ9"
+          "version": "repo-lines-v1:sha256:1170b5317a14e5e2c83754293644413b196a734bb1eaf023e325263d7c091d68:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmE1YjlkZmI5Y2VjNWM2YmMwNWEyNTU3YzkwZjNjZDUxZTgyNDM5M2JiNzE4MzkzMzUzZjEyZjA3OTYxMjM2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTZiNzJlMGU3MTRmNjk2NDgyMTIxNmY3Njc4NGQyYWZhN2Y4NWVmMDY3YTljZDZkOGQxYWVhMjYyZTZhMjlhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWE1ZDc4YzdmZGM5YThjMGVkY2Q5NTViN2I5ZWIxNzEzM2EzMGQzMTk4MDdiMjVmNTIxMzhlZjE2ODY5MTgxMyJ9"
         }
       ]
     },
@@ -126,11 +126,11 @@
     },
     {
       "id": "claim_cefe8175ae874f9895aa2e29721a741f",
-      "statement": "The metalogros E2E spec covers the tile panel and hash, dimmed metalogros, search with unselectable preparing items, hash on arrival, no-JavaScript links and axe in both modes.",
+      "statement": "The metalogros E2E spec covers the tile panel and hash, the flat panel, tiles per row at 1024 and 1440px, the icon inside its diamond, the tile tilt with its foil and its absence on off tiles and under reduced motion, hue borders, dimmed metalogros, search with unselectable preparing items, hash on arrival, no-JavaScript links and axe in both modes.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/metalogros.spec.ts#L13-L90",
-          "version": "repo-lines-v1:sha256:a5ee4577b42b6edb7485f5c443ee39efb08ccebc77b9ba8fb6b1c909b025bdba:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMjdmN2ViZDRhZDRlZTQwYjk0MzdhMjMzZDMxZDhhMWE2ZDk2ZDBmZGI5NTE2NTY2MTYxNzYxYzQzMzc1OTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4ZTkwYzI1MDE5OTlmMTQwNWRkN2IwOGQwMzkzOTEzZTczNGFmMmEyNGEyM2FkMDA5YmEwODI2MGI4NmYxZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjZWJmOTI0YjI4OTE3NDczZmQ1ZTI0ZDA0YjViNTY5MmU1MDdmM2YzOWQwNDAyZjYwNWQ4OGI4Y2NjYTVhNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4ZTE5ZWM5OWVlYjIzMTlmNTgzYzNkYjFhNGEwZmE5OTE2ZGEyZjUzNzE4NWU3YWQ5ODAzMGZkZmQ4YmU4YzEifQ"
+          "resource": "repo://tests/e2e/metalogros.spec.ts#L13-L227",
+          "version": "repo-lines-v1:sha256:2332fac2e48011bb584c15133ad155c58b8e32d64dce26be221b641f0be010ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MjE1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1MzhhODU2MWNiYTJhYjQ0NmZmZDU5ZjMwNzIwZGFmYWZhNmY4MDIzZGI1MjNmNjc2ODg4MGE3YmRlZDJmMjcxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2U5MGRhNzM1YmVkNzBiM2M1MjliYmQ5YmYxZjRhM2M1ZGFlNTAyYzhlZmM5MmE0MTFhYzhhMTI5NWMzZDcxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -157,8 +157,8 @@
           "version": "repo-lines-v1:sha256:9369cf1c2deef5c9a0cd4fec68592d7b1869f50ed2869994a6aeff350722768d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmYjAyMDJiMDFlMjY4NzYzMzhmNjI5NjFkY2UyYTk3ZGMzNzI2MTNmM2Q3ZDdjMzk1M2JhMmUzYmExMTQ1MDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/components/achievement/MetalogrosIndex.tsx#L139-L160",
-          "version": "repo-lines-v1:sha256:57e5212522b5885f84370583fe370f829f1a90c993891e7af64485dd55ef2f8e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4MzU2NGY2OGVmNDU1M2EyMzYyOWY5N2VmYmM3NGEwODlkNmIxMmVmYzIxMTY4OTQ3ZDAxNzA5NzUwMDMzMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3OTI5ZTkxZTBmOTljM2U4MjVkZTY5YjQzNWZiNjQ4NGQxYjBhMWRmMmY0NjU2MWFiZjFhMjlmMDQxODhiODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5NDc5ZjJiMjI2MDcwNjE3NTM5MGE4MGRmY2Y1ZDVkYzA5OTFjZDk4MDUzODAwNDljMTNhZGFjZDBlMWQ2OTMifQ"
+          "resource": "repo://src/components/achievement/MetalogrosIndex.tsx#L142-L164",
+          "version": "repo-lines-v1:sha256:03c57e673bb8961d626dfc9375a157e540470739fa0e93e5e655a3717041d87b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkMTQ5ZjRhOTEyYTJlOTA2MjJiMDgzODZjNzFjMzc0NTM4N2ZhZTM3ZjQwODQxNDM0ZTk2ZGFiNjQwNDRiMDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjN2Q0NjQ3NjFkOWU5MTdlYTgxZDQ2NDc2NzRiMzgzOWE1ZDkwZmNhZmFjYmQ5YzFjZTU3YWI5OWQ1ZWQxZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZlM2M5ZjBhOTk3YWU5YjM1MWExYjgzYWU2YmM2NWVkMmZjYjI2MjkxNTMyOTUzZmU5YjA1NmM5ZjFkYWJjNzgifQ"
         }
       ]
     },
@@ -175,10 +175,56 @@
           "version": "repo-lines-v1:sha256:fa205213352092d948874cb7d7ec6915cfa6ddaf86ad1ec153673636ac564e23:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGNkYmVkOTVlZGE2OGYxZDkyZjMyYTUzZjE1MTAwNjkxZTVkOTRkNjBlMTk3MDMyNzYwM2RkYzk1OWI4N2RlOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjg0YmQ3ZTdiMTM1NjhlZjVhMTMzNDVhNzU1OWQ4ZTBhODc3NTM2ODI3Mjk2MTNmZmYzNjNiNTY2NzA0NGM1YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjgyNWQwYzkxMDA2NDIwOWEwYzRlZGFiYmY5MjhhYjYwY2JkYzRkYWYyMDc5ZDc0MDNkNDdlNzRhZjUyYzNmNSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_8b12055ff66b4161a8b7941ef1631133",
+      "statement": "Metalogro tiles and achievement cards take one of the eight theme hues in order through --v for their 2px border and icon frame, counting only .vd-cell elements so the open panel does not shift the hues of later tiles.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/metalogros.css#L516-L530",
+          "version": "repo-lines-v1:sha256:957cbc22ba7625207390cd6f681ac47f2d5a752b624db168e39d569ef3d6b721:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2NzIzYjcxNTI1NzI2YTE0NjNiMzJhOTg1OGE0Zjg5YzQ1YTQ2MDc3OGVhOTI4ZmYyMzkzMDdiMWVkMDllNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3ZTVlNjI5NzA1NzM3MTRjYTA4N2I3Y2QzMmQ3NmZiMDhhZTJhZGFjZmI4ZDAzNjYxNTViZGMyYTFiZWVkZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA3YzQ2YTU0YjRiMjIzM2FlNGQzYjQwMWQ4MjVlZDgzNDdkOTE2MWQxODZkYWIwYjExYzY4ZmE3YzE4MDA2NzgifQ"
+        },
+        {
+          "resource": "repo://src/components/achievement/metalogros.css#L802-L828",
+          "version": "repo-lines-v1:sha256:a1440f679df616bafe2bcc30ba29ec15fbea617dd8e7c5526f6c0e092892a1c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkNzk1ZWE2NTNlM2RkOGZjNjUxMjgwZDQ0NzU0Y2UxM2ZjMmM1MDQyZjEyNGI4YTQxOTg1OWI0NmFiYTNmNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyNTQwZTZmNzk3Y2Y5ZDg4YjMyZGYxMmVjZTZmMjllNzg5ZTU3NjQ1N2I4ZTFmYjI2ZTljYmIxY2QwMmI4MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhMDA3OGJkMzk4NGUzYjRhOWRmMjZiZGI3YWQ5MTNmMTg4ZTg1MGU0NmMyNzJmZTY3OTEwZjc4ZmM0MzIzZTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_57341cf7dd8443f798a95c8de2cd4a41",
+      "statement": "A metalogro tile that opens its zone carries data-tilt and a foil layer in its hue that follows the pointer while tilted; an off tile has neither, and the island keeps data-tilt on the buttons and starts startTilt after converting the links.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIndex.tsx#L59-L73",
+          "version": "repo-lines-v1:sha256:6e82c353db55ae77261bcd06ffaf6c8fa15a0a785dae44fbe70712426d0be167:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2M2Y0YmQ3OTAxYmRkMjYzYmJmYmUyOWVmMzhlMDAwOWVhY2UzZjdmYjFiMTA1MDg5YTEzNWZkMWIyYmQ5ZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3NmYzMmM1MWU5ZDNjNjkwM2Y1ZWE3YjQ3ZDI2MTc3N2Q4YmJjZTUzYzQzNzA2OTk5YjhlOTBhNDQxODg3M2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlMzJkNmUzYTc0YTU1MzJmZTkwZWFjNTlmOTg5NDVmOWNiMDZkODJhMzNiNTM5NTFhZDhkY2ZjZTBjNjJkYmIifQ"
+        },
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIsland.tsx#L313-L320",
+          "version": "repo-lines-v1:sha256:405318b77a08e7b8ce8024c7fe3cc12e7e375f0454c264e5875744a661d796dc:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTg3NjU0YzEwNmI5MjhhNzZjNGQ4NWYwZTQyMDgyZWIwNGEyZDQxZmY0MDI5NjRlNjI4M2MxZTQwMzc1NTViNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGEzZWZlYTBkZmQzNGQ3YzFiNGU1OTQxM2E4YzU0NTFhYTkxNDA3NDY5ZWMxNDMxMmM2Zjk1MzVjY2E4ODllYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWM2ZWNlNTgwNTk3MDQwNDFmMDY2ZTA4Yzk4NTEyZjRlYzNkZTdiMTU2ODUwZGY4NThkNjUxYWE2NjQyM2MyOSJ9"
+        },
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIsland.tsx#L38-L42",
+          "version": "repo-lines-v1:sha256:17cabb131e7c2b49c4018b503d615357155708173011909b716de16cfb78f1a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc5MzYzODhiOWE2MTMwNjM1YTViYWMxNmVmYWFhMDFhYzhlNTE5ZjdlODJlNDkyMzFiNWFlZmUxNTViYWY0YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGUwZGQwNmUxNDgwOWYzZGM4MGI0ZGZiMjkxMDFiM2FiNTFmYTVmMjc1NmYwMjU5MmViZTQ2NmNlOThiNDFhZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2I1ZmVlZWEyMGE4NTVkMzBlM2RkMmQ0ZmY1NmZmMWQ3Yzk5NTlhMTNiM2YzZGY0OWY2ZGNmYzQ3ZjEzY2M4OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzY3MGYzOTA1MTZhMzgwYjQ0YjgyODBmMTg0MzVlZjQzMzA3MmQxNTdlMmZhM2EzYmE3MzUyM2VmYjE0OWVmMiJ9"
+        },
+        {
+          "resource": "repo://src/components/achievement/metalogros.css#L832-L880",
+          "version": "repo-lines-v1:sha256:5e1a29c3eef6d3c943578bba3f9938b40b671403f1c86063b035cdd93da95799:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0NzMyOTBjNmM5NjE3OTZlZTZkZWE5OTU4MDk3ODhkMmQzM2VlOTE3YzBmMjcyN2E4OGVhYWM5MzJiMDk2OTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljYjIzN2FlN2UzOWE0MTI1NGY1MDM3N2QxZDAxMmI0MGQ3MTgzMTg3ZjI5ZTNlN2Y5MmNiNGFkMDdmYzc5YTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhMDA3OGJkMzk4NGUzYjRhOWRmMjZiZGI3YWQ5MTNmMTg4ZTg1MGU0NmMyNzJmZTY3OTEwZjc4ZmM0MzIzZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNjk4ZWFlZWZjNmMwMjcwZDQ0ZjFiZjU0NWUzNmI0NDMxOTA0NDU2YTVkMTYzNDZlODY2N2U2MDE3NGU0YzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_39d063fe974a4ccf8662cf69b166a3dc",
+      "statement": "The tile grid shows two tiles per row under 40rem, five between 64rem and 90rem, and as many 10.5rem tiles as fit elsewhere.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/metalogros.css#L493-L515",
+          "version": "repo-lines-v1:sha256:a50834ec55ab7b306860bfb0fa997f5af74ab0b636e5aeac9a617af93b79380d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkZWY1MjQ5ODc4YjM2NWIzYmM3YjJmY2QxOTZkZGRmYmI0MzkzN2ZmYzY1YWE0NzBkZWVlNWU1MjFlMDEyYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2OTU0MzBiNTYyNzRjNTM0YmUxZmI1YjAzNzY5NTMyNTFjOTk2NWNjMDUzNDRjMWMxNmRjYTdmMTcyYTcxYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1YzU1ZTg4ZTcxNzUwODdiNzI3YzhmZmQ2OWYxZGM4MjU0OGE5MzZiMmE1MDA5MDg4MTI2ZmQ0MTg1OTc3YTAifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

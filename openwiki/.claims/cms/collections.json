@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e10ab72fb8149db858e4570e554869d33009938a96346cfa5a2a52a47f472b0d",
+  "pageVersion": "sha256:a0795c311dbb209eeafdccc29a67c51b80dfe75e8d8409c9aaefbf9d8e3f50e4",
   "claims": [
     {
       "id": "claim_8f222a8a3ed24bea93d7a2b89fa079b5",
@@ -152,15 +152,15 @@
     },
     {
       "id": "claim_bd16c609e6164920a65e855d58bdc0e0",
-      "statement": "Quest prerequisites are a hasMany relationship to other quests, and startPositions is an array of npcId, localized npcName, mapId, x and y.",
+      "statement": "Quest prerequisites are a hasMany relationship to other quests, and startPositions is an array of npcId, localized npcName, mapId, x, y and the start map's subAreaId.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Quests.ts#L75-L97",
-          "version": "repo-lines-v1:sha256:a1973947c7ae14b307371c5cc427f83d63f9f7157f3fe290435165628ea596a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NWI4YzViZjg2Mzc0MzY3MWRlZjNmNjMwZWIyMzJkNTlhN2E2MzRhMDcwZmM0MzZlZWMzN2E4Njc0ZTZjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0ODNiM2ZjMjkwMDIwYjMwOWUzYmU4NzgzNGU2OWNiNDNkMDkwNjcyY2VjYjRjNzQwYWQ5OTE1YzEwMDVlN2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwYjM0OWJiZWUxN2M5YTA1ZWI1MTM4YzY0MmZmNjNmOWNlMzhjNjY0MzRkYWIzZWU4MDVjNTQzMzA2Nzc2NTQifQ"
+          "resource": "repo://src/collections/Quests.ts#L75-L103",
+          "version": "repo-lines-v1:sha256:54cc7879b12e3d6c441f5888257d510b4419b1cbfdef6c1ac9347130aaaae292:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NWI4YzViZjg2Mzc0MzY3MWRlZjNmNjMwZWIyMzJkNTlhN2E2MzRhMDcwZmM0MzZlZWMzN2E4Njc0ZTZjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0ODNiM2ZjMjkwMDIwYjMwOWUzYmU4NzgzNGU2OWNiNDNkMDkwNjcyY2VjYjRjNzQwYWQ5OTE1YzEwMDVlN2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwYjM0OWJiZWUxN2M5YTA1ZWI1MTM4YzY0MmZmNjNmOWNlMzhjNjY0MzRkYWIzZWU4MDVjNTQzMzA2Nzc2NTQifQ"
         },
         {
           "resource": "repo://tests/unit/quests-collection.test.ts#L43-L62",
-          "version": "repo-lines-v1:sha256:016c184fee6e235ce723af7e4861befbf6159a592bd7ce20183df71b62a68921:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxODU3ZmU0NTc3NTg4Y2VjOWQzOTA5YzYyNjU5NGFlYTljZGIzNzFkMDMzM2QwZTQyOGMzY2Y4YWVmNjM0MjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRmYjYyN2ViNzllMTQ5MTg2MjFlMzE1OGRhYjE0ODNjZjI4NTEyZGYxYjkyYmNiNmExNWIyZjk2ZTAyZjA4MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExNDhhOGI1NmU0OGZjNjIyOTRmMTgzMWQxZTYxM2U1YTRjNzFjYTEyMmYxMTUzNGI0Y2I0MTNhZDk4ZWM3MmEifQ"
+          "version": "repo-lines-v1:sha256:ba4ba0e6506b5a20524af4e253e94b22b2624bc0fa54c4d281d99ae8d88c1b72:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxODU3ZmU0NTc3NTg4Y2VjOWQzOTA5YzYyNjU5NGFlYTljZGIzNzFkMDMzM2QwZTQyOGMzY2Y4YWVmNjM0MjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRmYjYyN2ViNzllMTQ5MTg2MjFlMzE1OGRhYjE0ODNjZjI4NTEyZGYxYjkyYmNiNmExNWIyZjk2ZTAyZjA4MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExNDhhOGI1NmU0OGZjNjIyOTRmMTgzMWQxZTYxM2U1YTRjNzFjYTEyMmYxMTUzNGI0Y2I0MTNhZDk4ZWM3MmEifQ"
         }
       ]
     },
@@ -543,8 +543,8 @@
       "statement": "The quest guide collection's beforeValidate hook fillFromQuest loads the linked quest at depth 1, fills an empty title and slug whenever they are empty, and fills the empty SEO and summary fields only when the guide is created or its quest changes, reading fields missing from a partial update from the saved document.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L245-L250",
-          "version": "repo-lines-v1:sha256:c229849cd95bc5bb3ff01b32112654f45b0662687c56b8f0119ba504de166823:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjU4NjVlMGZhMmUzOTgyZTkxMjgzYTA0NWMzZTJmNThhNzg0NGY3N2VmYTM0MTEwNGJkMWYzYWM3YjJlNjc1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzExZTFlZDgwZDJhMjU0NmQwODlhNjZiMjY0MTVkMGEyYzVlOWNiYjkwODY2ZmVlZmEzMmQ1Y2ZlOWM2NTc5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTE0ZWZlMjBmMzI1YjhmM2ExM2ViZDdhYzllZGVkYjdiMzViZjg0MGE3MGE4YmZiMWI4MzdkMTZkMmY1OGU1ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDlhNzc2ZWQ0YzAyY2E4YjU1MWQ1MTllNjYzZGE5OTVhZmE1ZGZmNTgzNTVjMGYwODY3Mzc4YmZkYWVjZGM3ZSJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L393-L396",
+          "version": "repo-lines-v1:sha256:c388a2bfe1383eb918ba793784f301ce625e66706f429bb8eb6cd29aa557ba38:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDhmYjhmN2YxOTczNWFmMjg4M2Y4MmI5YmNjMTJmY2MzYjg1NTkzYTIyOWE2NjZmNTlhOTliNzI0ZjliMWMzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDExZmVhNTZkYzlkZWI5MzA1OTQ3NmMwMTIxZWQ5NDM3NjdhMmI2Y2RmY2JhZWIyMmQ4YWI1MTI3NTI1ZjFkYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWQxNTg3ODhjMGVjNGFjOWYyMDMwOTlhYTI0OWRjMTgwOTA3MGRkYTZlYjY0YTc5N2FjNmRlOTkyZGQyZGJlMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTMzMWE2ZjUyZmQ1M2U3MjM4NzZlNTRjNjlmNzNlNjFjNWJjMWFiNGFhZGQyZTlmZDEzMzg1NDgyZTMzN2M1YyJ9"
         },
         {
           "resource": "repo://src/collections/quest-guide-autofill.ts#L14-L109",
@@ -721,12 +721,12 @@
       "statement": "Quest guides run rejectSharedSlug after fillFromQuest so a guide cannot take a slug an achievement page, metalogro, Dofus guide or checklist already uses, or a redirect table source.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L245-L247",
-          "version": "repo-lines-v1:sha256:3b8dff55c73490316d1f53bc88779cb11583b5bc5b7aa8bd3292d8d32e949abf:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDhmYjhmN2YxOTczNWFmMjg4M2Y4MmI5YmNjMTJmY2MzYjg1NTkzYTIyOWE2NjZmNTlhOTliNzI0ZjliMWMzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmVkODk4YjEyNjZmODBhMmFlYWQzYzgyZWFkY2VmOTI3MThhOTkzNTkxNDNhM2FmYjY3NzQ3OTM2Y2U5NWU5MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWQxNTg3ODhjMGVjNGFjOWYyMDMwOTlhYTI0OWRjMTgwOTA3MGRkYTZlYjY0YTc5N2FjNmRlOTkyZGQyZGJlMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmFmMTI5M2M1ZDk2NzdkMmM5NjE1NjdjYzcyZTllYmMzZjY5ZTUzZjZhN2IwNDUxYmFiOTk2NTNlM2Y3NWVmNyJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L393-L396",
+          "version": "repo-lines-v1:sha256:c388a2bfe1383eb918ba793784f301ce625e66706f429bb8eb6cd29aa557ba38:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDhmYjhmN2YxOTczNWFmMjg4M2Y4MmI5YmNjMTJmY2MzYjg1NTkzYTIyOWE2NjZmNTlhOTliNzI0ZjliMWMzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDExZmVhNTZkYzlkZWI5MzA1OTQ3NmMwMTIxZWQ5NDM3NjdhMmI2Y2RmY2JhZWIyMmQ4YWI1MTI3NTI1ZjFkYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWQxNTg3ODhjMGVjNGFjOWYyMDMwOTlhYTI0OWRjMTgwOTA3MGRkYTZlYjY0YTc5N2FjNmRlOTkyZGQyZGJlMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTMzMWE2ZjUyZmQ1M2U3MjM4NzZlNTRjNjlmNzNlNjFjNWJjMWFiNGFhZGQyZTlmZDEzMzg1NDgyZTMzN2M1YyJ9"
         },
         {
           "resource": "repo://src/collections/root-slug.ts#L101-L125",
-          "version": "repo-lines-v1:sha256:c63b6bf14cee39a8640917481ba15bc8482a8b3362a7e892366efca6e4296c3b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkODJhOGNjZWI1NDc0Y2RmZTZhNWRmZjRiODg1YzljYTQ5YzZkYmVjMTgwNjQ0ODdjZTk0OGQ4ZDhjNWIwMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:25ace908475831c0a36cf292e979e4f45a70d261f0ae342ebd34161fa4715498:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3MDFkMGUyOWIwMGYzY2Y2OTY0OTYxNDI0YmM0NjE5ODNhZTc5MTAxZTYyZTJmZmE0NmI3NGIyYjhhZjRiZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmYjE1YjQxNWFhYTdhN2E0MGE4YWE4ZjkxNDE2M2ZhMGEwMmY3NzdkYWRiZDhiNmQwM2E1NjZkMzgzZjVjM2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmNmE0MzA5YWViNWU5ODgzY2UwODU2Mzk5NGNjNDNhY2JlMDk2ZDg0ZWI5NzVhZmE1MGQ2NWQ0NTQzNTM5MjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyZTQ4M2M2YmY5M2Q1OGZjZTdmN2UxOWI5OTg4NzM2ODdjYWI0OTYyNmJhMzZjYzgzYTBiNjY5ZjIxMmFjNGUifQ"
         }
       ]
     },
@@ -780,15 +780,15 @@
     },
     {
       "id": "claim_f7398361698349a3a178dbdded8bfb2b",
-      "statement": "The dungeons collection stores DofusDB dungeons with their bosses as monster relationships under the Torre correction wrapper, and the subareas collection stores DofusDB subareas with their area name under the read-only game data access.",
+      "statement": "The dungeons collection stores DofusDB dungeons with their bosses as monster relationships under the Torre correction wrapper, and the subareas collection stores DofusDB subareas with their area name, read-only in the panel except for Torre's zone background.",
       "evidence": [
         {
           "resource": "repo://src/collections/Dungeons.ts#L1-L51",
           "version": "repo-lines-v1:sha256:c237d0fefd062bd8275c8b4d61ada574c0957d54f1c9e3680e6682c5abadbcce:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyOGFjZWZjNzRmNDY2MGNhYzA0OTgzMTBkMzZiMTQwOGU0MmU5NGFiZjUzOGZlYzYyYWQ3N2ZhNDE5YTQxNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/collections/SubAreas.ts#L1-L37",
-          "version": "repo-lines-v1:sha256:f9ed567a45a6553a719a88570bccaecb58c85759ea905f05f923f9cb498cfdce:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyOGFjZWZjNzRmNDY2MGNhYzA0OTgzMTBkMzZiMTQwOGU0MmU5NGFiZjUzOGZlYzYyYWQ3N2ZhNDE5YTQxNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/collections/SubAreas.ts#L1-L116",
+          "version": "repo-lines-v1:sha256:a5a8fd64530fbed7e36f3fbf3cf15ca1efd74065a8e82085002c934164bc9f08:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzNmY0ZWI2OWFhMjEyNGM1YTdlMjIxNmUyMTAyZTdhMGRlZTQwZDRjOGIxZjE0OTdkOGM2YjQ1NjJiN2MxMTZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -909,10 +909,34 @@
           "version": "repo-lines-v1:sha256:81a37e17b32486cd1c3a25de73d6a87a5321a468c14e3786e33327a9a13f3a82:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyYjc0NzNmMzFhNTg0YjdiZDAzYzkxN2NmZThhNDBhZTA0ZWMzNmMxZGNiNGJkZjE1Nzc4ODRmZjlhYTM1YjIyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
+    },
+    {
+      "id": "claim_426a80ab90b54d448096a5f41060f90a",
+      "statement": "A subarea holds Torre's zone background in background and backgroundMapId; only an admin updates a subarea, scopeSubAreaWrite keeps a panel update to those two fields, and saving one expires the guide-pages and achievement-pages tags.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/SubAreas.ts#L11-L85",
+          "version": "repo-lines-v1:sha256:1634b7487086efefb2d56e56020b3bdddc2bf5674967f1ab63425234646c5415:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MGRmNTZiMGQ2N2Y4NWY1ZjlkMWJkZmEwOTZmMWE1OWM2MDljNmM3YzFmNGM5MmM4NjBiODYzODI0ODNlNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjOWQzMzQ5YWRkNTNkYjU3NDhkN2UwMTQ3YWI3YTVmOTU5MDY4NmFiMmM0MTI3NjA3ZjA3M2NlMGJmMTljMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxZWU2OTBlZTEyMWMyMzcyNWNjMTY1NjM0MmIxMmJlNTA5NDRjMzc0OWI0MzgwMWVmNWZmYWI3M2E0MmZiNzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_052382dcb7da4a3eb9672c23bbb89222",
+      "statement": "Quest guides have an optional sidebar upload field background, shared with achievement pages through pageBackgroundField, that replaces the zone background of the guide's subarea.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L499-L499",
+          "version": "repo-lines-v1:sha256:6e733f74dc8c4f87d23d693707dd76e285106b058dc09967b57bb67092f54c9f:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU3MzNmNzRkYzhjNGY4N2QyM2Q2OTM3MDdkZDc2ZTI4NTEwNmIwNThkYzA5OTY3YjU3YmI2NzA5MmY1NGM5ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU3MzNmNzRkYzhjNGY4N2QyM2Q2OTM3MDdkZDc2ZTI4NTEwNmIwNThkYzA5OTY3YjU3YmI2NzA5MmY1NGM5ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDNhMGM1YjRmYzllZmI4ZGI2MTlkMmU2NTgyYTU5OGQ3NDdkNTdlMzIxNTliYzYzNTMzOThhMGUxODUzODlmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTYxNTYxODNlZGFmNjA4NTRiODU0ZDdiZDRjYjg0NjM0NGM5MTI3YzA0MzkxMjcyYzY1ODZhMDA5YjkwZGI1YSJ9"
+        },
+        {
+          "resource": "repo://src/collections/zone-background-field.ts#L1-L17",
+          "version": "repo-lines-v1:sha256:87703e6875d232fd29fbca927cc2850aa08fd663f59ba239145df8f96634b908:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4NWU5ZDMwZTBiNjJkNzA2NjA1MDVjZjhhZjY4YjYzOTM0OWQ3ZjAyY2IzOTFjYTU3NDdlMzhiOWVhYTNkZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

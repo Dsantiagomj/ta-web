@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5fe3c79807cd252ab91106d5732e53d77db1a325ec59d359c2826f71767eb42d",
+  "pageVersion": "sha256:22b0391b4a90c7dc381a278f1d5d562b5a9692eac724e18fd55d5f89be66b54f",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
@@ -202,19 +202,19 @@
     },
     {
       "id": "claim_66408ab843c44cbc90697d5d1f6d0729",
-      "statement": "In the media collection any panel account can upload and edit, only an administrator can delete, and beforeDelete refuses to delete game art with a gameAsset key or an image that a guide, a standalone page, a class or dungeon page, a Torre correction, a checklist, achievement prose, the checklists index teaser or the site settings share image uses.",
+      "statement": "In the media collection any panel account can upload and edit, only an administrator can delete, and beforeDelete refuses to delete game art with a gameAsset key or an image that a guide, a standalone page, a class or dungeon page, a Torre correction, a checklist, achievement prose, a zone background, the checklists index teaser or the site settings share image uses.",
       "evidence": [
         {
           "resource": "repo://src/collections/Media.ts#L40-L60",
           "version": "repo-lines-v1:sha256:5b6e3d0d8162d85a32504f896913d5f4c6a46ce616b8c322a554ba93df8646fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NmI4YTBlODgyZjhlMzdjODIwODVmZjE1NDk4MzcyODFhNTE4YmEwODM1MTVkZmU0YTAyMmIwNTJiMDQ0MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1MmNjYWY4NmE5ZjM1MzY4ZmU3ODdmNzg2MjU5N2ViMzZiMWFhNjIwMjBkZTExZjFkOWY3MmYxNzJkNmViYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhY2QxZGM1NjFkZDRhY2NkNjBkM2M2YjY4MGJhNzE1NWQ0ZTFmZTY0ZTljOWY1Yjk5ODI4YTgyMzgwZGRmNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljNDUxNDMwYzM4NWI2MjRjYmIwNDE4MmRlOTI3MDk4ZTJiZGJiOWIzZDkwNGJiMWJhMjI2MjBhNjYzYmZkYzEifQ"
         },
         {
-          "resource": "repo://src/collections/delete-guard.ts#L186-L222",
-          "version": "repo-lines-v1:sha256:c8957807df9869fbbd0b71a424ae5633aba62b1518190c5d7dd3cd2f9d1e96a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NDViYWQ1ZWUyYzI2NjA4MWRkODVjMzRhZDU4NWVmY2M3NTliMjZhYzQ2ZGU4MmQ5NmJjYmI5ZmNmNTgxYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1NDcwZDM1MGY5M2ZlZDEwOGJlYjkzY2Y0OWU0MmQxNzBiOWY1NWYzNDRmMWZjZThjZWU5MGFmYTc1ZmY2NzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwNWI2MzUxODRlZmFkNDllYmY2NmMyMjc4Mjk4MDRkOWUwMzIyZTY5NWQxYmQ5MzNjNTE2MzQ3NDRjMDYyNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzMTgwZGFlNTUwNTFkMWU3ZGEyNzAxODdmZDg5YjhiYjVmZmIxYzM2ODcyOGIzMTVlNTRiZTQ5NWRmNDdlZjYifQ"
+          "resource": "repo://src/collections/delete-guard.ts#L222-L238",
+          "version": "repo-lines-v1:sha256:f36f15e86fff75e2aafa4f1564a8e20ab073fbda143856caab36e90015b84dc2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/collections/delete-guard.ts#L28-L171",
-          "version": "repo-lines-v1:sha256:3b2e6a58f1fc8057d9fb2f45cca89da7664ea758b6323c528fb70f9f7d5b898f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQ0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYWYyMmNmMDczMjU5MmMyNDcxNDFjYmU2MWVmYTExMDEyNjEyZjVhMzEyMmI5YWY5YmJhZjUyZjU3MjRkMTk0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhNzI1ZWQ0ZTljNWVhZmFmYzcwZTBjZjQxMTFmZGVjYTdmNjE5NmRkMDE4YTNiZjk1NTU0MWExODgwNTg2MzA1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI4ZTYwYTI5OTNhNjJmMDI4YTIyZGVhZWRiMzJlZjgzZGI3ZWM2YTUyMmY0ZWIyYTIwM2EyNTU1MzkxYzEzY2I0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5NDFlOTgwYzk4YTExNDViZDY3ZTljOTgwMzM5ZDYwNDk2MjRiYmU4ZDIwNmY5MmE3YmQ3YzQ5NmI0OWVhNzE3In0"
+          "resource": "repo://src/collections/delete-guard.ts#L56-L176",
+          "version": "repo-lines-v1:sha256:82e28f68b233eb27d9418b6857c335bd5dbb99d804c452a38587be9417f79f0a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMWY3YTNmZmEzYzI0OGM5ZmQ4MjYyY2Q0MzIwYWMwMzIyNmNkNzBmZmYyMzBhMjMzOGYyZmYxNWU1MjUwN2ZjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJjMDg0NzAwMjYyNTE1OGY5ZGJhNzU1NWFlNDMzMTgwMjgyNjUyZjU5NGQwMGRiM2NhOGU1ZWM3ODhhNDJkZjJmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkNmZlMGE3NGVkODhiNGYxNzI2NmFmYzVlNmIzMTYzMThkNGI3NzdiYzEzMTFlNWEyZWY1MTg1ZTVjMjBmM2I1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI1M2I1MjVlZDQwYzdkZTFlMjlkYWM1MDI4MTZkM2ZiNzBjZTE4YzgyMGJhOTU0OWRkMjEyZmE1Y2Y1MjU5ZjllIn0"
         }
       ]
     },
@@ -253,10 +253,24 @@
           "version": "repo-lines-v1:sha256:5246d2b2c159e49cc31df19d68da9367ac7baa429bed7dcb7d44ada2e0b9ffef:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwM2E1N2VkMDNlM2ZkNDJjZjI0ZjE0MTA1ZGUwNzNlYjRiZTQ3YmM2ZWFjMDgwZGQ1N2E4ZjYxZDUyZTQwZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcyZjU3OTUzZTBhNGU5MTA5MDhkZTcwZjBmOTM1MjI1Yjc3MmE4ZGVmOTFjYmFlZDgwODI0Nzg4NDA2NmQ5Y2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_d0cbebb8be4e4d6fb9f5f03f6e9698b5",
+      "statement": "Zone background renders are stored in media once per map under the gameAsset key dofusdb-map-render:{mapId}, looked up before downloading.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/zones/background.ts#L9-L10",
+          "version": "repo-lines-v1:sha256:1004e913b971ab8a23f86f3ce385cd1dcbe4c1f294e9129b3c35cf74f2f73938:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjM2ODY0MTQ4NTBlN2I2NDNiMmRlMzhkOGY5YTE1MWMwZWY0NDMyNzRkMGQzOTBlYTZkZGEwNmE4MTc0MzFkMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjZjNDdlYzY2ZjZlMjExODExODNhZWYxODc1MTIzZDI5YTNhZWE4YjliZGU4YTg0Y2Y4ODljYWM5MjM0NTIyNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTE3ODMwNTZkNWNlNWM4MGFhMmM1YmNmZDNkNzcyZmUwNzU3NmM5ZmM0NDllNThiNGU5OWMxNjcxMzI1NzgyZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMThlNDUxNGZlYWU4NDgwMmY0MTFmMGJjMzFkZTdiOWM3YzhmNzZiNzA1YjcxNWM4ODQwN2FkODI0OTM5OGJlYyJ9"
+        },
+        {
+          "resource": "repo://src/lib/zones/fill.ts#L103-L128",
+          "version": "repo-lines-v1:sha256:38df022e7ec0a02a748cbe5941c9cf3508ce99880f9068b8e4f64623ebfd6b3d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2M2FlMTQ2YjFjYjU1MDUwY2I5OTFlZDhhZmUyYTM4NTk2ZjczYWFhMThjMmU4OGZlZmNiYTY1ZmU5OTI2OWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5NmY4Y2IwODNmYTgwMGE0ZGNkMjk2OTcyMmQ3YjkyNjg2YWRkOWViZTM2NTU0OTJmYTY3MmIxYTdjZWQyNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwY2VjMzkxZDBkNTZjYmU5ZjBhNmJhOTJlNGUxMmNjYmUzNjAxMDc5NmJkYzhkYjdmYWMyOGUzODQzNWU4OGMifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

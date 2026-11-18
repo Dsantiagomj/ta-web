@@ -5,7 +5,7 @@ description: The four achievement collections (DofusDB achievements and categori
 tags: [achievements, payload, collections, dofusdb, autofill, slugs]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 sources:
   - id: openwiki-source-b086b6b1802f507b0e5a4c8f
     resource: repo://scripts/dungeon-notes.ts
@@ -29,6 +29,8 @@ sources:
     resource: repo://src/collections/root-slug.ts
   - id: openwiki-source-c59753480751a9469ce8e192
     resource: repo://src/collections/torre-correction.ts
+  - id: openwiki-source-49969ab7321802b7685c534f
+    resource: repo://src/collections/zone-background-field.ts
   - id: openwiki-source-a034fdee8bbd1156be43f216
     resource: repo://src/components/achievement-admin/DofusDbFill.tsx
   - id: openwiki-source-2d2a5acdd3240297c5f42f27
@@ -55,13 +57,15 @@ sources:
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-4b87b2bd0648fe28c52dc5e5
     resource: repo://src/lib/guides/autofill.ts
+  - id: openwiki-source-f739f9787bd4d60736bef041
+    resource: repo://src/lib/zones/read.ts
   - id: openwiki-source-4d4ac9e1e628bf6a685e4bf2
     resource: repo://tests/integration/achievement-pages.test.ts
   - id: openwiki-source-1abfd2c4434a55eb5477aebf
     resource: repo://tests/integration/legacy-slugs.test.ts
   - id: openwiki-source-69a5fa7edb72294e823509c1
     resource: repo://tests/unit/achievement-dofusdb-values.test.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 ---
 
 # Achievement data model
@@ -92,7 +96,7 @@ Each editorial document links one game record and copies what its page shows. An
 
 ## Editorial collections
 
-`achievement-pages` (`src/collections/AchievementPages.ts`) is one page per achievement, rendered at `/<slug>` (see [Achievement page](achievement-page.md)). It links one DofusDB achievement (`achievement`, optional and unique) and carries `name`, `slug` (labelled «Dirección en la web»), `state`, `group` (its metalogro), `order` in that metalogro, `quests`, `prerequisites`, `points`, `rewards`, and optional `intro` and `outro` rich text. It has live preview and preview URLs through the same `/vista-previa` route as guides.
+`achievement-pages` (`src/collections/AchievementPages.ts`) is one page per achievement, rendered at `/<slug>` (see [Achievement page](achievement-page.md)). It links one DofusDB achievement (`achievement`, optional and unique) and carries `name`, `slug` (labelled «Dirección en la web»), `state`, `group` (its metalogro), `order` in that metalogro, `quests`, `prerequisites`, `points`, `rewards`, optional `intro` and `outro` rich text, and an optional `background` («Fondo de la página», an upload in the sidebar, shared with quest guides through `pageBackgroundField` in `src/collections/zone-background-field.ts`) that replaces the zone landscape behind the page (see [Zone background](../frontend/zone-background.md)). It has live preview and preview URLs through the same `/vista-previa` route as guides.
 
 The link is optional because DofusDB lacks some achievements Torre documents (the Krosmoz metalogro): such a page is written by hand with its name. Two pages cannot link the same achievement, but several can link none.
 

@@ -86,6 +86,8 @@ sources:
     resource: repo://tests/integration/refresh-npcs.test.ts
   - id: openwiki-source-cbffdb2343060c99a7477cfa
     resource: repo://tests/integration/refresh-quests.test.ts
+  - id: openwiki-source-5bc1bf3e63433094c2d46303
+    resource: repo://tests/integration/zone-background.test.ts
   - id: openwiki-source-3fc2c02c456e1e51768c4446
     resource: repo://tests/unit/concurrency.test.ts
   - id: openwiki-source-1843fcebd4e1a5a852fbfef6
@@ -106,10 +108,10 @@ sources:
     resource: repo://tests/unit/refresh-game-data-summary.test.ts
   - id: openwiki-source-88f72b375a7085219ea4b361
     resource: repo://tests/unit/refresh-row-failures.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # DofusDB game data refresh
@@ -201,7 +203,7 @@ There is no index on the item name. Picking an item by name in the panel runs a 
 
 - **Name**: Spanish, falling back to French (DofusDB's original language), and to `Misión <id>` when both are missing, because `name` is required.
 - **Levels and category**: `levelMin`, `levelMax` and `categoryId` copied as is, `null` when absent.
-- **Start positions**: one entry per DofusDB start position with `npcId`, the NPC's Spanish (or French) name, `mapId` and the map's `posX`/`posY` as `x`/`y`. A missing NPC or map leaves those values `null`; mapping never fails over a missing lookup.
+- **Start positions**: one entry per DofusDB start position with `npcId`, the NPC's Spanish (or French) name, `mapId`, the map's `posX`/`posY` as `x`/`y`, and the map's `subAreaId` from DofusDB's map positions. A missing NPC or map leaves those values `null`; mapping never fails over a missing lookup. The start map's `subAreaId` is what gives a quest guide its zone background (see [Zone background](../frontend/zone-background.md)); an environment refreshed before it existed keeps `null` there until the next `pnpm data:refresh`, and the zone falls back to the first objective's subarea.
 - **Zone**: the Spanish (or French) name of the area of the first start map whose sub-area and area are known, such as Astrub; `null` when none is.
 - **Achievement**: the achievement whose `need.quests` lists the quest, with its DofusDB ID, Spanish name, a slug (DofusDB's slug, or the name slugified without accents or signs when DofusDB has none), the quest's 1-based `position` in that list and the list's `total`. A quest in several achievements takes the one with the lowest ID, so the result does not depend on DofusDB's order. `null` when no achievement lists it.
 - **`startCriterion`**: the raw DofusDB criterion string, stored unchanged (`null` when empty) so later derived data can reread it.
@@ -317,7 +319,7 @@ Consequences:
 
 ### Sub-areas
 
-After the quests, `refreshSubAreas` (`src/lib/dofusdb/refresh-subareas.ts`) writes every sub-area by `dofusId` with its Spanish name and its area's `areaDofusId` and Spanish `areaName`, only when they change. It never deletes one, and a sub-area without a Spanish name is saved with its ID. A quest objective stores only `subAreaId`; the checklist details endpoint resolves it to a name through this collection.
+After the quests, `refreshSubAreas` (`src/lib/dofusdb/refresh-subareas.ts`) writes every sub-area by `dofusId` with its Spanish name and its area's `areaDofusId` and Spanish `areaName`, only when they change. It never deletes one, and a sub-area without a Spanish name is saved with its ID. A quest objective stores only `subAreaId`; the checklist details endpoint resolves it to a name through this collection. A subarea also holds Torre's zone background (`background` and `backgroundMapId`), which the refresh never writes: it sends only its own fields (`dofusId`, `name`, `areaDofusId`, `areaName`, `refreshedAt`), and `tests/integration/zone-background.test.ts` checks that a refresh leaves a saved background alone.
 
 ### NPCs and their renders
 

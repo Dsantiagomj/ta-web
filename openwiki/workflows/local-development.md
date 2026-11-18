@@ -56,6 +56,8 @@ sources:
     resource: repo://scripts/refresh-game-data.ts
   - id: openwiki-source-92731ee12f8edc4d50be198e
     resource: repo://scripts/seed-site-copy.ts
+  - id: openwiki-source-4a5208ee002f2e6da1e00546
+    resource: repo://scripts/zone-backgrounds.ts
   - id: openwiki-source-102ac9d3e731f9c02830d89f
     resource: repo://src/app/(frontend)/sistema/page.tsx
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
@@ -68,10 +70,10 @@ sources:
     resource: repo://src/lib/site-copy/seed.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Local development
@@ -140,6 +142,7 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm redirects:stubs [--from <origin>] [--dry-run] [--cutover]` | Rewrites the `stubs` section of the legacy redirect table from a deployed site's public API (dev by default). See [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md#the-stubs-section) |
 | `pnpm guides:backfill <dir> [--apply] [--remote] [--production]` | Brings guides imported before two importer changes up to date: restores the closing sentence from the cached Squarespace page and turns monster lists into fight blocks. Dry run without `--apply`; run after `pnpm data:quests`. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date) |
 | `pnpm media:sizes [--remote] [--production]` | Generates the missing AVIF/WebP sizes of `media` files uploaded before Payload generated them; safe to rerun. Against a non-local database it needs `--remote`, in production `--production`. See [Media storage](../media/storage.md#backfilling-missing-sizes-pnpm-mediasizes) |
+| `pnpm zones:backgrounds [--apply] [--remote] [--production]` | Fetches from DofusDB the zone background of every subarea that published quest guides and achievement pages use and that has none yet; without `--apply` it only lists them. Run it after the `zone_backgrounds` migration and a `pnpm data:refresh`. Against a non-local database it needs `--remote`, in production `--production`. See [Zone background](../frontend/zone-background.md#pnpm-zonesbackgrounds) |
 | `pnpm migrate:create <name>` | Writes a new migration |
 | `pnpm review:release [--since <ref>] [--dry-run]` | AI review of everything between the last release tag and `origin/main`, run by hand before `release.yml`; needs the `claude` CLI. See [Release review](release-review.md) |
 | `pnpm generate:types`, `pnpm generate:importmap` | Regenerate Payload's types and admin import map |

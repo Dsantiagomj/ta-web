@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f3cd0938f069376064f5487f1cd933f2dd23d10a20ee560d40c7615dd2735feb",
+  "pageVersion": "sha256:08e8e9420b1c8ece8a7728f1d93026fa8813772d65bbe0f92def4512075e9c1d",
   "claims": [
     {
       "id": "claim_50528ca959984805b1690de593798c61",
@@ -39,8 +39,8 @@
       "statement": "With a single locale, custom.scss hides the locale switch and the localized-field suffix in the panel.",
       "evidence": [
         {
-          "resource": "repo://src/app/(payload)/custom.scss#L60-L68",
-          "version": "repo-lines-v1:sha256:c3e888de57172825c7d449565d6300829d768f6a81194ad1cd19e3f80cf96211:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODczMjc3NWVlZTc3MDAxOGRiN2Q3OWQwMzVhMDE2MzAxNWEwMTZkZTE3ZWJiZjg4ODQ5MDJlYzZkMWQ5ZmNmMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWUxYjJjNWE3NTZiMWQ1MTQ5ZTc5ODQ3OGI3ODkxYzY3YWVkNDY0ODAxMzViODNjY2JmNDlmMGRkM2Q3YjRjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTUxMmMwNGMzNTVkNjY5OGNiYTU2YTY3ZGJlMWI0NzVlMmY3NGNmYzg5ODhhNjUzYjQ5NTY2ODU5MWU2ZjUwNCJ9"
+          "resource": "repo://src/app/(payload)/custom.scss#L59-L71",
+          "version": "repo-lines-v1:sha256:36f00c87c475cb36cbd5a3e38ab2ca8a82ce8231f4fd504a9a49317090cd5935:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhYWE1YzY0MDMyYzVjMmY4MDI4YTM4ZTg1NDQxZmY0OWRjNTVlZjRjZDQ0YzIyMzJmMmIwNTMwNDkxZWI0OWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4YjZmYjc1M2ZmYmNlOTI5NDc1Y2RmOWVkMTI1NzIzNzA5ZmE1NGVjOGE2MTI2ZjZiMzQxZmQ0MTMwZTFjYjgifQ"
         }
       ]
     },
@@ -130,11 +130,11 @@
       "evidence": [
         {
           "resource": "repo://src/collections/delete-guard.ts#L173-L219",
-          "version": "repo-lines-v1:sha256:b55ded5bf82c26f869b96009bc5133a0c40d53132cb6ee05e9da0086af0acf88:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NjI4OWM3Njk1NGI3MTg0OWVmZmM5NWI0YjljYzBhOWM4NWY5YTVlNTcyMjNkNGE5MzQ3Zjc0OTY4YjVkYWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzNWYyYzRlMTJiODc4ZmQ1YWZjNmI0YmNiZTAzM2EzY2E5YWQyOTNkZDcwMDY2NDY2MTYwZmFlYmM0MjFmYTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlNGNiOTRlMDYwYWUyY2I1YmVjOGEzNzhjMjljYjEyODc4YTEzMjY1OWFiNGY5M2FlNmQ3NTdmZDQwYTlmMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmODAyNjNkOGExZjU2MDk1ZDk0OWZmZmNjNWQwMjVjZTkyYWNkYmE4ZTBiMWRmNWMwNDRmMmQyMzk4ZWM3NTIifQ"
+          "version": "repo-lines-v1:sha256:a9aa1580ccd9c6db9ecbb30970b002930c560817235c1978db74e1f5482fd0c0:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ODA1MTJhMjgzZmJjZmJmNjFjYTkyNDk0MTBhYjVjMDBlYzVkMDBlMzM2YjFhYWRlYWNiMDdjMGUyYWZiOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExYWZlZTdkNjU0ZDQ0MmNiZjM4NjQzYjdmZjc0MmQ3ZmI5MTQ1YTE3MjVkYWI1MjU1Mjg4ZDc2M2UwYTc4NDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3OTI5ZTkxZTBmOTljM2U4MjVkZTY5YjQzNWZiNjQ4NGQxYjBhMWRmMmY0NjU2MWFiZjFhMjlmMDQxODhiODgifQ"
         },
         {
-          "resource": "repo://src/collections/delete-guard.ts#L56-L106",
-          "version": "repo-lines-v1:sha256:00de29d0bb4111615ac7a4ad45ca37708007eb82d4943327a89448f28e6c1283:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZjdhM2ZmYTNjMjQ4YzlmZDgyNjJjZDQzMjBhYzAzMjI2Y2Q3MGZmZjIzMGEyMzM4ZjJmZjE1ZTUyNTA3ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZmUwYTc0ZWQ4OGI0ZjE3MjY2YWZjNWU2YjMxNjMxOGQ0Yjc3N2JjMTMxMWU1YTJlZjUxODVlNWMyMGYzYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyZGNlMmY0ODc2MTc3ZWYxNGI3NzdmYzlkYTYyMzdjMGExNGE5ZmRiMWRiMjczYjgzNWQ1OTk1NmUwMTY5NGIifQ"
+          "resource": "repo://src/collections/delete-guard.ts#L56-L111",
+          "version": "repo-lines-v1:sha256:88bbe05003e219dc3cbe2d5fcbe132df6b3132cad12e0ed65cd62b765551766d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZjdhM2ZmYTNjMjQ4YzlmZDgyNjJjZDQzMjBhYzAzMjI2Y2Q3MGZmZjIzMGEyMzM4ZjJmZjE1ZTUyNTA3ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZmUwYTc0ZWQ4OGI0ZjE3MjY2YWZjNWU2YjMxNjMxOGQ0Yjc3N2JjMTMxMWU1YTJlZjUxODVlNWMyMGYzYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiOTYwMzlhNWUzMDEzM2IwMjI4MGQ3MjljN2MyMmFkNmFhYzUwZTliNGZkZGRjMWE0ZGE5ODgzNWU2Y2VhMWEifQ"
         },
         {
           "resource": "repo://src/lib/admin/references.ts#L1-L36",
@@ -219,8 +219,8 @@
       "statement": "Globals that reference media or Dofus guides are listed in GLOBAL_REFERRERS and read whole, so the delete guard also refuses to delete an image the checklists index teaser or the site settings share image uses, or a Dofus guide featured in the Navegación global, comparing every ID of a list field.",
       "evidence": [
         {
-          "resource": "repo://src/collections/delete-guard.ts#L108-L171",
-          "version": "repo-lines-v1:sha256:625e039d5d606dac1cae56a5196bb6a654c8789bde02016f988017102063ff9c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2MDNhYzhmYjYwZGFlZGE2ZDYwNGFkNzY4NmRjM2M5NTBhNTdhNDVlNmM5YzEwNmJmNGJjYjMyNThhMjI4MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3MjVlZDRlOWM1ZWFmYWZjNzBlMGNmNDExMWZkZWNhN2Y2MTk2ZGQwMThhM2JmOTU1NTQxYTE4ODA1ODYzMDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzM2VmNDI3NzVmNWFkZTMwYzhkMzQzMGNjYTg1ODIxNjAzMzMyNDdmZTdkNDVlYjBmNDJmMzYwZjFlZmUyZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0MWU5ODBjOThhMTE0NWJkNjdlOWM5ODAzMzlkNjA0OTYyNGJiZThkMjA2ZjkyYTdiZDdjNDk2YjQ5ZWE3MTcifQ"
+          "resource": "repo://src/collections/delete-guard.ts#L113-L176",
+          "version": "repo-lines-v1:sha256:b93f9e4818383ae57616414253cbf3813fb9757bb9f789e4173527cdfd79af62:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyZjM4YjcyOTBiNzAwOTIwNDMxMjAxNmU0NzFjMzVmNDVhMTU3ZTc3MWJiM2VhNTI4ZjliYjIyOTk1Y2MzNmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwODQ3MDAyNjI1MTU4ZjlkYmE3NTU1YWU0MzMxODAyODI2NTJmNTk0ZDAwZGIzY2E4ZTVlYzc4OGE0MmRmMmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyMDRjNGUyNzA0YjI5MTExMjBiYTc3MTQwMzM0ZTg5YmE5MGVkYzI1MDI5YWIxZmEwZGM2ZjdkODM1OTViNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzYjUyNWVkNDBjN2RlMWUyOWRhYzUwMjgxNmQzZmI3MGNlMThjODIwYmE5NTQ5ZGQyMTJmYTVjZjUyNTlmOWUifQ"
         }
       ]
     },
@@ -229,8 +229,8 @@
       "statement": "The delete guard also counts a Dofus guide's own egg, standalone page body images, class page build and body images, dungeon page body images, the Torre correction images of game data, achievement page prerequisite guides, and a checklist's step Dofus and card crown as references.",
       "evidence": [
         {
-          "resource": "repo://src/collections/delete-guard.ts#L56-L106",
-          "version": "repo-lines-v1:sha256:00de29d0bb4111615ac7a4ad45ca37708007eb82d4943327a89448f28e6c1283:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZjdhM2ZmYTNjMjQ4YzlmZDgyNjJjZDQzMjBhYzAzMjI2Y2Q3MGZmZjIzMGEyMzM4ZjJmZjE1ZTUyNTA3ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZmUwYTc0ZWQ4OGI0ZjE3MjY2YWZjNWU2YjMxNjMxOGQ0Yjc3N2JjMTMxMWU1YTJlZjUxODVlNWMyMGYzYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyZGNlMmY0ODc2MTc3ZWYxNGI3NzdmYzlkYTYyMzdjMGExNGE5ZmRiMWRiMjczYjgzNWQ1OTk1NmUwMTY5NGIifQ"
+          "resource": "repo://src/collections/delete-guard.ts#L56-L111",
+          "version": "repo-lines-v1:sha256:88bbe05003e219dc3cbe2d5fcbe132df6b3132cad12e0ed65cd62b765551766d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZjdhM2ZmYTNjMjQ4YzlmZDgyNjJjZDQzMjBhYzAzMjI2Y2Q3MGZmZjIzMGEyMzM4ZjJmZjE1ZTUyNTA3ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZmUwYTc0ZWQ4OGI0ZjE3MjY2YWZjNWU2YjMxNjMxOGQ0Yjc3N2JjMTMxMWU1YTJlZjUxODVlNWMyMGYzYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiOTYwMzlhNWUzMDEzM2IwMjI4MGQ3MjljN2MyMmFkNmFhYzUwZTliNGZkZGRjMWE0ZGE5ODgzNWU2Y2VhMWEifQ"
         }
       ]
     },
@@ -247,10 +247,44 @@
           "version": "repo-lines-v1:sha256:46e02662aa1dd25ce6b306f304357136aaa0b9ef70f3c69d5bb6c53ded58b54c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWUwZTA5MmRhNTI3ODI4YTZkMDI1NzI5NWJlZmExODM0Y2NjNDM1YTAzNDlhOWQwOTFmYTFmNTNiMTdjNTBmNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmJmMzNiN2M2NTI3ZGM2OTUyOGMzNmMwNDljYWY4ZjE5YjE2NmRhMDYyYTk5ZThmMjgyOGY1YmQyNmE5NDU2NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTgyNWU0MTVhZDkwODM5NjE5ZWU0YmMzZDBlNTY4YzFjZWJmYzI4ZmE4MzhjM2IwN2I0MzQ4NDZmZjEyOGUyMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjI4Mzc2MGUyNjZhMjRmZmZlZDBiOWM1MjY4ZmEyYzY5MGVjZTI1ZmQzOTQzYTMzMDlhMTRlYzM3MDVjZjc5MSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_3247498bfa3b486283d12d8b60d2185d",
+      "statement": "The delete guard counts a quest guide's or achievement page's background and a subarea's zone background as references to a media file.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/delete-guard.ts#L57-L78",
+          "version": "repo-lines-v1:sha256:a735d8e2500f34c779b43ad95e7434922fc1c49fdceb3978d68a5eb9ecac9561:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMDQ1ZjQ1ZTQzOGZhMWI2MjZmOTQxZmM3ZGM0ODdiMTdlZjgyMzg1Mjc1MDNlYzExZjE4YWJlNGIwODFjZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMTQ5ZDdkNWJiZGE0ZjYwOTU4M2U3YmYwMDgxMTI0ZTkwYWJiMTgxN2VhNjYxYjI0Y2ZlMTNhYWRiZDE0OTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkMWQ1MDJhZDFiNDQ1ZmRmYWIzNmNlNzlhODRkNThlYWVkZmRlYWIxMmNlNzJkYTFkYTkzYzU1NjQzZmExMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2YzExNjJiY2ZiNWE3ZTYyYTA5YTlkZThlOWU5ZjkzZDlhZjRkY2U1MTNmOWY4ZDEzYWJhNmY2NzQ2NWMwNTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_45ca8dbbc96849f385faaee8a455f59f",
+      "statement": "Only an admin updates a subarea, and scopeSubAreaWrite restores every field except background and backgroundMapId to its saved value on a panel update, while a script without a user writes what it sends.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/SubAreas.ts#L11-L33",
+          "version": "repo-lines-v1:sha256:8a30294418531ccad928fd1394b3b8df628f5c0b043cf298616c9fed98720d8e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MGRmNTZiMGQ2N2Y4NWY1ZjlkMWJkZmEwOTZmMWE1OWM2MDljNmM3YzFmNGM5MmM4NjBiODYzODI0ODNlNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjOWQzMzQ5YWRkNTNkYjU3NDhkN2UwMTQ3YWI3YTVmOTU5MDY4NmFiMmM0MTI3NjA3ZjA3M2NlMGJmMTljMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3NGVlNGFmYmE1OGQ5Yzk3ZTZmNzZmZmUxZTY5MDM5MDkwOTQzNmIxNDRhMWYxMTQzNjg3MGI5OGU1OTBmNWQifQ"
+        },
+        {
+          "resource": "repo://src/collections/SubAreas.ts#L47-L52",
+          "version": "repo-lines-v1:sha256:96c6dd0cee909d612420f9b1d8121c82c44dc3889669559e7a2012fef7532eee:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjBhZDVlYjI3MmMzOTg4ZjQzZWU1ODc1MWRmMTBjN2ZlMDFiMjRkOTkzZjc3NTIzYzdiMjU2MjgyZmViNTRiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjZiZjU1NTkyY2MwYWYyZDVlZjJlYjA5OWEyNGNlMjM2ZWZiZmMwZmQ4ZGIxMzY4YmIxZmNmMjE1ZDVmNWFhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmZiOWNiYjM0MDY3ODNmZDZlY2E2YTJjYjNlMTE0MTRmY2RkNzViMzE5YWEzNDc1ZjlkOGZhNjM5MDBiNTNiYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_bf0a05e3d9f846f4aa83ed2f6f72ca29",
+      "statement": "custom.scss lets the panel header breadcrumb shrink and clip so it does not push the account button off a phone screen.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(payload)/custom.scss#L73-L77",
+          "version": "repo-lines-v1:sha256:a678791f9461b25f3b59917b4004412252bf1a9b950e796686e709475e44e6ab:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTA4NDc5NDhmNmE2ZDZkODhiZTM0YjljOTU0NzNkNGViYWYxZDY5ZDFlMzMzNWU3YWZlNjAzZTU5ZTg1MGEyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGQ1MmUzZDlhNjZkNmVmNWQ0MmI5M2Y5YjA0YTczMDU0Mzg3M2QxNjRkMTdlZjBiNDZkNGE3NDAyMjNmMzlkNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTUxMmMwNGMzNTVkNjY5OGNiYTU2YTY3ZGJlMWI0NzVlMmY3NGNmYzg5ODhhNjUzYjQ5NTY2ODU5MWU2ZjUwNCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }
