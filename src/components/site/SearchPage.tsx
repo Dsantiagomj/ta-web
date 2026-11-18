@@ -3,7 +3,8 @@ import { MAX_QUERY_LENGTH, type SearchPageView } from './search-page'
 import { searchPageStrings as s } from './search-page-strings'
 import { SearchList } from './SearchList'
 
-const INPUT_ID = 'buscar-q'
+// No es buscar-q: ese id es el del campo del diálogo de la cabecera, que está en cada página.
+const INPUT_ID = 'buscar-pagina'
 
 /**
  * /buscar (DESIGN.md, Layout: Search page): el título, el campo con lo buscado y los

@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { seedGuide } from './seed/guides.ts'
 import { seedPages } from './seed/pages.ts'
 
 // /buscar: la búsqueda de la portada sin JavaScript (DESIGN.md, Layout: Search page). El
@@ -37,6 +38,8 @@ test.describe('/buscar', () => {
       name: 'Busca una misión, un logro, un Dofus, una checklist o una página',
     })
     await expect(field).toHaveValue('emote')
+    // Su id no choca con el del campo del diálogo de la cabecera.
+    expect(await page.locator(`[id="${await field.getAttribute('id')}"]`).count()).toBe(1)
     await expect(page.getByRole('heading', { level: 2, name: 'Páginas' })).toBeVisible()
     await expect(
       page.getByRole('link', { name: seedPages.emotes.title, exact: true }),
@@ -59,13 +62,11 @@ test.describe('/buscar', () => {
   test('no se indexa y no trae JavaScript propio', async ({ page, request }) => {
     const html = await (await request.get('/buscar?q=es')).text()
     expect(html).toMatch(/<meta name="robots" content="noindex, follow"/)
-    // Los mismos scripts que una página sin islas propias, como la 404.
+    // Solo el JavaScript de la cabecera: nada que no cargue ya una guía, que tiene una isla más.
     const scripts = (body: string) =>
-      [...body.matchAll(/<script[^>]+src="([^"]+)"/g)]
-        .map((m) => m[1]!.replace(/-[\w-]{8,}\.js$/, '.js'))
-        .filter((src) => !src.includes('/app/(frontend)/buscar/'))
-    const notFound = await (await request.get('/no-existe-esta-pagina')).text()
-    expect(scripts(html).sort()).toEqual(scripts(notFound).sort())
+      [...body.matchAll(/<script[^>]+src="([^"]+)"/g)].map((m) => m[1])
+    const guide = await (await request.get(`/${seedGuide.slug}`)).text()
+    expect(scripts(html).filter((src) => !scripts(guide).includes(src))).toEqual([])
     await page.goto('/buscar?q=es')
     await expect(page).toHaveTitle('Buscar')
   })

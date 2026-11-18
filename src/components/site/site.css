@@ -1459,8 +1459,11 @@ mark.hit {
    página no carga más hojas que las del sitio. */
 .srch {
   display: grid;
+  /* El ancho va en la pista y no en max-width, que contaría el margen del marco (--frame-pad),
+     muy ancho en una pantalla grande. Con minmax(0, …) la pista no crece a lo que pide el
+     campo, que sacaba la página de la ventana a 390px. */
+  grid-template-columns: minmax(0, 48rem);
   gap: 1rem;
-  max-width: 48rem;
   padding: 2.5rem var(--frame-pad) 4rem;
 }
 
@@ -1472,6 +1475,7 @@ mark.hit {
 
 .srch__f {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.625rem;
 }
 
