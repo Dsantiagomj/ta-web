@@ -31,6 +31,7 @@ describe('ciScope', () => {
     [['scripts/backfill-guide-rewards.ts']],
     [['scripts/fix-reward-typos.ts']],
     [['scripts/prefer-dofusdb-rewards.ts']],
+    [['scripts/backfill-summary-text.ts', 'scripts/import/backfill-summary-text.ts']],
     [['scripts/seed-site-copy.ts']],
     [['scripts/zone-backgrounds.ts']],
     [['scripts/links-legacy.ts', 'scripts/legacy-links/collect.ts']],
