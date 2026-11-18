@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7e7c1036221b1d3f9d9a9e88c6b3bdbf440681e1f04a6738c372e9433cf599ee",
+  "pageVersion": "sha256:d4685f12fca6b05193f2c02592516eb4bce8f5a9c30972205b7c5c9477e4919f",
   "claims": [
     {
       "id": "claim_15a2bbeb947d4f7eb83b31e21c6da94c",
@@ -83,8 +83,8 @@
       "statement": "SitePageView renders the breadcrumb, the title as h1 and the body through GuideSections in the quest guide column, with PageEnhancements as its only island outside preview.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SitePageView.tsx#L11-L38",
-          "version": "repo-lines-v1:sha256:bb3903687bc833f2e52e963eceb4ae63f439f279668513065027a20398589b50:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTk3ZTQ5YjZlNTI4ZGE1OTI0ZGZlYzk3NjMxOTJjMWVmZDM3MjlhMTQwODA5ZjhiOTdmNTUwYzMwYzE0ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SitePageView.tsx#L10-L36",
+          "version": "repo-lines-v1:sha256:4c511b6d7d5cf9df06d36ea1f2b20609e22fa01a9269c00c0d6cfb64ad7f536b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NWE3NTE2ODk4Y2U0NmViZDU3ODllMjA5MGExOTMwM2Q4NDBiNmFjNmNlY2IzZTQxNTZmNmZmMTkzYTUzODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -187,10 +187,42 @@
           "version": "repo-lines-v1:sha256:74f9fa4f7a23ed5c4ad19dc04794ed546985a441084e0a8f7598f1b7276e35cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxM2Y3MmFkYjE4NWI3MmQzMDBmNTc4YTg2N2RiOWUzOGUwMGZjZWRhOTA5NjA1MjM3NWM0YjQ2YjRlNjdiODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1NzA2ZjA3YjdlNDcxY2Q5MTM5NDVjNzgzYzdiMjYyMDYxMjJlMTg3YjljMGE1MTBkMzI2MjlkNTE1ZDgxYjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliYTk3ZjlhMDM0MjMyNzg1MDIyYTQ0Mjk1YTQyZGQyNTgxOGFkNGY0ZTMyN2U1YzlmYzljMjliYjQ4NGNmNGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5YzNkOGY5MTUyYmUwYzk3YjkyZWQwNjc1ZmFkMGUyZDkyMWYxOWM2N2RkYzAzNDNjMGY0MThmZDNmNDZhYWMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_624c797b5a2b478485db5bee584efaab",
+      "statement": "The 404 page shows the page title, a sentence and «Volver a la portada» as the filled primary button link, left aligned in the page frame.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/not-found.tsx#L1-L18",
+          "version": "repo-lines-v1:sha256:f2a072f175d80f5df7ab2762fb8b82e5aeaac9b3cd873e059e48090afee1bff8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlZjA0MmI5YTZjNTljNTc0ODMyYWZhNjgwMTZiY2VmOTc1OTI5MTkxOTlkN2Q3NWJjMThmMDI1NjMzNmI5MGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/strings.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:06fab529ae5226314001c2540f99c3e4954581269f4ce8bcdef3fb48e576f712:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZmZmYWM1MzQzYzc0NjMxNmRkMTJjNTg1MjQ1MGZkYjI2YTIzNDRlOGZmYWI1ZTFlMmU3NGIzYmU2NTU5OGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_13e44ea6ec5b4dac8272bdea6bbcfd70",
+      "statement": "The error boundary error.tsx renders ErrorView with the page title, a sentence that never shows the error, a primary button that retries through reset and a secondary full-load link to the home page.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/ErrorView.tsx#L1-L27",
+          "version": "repo-lines-v1:sha256:223a1d3a29d1c33aeb15fd228217d2bc78c900e81d95326031f3ab54f8795772:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4ZWM0Y2RhNzgwMjNiODE0OGVlMTAxN2IxMTk4N2U0NTUxNDM2ODk5ZTQ3MTFlYzJmZmM1MGFmNWNkNzkyODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/error.tsx#L1-L9",
+          "version": "repo-lines-v1:sha256:0e1f062463adff5bd89a2e4a73d7d103b9d6b9d4ddc75d3938a43d462f2254db:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY2NGUwMGVhNTdlYzM5ZDg4ZmMzZjY5MzRjNGI3MDkxZGIwNTZhNmMyZDViMTFhOTcxMjMwMGQwNmY4ZDIzYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/error-pages.test.tsx#L15-L26",
+          "version": "repo-lines-v1:sha256:23ba53f04f8b7cfb5f0d1aba44c26f8ce3b884208df1794f2a9cf5e94e79f5d3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5OWI1NzRiMzI2YWVkNzA5ZmMyYzA3ZDNmZjg3NjA0NzkxZTFkMWE3N2NhYWQ0MWI4MWFlMzhlMWRjYzU0OGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlYmQxYjI2MDg3MjI5ZGVlMzM1MzIxMDA4ZjFhYmRjOWY1ZDIyM2QwZDVhNDAwY2M0OTZkZWQ2Mzk0M2Q2NzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

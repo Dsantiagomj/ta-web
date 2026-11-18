@@ -24,6 +24,8 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-899ad2bd146eda3e8bb742c7
     resource: repo://src/collections/section-pages.ts
+  - id: openwiki-source-4563c6781f32461806ff9616
+    resource: repo://src/collections/SubAreas.ts
   - id: openwiki-source-c46dfd6e94656494b7d9df7b
     resource: repo://src/collections/Users.ts
   - id: openwiki-source-66dbb4d960232b7c95cf77e8
@@ -38,10 +40,10 @@ sources:
     resource: repo://src/migrations/20261114_011851_users_roles.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Admin panel for editors
@@ -51,8 +53,8 @@ The Payload panel at `/admin` is where Torre, who came from Squarespace and is n
 ## How the panel speaks
 
 - **Plain Spanish, with tú and no jargon.** Labels, descriptions and messages live in `src/lib/admin/strings.ts` (`panelStrings`) and collection strings files. The slug field is «Dirección en la web» (`SLUG_LABEL` in `src/collections/slug-field.ts`); Torre's `state` field is «Visible en la web». `panelStrings.translations` overrides some of Payload's own Spanish words, so the header's «Estado» only means Payload's publish status («Borrador, sin publicar», «Publicado en la web», «Con cambios sin publicar»).
-- **Menu order and groups.** The menu follows the order of the `collections` array in `src/payload.config.ts`, and each collection names its group through `panelStrings.groups`: «Contenido» (quest guides, achievement pages, metalogros, Dofus guides, checklists, standalone pages, class pages («Clases»), dungeon pages («Mazmorras»), and the «Índice de guías de Dofus» and «Índice de checklists» globals), «Imágenes» (media), «Datos del juego» (quests, items, monsters, dungeons, NPCs, subareas, achievement categories, achievements and «Refrescos de datos») and «Ajustes» (redirects, panel accounts, and the «Ajustes del sitio», «Portada e índices» and «Navegación» globals). The game data group lost its «(solo lectura)» suffix when quests, items, monsters, dungeons, NPCs and achievements gained the editable «Corrección de Torre» group (see [Torre corrections to DofusDB data](../data/torre-corrections.md)); their DofusDB fields stay read-only.
-- **Hidden until it means something.** Every collection sets `hideAPIURL: true`. With one locale, `src/app/(payload)/custom.scss` hides the locale switch and the «— Español» suffix of localized fields; `tests/unit/admin-panel-config.test.ts` fails if a second locale is added without removing that rule.
+- **Menu order and groups.** The menu follows the order of the `collections` array in `src/payload.config.ts`, and each collection names its group through `panelStrings.groups`: «Contenido» (quest guides, achievement pages, metalogros, Dofus guides, checklists, standalone pages, class pages («Clases»), dungeon pages («Mazmorras»), and the «Índice de guías de Dofus» and «Índice de checklists» globals), «Imágenes» (media), «Datos del juego» (quests, items, monsters, dungeons, NPCs, subareas, achievement categories, achievements and «Refrescos de datos») and «Ajustes» (redirects, panel accounts, and the «Ajustes del sitio», «Portada e índices» and «Navegación» globals). The game data group lost its «(solo lectura)» suffix when quests, items, monsters, dungeons, NPCs and achievements gained the editable «Corrección de Torre» group (see [Torre corrections to DofusDB data](../data/torre-corrections.md)); their DofusDB fields stay read-only. Subareas are the other exception: an admin edits only their zone background («Fondo de la zona» and «Mapa del fondo»), and `scopeSubAreaWrite` puts every other field back to its saved value on a panel update (see [Zone background](../frontend/zone-background.md)).
+- **Hidden until it means something.** Every collection sets `hideAPIURL: true`. With one locale, `src/app/(payload)/custom.scss` hides the locale switch (`.localizer` and the header's `.localizer-button`, which pushed a guide form 76px past a phone screen) and the «— Español» suffix of localized fields; `tests/unit/admin-panel-config.test.ts` fails if a second locale is added without removing that rule. The header breadcrumb (`.app-header__step-nav-wrapper`) shrinks and clips on a phone instead of pushing the account button off screen.
 - **Branding.** `PanelBrand.tsx` replaces Payload's logo and icon with the Torrente Arcano emblem and adds a welcome above the login form; the panel uses the site's icons and a title suffix.
 - **A line per collection.** `withPanelDescriptions` (`src/lib/admin/panel-guide.ts`) puts one plain sentence above each collection's list saying what it holds.
 
@@ -97,7 +99,7 @@ Deleting something a guide uses used to leave a hole with no warning (A-17). `re
 
 | Target | Referenced from |
 |---|---|
-| `media` | quest guide body images, a Dofus guide's `videoPoster`, `egg` and body images, a standalone page's body images, a class page's PVM and PVP build images and body images, a dungeon page's body images, the `correction.image` of NPCs, monsters, items, achievements and dungeons, a checklist step's figure image, icon and banner, a checklist's index card scene and NPC, achievement page prose, the scene and egg of the checklists index teaser, and the «Ajustes del sitio» share image (`ogImage`) |
+| `media` | a quest guide's `background` and body images, an achievement page's `background`, a subarea's zone background (`subareas.background`), a Dofus guide's `videoPoster`, `egg` and body images, a standalone page's body images, a class page's PVM and PVP build images and body images, a dungeon page's body images, the `correction.image` of NPCs, monsters, items, achievements and dungeons, a checklist step's figure image, icon and banner, a checklist's index card scene and NPC, achievement page prose, the scene and egg of the checklists index teaser, and the «Ajustes del sitio» share image (`ogImage`) |
 | `achievement-pages` | Dofus guide achievement parts |
 | `quest-guides` | Dofus guide quest parts and the guides of their own quest rows (`parts.ownQuests.guides`, `parts.achievements.ownQuests.guides`), a metalogro's `guides`, an achievement page's `prerequisites.guide` |
 | `achievement-groups` | an achievement page's `group` |

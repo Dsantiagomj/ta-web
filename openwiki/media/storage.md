@@ -32,6 +32,10 @@ sources:
     resource: repo://src/lib/media/sizes.ts
   - id: openwiki-source-47a80445306e82d0ef444872
     resource: repo://src/lib/media/storage.ts
+  - id: openwiki-source-0ea598c55dee67445d1c39bb
+    resource: repo://src/lib/zones/background.ts
+  - id: openwiki-source-b294c0a1322121b959884eaf
+    resource: repo://src/lib/zones/fill.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
   - id: openwiki-source-e23fdf54a39358c494ec8932
@@ -42,10 +46,10 @@ sources:
     resource: repo://tests/unit/media-regenerate.test.ts
   - id: openwiki-source-034e7fb4a132a9270c2ca2d0
     resource: repo://tests/unit/media-storage.test.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Media storage
@@ -122,6 +126,7 @@ Before Payload starts, `regenerationRefusal` stops the run in the wrong place. I
 
 - NPC renders, keyed by the NPC, the direction and a hash of its look. See [DofusDB game data refresh](../data/dofusdb-refresh.md#npcs-and-their-renders).
 - Achievement icons, item icons and monster images (including the bosses of every dungeon, which «Necesitarás en total» draws for a dungeon a note names), the 128 px PNGs DofusDB serves, keyed `dofusdb-<kind>-image:<id>`; items sharing an icon share the file. See [DofusDB game data refresh](../data/dofusdb-refresh.md#game-images).
+- Zone backgrounds, the render of a DofusDB map with its watermark cropped off, keyed `dofusdb-map-render:{mapId}`. They are not brought by the refresh but by the panel's «Traer fondo de DofusDB» on a subarea and by `pnpm zones:backgrounds`, through the same look-up-then-upload rule (`fillZoneBackground` in `src/lib/zones/fill.ts`). See [Zone background](../frontend/zone-background.md).
 
 Payload generates their sizes on that upload like any other image.
 
@@ -129,7 +134,7 @@ Media records also keep alt text and credits (both localized) and the original S
 
 ## In the panel
 
-The panel calls the collection «Imágenes» and lists the file name, alt text and last change, searchable by alt and file name. Any panel account can upload and edit; only an administrator can delete. Two `beforeDelete` guards from `src/collections/delete-guard.ts` refuse a delete even then: `refuseGameAssetDelete` keeps game art (a record with `gameAsset`), which only the DofusDB refresh brings and its data links, from being deleted by any signed-in account, and `refuseReferencedDelete('media')` refuses while anything uses the image, in its published version or its latest draft: a quest guide's body image, a Dofus guide's video poster, egg or body image, a standalone page's body image, a class page's build or body image, a dungeon page's body image, the «Corrección de Torre» image of an NPC, monster, item, achievement or dungeon, a checklist step's figure, icon or banner, a checklist's index card scene or NPC, an image or video poster in achievement page prose, the scene or egg of the checklists index teaser, or the share image of «Ajustes del sitio». The `gameAsset` field shows only on game art, and `originalUrl` shows read-only only on imported records. See [Admin panel](../cms/admin-panel.md).
+The panel calls the collection «Imágenes» and lists the file name, alt text and last change, searchable by alt and file name. Any panel account can upload and edit; only an administrator can delete. Two `beforeDelete` guards from `src/collections/delete-guard.ts` refuse a delete even then: `refuseGameAssetDelete` keeps game art (a record with `gameAsset`), which only the DofusDB refresh and the zone background fill bring and game data links, from being deleted by any signed-in account, and `refuseReferencedDelete('media')` refuses while anything uses the image, in its published version or its latest draft: a quest guide's or achievement page's own zone background (`background`), a subarea's zone background, a quest guide's body image, a Dofus guide's video poster, egg or body image, a standalone page's body image, a class page's build or body image, a dungeon page's body image, the «Corrección de Torre» image of an NPC, monster, item, achievement or dungeon, a checklist step's figure, icon or banner, a checklist's index card scene or NPC, an image or video poster in achievement page prose, the scene or egg of the checklists index teaser, or the share image of «Ajustes del sitio». The `gameAsset` field shows only on game art, and `originalUrl` shows read-only only on imported records. See [Admin panel](../cms/admin-panel.md).
 
 ## Tests
 

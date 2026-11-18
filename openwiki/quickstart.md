@@ -22,6 +22,8 @@ sources:
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
   - id: openwiki-source-13a4a70459b559cdd8e4d8fd
     resource: repo://scripts/refresh-game-data.ts
+  - id: openwiki-source-4a5208ee002f2e6da1e00546
+    resource: repo://scripts/zone-backgrounds.ts
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
   - id: openwiki-source-5f0afecf4f0bcd886ec62fb5
@@ -34,15 +36,15 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Quickstart
 
-ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton, the site header and footer with search, the home page, quest guide pages, achievement pages, the metalogros index, the Dofus guides with their index, the checklists with their index, standalone pages, the editable site copy and menu navigation, the class and dungeon pages in the panel, Torre's corrections to DofusDB data, the legacy and changed-slug redirects and the sitemap are built; member features are still planned. Start with the [Project overview](overview.md).
+ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton, the site header and footer with search, the home page, quest guide pages, achievement pages, the metalogros index, the Dofus guides with their index, the checklists with their index, standalone pages, the editable site copy and menu navigation, the class and dungeon pages in the panel, Torre's corrections to DofusDB data, the legacy and changed-slug redirects, the sitemap, the four free themes with the header theme picker and the zone backgrounds of guides and achievement pages are built; member features are still planned. Start with the [Project overview](overview.md).
 
 ## Run it
 
@@ -100,8 +102,9 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Import the prose of Torre's achievement pages (`pnpm import:achievement-prose`) | [Achievement prose import](data/achievement-prose-import.md) |
 | Import Torre's Dofus guides (`pnpm import:dofus-guides`) or change how a Dofus page becomes a guide | [Importing Torre's Dofus guides](data/dofus-guides-import.md) |
 | Upload files, configure R2, serve images, backfill image sizes (`pnpm media:sizes`) | [Media storage](media/storage.md) |
-| Work on dark/light mode or premium themes | [Theme and mode](frontend/theme-and-mode.md) |
-| Use design tokens, rem units and the root size, fonts, the four-stylesheet limit, the page shell, the emblem or the favicon, or change page transitions and motion | [Styles, tokens and site shell](frontend/styles-and-shell.md) |
+| Work on the themes (Amakna by default, the header theme picker, Ocre premium), dark/light mode or the browser bar color | [Theme and mode](frontend/theme-and-mode.md) |
+| Change the zone landscape behind quest guides and achievement pages, a subarea's «Fondo de la zona», the «Traer fondo de DofusDB» button or `pnpm zones:backgrounds` | [Zone background](frontend/zone-background.md) |
+| Use design tokens and the item hues, rem units and the root size, the full-width page frame and its margins, fonts, the four-stylesheet limit, the page shell, the emblem or the favicon, print and forced colors, or change page transitions and motion | [Styles, tokens and site shell](frontend/styles-and-shell.md) |
 | Use or change a button, callout, figure, amount or a quest guide component (quest header, rewards bag, icon wells, fight block, steps, next quest card, Torre's tips, video), or the island that copies coordinates and item names, opens images fullscreen and opens the rewards bag | [Design system components](frontend/design-system-components.md) |
 | See every component in every theme, or add a new one to the catalog (`/sistema`) | [Component catalog (/sistema)](frontend/component-catalog.md) |
 | Run or write tests, or the layout review that checks every public page type at four widths (`maquetacion.spec.ts`) | [Test suites](testing/test-suites.md) |

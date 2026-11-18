@@ -28,6 +28,8 @@ sources:
     resource: repo://src/components/quest-guide-admin/SummaryNote.tsx
   - id: openwiki-source-34975589d0e682c3e93c6920
     resource: repo://src/endpoints/game-data-refresh.ts
+  - id: openwiki-source-273f067cfdf4642d554d72d2
+    resource: repo://src/endpoints/zone-background.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-47a80445306e82d0ef444872
@@ -38,10 +40,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Payload CMS configuration
@@ -59,7 +61,7 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 | `collections` | `withPanelDescriptions([QuestGuides, AchievementPages, AchievementGroups, DofusGuides, Checklists, Pages, ClassPages, DungeonPages, Media, Quests, Items, Monsters, Dungeons, Npcs, SubAreas, AchievementCategories, Achievements, GameDataRefreshes, Redirects, Users])` | One file per collection in `src/collections/`; `withPanelDescriptions` adds each collection's one-line description above its list. The order is the panel menu's: Torre's content first, then images, the DofusDB game data with its refresh log, the redirects and the panel accounts; each collection names its menu group in `admin.group`. See [Collections and access](collections.md) |
 | `globals` | `[DofusGuidesIndex, ChecklistsIndex, SiteSettings, IndexTexts, Navigation]` | One file per global in `src/globals/`: the intro of the `/guias-dofus` index, the «???» teaser poster of `/checklists`, «Ajustes del sitio» (footer, social links, share defaults) «Portada e índices» (home and index titles, leads and SEO) and «Navegación» (the menu sections and the featured Dofus). See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md), [Checklists index](../checklists/checklists-index.md) and [Site settings and index texts](site-copy.md) |
 | `editor` | `lexicalEditor()` with the panel's Spanish placeholder | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)). Achievement page prose uses `proseEditor`, the same editor plus a YouTube block |
-| `endpoints` | `[healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint, gameDataRefreshEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/ready`, `/api/search/guides`, `/api/dofusdb-values/:source/:id` and `POST /api/game-data/refresh` (the admin-only «Traer ahora», see [DofusDB game data refresh](../data/dofusdb-refresh.md)). The two checklist endpoints (details and poster progress) are mounted by their collection instead |
+| `endpoints` | `[healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint, gameDataRefreshEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/ready`, `/api/search/guides`, `/api/dofusdb-values/:source/:id` and `POST /api/game-data/refresh` (the admin-only «Traer ahora», see [DofusDB game data refresh](../data/dofusdb-refresh.md)). The two checklist endpoints (details and poster progress) and the subareas' `POST /api/subareas/:id/zone-background` (the admin-only «Traer fondo de DofusDB», see [Zone background](../frontend/zone-background.md)) are mounted by their collections instead |
 | `i18n` | Spanish only, fallback `es`, with `panelStrings.translations` | The panel UI is in Spanish; some of Payload's own words are overridden so the header status only speaks of publishing |
 | `localization` | One locale, `es`, default and fallback | Content is Spanish; localized fields keep a second language possible |
 | `secret` | `PAYLOAD_SECRET` | Signs panel sessions |
@@ -92,7 +94,7 @@ Payload writes several files that are committed and must not be edited by hand:
 | File | Regenerate with | Notes |
 |---|---|---|
 | `src/app/(payload)/**` (layout, admin page, API routes) | Payload's Next template | Each file starts with "THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD" |
-| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel components (`DofusDbNote` and `DofusDbFill`), the panel components of `src/components/admin/` (`SlugDescription`, the row labels, `LockedOnceSavedText`, `CopyValueDescription`, `PanelBrand`, `Dashboard`, `PanelGuide`, `PanelGuideNavLink`, `PublishStatus`, `StepOutline`, `StepRefField`, `StopObjectiveField`, `ColorField` and `ColorSwatch`, the validated text fields `VideoUrlField`, `OptionalVideoUrlField` and `LinkUrlField`, `GameDataRefresh` and `PanelA11y`), the Lexical rich text components (field, cell, diff, the client feature toolbar entries and `BlocksFeatureClient` for the prose video block), `CollectionCards` and the S3 client upload handler |
+| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel components (`DofusDbNote` and `DofusDbFill`), the panel components of `src/components/admin/` (`SlugDescription`, the row labels, `LockedOnceSavedText`, `CopyValueDescription`, `PanelBrand`, `Dashboard`, `PanelGuide`, `PanelGuideNavLink`, `PublishStatus`, `StepOutline`, `StepRefField`, `StopObjectiveField`, `ColorField` and `ColorSwatch`, the validated text fields `VideoUrlField`, `OptionalVideoUrlField` and `LinkUrlField`, `GameDataRefresh`, `PanelA11y` and `ZoneBackgroundButton`, the button under a subarea's «Mapa del fondo»), the Lexical rich text components (field, cell, diff, the client feature toolbar entries and `BlocksFeatureClient` for the prose video block), `CollectionCards` and the S3 client upload handler |
 | `src/payload-types.ts` | `pnpm generate:types` | CI regenerates it and fails on any diff |
 | `src/migrations/*` | `pnpm migrate:create <name>` | Schema history; see the database page |
 

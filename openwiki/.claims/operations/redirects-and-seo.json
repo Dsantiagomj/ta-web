@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7ec2658eebac8d4357ac3e89cd2cde2071c91c71763f891a903bf2f6c9649196",
+  "pageVersion": "sha256:7c6f92e0cb0c7180afab66da44dbf9e928a7dfae16ab84ff022e627cc7661363",
   "claims": [
     {
       "id": "claim_71d31459773d4adb9c99087735a1162c",
@@ -68,29 +68,29 @@
     },
     {
       "id": "claim_f63cff25360a48c78edf4a7bfec15182",
-      "statement": "The proxy redirects a moved legacy URL to its target on the public site origin without the old query string, and answers a gone URL with a standalone Spanish 410 page in the visitor's mode.",
+      "statement": "The proxy redirects a moved legacy URL to its target on the public site origin without the old query string, and answers a gone URL with a standalone Spanish 410 page in the visitor's mode and free theme.",
       "evidence": [
         {
-          "resource": "repo://src/proxy.ts#L16-L36",
-          "version": "repo-lines-v1:sha256:9a7d5565e82b2f277e24db0166fb64391303c10eb7c0ebb123e319bc1a2fc403:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZmNkZTViZjJmM2MxZTY1NGY1NjU4MGE0MDBkMTljMWI5MjQwNjY5NjE5YjAzZmZjZGE4OWI5Njg5MTg5NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5MjcwYzJkYzdjMGJmY2M4ZjgwYzhlN2M4ZDMxZWQxNzM3YjQ4YTAyOTM3ZDYwMjA1Y2JhNmFlMjY3MGFmMTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/proxy.ts#L16-L39",
+          "version": "repo-lines-v1:sha256:c758dafe9d14e68dd439668cc17478d288f0ff3b1ceee3f238ade6a911fdd59a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZmNkZTViZjJmM2MxZTY1NGY1NjU4MGE0MDBkMTljMWI5MjQwNjY5NjE5YjAzZmZjZGE4OWI5Njg5MTg5NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5MjcwYzJkYzdjMGJmY2M4ZjgwYzhlN2M4ZDMxZWQxNzM3YjQ4YTAyOTM3ZDYwMjA1Y2JhNmFlMjY3MGFmMTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/unit/legacy-redirects-proxy.test.ts#L20-L82",
-          "version": "repo-lines-v1:sha256:8fc03c878907c1abf8e3690729f33dfb5a0910925a4e3627a62407f04c87e80d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhOWMxYmRlNmQ3MDYyOTkxYjcyN2U4MWU4YjM5MGYwMDU2YzU5NTQwN2YzZTg4YzAzZDVjZDhhNjQ0ZGE2MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTkzMjhhNjYzNWVjMWIyM2ZiYzI4ODNiMTMwNTAyZGEzOGMwOTg0MzQ1NWU2M2VjNjU2OTYyMDFjYWQxNDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhMjJkYzA4OWNiNjAxMGU4NTRmY2RiYTU3NWFlYjI3NzgxYzNlMzNkNjZkNTRmYWRjNzdmNTA1NTNhMDkxODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0MDFkZGE2MWE0YzQzOWNjYTdmYTc5MDY0YmVhOTFhNzZhNTMwNjY0YTdjMGQ4MTY3NDc1MTY0YTkzNThkZWEifQ"
+          "version": "repo-lines-v1:sha256:b650ede8d2992516f95542d33a12cacd86c1df748e57af9ae87e16163254b981:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0Mjg3YTRmYTgyZDQ4MGJlMGQ4MDMyMGFiY2Q4YmVkNjk1ZDhiMmViZDlkMjFmZjRjZTMzZjQ2NWQyNDMxNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwZTg1MWM3ODQ5Yjc5ODEzZGM2ZDFmZDJhZDQyMzRjZGU0MGE2OTZlYTgyODM4NDA3YjNiMmUwYjdkYmY5NzkifQ"
         }
       ]
     },
     {
       "id": "claim_045dd04844924576a9cc7ee1e8eac8ac",
-      "statement": "The 410 page is standalone HTML with inline CSS and no stylesheet, font or script, using Arcano's colors in the visitor's mode, which a test checks against theme.css.",
+      "statement": "The 410 page is standalone HTML with inline CSS and no stylesheet, font or script, using the colors of the visitor's free theme in their mode (Amakna dark by default), which a test checks against theme.css.",
       "evidence": [
         {
-          "resource": "repo://src/lib/redirects/gone-page.ts#L1-L49",
-          "version": "repo-lines-v1:sha256:ab1acb579d556f5db4cf2e741c42067b0874dda8d2db8338202b102256b38a84:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmYjQyNmQ4ZjU2NjlmNWY0ODUxZjMwNzlmMGEzZjc5NzY4MTVlZWRiMTAxOGM4MDVhNjYzNmYwNjU2YTRjMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/redirects/gone-page.ts#L1-L113",
+          "version": "repo-lines-v1:sha256:9c2972a4e1f00a60ac81e7395c25a9971ac3be95d5dbedc39632bf1cc6a4a13e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkZmI0MjZkOGY1NjY5ZjVmNDg1MWYzMDc5ZjBhM2Y3OTc2ODE1ZWVkYjEwMThjODA1YTY2MzZmMDY1NmE0YzJhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://tests/unit/legacy-redirects-proxy.test.ts#L83-L120",
-          "version": "repo-lines-v1:sha256:723588760c47430ed48ebe30ace2915fb31da18277261896441089d665d77419:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZGQ5MzY1MDA0ZTdmMzllZmE2YTYxMjkzNjMyY2QwNTAzODQxNWVjNWQ3ZmVkNDlmMWMzYzZjMDg2NDlkYjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MDAxODZjMzA1OWE3MmRmY2M4MzYwMWRkNzg5ZTYyMjQ5MzA0NjExYmM2ZDJlNWRiMjU3Yzg3ZWM0YTYxMGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/legacy-redirects-proxy.test.ts#L83-L151",
+          "version": "repo-lines-v1:sha256:c52a8a5d7e7214dd07c9f7f0c7d168c24163f67f4035c749e1dd4b267827b6d3:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5ZjJkM2Y5YTY3OTBkNDY2Y2I4ZmI5NGE3MWQyNTQ1MjVhNWU5ODk0Mzk4YjUzYTdlY2QzMGY3MzJlMWQ4YWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -299,10 +299,24 @@
           "version": "repo-lines-v1:sha256:a36dd5668c4fec884eb7977ff9a86f57bd6d1fbd68eb0560b5856c7950031995:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_b9ded0682ef4432f8f005031c750f34c",
+      "statement": "The 410 page is left aligned with the site's side margins, uses system fonts and renders «Volver a la portada» as a filled primary button.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/redirects/gone-page.ts#L82-L113",
+          "version": "repo-lines-v1:sha256:c75368a5d98b0f933cba5d19e60503ef4acfeb875ba127e198772308bec8329c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkZjk0MGYwMDI4ZGI0NTgzOTY3N2VlMjczNDQzNzk0YTI5Y2EzOTAyNjk4NDU3N2E2OWFkMjU1OWVkN2Y5ZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkxZmViYTQ0MDY3NzVjOWMxYTZiY2I5ZmNhN2IyNGFjNDg2NDY0MTcwM2Y3MDcyMWMxYzcyNmM2NDI3MjMwMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/legacy-redirects-proxy.test.ts#L99-L115",
+          "version": "repo-lines-v1:sha256:4be3495f9e1f4f9c6a8c0941453ab1f36f017fae3fa869f11247a6d83b5f80d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1N2YzMzFmMGFhNTk4YmNiNzQzOWFiZDg1ZmM0YTQ3NDExNTNjZDYzMjg4NDIwMzhjNjRlOWU5ZTc4ZGU0M2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyZjljNjVhOTM3OTJkNTIwNzE3OTRmYmE0MmM1NmNiNDZiODA1YWE0YmQzZmFmOTBlOTdiY2M3MTQwNjU2NzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNjYzZlMTE2ZGRjNDk5OTQyMmQ3ODE0ZDBiYTIyMTdmYjVjOGRmNzlhMzljYWJhZDcxMzI0NDdkNTllM2QyMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExMWNiMmQ3ZGU5YThhMjI0OTdlMmM2YzJkMjk1N2E3YzIxN2Y4ZGVlNTA5ZjJkMzM2ZTlkNDYwYWEzMGZkNjAifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

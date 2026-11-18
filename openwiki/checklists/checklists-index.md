@@ -14,6 +14,8 @@ sources:
     resource: repo://src/app/(frontend)/site-data.ts
   - id: openwiki-source-e6d5c185a004809eb4e5ff36
     resource: repo://src/components/checklists/ChecklistPostersIsland.tsx
+  - id: openwiki-source-5bcfa4a2208e49c23a934507
+    resource: repo://src/components/checklists/checklists-index.css
   - id: openwiki-source-4e414ad143c55ca67c07d9ae
     resource: repo://src/components/checklists/ChecklistsIndex.tsx
   - id: openwiki-source-4b044e40bee3b65d551e1038
@@ -34,14 +36,16 @@ sources:
     resource: repo://src/lib/checklists/poster-progress.ts
   - id: openwiki-source-64cb67184a332f58fce45aeb
     resource: repo://src/lib/checklists/queries.ts
+  - id: openwiki-source-82f7e2d5fa988b170f5dea19
+    resource: repo://src/lib/dofus-guides/egg-line.ts
   - id: openwiki-source-2237e095c005029df3a25713
     resource: repo://src/lib/dofus-guides/egg.ts
   - id: openwiki-source-3bd66ce842612aa5530166a6
     resource: repo://tests/e2e/checklists-index.spec.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Checklists index
@@ -61,12 +65,14 @@ verified:
 
 - **Link.** A published checklist links to `/<slug>`, one «En preparación» to its `legacyHref` marked as legacy, and one with no link to nothing.
 - **Color.** The card's own color wins over the Dofus guide's color.
-- **Ink.** `posterInk` (`src/lib/checklists/poster-ink.ts`) decides the name's color on the server: the egg color as is when it reaches 4.5:1 against the poster shade of each mode, otherwise mixed with white (dark mode) or black (light mode) just enough to reach it. The shades are the worst case of `.poster__shade` (`POSTER_SHADE`).
+- **Ink.** `posterInk` (`src/lib/checklists/poster-ink.ts`) decides the name's color on the server: the egg color as is when it reaches 4.5:1 against the poster shade of each mode, otherwise mixed with white (dark mode) or black (light mode) just enough to reach it. The shades are the worst case of `.poster__shade` across the themes (`POSTER_SHADE`): the dark one is the lightest dark-theme background (Bonta) at 96 percent over white art, the light one the darkest light-theme surface (Ocre) at 92 percent over black art; `tests/unit/checklist-poster-ink.test.ts` derives them from `theme.css`. The mixing itself is `contrastedColor`, which takes the two grounds and a target ratio; the Dofus guides index reuses it for its egg-colored card borders at 3:1 (see [Dofus guides index](../dofus-guides/dofus-guides-index.md)).
 - **Art.** The card's scene, NPC and the NPC framing (height, right and top offsets in percent), when set. A card with a `crown` (the rush, which gives every Dofus) gets the crown's eggs, each with its guide's color, instead of the NPC and the single egg.
 
 ## The page
 
 `src/app/(frontend)/checklists/page.tsx` loads the entries, the teaser and the «Portada e índices» texts in parallel and renders `ChecklistsIndex` (`src/components/checklists/ChecklistsIndex.tsx`, styled in `checklists-index.css`): an eyebrow, a title, a lead and a list of posters. The eyebrow, title, lead, empty message and SEO title and description come from that global, and `generateMetadata` (`indexMetadata`) adds the site name and share image from «Ajustes del sitio» (see [Site settings and index texts](../cms/site-copy.md)); without the global the component uses `indexTextDefaults.checklists`. With no checklist it shows a message instead of an empty row. Nothing in the copy counts checklists.
+
+The page uses the full frame width, left aligned: `.ck-index` pads its sides with `--frame-pad`, and the poster row bleeds to the gutter (`--gutter`) and starts at the left instead of centering. The eyebrow is `--color-accent` in Lexend (`--font-ui`) and the title Rowdies (`--font-title`) in capitals, like other page titles (see [Styles and layout shell](../frontend/styles-and-shell.md)). The `<main>` carries `pageSection('dofus')`, so the header marks the Dofus section as current.
 
 Each poster (3:4) layers the scene, the NPC peeking in from the right, a shade, the Dofus egg, a holographic foil and the name in its ink color. A crown poster (`poster--crown`) layers the scene, the shade, the crown of eggs (the first large in the centre, the rest around it, each glowing in its color) and the foil instead. The poster's color and ink travel as CSS custom properties (`--egg`, `--egg-ink-dark`, `--egg-ink-light`), and the NPC framing as `--npc-h`, `--npc-r` and `--npc-t`.
 
@@ -83,7 +89,7 @@ The last poster is the teaser from the `checklists-index` global (`src/globals/C
 
 `ChecklistPostersIsland` is a client component that renders nothing. Without it the posters look the same, without tilt or percentage.
 
-- **Tilt.** `startTilt`, the shared tilt of `src/components/ui/tilt.ts` (also used by the Dofus guides index), tilts each `[data-tilt]` poster toward the mouse pointer and moves the foil highlight with it (`--fx`, `--fy`), then resets on leave. It ignores touch and pen, and does nothing under reduced motion (see [Design system components](../frontend/design-system-components.md)).
+- **Tilt.** `startTilt`, the shared tilt of `src/components/ui/tilt.ts` (also used by the Dofus guides index and the metalogros tiles), tilts each `[data-tilt]` poster toward the mouse pointer and moves the foil highlight with it (`--fx`, `--fy`), then resets on leave. It ignores touch and pen, and does nothing under reduced motion (see [Design system components](../frontend/design-system-components.md)).
 - **Progress, only when there is some.** `hasProgress` checks whether `localStorage` has the `ta-web:progress` key. Only then does the island load `poster-progress-ui.ts` with `import()`. That module fetches `GET /api/checklists/poster-progress` once and paints each published checklist's percentage with the same engine as the checklist page. A visitor who never ticked anything downloads neither the engine nor the models. If progress appears later (another tab writes it, or the page comes back from the back-forward cache), the `storage` and `pageshow` listeners start it then.
 - **Repaint.** Once started, it repaints on `storage` and `pageshow`. A percentage of 0 hides the ring; 100 marks it done.
 

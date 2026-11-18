@@ -18,6 +18,8 @@ sources:
     resource: repo://src/components/achievement/achievement.css
   - id: openwiki-source-f22b7bdcf1597ce881ef1073
     resource: repo://src/components/achievement/AchievementParts.tsx
+  - id: openwiki-source-7ba3e6f5057719fdf70c6941
+    resource: repo://src/components/game/game.css
   - id: openwiki-source-2c139f34b50dd107e988159d
     resource: repo://src/components/game/PageEnhancements.tsx
   - id: openwiki-source-2a67994ef743619f0decb35a
@@ -36,12 +38,14 @@ sources:
     resource: repo://src/lib/guides/dungeon-bosses.ts
   - id: openwiki-source-e103be6c7e1a74cdcb0bea91
     resource: repo://src/lib/guides/dungeons.ts
+  - id: openwiki-source-0ea598c55dee67445d1c39bb
+    resource: repo://src/lib/zones/background.ts
   - id: openwiki-source-1f65cb688406ef2eb6ebe494
     resource: repo://tests/e2e/logro.spec.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Achievement page
@@ -79,7 +83,8 @@ An achievement page in state `preparing` has no public page: the query filters i
 3. Load the pages of the same metalogro, sorted by `order` then `name`, with only the achievement icon, quest `levelMin` and their Torre corrections populated.
 4. Load the published guides of the page's quests and of their prerequisites, with each guide's "Necesitarás" items, notes and dungeon picks.
 5. Load the NPCs that start each quest, keyed by DofusDB ID.
-6. Read the game items whose exact name a note uses (`readNoteItems`) and the boss image of each dungeon note (`readDungeonBosses` in `src/lib/guides/dungeon-bosses.ts`).
+6. Read the game items whose exact name a note uses (`readNoteItems`) and the boss image of each dungeon note (`readDungeonBosses` in `src/lib/guides/dungeon-bosses.ts`), passing Torre's dungeon picks from the guides.
+7. Resolve the zone background with `readZoneBackground`: the page's own `background` wins, otherwise the subarea of the first quest in its list (`achievementZoneQuest` in `src/lib/zones/background.ts`). It runs inside the cached read, so a visit costs no extra query (see [Zone background](../frontend/zone-background.md)). A cache entry stored before the field existed has no `zoneBackground` and renders without one.
 
 ### Revalidation
 
@@ -136,7 +141,13 @@ A part that yields several dungeons is a doubt, and any doubt means the note doe
 
 ## Components
 
-`AchievementView` (`src/app/(frontend)/[slug]/AchievementView.tsx`) renders the breadcrumb, `AchievementHeader` (the achievement icon, title and "3 misiones - Niveles 15 a 25 - 10 puntos"), `AchievementSheet`, and a `logro__body` with Torre's `intro`, `AchievementQuests` (the numbered quest list), his `outro`, `AchievementCountsFor` ("Cuenta para") and `AchievementNav` (previous and next, labelled "Logros de <metalogro>"). There is no list of the metalogro's pages. The parts live in `src/components/achievement/AchievementParts.tsx` and their styles in `achievement.css`, which the Dofus guide page shares (`logro`, `logro__main`, `logro__prose`). The page's section color is `--color-sec-logros`.
+`AchievementView` (`src/app/(frontend)/[slug]/AchievementView.tsx`) renders the breadcrumb, `AchievementHeader` (the achievement icon, title and "3 misiones - Niveles 15 a 25 - 10 puntos"), `AchievementSheet`, and a `logro__body` with Torre's `intro`, `AchievementQuests` (the numbered quest list), his `outro`, `AchievementCountsFor` ("Cuenta para") and `AchievementNav` (previous and next, labelled "Logros de <metalogro>"). There is no list of the metalogro's pages. When the page has a zone background, `ZoneBackground` renders first inside the page wrapper, before `<main>`. The `<main>` carries `pageSection('misiones')`, which marks «Misiones» as the current section in the header. The parts live in `src/components/achievement/AchievementParts.tsx` and their styles in `achievement.css`, which the Dofus guide page shares (`logro`, `logro__main`, `logro__prose`). The page's section color is `--color-sec-logros`.
+
+### Hues
+
+Each list item takes one of the eight theme hues in order through `--v` (`--color-hue-1` to `--color-hue-8`, repeating every eight; the rules sit at the end of `achievement.css`): the quest rows (`.lq__item`), the «Necesitarás en total» rows, the «Cuenta para» achievements (`.metas`), the Dofus guide's quest lists and the previous and next cards. A quest's number sits in a filled diamond of its hue (`.lq__n::before`, rotated 45 degrees) with the number in `--color-on-hue`. The previous and next cards (`.lnav__card`) take a 2px border and an eyebrow in their hue; on hover the eyebrow turns to ink, because a deep light-mode hue drops under 4.5:1 on `--color-raised`. The sheet's part titles take the same hues as the guide header's parts (`game.css`): Prerrequisitos `--color-hue-5`, «Necesitarás en total» `--color-hue-1` and the rewards `--color-hue-2`. Checklists never use hues.
+
+The rules between the sheet's parts, under the header and along the quest list use `var(--zone-rule, var(--color-line))`, so over a zone background they stay at 3:1 against the landscape.
 
 ### The sheet
 
@@ -148,7 +159,7 @@ A part that yields several dungeons is a doubt, and any doubt means the note doe
 
 An empty part is not rendered; with nothing to show there is no sheet (`hasSheet`), and the page stays one column. When the sheet exists, the main element gets `logro--sheet`:
 
-- **From 64rem (desktop)** the sheet is a column to the right of the quests, which sit right under the title. The CSS shows its parts open, and `PageEnhancements` sets every `details[data-sheet]` open and stops a click on its summary from folding it, so the open state is also what assistive tech reads.
+- **From 64rem (desktop)** the sheet is a 20rem column against the right gutter, and the quest column takes the rest and grows with the window, so a wide screen leaves no empty strip on the right. The quests sit right under the title. The CSS shows its parts open, and `PageEnhancements` sets every `details[data-sheet]` open and stops a click on its summary from folding it, so the open state is also what assistive tech reads.
 - **Below 64rem (phone and tablet)** the sheet sits between the header and the rest of the page, with Prerrequisitos and «Necesitarás en total» as one collapsed row each that opens on tap. The rewards stay visible at the end.
 
 The folds are `<details>` elements closed in the HTML, so the page works without JavaScript.
@@ -178,4 +189,4 @@ The guide loader calls `findGuideAchievement(payload, questId)` alongside its ot
 - `tests/unit/achievement-dungeons.test.ts`: dungeon matching and Torre's picks.
 - `tests/unit/achievement-components.test.tsx`: the parts.
 - `tests/integration/achievement-page-queries.test.ts`: the queries with real access rules.
-- `tests/e2e/logro.spec.ts`: breadcrumb and header with the sheet beside the quests on desktop; on phone and tablet, Prerrequisitos and «Necesitarás en total» collapsed and the rewards last and visible; the sheet without JavaScript; fold animation and reduced motion; the three needs groups with «Otros» on one line; copying a name without layout shift; quest cards linking only published guides; no metalogro list, with "Cuenta para" and previous/next in the quest column; Torre's prose with the video facade; a hand-picked dungeon showing its boss; 404 for a `preparing` page; the phone breadcrumb; axe (WCAG 2.2 AA) in both modes.
+- `tests/e2e/logro.spec.ts`: breadcrumb and header with the sheet beside the quests on desktop; on phone and tablet, Prerrequisitos and «Necesitarás en total» collapsed and the rewards last and visible; the sheet without JavaScript; fold animation and reduced motion; the three needs groups with «Otros» on one line; copying a name without layout shift; quest cards linking only published guides; quest numbers in diamonds of their hue, the sheet titles in their part's hue and the previous and next cards with their hue border; no metalogro list, with "Cuenta para" and previous/next in the quest column; Torre's prose with the video facade; a hand-picked dungeon showing its boss; 404 for a `preparing` page; the phone breadcrumb; axe (WCAG 2.2 AA) in both modes. The zone background on achievement pages is covered by `tests/e2e/fondo-zona.spec.ts`.

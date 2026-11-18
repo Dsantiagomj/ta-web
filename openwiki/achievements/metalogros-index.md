@@ -8,6 +8,8 @@ sources:
     resource: repo://lighthouserc.cjs
   - id: openwiki-source-2db76d84ebc87095c44118ff
     resource: repo://src/app/(frontend)/metalogros/page.tsx
+  - id: openwiki-source-a1d8b400072b85ec65dece30
+    resource: repo://src/components/achievement/metalogros.css
   - id: openwiki-source-b8e52bc64cf2890509532ce9
     resource: repo://src/components/achievement/MetalogrosIndex.tsx
   - id: openwiki-source-0391870516225da61a963c2c
@@ -24,10 +26,10 @@ sources:
     resource: repo://tests/e2e/metalogros.spec.ts
   - id: openwiki-source-e57aa8deceed5152aa47af8a
     resource: repo://tests/integration/achievement-page-queries.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Metalogros index
@@ -79,12 +81,21 @@ The same `z` and `a` rows also feed the site-wide search of the header and home 
 
 `MetalogrosIndex` (`src/components/achievement/MetalogrosIndex.tsx`) renders the search field, the three sections of tiles and, under them, the list of each zone. Without JavaScript each tile is a link to its zone's list below, so the page works fully without the island. The search data goes into a `<script type="application/json" id="metalogros-data">`, with `<` escaped so no name can close the tag.
 
+The `<main>` carries `pageSection('misiones')`, so the header marks «Misiones» as the current section. `Tile` and `AchievementCard` are exported so the [component catalog](../frontend/component-catalog.md) can render them.
+
+### Tiles and hues
+
+The tile grid fits as many 10.5rem tiles as it can, with two fixed breakpoints: two per row under 40rem, five between 64rem and 90rem (with the 110 percent root, 10.5rem gave only four at 1024px), and from 90rem as many as fit (six at 1440px). Each tile and each achievement card is flat: `--color-surface`, an 8px radius and a 2px border in its hue. The hue is one of the eight theme hues, in order, through `--v` (`--color-hue-1` to `--color-hue-8`, at the end of `metalogros.css`). The tiles count only `.vd-cell` elements (`:nth-child(8n + k of .vd-cell)`), so the panel the island inserts into the grid does not shift the hues of the tiles after it. The same `--v` frames the icon well (`--dia`). A tile with only an achievement icon puts it in a 5.5rem diamond well at 2.75rem, so the whole icon fits inside the diamond. The three group titles take their own hues (stories `--color-hue-5`, zones `--color-hue-2`, seasonal `--color-hue-8`). An off tile has a dashed `--color-line` border, a transparent background and a dimmed, mostly grey image. The open panel is flat too: a 2px accent border and an 8px radius.
+
+A tile that opens its zone carries `data-tilt` and a `.vd-tile__foil` layer: it tilts toward the mouse like the Dofus index cards, and the foil, a radial glow in the tile's hue (`screen` in dark mode, a softer `multiply` in light mode), follows the pointer through `--fx` and `--fy` while the tile has `is-tilted`. The representative moves forward (`translateZ`) as it tilts. An off tile has neither, so it never tilts. See [Design system components](../frontend/design-system-components.md) for `startTilt`.
+
 It imports only its own stylesheet, `metalogros.css`. Importing `game.css` and `achievement.css` too made Turbopack split the guide and achievement styles into more chunks and raised the page's LCP by about half a second.
 
 ## The island
 
 `MetalogrosIsland` (`src/components/achievement/MetalogrosIsland.tsx`) renders nothing; it adds behavior to the server HTML:
 
+- **Tilt**: after turning the links into buttons (a button keeps the link's `data-tilt`), it calls `startTilt` on the page with the reduced-motion query, and stops it on unmount.
 - **Tile panel**: tiles become buttons that open the zone's list in a panel spanning their row, right below. The URL hash follows the open panel, back and forward work, a hash on arrival opens its zone, and Esc or "Cerrar" closes the panel and returns focus to the tile.
 - **Search**: a WAI-ARIA combobox with a listbox. It parses the embedded JSON, and the first time it is used it loads `src/lib/achievements/metalogros-search.ts` with `import()`, so the search code is not in the page's initial JavaScript. Arrow keys move `aria-activedescendant` and skip off results; Enter opens; Esc closes and then clears. A zone result opens its panel; the others go to their page.
 
@@ -98,4 +109,4 @@ Lighthouse CI audits `/metalogros` (see [Performance budgets](../testing/perform
 
 - `tests/unit/metalogros-index.test.ts`: the view model.
 - `tests/unit/metalogros-search.test.ts`: folding, small words, limits and highlighting.
-- `tests/e2e/metalogros.spec.ts`: a tile opening its panel with the hash following it; a metalogro with nothing published dimmed, without a link or panel; search results with preparing items not selectable; the hash opening its zone on arrival; tiles linking to the lists without JavaScript; axe (WCAG 2.2 AA) in both modes with a panel open.
+- `tests/e2e/metalogros.spec.ts`: a tile opening its panel with the hash following it; the flat open panel (2px border, 8px radius); five tiles per row at 1024px and six at 1440px; an icon-only tile's icon inside its diamond; with a mouse, a tile tilting with its foil and returning, still opening on click, while an off tile and every tile under reduced motion stay still; each tile's hue border and the off tile's dashed one; a metalogro with nothing published dimmed, without a link or panel; search results with preparing items not selectable; the hash opening its zone on arrival; tiles linking to the lists without JavaScript; axe (WCAG 2.2 AA) in both modes with a panel open.

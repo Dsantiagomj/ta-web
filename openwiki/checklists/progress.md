@@ -8,6 +8,8 @@ sources:
     resource: repo://src/components/checklist/progress-shared.ts
   - id: openwiki-source-7d0703f319f0f8dba577fd0a
     resource: repo://src/components/checklist/progress-ui.ts
+  - id: openwiki-source-d6f80588b0c529412fb9c0ec
+    resource: repo://src/components/checklist/souls-ui.ts
   - id: openwiki-source-0cb986b9dee2806b719ee720
     resource: repo://src/lib/checklists/page.ts
   - id: openwiki-source-f4964b346e811eaee257007f
@@ -18,6 +20,8 @@ sources:
     resource: repo://src/lib/checklists/progress/legacy.ts
   - id: openwiki-source-88f171d1c78a86ee4646e5fd
     resource: repo://src/lib/checklists/progress/souls.ts
+  - id: openwiki-source-645c55a4d5ffbcae4ffdacda
+    resource: repo://src/lib/checklists/progress/state.ts
   - id: openwiki-source-af7dedc474ce28c9ff75bf80
     resource: repo://src/lib/checklists/progress/store.ts
   - id: openwiki-source-ede372402a144740e1c5a80c
@@ -26,12 +30,14 @@ sources:
     resource: repo://src/lib/derive/weights.ts
   - id: openwiki-source-593566627930c1980a42dd12
     resource: repo://tests/unit/checklist-progress-parity.test.ts
+  - id: openwiki-source-627236609fa87eec0f2bab55
+    resource: repo://tests/unit/checklist-progress-state.test.ts
   - id: openwiki-source-451433a2fc814a425a9fc7e3
     resource: repo://tests/unit/checklist-progress-todos.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Checklist progress engine
@@ -44,7 +50,7 @@ Members do not exist yet, so checklist progress lives in the visitor's browser. 
 | Engine | `src/lib/checklists/progress/engine.ts` (steps), `src/lib/checklists/progress/souls.ts` (souls) | pure functions, no React or DOM |
 | Derived data | `src/lib/derive/weights.ts`, `src/lib/derive/checklist.ts` | server, when the page data is built |
 
-`src/components/checklist/progress-ui.ts` binds them to a steps checklist page, and `souls-ui.ts` to a souls checklist page. What both share (safe `localStorage`, the toast, the backup and the dialogs) lives in `progress-shared.ts`, loaded with them and never with the island. Each island loads its UI with `import()` only on its own page (see [Checklist page](checklist-page.md) and [Souls checklist](souls-checklist.md)). The `/checklists` posters reuse the engine to paint a percentage per checklist (see [Checklists index](checklists-index.md)).
+`src/components/checklist/progress-ui.ts` binds them to a steps checklist page, and `souls-ui.ts` to a souls checklist page. What both share (safe `localStorage`, the toast, the backup, the dialogs and `paintProgressState`) lives in `progress-shared.ts`, loaded with them and never with the island. On every render both UIs call `paintProgressState(pct)`, which writes `data-ck-state` on `main.ck` from `progressState` (`src/lib/checklists/progress/state.ts`): `todo` at 0, `doing` between, `done` at 100. The checklist header's egg stays dim until `done` (see [Checklist page](checklist-page.md#one-color)); without JavaScript there is no attribute and the egg stays dim. Each island loads its UI with `import()` only on its own page (see [Checklist page](checklist-page.md) and [Souls checklist](souls-checklist.md)). The `/checklists` posters reuse the engine to paint a percentage per checklist (see [Checklists index](checklists-index.md)).
 
 ## The store
 
@@ -141,4 +147,5 @@ Old generic rows (`clase`, `alt:…`) map to the key of this checklist's row, th
 - `tests/unit/checklist-weights.test.ts` and `tests/unit/derive-checklist.test.ts`: weights and quest relations.
 - `tests/unit/checklist-legacy.test.ts` and `tests/unit/legacy-objective-indices.test.ts`: the migration, against fixtures in `tests/fixtures/legacy-checklist/`.
 - `tests/unit/checklist-backup-age.test.ts`: the backup age text.
+- `tests/unit/checklist-progress-state.test.ts`: `progressState` thresholds and `paintProgressState` writing `data-ck-state` on the checklist root, and doing nothing without it.
 - `tests/e2e/checklist-progreso.spec.ts` and `tests/e2e/checklist-migracion.spec.ts`: progress and migration in a real browser.

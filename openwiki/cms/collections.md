@@ -58,6 +58,8 @@ sources:
     resource: repo://src/collections/torre-correction.ts
   - id: openwiki-source-c46dfd6e94656494b7d9df7b
     resource: repo://src/collections/Users.ts
+  - id: openwiki-source-49969ab7321802b7685c534f
+    resource: repo://src/collections/zone-background-field.ts
   - id: openwiki-source-0dfc60e4771d54c856d97933
     resource: repo://src/globals/ChecklistsIndex.ts
   - id: openwiki-source-b450986b88b66a930e94b109
@@ -116,10 +118,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Collections and access
@@ -180,7 +182,7 @@ When `MEDIA_BASE_URL` is set, the storage plugin also sets `disablePayloadAccess
 | `categoryId` | number | Optional; DofusDB category ID |
 | `startCriterion` | text | Optional; DofusDB's raw criterion string (such as `Ps=1&Pa=1&PL>29&Qf=55`), stored as is for derived data later |
 | `prerequisites` | relationship to `quests`, `hasMany` | Quests to finish first |
-| `startPositions` | array of `{ npcId, npcName, mapId, x, y }` | DofusDB can give several, for example one per class; `npcName` is localized, the rest are numbers |
+| `startPositions` | array of `{ npcId, npcName, mapId, x, y, subAreaId }` | DofusDB can give several, for example one per class; `npcName` is localized, the rest are numbers. `subAreaId` is the subarea of the start map, from DofusDB's map positions; it picks the guide's zone background (see [Zone background](../frontend/zone-background.md)). An environment refreshed before the field existed needs a `pnpm data:refresh`; until then the zone falls back to the first objective's subarea |
 | `zone` | text, localized | The area of the start map, such as Astrub |
 | `achievement` | group of `dofusId`, `name` (localized), `slug`, `position`, `total` | The quest's achievement and the quest's position in it |
 | `rewards` | group | What the quest gives a level-200 character, as in Torre's guides and on dofusdb.fr (see below) |
@@ -207,7 +209,7 @@ The item and monster rows point at Payload IDs, so a guide can show names and ic
 
 ### Access
 
-`Quests` is wrapped in `withTorreCorrection` (`src/collections/torre-correction.ts`), and `questsAccess` is its `correctableAccess`: `read` returns `true` for anyone, because it is public game data; `create` and `delete` always return `false`; `update` requires a panel account. A `beforeChange` hook (`scopeCorrectionWrite`) keeps that update to the «Corrección de Torre» group: for a request with a user, every other field goes back to the saved value, while a script without a user writes DofusDB's fields and never the correction. The wrapper puts the correction group on top of the form, makes every other field read-only, adds the «Corregido por Torre» flag column and searches by both names. Items, monsters, dungeons, NPCs and achievements use the same wrapper; subareas and achievement categories keep `gameDataAccess` (`src/collections/game-data-access.ts`), where `create`, `update` and `delete` always return `false`. See [Torre corrections to DofusDB data](../data/torre-corrections.md).
+`Quests` is wrapped in `withTorreCorrection` (`src/collections/torre-correction.ts`), and `questsAccess` is its `correctableAccess`: `read` returns `true` for anyone, because it is public game data; `create` and `delete` always return `false`; `update` requires a panel account. A `beforeChange` hook (`scopeCorrectionWrite`) keeps that update to the «Corrección de Torre» group: for a request with a user, every other field goes back to the saved value, while a script without a user writes DofusDB's fields and never the correction. The wrapper puts the correction group on top of the form, makes every other field read-only, adds the «Corregido por Torre» flag column and searches by both names. Items, monsters, dungeons, NPCs and achievements use the same wrapper; achievement categories keep `gameDataAccess` (`src/collections/game-data-access.ts`), where `create`, `update` and `delete` always return `false`; subareas have their own access, where only an admin updates the zone background (see Dungeons and subareas below). See [Torre corrections to DofusDB data](../data/torre-corrections.md).
 
 ### How quests are filled
 
@@ -244,7 +246,7 @@ The refresh imports into Media, once, the icons of the items and the images of t
 Two more game data collections, written by the same refresh:
 
 - `dungeons` (`src/collections/Dungeons.ts`): DofusDB dungeons with a unique `dofusId`, a localized `name`, their `bosses` (relationships to `monsters`), a `level` (DofusDB's `optimalPlayerLevel`) and `refreshedAt`, wrapped in `withTorreCorrection`. «Necesitarás en total» on an achievement page shows the boss of the dungeon a guide note names, and a quest guide's summary can pick a dungeon by hand (see [Achievement page](../achievements/achievement-page.md)).
-- `subareas` (`src/collections/SubAreas.ts`): DofusDB subareas («Caminos rocosos») with a unique `dofusId`, a localized `name`, `areaDofusId` and the localized `areaName` («Llanuras de Cania»), read-only through `gameDataAccess`. A quest objective stores only its `subAreaId`; its name and area come from here by `dofusId`.
+- `subareas` (`src/collections/SubAreas.ts`): DofusDB subareas («Caminos rocosos») with a unique `dofusId`, a localized `name`, `areaDofusId` and the localized `areaName` («Llanuras de Cania»), read-only in the panel. A quest objective stores only its `subAreaId`; its name and area come from here by `dofusId`. A subarea also holds Torre's zone background: `background` («Fondo de la zona», an upload to `media`) and `backgroundMapId` («Mapa del fondo», the DofusDB map whose render it is, with the «Traer fondo de DofusDB» button under it). Anyone reads subareas; nobody creates or deletes them through the API; only an admin updates one, and `scopeSubAreaWrite` (a `beforeChange` hook) puts every field but those two back to its saved value when the request has a user, so a panel save never changes DofusDB data. A script without a user (the refresh, which sends only its own fields, and the zone background fill) writes what it sends. Every DofusDB field is `readOnly` in the form. Saving a subarea expires the `guide-pages` and `achievement-pages` tags, and the collection mounts `POST /api/subareas/:id/zone-background`. See [Zone background](../frontend/zone-background.md).
 
 ## NPCs: quest givers and their renders
 
@@ -275,6 +277,7 @@ The fields. `quest`, `title` and `slug` sit above three unnamed tabs: «Contenid
 | `body` | blocks | Rich text, image, video, callout and step blocks; see [Guide body blocks](blocks.md) |
 | `seo` | group | `metaTitle` (localized text) and `metaDescription` (localized textarea, at most 160 characters) |
 | `originalUrl` | text | The guide's Squarespace URL, set by the import; read-only and hidden when empty; validated by `validateOptionalUrl`, the same validator `media` uses; in the sidebar. A duplicate drops it (`clearOnDuplicate`) |
+| `background` | upload to `media`, optional | «Fondo de la página», in the sidebar (`pageBackgroundField` in `src/collections/zone-background-field.ts`, shared with achievement pages). It replaces the zone background of the guide's subarea |
 | `importSnapshot` | json, hidden | What `pnpm import:guides` last wrote, field by field, so a rerun leaves alone what Torre changed. A duplicate drops it |
 
 ### The summary and its needs list

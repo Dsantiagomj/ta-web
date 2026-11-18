@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ff0c6058fec678b25e71541c5edcb684b74cd278e68766b830ff4f7ac02ae033",
+  "pageVersion": "sha256:db184ff08092f0283d0263d178d90b07ca5dc5f54ac64a8b875bf856a255e9b3",
   "claims": [
     {
       "id": "claim_b918f6d1cc124cf385437a508e649e6b",
@@ -44,11 +44,11 @@
     },
     {
       "id": "claim_8571efb5af9941e49928afd36ba57734",
-      "statement": "The package scripts define dev, build, start, lint, format, typecheck, the test suites including test:lhci, review:release, seed:e2e, db:dev, data:refresh with data:quests as its alias, data:dungeon-notes, the import scripts (guides, Dofus guides, checklists, checklist cards, achievements, achievement prose, pages, section pages), fix:achievements, the guides:* maintenance scripts, seed:site-copy, panel:block-thumbs, media:sizes, migrate, migrate:create, payload, generate:types, generate:importmap and redirects:stubs, with build raising the Node heap to 8000 MB.",
+      "statement": "The package scripts define dev, build, start, lint, format, typecheck, the test suites including test:lhci, review:release, seed:e2e, db:dev, data:refresh with data:quests as its alias, data:dungeon-notes, the import scripts (guides, Dofus guides, checklists, checklist cards, achievements, achievement prose, pages, section pages), fix:achievements, the guides:* maintenance scripts, seed:site-copy, panel:block-thumbs, media:sizes, zones:backgrounds, migrate, migrate:create, payload, generate:types, generate:importmap and redirects:stubs, with build raising the Node heap to 8000 MB.",
       "evidence": [
         {
-          "resource": "repo://package.json#L12-L56",
-          "version": "repo-lines-v1:sha256:69ca2775a3861cb19728b6468e285a6d61703c7061a103b743fe9139ac68f022:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzhmMDQyOWU5N2Y0ODI2MWJjZjM1NmYzOWIyZjJlNDVmMWFhZjA2NGY3Yjg2MTQ0YjcxZjE3ODU0NjE4OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViNDQwZDkzMjUxZDhlNzY0Y2IzNjMzMjFhNjY2YjljNjgxNjM3YjNhMWY4ZWVkMDJlNDc3OTE3NTFhMDI2YTMifQ"
+          "resource": "repo://package.json#L12-L57",
+          "version": "repo-lines-v1:sha256:2a71950bb71597726fcdd95b63d52e21f32017ebe171ef20f69de7adb6b00465:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzhmMDQyOWU5N2Y0ODI2MWJjZjM1NmYzOWIyZjJlNDVmMWFhZjA2NGY3Yjg2MTQ0YjcxZjE3ODU0NjE4OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViNDQwZDkzMjUxZDhlNzY0Y2IzNjMzMjFhNjY2YjljNjgxNjM3YjNhMWY4ZWVkMDJlNDc3OTE3NTFhMDI2YTMifQ"
         }
       ]
     },
@@ -279,8 +279,8 @@
       "statement": "pnpm import:checklists, pnpm import:checklist-cards and pnpm import:achievement-prose are payload run scripts that pass their flags through and only count without --apply, and pnpm redirects:stubs rewrites the stubs section of the legacy redirect table.",
       "evidence": [
         {
-          "resource": "repo://package.json#L34-L55",
-          "version": "repo-lines-v1:sha256:f54d1a38bf0ddbd231bc1ca7633b4eebbf0a5a346ffa2ac3356015a2d78480d7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZjI4ODViYmYxZGJiOTI4YWZiOTIwNzU2YTc2M2NmODgyYjc4ZDUyZmQ2Y2I0MTAyNDUwMmUyNGZhMDNlNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNWE2MWNlYjRiZThiYzI3YWZlODE4NjYyYTUwYjFhNTQwZDVlN2Q0NjY1ZmRkNTUwNDUzMGQwNWQyNzM4YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
+          "resource": "repo://package.json#L34-L56",
+          "version": "repo-lines-v1:sha256:24917d71d1d7aa15531b07c746db08f8f218926dbb2864df4e86382484820a3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZjI4ODViYmYxZGJiOTI4YWZiOTIwNzU2YTc2M2NmODgyYjc4ZDUyZmQ2Y2I0MTAyNDUwMmUyNGZhMDNlNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNWE2MWNlYjRiZThiYzI3YWZlODE4NjYyYTUwYjFhNTQwZDVlN2Q0NjY1ZmRkNTUwNDUzMGQwNWQyNzM4YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
         },
         {
           "resource": "repo://scripts/import/import-achievement-prose.ts#L1-L10",
@@ -397,10 +397,24 @@
           "version": "repo-lines-v1:sha256:002c8d6d966011693c40b1b5dfa243b6da010c8bc1293692decee76ff8e04a2f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjN2RkYTJmZWVmZDE1MWMxMTYyOWQ2YjEyZDQ2MGRmMzQ1MGMyMTNlY2NmZTdhY2U0MTJkOTFkNzM1MjE0YjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTc0Nzc0MzAzYjI5ODBmMWM4NWVkMmY4NjkxZWI1YTM2YmVjYzM2ZGM4YzQ5MDIxZTJlNmJmN2I4M2U4OWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjNDBlNjQ0YWEwMGVmOGFhYmNkNTY5ZGM5NmNhNTM5OGQ3MWVhZjI5Y2NmY2MwYjRkN2FmZGEwZmUxY2I2YjAifQ"
         }
       ]
+    },
+    {
+      "id": "claim_41e2113906d84d63a17bcf9e615b36d1",
+      "statement": "pnpm zones:backgrounds is a payload run script that lists the subareas published pages use without a background and fills them with --apply, refusing a remote database without --remote and production without --production.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L49-L49",
+          "version": "repo-lines-v1:sha256:91a7df78dc05e8aee5b45728c695f66f4e04b5da4d940c04ef41af39245d2a55:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTFhN2RmNzhkYzA1ZThhZWU1YjQ1NzI4YzY5NWY2NmY0ZTA0YjVkYTRkOTQwYzA0ZWY0MWFmMzkyNDVkMmE1NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTFhN2RmNzhkYzA1ZThhZWU1YjQ1NzI4YzY5NWY2NmY0ZTA0YjVkYTRkOTQwYzA0ZWY0MWFmMzkyNDVkMmE1NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODIxOTFlY2FhZDNhNDc3Mjk1NGVhMTUwZWJmMGVhMTMzYzFmZDViODQyYjc1MzZiNzU3YzA3YzQzOGZiYzgyYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3MjkxNGYxYjQ1ZjcxOWMzZmExNGVjOTQ0NTI2YjI1N2Q5OGMxNmQ3MjYyMWIwMzY5NTU2ZWJlNzU4YTU4NSJ9"
+        },
+        {
+          "resource": "repo://scripts/zone-backgrounds.ts#L1-L40",
+          "version": "repo-lines-v1:sha256:7bde310a4f7ae02710b69581851449a50a32507f40a96fb38a5bb0f1a638b6d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1OTI3ZGRlNDE5MzEyYzg5MzFmNGRlZTA1Mjg1YWRiZTdlZWRlODkzZTM5ODc0OTUyN2IyNDQxNmU4MzMzZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

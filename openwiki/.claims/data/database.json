@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0014d816ee99326e40ca097f619e6173482e706212d8592ec7d4ebb936e9bda1",
+  "pageVersion": "sha256:80d7890d0dcbe0e862ac1cc6109134891451060958d9362b691ab0e78ae610b0",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are forty-nine migrations today, from 20261103_030359_initial to 20261116_122735_class_and_dungeon_pages, including those for quest stages, checklists, subareas, dungeons, panel roles, standalone pages, Torre's corrections, structured guide rewards, slug redirects, the game data refresh log, the site copy globals, the navigation global and the class and dungeon pages, registered in src/migrations/index.ts.",
+      "statement": "There are fifty migrations today, from 20261103_030359_initial to 20261117_005146_zone_backgrounds, including those for quest stages, checklists, subareas, dungeons, panel roles, standalone pages, Torre's corrections, structured guide rewards, slug redirects, the game data refresh log, the site copy globals, the navigation global, the class and dungeon pages and the zone backgrounds, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L297",
-          "version": "repo-lines-v1:sha256:4d92d033f65901f1160c0256ae288bb680971b0741ec184d6174bb500c21bfa8:eyJzZWxlY3RlZExpbmVDb3VudCI6Mjk3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/migrations/index.ts#L1-L303",
+          "version": "repo-lines-v1:sha256:f880e8659698f4abf85ff49ab3eaa236f9e3ac2de9b93822e48862fd06d0b915:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down, which reverts the last batch (every migration in the test database, newest first), and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the output names the latest migration in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L297",
-          "version": "repo-lines-v1:sha256:4d92d033f65901f1160c0256ae288bb680971b0741ec184d6174bb500c21bfa8:eyJzZWxlY3RlZExpbmVDb3VudCI6Mjk3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/migrations/index.ts#L1-L303",
+          "version": "repo-lines-v1:sha256:f880e8659698f4abf85ff49ab3eaa236f9e3ac2de9b93822e48862fd06d0b915:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L9-L74",
@@ -565,10 +565,20 @@
           "version": "repo-lines-v1:sha256:1036029869eb7beac233bcc307d3a5ddf54244773ca522cbd90d32c0913d9e18:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0MzdmMzFiYjk1OWUyYTMzYTcyZTNkMTA5YTMzN2E5NGNkYjNhZjcwZGFhNzFmYTdhZWFhODBiMzJjMWMyYzRlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI3YjcyMzk3MThjY2IyNjU3MzdhZjE2ZTYxYjc4YzkzZTFlYmNhZDZiMGRmZDIxNmFkYmVhNDQ4NDIyYzI1MmIyIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhZTgyYWU2NjIwNzRhNDkyYzNjYzk0ZmNlNDdjN2VkZjk3NTFmODU3MjU0ZWU1MDE1ZTQxZjBmN2U2ZWM0NjFmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIwMzJlMDkwMjQ0MmU5M2M1YTc4NDliMWNhMjg4NjMxMTIzNWU0NjlkNzc1ZTI0YjA2MGNlY2I0MGYzMTkxM2YwIn0"
         }
       ]
+    },
+    {
+      "id": "claim_839bd9f1ceac45e39603382a41b041a4",
+      "statement": "The zone_backgrounds migration adds background_id to quest guides and achievement pages and their version tables, background_id and background_map_id to subareas, and sub_area_id to quest start positions, with each background a media foreign key set to null on delete.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261117_005146_zone_backgrounds.ts#L1-L48",
+          "version": "repo-lines-v1:sha256:a88c6055676a63a493012d12c67a8c912b4e39f2d866f072732ef22e12804794:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NWQxYTdmNDMwNmVmNTVlMDVjZjAyMzBlNjQwZjVjZTFlN2MzYTU3MDMwMzBmMjQ1YjE3M2U4ZmE3ODc3NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

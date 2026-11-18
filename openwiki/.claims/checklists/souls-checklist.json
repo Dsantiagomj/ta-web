@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a675441a2b159b7eb2fd756519295bc0dd3345a6b7b3312d28b1ac7472a6d815",
+  "pageVersion": "sha256:ca296ea5b667c3deca38864c74068eabd3760c3ed01a071ee65e5208d085623c",
   "claims": [
     {
       "id": "claim_c0ef47c0e85e4c61baed75dc10d7a3f7",
@@ -81,8 +81,8 @@
       "statement": "SoulsView renders on the server the breadcrumb, header, ambience particles, Torre's callouts and a window with the progress strip, tools and souls list, plus progress dialogs that reset only the souls and the souls island.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SoulsView.tsx#L13-L50",
-          "version": "repo-lines-v1:sha256:f28ac3a6a40572261b5d08a4321be01178659fece23b9eac9b53b252cc5a1ea6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkZTliNmQ4MjcxZDZmZDBjN2YzMTMwYjBlNjFjYzczZTZlMzViMGNiNzg5Y2Q0NmJlODk5MDhlOTNiOGRjNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZmMwMTIwZDFmNGVkY2U1Yzg2MDMyNDNiY2U1MDU3MjlmNjhlMTkyNGJiOGY2MDgxYjk0MzQxZjJmODFlZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SoulsView.tsx#L15-L49",
+          "version": "repo-lines-v1:sha256:cc31f0abfa9bd64ebd1f3355d049f66f990d7575fc7a1011b8dc22053555b648:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NWE3NTE2ODk4Y2U0NmViZDU3ODllMjA5MGExOTMwM2Q4NDBiNmFjNmNlY2IzZTQxNTZmNmZmMTkzYTUzODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -149,10 +149,24 @@
           "version": "repo-lines-v1:sha256:2ae83be089b7a767cdede3eb5266b38421b3dace49606250b5a6e8e8ff405885:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZjYzZmQ0OGNhZTM1N2JhODMzNTk0MjZhMjAzMGRhOGQ5ZWE5N2ZhYTBkOTg2ODZlYzUwNmI2NGRjMzFkZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_3789630af3694b8db2ec3c28498ee455",
+      "statement": "The souls view marks the Dofus section as current, leaves the draft notice to the layout, and its island writes data-ck-state on every render so the header egg lights only when every soul is owned.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SoulsView.tsx#L30-L48",
+          "version": "repo-lines-v1:sha256:dc81f2df9222666fd606452fd373cd7b37afb7ce10d49402002252e445b9d7d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4ZGZlYzE1MWMzMDBmZmE1OTlmMTJjOTdlOTJjMzliNTA5MTRiY2Y3NzEwMGM2MjE3YTAwZTE0MDAxMjhjNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        },
+        {
+          "resource": "repo://src/components/checklist/souls-ui.ts#L218-L222",
+          "version": "repo-lines-v1:sha256:c2739e3be32f448bfa121ab48abca12998b95ba2de2d3e3b238ace8f905c6e39:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU0YTU3NzhjNDNmOWMwYTliZmNjZWUwZjk2ODVhZjM4NGE1ZTM3MmFlYzZiM2NlYjYyMjJiMGY3MzEyYWJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmUwYzYzY2ZmZTQ3YmM1YjI2ZDEzM2Y4NDgwMjU5MWIwNmQ4ZWIzNmI5YWJjMmQ3ODE4YTBhMDg4M2NiYzc5NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjRlYmM3NzE0YzU3OTU4YWQ0Mjg1M2M2ZDdlNDhmYmUyYjE3M2YyMWIwMWRjOTQ4NTgwNzBhMDI4YWE1ZjBhNSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:ab95ada78c885ff08c77f15d0668643c2a56c061daff84c7af0679225756caad",
+  "claims": [
+    {
+      "id": "claim_80f44a0473514a48b1dbc2f6fc7a5205",
+      "statement": "readZoneBackground returns the page's own background image when set, otherwise the background of the subarea whose dofusId is the quest's subarea, read as a visitor, and null when neither exists.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/zones/read.ts#L1-L44",
+          "version": "repo-lines-v1:sha256:91f1dd1c8f774cafe97b18deef22308fff5ae49439956a22b9be6f700a5684fb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyOTdhM2U5YmNlOWViN2E0ZTA1M2E4MDJkNzU2MGI1N2RhZmQ0ZGZlMzg4MjU0NjlmZmM2YTU4NGE0MjRlZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/zone-background.test.ts#L217-L244",
+          "version": "repo-lines-v1:sha256:82a00b87609d74711541aa158340b60893dc292967639a87ac211d23e8d51c03:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwZDBiMTBlN2MyMmRmNDAxOWJhMWMyNjhlYjU5ZDM3MmZhYWE4MTlkZjM2YjExYmE3ZTE5MDhiNGI5MzJkNjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlN2FlOWUxNzA5YzdiOTg2NDhhNzkwMzM0MjEzZWU2M2Q5ODY3ZmU1NjljODk0YzMzNTk5MzIyZTRiNTBhNDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_455ba5e6b680464a95be8df9fd0c13aa",
+      "statement": "A quest's subarea is that of its first start position with a subAreaId, else its first objective's, and an achievement page's zone quest is the first populated quest of its list.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/zones/background.ts#L20-L47",
+          "version": "repo-lines-v1:sha256:9295a71b653b9c4b8aa02005e55edc90a8d8e4fea5869343e79326642a890c63:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlOGZmYWFhZjFkYThmZWM4ZGEzYjI3MmNiODdhZmI2MTc4YjU3NGE3MWRlMmRkMTViNjk0N2QyNWZjNzlhZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjlmZDMwYzMwNGIyOTVmZWVjODZmNjU1NjU5NmNlN2UxMWJjYThmNWI0MDU3ZDVlNTIzYTllZTViNGU5ZTYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/zone-background.test.ts#L13-L60",
+          "version": "repo-lines-v1:sha256:1bbe23e45e180ee3ec6c36754a3f63096f1e0666c819bf2228856accf6ad4a0d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5MmVjZTdmMmViMGRjMDU0MDQwMjkxZGU0Mzc0MmQ2ZDRmMDE0YjlkMGJiNDdjMmVhYjJmY2Q1MTE3NjU1ZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwYzgzMzBmMDAyMGE2YzU1MTQ3YzJiZTM3NDY2OGI2YTg3Mjk2MWE5NTJlYzczYWY0ZDAyOGI3OTFiODI5ZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1Nzk1ZDc5Mzc4ZWNkNDdkMTA5Mjg3NjlmNGNhNGU1NmY0ODRhYzFmZDcxMTE0N2IwNmIwOTkyZDk3ZDdiNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ0MWU2YWJmOTAyNDM1M2VhZDlhYzZkMjZkNTc0ZWUxMzQ1MzIzN2VmMzBhMGU3NTAzN2E1NTRlYjFiMTkxZTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eba89e671ccf440c84337b57cf5d4d70",
+      "statement": "pickBackgroundMap takes the requested map, else an outdoor map where a published guide's quest starts, else the outdoor map of the subarea's main world map nearest the center of the others, else the first map, and null without maps.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/zones/background.ts#L58-L113",
+          "version": "repo-lines-v1:sha256:d8ed89e91d7c29e3845fccbeb8cd359205c743b43bd229aef88eb47af4da5a52:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyZjQ4Y2VjNzA1ZGQ5OGE4MDVhYWZlZjFhYWY1NDdmNTQxODJjNDNhM2QyOTk2NWFlNTg3YTI0ZDlkNTM4ODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1ODkwYWY4ZDk0NTg1YmRkY2U3OTU2MjdlYmFhZjAxOWJiM2Q0N2VmODU5NGRiZTdjOTBiYzc0NTg4Njk0MjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkN2EzYTk5YWYyYTI2Mzc4NjI3MGU4NDcyN2U2NzBjZTMwYzVkZDc3NTMzOWEyMjVlZDRjMGY4YjdlMmFjMzQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/zone-background.test.ts#L68-L86",
+          "version": "repo-lines-v1:sha256:65f686b270977887f4228803c0138185c0df48daf1ad8159466e0cb7190cac5e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjNjJiNDM0M2EwYTMwODAyMmFiNmZiMGM3NGM1MzBjYzExZmIzNjQ1YjQ4MTUzZTgwZWM0YWZlMzdkZTIzMWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4MThmZGZmZTA1MmJiNDhjYjI0NWJiNDUxM2VhMjk2MDhlNjJjZjQ5MzEzMmU2NTI0ODY1ZTk4MmRmNjgwMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5Njk1NTdhYjcyYzI4YjkyMTQ2NGU4OGEyMTQ1ZmVhYmQzM2FiOTNmNmIxYmY3YTRlYzQzMjdmY2U1YmQ0ZDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4e6b5506aaa3440192ef903475f48048",
+      "statement": "The stored render drops the bottom 7 percent and the right 2 percent of the DofusDB map render to remove its watermark, and is saved once per map in Media keyed by gameAsset dofusdb-map-render:{mapId}.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/zones/background.ts#L115-L130",
+          "version": "repo-lines-v1:sha256:358eee7ecf0f9c2929c20743c9cef0e68ca596e49d20df3c307d45047643b09d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjZmYyMWM0YWYxYzUxNWU0MDBlNDllNTFlNTg0MTVlMThhNTQ1MTRjOGMxNTk3ZjM5NTU3Y2FlOTQ5MmU0ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NjE0N2IwZjQzMDkyNDQ3ZjA2NWQ5ZjNhOThjZjE2ZWRkYTgxNjc0NTM4Njc5YmU4YzQ2MDcwYTA0OWNhNWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmZTJkMzE5YTU4OGQzMzNiMjdmNzgzODE0YTJjZDY1MDhjYjhmMjRmMThlM2I4ZmM2NTk1ZDU1ZThkNGVmZDQifQ"
+        },
+        {
+          "resource": "repo://src/lib/zones/background.ts#L6-L10",
+          "version": "repo-lines-v1:sha256:d192bcaae09367f92646c9af63d841a20f555efcf8b16ade93c4c6ab17c26a01:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTViNzdhOTcwYmFhNDg4YTU5ZTgwZWZlZmExZGUyYWYxNmU2NWIwZTA5MDBjMGQxMmU3MjhhM2VjMDdiMDUwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjZjNDdlYzY2ZjZlMjExODExODNhZWYxODc1MTIzZDI5YTNhZWE4YjliZGU4YTg0Y2Y4ODljYWM5MjM0NTIyNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzNjM2MzM2U3ZDFmMDkwNzk2YzlkNDViMDk0YzNhZmRjMTJlNjlhZWZlZTQyYTY2Y2E2MzhmNWJmOWI1MDFiOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMThlNDUxNGZlYWU4NDgwMmY0MTFmMGJjMzFkZTdiOWM3YzhmNzZiNzA1YjcxNWM4ODQwN2FkODI0OTM5OGJlYyJ9"
+        },
+        {
+          "resource": "repo://src/lib/zones/fill.ts#L57-L128",
+          "version": "repo-lines-v1:sha256:86598441fa9556213d912e04e44be5b4706f6554540035bb450e6c6442d3f10a:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxMDNjYjdmYTQ3YmFkMTc0YTEwZjNlOGQzM2FhZjMzZmM2OTQyMTJmYTNmYzFiZjYyNmM1NjljYzc0MzNhNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwY2VjMzkxZDBkNTZjYmU5ZjBhNmJhOTJlNGUxMmNjYmUzNjAxMDc5NmJkYzhkYjdmYWMyOGUzODQzNWU4OGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_99e46768f1e5427295654eca88021637",
+      "statement": "fillZoneBackground uses the given map, else the subarea's backgroundMapId, else pickBackgroundMap over the DofusDB maps, then saves the Media and the map on the subarea, and throws without changing the subarea when DofusDB fails.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/zones/fill.ts#L130-L170",
+          "version": "repo-lines-v1:sha256:954398b0a30577b53c0f32bac4ae398d55d1942309b211cd603ef5259510aee6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxZmM2ZDQ3NjA5OGFiMWU5N2QwNDAwOGE1YjNlNGU3MGFkMTI3YzE2MDRmNmY2Y2Y5YmIwMTk3NzRhZDhlZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5YzY5MWZlMDZlNjYzMTViNjI1NjMyYmMzYjkyODU4OWZhZGQ3MWQ1NjBkYzc2ZDFkN2VkZTFjZmYwNDI0NDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b9b1344915b43cd878bda7c0d33ebd0",
+      "statement": "POST /api/subareas/:id/zone-background answers 401 without a user, 403 for a non-admin, 400 for an invalid subarea or map ID, 404 when DofusDB gives no map, 502 on failure and 200 with the map and Media IDs, always with Cache-Control no-store.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/zone-background.ts#L1-L64",
+          "version": "repo-lines-v1:sha256:2992f53a3377f14ca1b6745e5a4f18550b4b6d10625cb1eaa629961fc99a1581:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwY2I4OTMxNTNkMDhkYTU1MzdmZjg5ZGY4MjQ4YTU4ZWZmMjlkMjkyZDhhOWQ3NjNiMTg2MzMxMmYxYThlMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/zone-background.test.ts#L93-L150",
+          "version": "repo-lines-v1:sha256:3d1dec2effd2802142a93c7781f310de45f14756e27a6223e869155fd9126c40:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwZjE3OTc4MDBjNDkwZjkyNWFiODRjZDAxNjQ1ZmY4YWQyZmMxM2VmNDcxMmJiMDQ0MTM0ODE2MGM3MTU5ODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiNGI0ODhiZWMyZTI4NzgzMDNlMzA1ZTAzNDVjY2YwYmEyNjVkYjg4NzI0ZjI1MDk4ZGUzNDNiYjBjMGYzMzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlOTY0ODQ0MjY3MTUzYTFkOTZlYTM2YmFiZWVjZDAwYTJhZjYzNjllNjdhMWYxMTkzZjI5ZmYxNGUwMWZhMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA0NTFiODUzZGIxZTQzYzY0ZWZjOWJiNjc2YmIzMWE0NWU4M2UxMDQ2ZWNkMzY3MDhiMDcxMWUwMTU4OWUxYmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_302a3ebced9e4b72858081f03037a1ba",
+      "statement": "ZoneBackgroundButton shows «Traer fondo de DofusDB» only to an admin on a saved subarea, posts the typed map, announces the result in a status line and puts the saved Media and map into the form as initial values.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/ZoneBackgroundButton.tsx#L1-L83",
+          "version": "repo-lines-v1:sha256:63ca45899087edfb0fba6076922392ef338c77a981d6190244e6432dfeffe7c0:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_438e96ee95a74796939ad245551f9e82",
+      "statement": "pnpm zones:backgrounds lists the subareas that published quest guides and achievement pages without their own background use and that lack a background, and with --apply fills each one, continuing past failures and changing nothing on a second run.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/zone-backgrounds.ts#L1-L40",
+          "version": "repo-lines-v1:sha256:7bde310a4f7ae02710b69581851449a50a32507f40a96fb38a5bb0f1a638b6d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1OTI3ZGRlNDE5MzEyYzg5MzFmNGRlZTA1Mjg1YWRiZTdlZWRlODkzZTM5ODc0OTUyN2IyNDQxNmU4MzMzZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/zones/backfill.ts#L1-L151",
+          "version": "repo-lines-v1:sha256:b72fe963372d9cfbe16d91fb377677e71644c0d74cdf3b11538890ddcc6636f1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmYjcwMmVjM2U4MDIwY2UyYjVjMDQzOTdhY2Y1OGY1MmRhOGNkMGQzMWI0MjgwM2E5MzRkYTMwMzdhM2MyZjI1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://tests/integration/zone-backgrounds-script.test.ts#L134-L170",
+          "version": "repo-lines-v1:sha256:77c7ef6df08b1ebaeb3f44939d04118f5d1a50c072bb1fb1715dbb50a6e4ef29:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5MjVhNjBkMWE1ODFmYzg4Mjk1MWI2N2Y5ZWExNmFlYmRiM2M5NTg1ZTUyY2FkOGFlOTJiYTk5ZWQwYTU5ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiYTAzOTVmYTZmMzk3ZDYxODk0MmU1MjZiYmJkYWM1ZGY1MDc2NjkyMDZkMmZhYTg5MDJhMjQ0NTVjYmQ2YzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ff14328188ab42cea21ee5e897817602",
+      "statement": "The zone background layer is a fixed, full-width, 100lvh element at z-index -2 under a flat --color-bg veil at 88 percent in both modes, and it is hidden under prefers-reduced-data, prefers-reduced-transparency and in print.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/game/game.css#L1536-L1607",
+          "version": "repo-lines-v1:sha256:6f07487b915f40c26a7765a1fe6744d2b0f86cb176fc66cd242c5881e5ceffd3:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmMzk0ZmEzOTczZWY5MmUwZjhiYzk0MzI2YmU4OTdiZGIyZWU4ZTJkNzBiYjZmZTRlNGIxODY5NjhkOWY1ODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/fondo-zona.spec.ts#L42-L98",
+          "version": "repo-lines-v1:sha256:19f257145131c5f6b2f680f7a16458e94d37f944622c99689dda85fc7aeba8ba:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5M2QxNDA1MWRmYTk1Mzc1NmU3YTVhZDA4ZDk1ODQyMTkzOWYwY2NjNTlmYWViOTBhMGJlYjU5OTQ4NjVjY2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMjg5MGFjMzAwNmZkMGNhZmEyMmQ3ZmVjODI3YWEwZmY0NjQ1ZWNhYjI2OTIwZTNkNTNkZDQzYjY1OGIyMDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3MWYxMzk3NmJhNmVmYWUzNjBmNGZjNjI5NmMyMjMzYWQ0N2VlMzc1ZDljOWI1ZDNjZjk3YTdiOTFkNjZhNmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3951449349c748c186dd29bba3ff169d",
+      "statement": "Over the veil, page rules use --zone-rule, muted at 70 percent over line, and in light mode muted, the accents and the hues are mixed with 16 percent black so text keeps 4.5:1.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/game/game.css#L1561-L1584",
+          "version": "repo-lines-v1:sha256:5555103cdc69c88ec80e72118d411eaab6995349e7d97274322153218c74a84f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhODhiYzI2MTY1OGVlMjgwYThiNmU3ZTY5NTlmMjZiOWUwYTVlOTBkMDMxMDQ1YmJmZWNhN2FiODljMmRlMmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2YjExOGYxZWE1ZGM3Y2M1YjBjZDMwZTJiYWM0M2RjM2I0Y2VkMDNmMmNlM2RiNWIxM2Y5ZmNjMzAzMjAzYmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM2Y2FiMTAzOWE0ODdmZTEyNjgyMzIzZWZmODJkNDIxZjE0NzhlYzM5M2MyNGM2MzhkYTAxYzlhNGIzMDUzYTYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/zone-veil.test.ts#L73-L107",
+          "version": "repo-lines-v1:sha256:e22947264f669cef6c2d36642ed9ddd9f2ca5570c80bc514376639a30c22d753:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwODBlMjZlZWRmZTIxOGY4ZWRmYWJkZWEzMmM2YzZiY2ZhOGZkOTE0ZTc4YjUzZWVkMWY0MGIyZDk5NWU1MWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhMGFkMTFhMTY4ZjY5NWM4Mzc5OWM1NzljODEyNjE1ZGZkYjhlZGIxMzAwNjRhZDI0YjQ1N2FjZDgxYzAzZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9df6e2c055bf42a78ac35a3febceaaef",
+      "statement": "ZoneBackground is decorative and never competes with the content: aria-hidden, empty alt, lazy, async decoding and low fetch priority, with sizes that follow object-fit cover so a tall viewport takes a wide enough file.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/game/ZoneBackground.tsx#L1-L51",
+          "version": "repo-lines-v1:sha256:9ce0500e2695f7ba5ded7e830a47c14c0aad996ed0a641c64cf8340cc020b4e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Njc1YTg3ZWViMjRiNWZjZjUyMTgyZDc4YmFjYTdiOWUwMTdmMzkyOWNhMzEzOTNjYzJmYzhiNGQ4ODMzYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/zone-background-layer.test.tsx#L24-L47",
+          "version": "repo-lines-v1:sha256:32e8365e1905339debf16d23f6ca91788be7811eabab74772d6b1023de0dc730:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlMjBiZTE5OTAwYjk5ODRmNjI0NWE1NzBmYWEzY2I4ZGI0MzVjMzUwMjhjN2RhNWQ0MTIzODQxZTkxZDMyZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkM2EzYTZjMmFmMTRmNWI0MTkyMDQ1Nzg0N2FjNDE2ODkzZTI2MDBkOGI5MTIzNzc0ZGQ1MzU3MGRlOTlmYjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f08448bf17e740f2ab34d080150a9ca4",
+      "statement": "Quest guides and achievement pages share an optional sidebar upload field background, «Fondo de la página», that overrides the subarea background.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/zone-background-field.ts#L1-L17",
+          "version": "repo-lines-v1:sha256:87703e6875d232fd29fbca927cc2850aa08fd663f59ba239145df8f96634b908:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4NWU5ZDMwZTBiNjJkNzA2NjA1MDVjZjhhZjY4YjYzOTM0OWQ3ZjAyY2IzOTFjYTU3NDdlMzhiOWVhYTNkZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-18T11:06:38.803Z"
+  }
+}

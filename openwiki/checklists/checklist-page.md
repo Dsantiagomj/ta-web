@@ -14,6 +14,10 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
   - id: openwiki-source-4f2e53306895c158accd92ec
     resource: repo://src/collections/revalidate-guides.ts
+  - id: openwiki-source-ebf2f4a61c1a17652d2f7655
+    resource: repo://src/components/checklist/checklist-ui.ts
+  - id: openwiki-source-c614cc57fb9ff835c46ee14d
+    resource: repo://src/components/checklist/checklist.css
   - id: openwiki-source-18319f256508213c34533c97
     resource: repo://src/components/checklist/ChecklistIsland.tsx
   - id: openwiki-source-4c3255dd987453003d4232f4
@@ -44,10 +48,12 @@ sources:
     resource: repo://src/lib/checklists/road.ts
   - id: openwiki-source-fb8279296835a1a58ec3f427
     resource: repo://src/lib/site/legacy.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+  - id: openwiki-source-8728a958dd5a79ae9c3ca846
+    resource: repo://src/styles/theme.css
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Checklist page
@@ -84,6 +90,12 @@ Game records go through `shown` (`src/lib/checklists/relations.ts`): Torre's cor
 - the ambience particles behind the page (`Ambience`, with `checklistAmbience(checklist.ambience)`), rendered inside the page so they inherit the egg color; `theme` leaves the site's own (see [Styles and layout shell](../frontend/styles-and-shell.md));
 - a window (`ck-win`) with the progress strip and three tabs: «Diario» (the step list and the open step; on phones the step opens in a sheet), «Prerrequisitos» (when there are groups, callouts or items) and «Objetos» (the totals, only when some row counts);
 - the step sheet and progress dialogs, used by the island.
+
+The `<main>` carries `pageSection('dofus')`, so the header marks the Dofus section as current.
+
+### One color
+
+A checklist page uses no item hues (the theme hues that tint lists on guide, achievement and metalogros pages). The window (`.ck-win`) has a 1px `--color-line` border, `--radius-sm` (8px) and `--color-surface`. Step numbers (`.ck-row__n`) are `--color-accent`. Three parts keep the Dofus-tinted gradients of the old hub on purpose: the progress strip (`.ck-strip`), the tabs row (`.ck-tabsrow`) and the step banner. The header egg of a Dofus checklist stays dim (greyscale, darker in dark mode, faded in light mode, no glow) until the checklist is complete: the progress island writes `data-ck-state` on `.ck`, and only at `done` does the egg light up in its colors. Without JavaScript there is no state and the egg stays dim. The rush's road eggs (`.ck-egg--road`) follow their own rules.
 
 ### The Dofus road
 
@@ -137,9 +149,9 @@ What the page does not put in its HTML (who gives each quest and where, each obj
 
 ## The island
 
-`ChecklistIsland` (`src/components/checklist/ChecklistIsland.tsx`) is a client component that renders nothing and syncs with the server HTML, `<dialog>`, `matchMedia` and the details API. It turns the tab links into ARIA tabs, keeps one step open (the one in `#paso-N`, or the first on wide screens), filters steps by search text, and moves between steps. Once per page, after paint, it fetches the details and paints the quest givers, coordinate chips (copied by the guides' `PageEnhancements` island) and subareas; on failure it shows a message in its status region. The effect restarts only for another checklist or a new version, so a live preview refresh that brings the same data does not reset it. Its strings live in `island-strings.ts`, so it never pulls in the panel strings.
+`ChecklistIsland` (`src/components/checklist/ChecklistIsland.tsx`) is a client component that renders nothing. Its only work is to load `checklist-ui.ts` with `import()` and call `startChecklist`, which syncs with the server HTML, `<dialog>`, `matchMedia` and the details API and returns its cleanup. It turns the tab links into ARIA tabs, keeps one step open (the one in `#paso-N`, or the first on wide screens), filters steps by search text, and moves between steps. Once per page, after paint, it fetches the details and paints, through `fillDetails`, the quest givers, coordinate chips (copied by the guides' `PageEnhancements` island) and subareas; on failure it shows a message in its status region. The effect restarts only for another checklist or a new version, so a live preview refresh that brings the same data does not reset it. Its strings live in `island-strings.ts`, so it never pulls in the panel strings.
 
-The `/<slug>` route ships this island to quest guides, achievement pages and Dofus guides too, which sit close to their 150 KB JavaScript budget. So the island loads the progress UI (`progress-ui.ts`, with its strings in `progress-strings.ts`) with `import()`, and only on a checklist page. See [Checklist progress engine](progress.md). Lighthouse CI gives checklist pages 180 KB of JavaScript instead of 150 KB (see [Performance budgets](../testing/performance-budgets.md)).
+The `/<slug>` route ships this island to quest guides, achievement pages and Dofus guides too, which sit close to their 150 KB JavaScript budget. So the island itself holds only the `import()` of `checklist-ui.ts`, and `checklist-ui.ts` in turn loads the progress UI (`progress-ui.ts`, with its strings in `progress-strings.ts`) with `import()`; both run only on a checklist page. See [Checklist progress engine](progress.md). Lighthouse CI gives checklist pages 180 KB of JavaScript instead of 150 KB (see [Performance budgets](../testing/performance-budgets.md)).
 
 ## Tests
 

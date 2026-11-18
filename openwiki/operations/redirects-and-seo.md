@@ -62,10 +62,10 @@ sources:
     resource: repo://tests/unit/slug-redirects.test.ts
   - id: openwiki-source-bdd83d0bfa58ad00bbe25676
     resource: repo://tests/unit/stub-redirects.test.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Legacy redirects, sitemap and robots.txt
@@ -113,7 +113,7 @@ The rules, also in AGENTS.md (Redirects):
 `src/proxy.ts` runs on every request (no `matcher`). `legacyResponse` looks the path up:
 
 - **Moved (301 or 307).** A redirect to the target on the public origin, `siteUrl(process.env, request.nextUrl.origin)` from `src/lib/site/origin.ts`, because behind Railway's proxy the request only knows the internal host. The old query string is dropped; the target keeps its anchor.
-- **Gone (410).** A short Spanish HTML page written by `gonePage(mode)` (`src/lib/redirects/gone-page.ts`): «Esta página ya no existe», a line saying the address belonged to the old site, and a link back to the home page. The proxy writes it without going through Next, so it is standalone HTML with its CSS inline and no stylesheet, font or script. Its colors are Arcano's, in the visitor's mode read from the mode cookie; `tests/unit/legacy-redirects-proxy.test.ts` checks they still match `theme.css`.
+- **Gone (410).** A short Spanish HTML page written by `gonePage(mode, theme)` (`src/lib/redirects/gone-page.ts`): «Esta página ya no existe», a line saying the address belonged to the old site, and «Volver a la portada» as the filled primary button. It is left aligned with the site's side margins, not a centered column, and uses the system fonts. The proxy writes it without going through Next, so it is standalone HTML with its CSS inline and no stylesheet, font or script. Its colors (`GONE_COLORS`: background, ink, secondary ink, button and button ink) are those of the visitor's free theme and mode, read from the `ta-theme` and `ta-mode` cookies: Amakna dark without cookies, and Amakna for an Ocre cookie, as on the rest of the site without the entitlement. `tests/unit/legacy-redirects-proxy.test.ts` checks they still match each free theme in `theme.css`.
 - **Not in the table.** The request continues to its page.
 
 In the dev environment the proxy then adds the `noindex` header to every response, redirects and 410s included (see [Dev environment: public, never indexed](dev-gate.md)). The lookup is one `Map` read per request and never touches the database.
@@ -168,7 +168,7 @@ The home page also sets its canonical URL to `/`, without the query string.
 ## Tests
 
 - `tests/unit/redirect-table.test.ts`: `buildLegacyTable` (301 and 410 merged across sections, 307 with `permanent: false`, repeated sources, chains, non-slug sources, reserved routes, off-site and backslash or whitespace targets), `loadLegacyTable` falling back to an empty table, `isLegacySource`, `legacyKey`, `lookupLegacyUrl`, and the real file: it builds, each section has a description, the hubs and metalogros go where expected with 301, the stubs use 307 or 410, a pending stub has no row, and pages still on Squarespace are not redirected.
-- `tests/unit/legacy-redirects-proxy.test.ts`: the proxy's 301 without the query and with the public origin, the stub's 307, the metalogro anchor, case and trailing slash, the 410 page, pass-through, `noindex` on redirects in dev, and the 410 page's standalone markup and Arcano colors in both modes.
+- `tests/unit/legacy-redirects-proxy.test.ts`: the proxy's 301 without the query and with the public origin, the stub's 307, the metalogro anchor, case and trailing slash, the 410 page, pass-through, `noindex` on redirects in dev, and the 410 page's standalone markup, left alignment, system fonts, filled primary button and colors of each free theme in both modes, Amakna dark by default, following the visitor's theme and mode, and Amakna for Ocre.
 - `tests/unit/stub-redirects.test.ts`: stub matching and the generated section.
 - `tests/unit/slug-redirects.test.ts` and `tests/integration/slug-redirects.test.ts`: following chains and loops, row validation, when a save moves an address, and the hooks writing, updating and releasing rows on real publishes.
 - `tests/unit/sitemap.test.ts`: the entries (home, indexes, published pages), drafts and «En preparación» left out, no panel or API, per-page and per-index dates, no table sources, no duplicates.

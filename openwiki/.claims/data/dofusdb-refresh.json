@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2821063be11abdff96d7db7dada459329a8b2ab749bf0c2031d7eedf64ac094a",
+  "pageVersion": "sha256:a394e77ec877a4eb30268d96fcb751f7c6af90f4bed2075a53118138542dbc39",
   "claims": [
     {
       "id": "claim_a1981ccc312a49f2aad1295589522c0e",
-      "statement": "Game data from DofusDB, including quest-giver and objective NPCs, subareas, achievements, achievement categories and dungeons with their bosses, is read-only in the panel except each record's Corrección de Torre and refreshed by pnpm data:refresh, and Torre picks it through relationship fields.",
+      "statement": "Game data from DofusDB, including quest-giver and objective NPCs, subareas, achievements, achievement categories and dungeons with their bosses, is read-only in the panel except each record's Corrección de Torre and a subarea's zone background, is refreshed by pnpm data:refresh, and Torre picks it through relationship fields.",
       "evidence": [
         {
-          "resource": "repo://AGENTS.md#L169-L169",
-          "version": "repo-lines-v1:sha256:28f12e8d3420a00defa34a0ba9e7591206cfa0d68f5aaa42bcff8689ccae15b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjhmMTJlOGQzNDIwYTAwZGVmYTM0YTBiYTllNzU5MTIwNmNmYTBkNjhmNWFhYTQyYmNmZjg2ODljY2FlMTViMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjhmMTJlOGQzNDIwYTAwZGVmYTM0YTBiYTllNzU5MTIwNmNmYTBkNjhmNWFhYTQyYmNmZjg2ODljY2FlMTViMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2I5ZmFlZmE1ZGUyODYwZDY2MjU5ZDlkNzNmZGEzNjgxMmNkMTdjYTg4Mjg0NzBhNjAyOGUwZDczNWI1OTc1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGM3ZmJkNjZiNTRkNGJjMTQyNjI3MmIxNDgxNzBhYjBmYmY3OGIyNjUyZDIyNGNiNzkzOTZlYjMyYzE0NzI4NiJ9"
+          "resource": "repo://AGENTS.md#L170-L170",
+          "version": "repo-lines-v1:sha256:c6d04ef8fcca666a24fa57f0af0f1e281b92b9d9801704dd9f4b0c08f9e58291:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzZkMDRlZjhmY2NhNjY2YTI0ZmE1N2YwYWYwZjFlMjgxYjkyYjlkOTgwMTcwNGRkOWY0YjBjMDhmOWU1ODI5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzZkMDRlZjhmY2NhNjY2YTI0ZmE1N2YwYWYwZjFlMjgxYjkyYjlkOTgwMTcwNGRkOWY0YjBjMDhmOWU1ODI5MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2I5ZmFlZmE1ZGUyODYwZDY2MjU5ZDlkNzNmZGEzNjgxMmNkMTdjYTg4Mjg0NzBhNjAyOGUwZDczNWI1OTc1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGM3ZmJkNjZiNTRkNGJjMTQyNjI3MmIxNDgxNzBhYjBmYmY3OGIyNjUyZDIyNGNiNzkzOTZlYjMyYzE0NzI4NiJ9"
         }
       ]
     },
@@ -64,15 +64,15 @@
     },
     {
       "id": "claim_681b5099684748e0b1387ba51561c6c9",
-      "statement": "mapQuest names a quest in Spanish, falling back to French and then to 'Misión <id>', keeps the raw startCriterion, and builds start positions with NPC names and map coordinates, leaving nulls when a lookup is missing instead of failing.",
+      "statement": "mapQuest names a quest in Spanish, falling back to French and then to 'Misión <id>', keeps the raw startCriterion, and builds start positions with NPC names, map coordinates and the map's subarea, leaving nulls when a lookup is missing instead of failing.",
       "evidence": [
         {
-          "resource": "repo://src/lib/dofusdb/map-quest.ts#L100-L144",
-          "version": "repo-lines-v1:sha256:97c31ada37e02dfdc72544c008395360357da6dc44a694f071e15974bca9dc39:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiMTQ0NjE4NjdkMWFlNTJjMmUzZjdjODY4NWVhZDY1MjZjNWQ1ZmJmMzFkYjNjNTA3MjFmMDQ5ZDg5ODgxYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkMDJiZWQwMDJjMTJlZWYwY2FmZmZjYjFkYmI4MjhhYjE5Mzk1OGE5ZmVjNWUxYjhmNDFjZjg1OTU5MDI5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/dofusdb/map-quest.ts#L100-L146",
+          "version": "repo-lines-v1:sha256:c4a7e898d3923f6f98ad3c456ec6e53f49a6d2d81c9d6c6740273ef3b643530c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiMTQ0NjE4NjdkMWFlNTJjMmUzZjdjODY4NWVhZDY1MjZjNWQ1ZmJmMzFkYjNjNTA3MjFmMDQ5ZDg5ODgxYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkMDJiZWQwMDJjMTJlZWYwY2FmZmZjYjFkYmI4MjhhYjE5Mzk1OGE5ZmVjNWUxYjhmNDFjZjg1OTU5MDI5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L20-L77",
-          "version": "repo-lines-v1:sha256:7470582266c5256532a811c72df973954babe8c1480e6307e8a06ba92ccaea24:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNmRlYzZmYzlhY2MwMDA2ZjE0MzkzYjhhNjkyNjc5MTQwNDljZjkxNmM3YTE4MGMzNTYwMjc3NWEzZmU1YzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNWE0NjBlYzQ5YjliNzk4ZGEyYzhmZThjNWE3YjVlODQzMTJiYjY2MjYwNDYxMzdlOTZjNDQ4ZDU2ZDNlMjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUxZTY3OTQ4ZDZlYzRlZGY1YWI5ZjA0NGVkNjIwZGE3N2QzOGZiYWNiZGY1N2NkMjU2ZWRhNTFkMzI0ZjQxYjkifQ"
+          "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L20-L79",
+          "version": "repo-lines-v1:sha256:a46453172279ee12a3e2a37e2bc2c8123fa81796bd0fe9ab2565f1c44ff95f87:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNmRlYzZmYzlhY2MwMDA2ZjE0MzkzYjhhNjkyNjc5MTQwNDljZjkxNmM3YTE4MGMzNTYwMjc3NWEzZmU1YzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNWE0NjBlYzQ5YjliNzk4ZGEyYzhmZThjNWE3YjVlODQzMTJiYjY2MjYwNDYxMzdlOTZjNDQ4ZDU2ZDNlMjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxNWU3ZTZhYTRlY2Y0NGFiNzYwNGMyMmZhMDEzYzcyMzYwN2UzOWRiNWRiYzVjZDQ3OGUyZmZiMWIzNTg1NDQifQ"
         }
       ]
     },
@@ -927,10 +927,38 @@
           "version": "repo-lines-v1:sha256:3583bcf8e684d8054cdd285a5b3a2298b4faab4c6863d94b22859c57a58cacad:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjNGU0ZmZmNDQ1ODM4N2UyNjY1NzNiN2M3ZTUwMDJkOWMwYzllMDBlNDU2NGNhN2FjNDI5M2I1MmQxM2NlMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViNTEzYzExZjMyOTUyN2UzOTI1ZTIyY2JkNTcxZTQxZjRmM2QwMDhiMzUwNzUzNjBiNTdjMThiYmU1YTUxYWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0NmM5MjVkYzNkYWZhZTcyOTliNDkyNmQ1YjlhY2MxYTgxZTdlZjUyOWIyZmU1ZGZkMDE2MjY1NjJkY2VkMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzZjFmMmFmOGZhNjU0NmE5NmVkZGMyYzBiZTExOGU4MWU2Y2VmNWEzYTE0NGRlMzU5N2M1ZmQzMzg5NzJjNTcifQ"
         }
       ]
+    },
+    {
+      "id": "claim_7c3121f5636b46f1a4a214a2b78715e2",
+      "statement": "refreshSubAreas writes only a subarea's dofusId, name, area ID and area name, so a refresh renames a subarea without touching its zone background, as tests/integration/zone-background.test.ts checks.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofusdb/refresh-subareas.ts#L37-L59",
+          "version": "repo-lines-v1:sha256:3a72c66d3e9b20abebff81e678738afd0bdc539c5da01899ef934023d5aeffef:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDM2ZGI4NDBjMzY0ZDhjYWU3MDk0NjBiMjczYTI2YzA1MGY5OTMxYWMyNzJmYjUxZjU4NjJkMzMyNjUwM2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkMTkyMjI2YzM0MDk0MjBjNWJjYjMxOWFlODA1ZDA2OWIyYjI4ZTc2OGIzMzYxNTg2OTllMDdlMDBiYmRkNDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/zone-background.test.ts#L150-L165",
+          "version": "repo-lines-v1:sha256:f4169831ccf287cc915de1139af76cdffa29f912fc27c78e7a043f3f3dc1dfa9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiNGI0ODhiZWMyZTI4NzgzMDNlMzA1ZTAzNDVjY2YwYmEyNjVkYjg4NzI0ZjI1MDk4ZGUzNDNiYjBjMGYzMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzNjVlMDBjYTQ2NjE0NmFkYmY2ZTM2OTZiZGY2YzRjZjA2MTRiZWJiZGU5ODdlNWUyZjMwNzZkMTIyZWIwYzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cf4b447531a64d47be344396803be02a",
+      "statement": "The refresh stores each start position's map subarea, and storedFields compares it so a change in DofusDB updates the quest.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofusdb/map-quest.ts#L118-L127",
+          "version": "repo-lines-v1:sha256:25f5b7a42c66bfb591876c5481d852e63286b7e418dbd85e40f6daa19fe3724a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NWI4YzViZjg2Mzc0MzY3MWRlZjNmNjMwZWIyMzJkNTlhN2E2MzRhMDcwZmM0MzZlZWMzN2E4Njc0ZTZjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkZDI0NDU4MmI2ZmIwM2QyM2I4NDE1YWJlY2QzNDZiMGM5ZjQ2NmI2Zjc1MmIwNjgxODljZTdlOWEyZGMzNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVkN2YxODRjYzA1YjcyOWFlMGNlOThiMmYzZDk3MzdmODkwMGQ2YzM5OWYwZDJiNTU3ODkwYjI0YTNjNzNhZjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVjYzVlZWI2MDkxN2I3ZjMyNGE2ZTYxYjg5ZWZkNDFmOTE4MDYwYjFlNGJmOGM5ZGFkZjE2ZTY2ZmVkNWViZmEifQ"
+        },
+        {
+          "resource": "repo://src/lib/dofusdb/refresh-quests.ts#L246-L256",
+          "version": "repo-lines-v1:sha256:b1843285933dc31ee14abeca66d457ff8bf9719d73ec4eca196dbcf1b1f392c6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzZDk5N2Q4NmMzOTdhNjYzNmM3ZTc1YzYxODcxNjgwMDgwZTA1NGYwMmIyZjJjODdkNjZhYjE2OTliYTdmNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMzBkZjlmNjRkZDc2Zjc2NWJmMGRiZWMzYTQ5YzZmODY3M2VlZTNhMGMxMWYwOThlNjk1NGVjMDQwY2EyMzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkODQ4ZjU0ZGUzMWY1YmIwZmQ0NDVmOGVmODc2MzY0MDA3MjNmZjBmZTIyZDY5MWQ0MDgzZmIzN2YyZjkyZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3MjhmYzljZjljYTJmMmU4OTQwMWQwMjIxMjE0Yzc0OTBiZTQ1MGIyYjY4YjM5MzE3NmM5YTI5N2I1N2YxNjgifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-18T11:06:38.803Z"
   }
 }

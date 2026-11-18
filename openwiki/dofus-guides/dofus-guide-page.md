@@ -10,6 +10,8 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/DofusGuideView.tsx
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
+  - id: openwiki-source-10b98fc83fb5e49b777c3566
+    resource: repo://src/components/achievement/achievement.css
   - id: openwiki-source-4d5101e22a43d90e5f3610c9
     resource: repo://src/components/dofus/DofusGuideParts.tsx
   - id: openwiki-source-af2465572edd8138ad48c4b8
@@ -22,15 +24,15 @@ sources:
     resource: repo://tests/integration/dofus-guide-queries.test.ts
   - id: openwiki-source-dfcb2081da061b860bb5cf7e
     resource: repo://tests/unit/dofus-guide-page.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-18T11:06:38.803Z
 ---
 
 # Dofus guide page
 
-A published Dofus guide (see [Dofus guide data model](dofus-guide-data.md)) renders at `/<slug>`, the same route as quest guides, achievement pages, standalone pages and checklists. It is one centered reading column: the breadcrumb, a header with the egg, the checklist card, Torre's intro, Necesitarás, the optional step-by-step body, the achievements and quests in order, the closing, the video and the previous and next Dofus.
+A published Dofus guide (see [Dofus guide data model](dofus-guide-data.md)) renders at `/<slug>`, the same route as quest guides, achievement pages, standalone pages and checklists. It is one reading column, left aligned and as wide as the frame (`.logro` pads its sides with `--frame-pad`, see [Styles and layout shell](../frontend/styles-and-shell.md)): the breadcrumb, a header with the egg, the checklist card, Torre's intro, Necesitarás, the optional step-by-step body, the achievements and quests in order, the closing, the video and the previous and next Dofus.
 
 ## Route
 
@@ -86,7 +88,8 @@ A guide in state `preparing` has no page: the query filters it out for visitors,
 
 - `DofusHeader`: the egg (`Picture` with `priority`, the LCP image), the title, the meta line with the tag pill, and the Prerrequisitos and Recompensas columns, Torre's rich text with its links.
 - `DofusChecklist`: the checklist card with the egg.
-- `DofusNeeds`: the title, the guide's note, then one block per group (`DofusNeedGroup`, also drawn alone by the `/sistema` catalog for the panel thumbnails) with its name; in each part, the subtitle and then the item rows in columns (icon well, "N ×" and the name) followed by the notes, each in Torre's order. Every item name is a `CopyName`, which copies it to search in the game.
+- Hues: the section titles of the body (`.dg-sec > h2`) cycle through `--color-hue-2`, `--color-hue-5` and `--color-hue-8`; the quest rows of each achievement part (`.dg-ql__i`) take the eight hues in order like the achievement page's quest list; Prerrequisitos and Recompensas in the header take their part hues (see [Achievement page](../achievements/achievement-page.md#hues)). The video stays at `--width-video` however wide the column is.
+- `DofusNeeds`: the title, the guide's note, then one block per group (`DofusNeedGroup`, also drawn alone by the `/sistema` catalog for the panel thumbnails) with its name; in each part, the subtitle and then the item rows in columns (icon well, "N ×" and the name) followed by the notes, each in Torre's order. Every item name is a `CopyName`, which copies it to search in the game. The notes sit in a grid of `auto-fit` columns at least 15rem wide, so a lone note takes the full row up to the text measure (`--width-prose`) instead of being squeezed into one column; a dungeon note's boss renders in its well with `kind="dungeon"`.
 - `DofusBody`: the «Paso a paso» section, rendered with the quest guide's `GuideSections` at heading level 3; nothing when the body is empty.
 - `DofusParts`: each part is a `DofusPart` (also drawn alone by `/sistema`). The metalogro and the achievement are headings and the quests a ruled list, with no boxes inside boxes. A quest without a published guide shows "Sin guía todavía"; a link row shows without its number.
 - `DofusVideo`: the guides' `VideoFacade`, which loads YouTube only on click.
@@ -98,4 +101,4 @@ The only client island is the guides' `PageEnhancements` (copy buttons, the vide
 
 - `tests/unit/dofus-guide-page.test.ts`: the header meta, Necesitarás groups and title, achievement and metalogro parts with their quest cards, loose quests and notes, hidden parts, the video and checklist, previous and next, the breadcrumb.
 - `tests/integration/dofus-guide-queries.test.ts`: the guide with its published achievements, quests, guides and givers; a `preparing` guide hidden from visitors but visible in preview; no query for a non-guide slug; the list in Torre's order with its counts.
-- `tests/e2e/guias-dofus.spec.ts` (guide part): breadcrumb, header with the egg, prerequisites, checklist and intro; Necesitarás items that copy their name and render in columns with the notes after them; achievement quests from the achievement page and the loose quest's note; one column with the previous Dofus; the step-by-step body (prose, screenshot, step and closing); 404 for a `preparing` Dofus; axe (WCAG 2.2 AA) in both modes.
+- `tests/e2e/guias-dofus.spec.ts` (guide part): breadcrumb, header with the egg, prerequisites, checklist and intro; Necesitarás items that copy their name and render in columns with the notes after them; a lone note reaching the text measure instead of one column; achievement quests from the achievement page and the loose quest's note; one column with the previous Dofus; the step-by-step body (prose, screenshot, step and closing); 404 for a `preparing` Dofus; axe (WCAG 2.2 AA) in both modes.
