@@ -6,7 +6,11 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import type { QuestGuide } from '@/payload-types'
 
-import { deltaReport, loadDelta } from '../../scripts/import/delta/load-delta'
+import {
+  deltaReport,
+  loadDelta,
+  type LoadDeltaOptions,
+} from '../../scripts/import/delta/load-delta'
 import { compareInventories } from '../../scripts/import/inventory/read'
 import { loadQuestGuides, type FetchImage } from '../../scripts/import/load-quest-guides'
 import { parsePage } from '../../scripts/import/squarespace/parse-page'
@@ -39,6 +43,9 @@ function writeInventory(dir: string, pages: Record<string, string>) {
   }
 }
 
+const lexicalText = (value: unknown) =>
+  [...JSON.stringify(value).matchAll(/"text":"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1]).join('')
+
 describe('pnpm import:delta', () => {
   let payload: Payload
   let previous: string
@@ -48,6 +55,13 @@ describe('pnpm import:delta', () => {
     downloads.push(url)
     return tinyPng(`delta-${downloads.length}.png`)
   }
+  const prose = {
+    htmlToLexical: () => {
+      throw new Error('sin páginas de logro en esta prueba')
+    },
+    mediaFor: async () => null,
+    posterFor: async () => null,
+  } as unknown as LoadDeltaOptions['prose']
 
   const guide = async (slug: string): Promise<QuestGuide> => {
     const { docs } = await payload.find({
@@ -134,38 +148,57 @@ describe('pnpm import:delta', () => {
       deltas: await compareInventories(previous, next),
       apply,
       fetchImage,
+      prose,
     })
 
-  it('en seco informa de la guía nueva y no escribe ni sube nada', async () => {
+  it('en seco informa de todo y no escribe ni sube nada', async () => {
     const before = await Promise.all([guide(UNEDITED), guide(EDITED)])
     const report = await run(false)
 
     expect(report.newGuides.map((g) => g.slug)).toEqual([NEW])
     expect(report.newGuides[0]!.uploads.length).toBeGreaterThan(0)
-    // Las guías ya importadas se listan sin tocar.
-    expect(report.untreated.map((page) => page.path).sort()).toEqual([`/${EDITED}`, `/${UNEDITED}`])
+    const unedited = report.guides.find((g) => g.slug === UNEDITED)!
+    expect(unedited.changed).toEqual(['body'])
+    expect(unedited.kept).toEqual([])
+    expect(unedited.uploads).toEqual([NEW_IMAGE])
+    const edited = report.guides.find((g) => g.slug === EDITED)!
+    expect(edited.changed).toEqual([])
+    expect(edited.kept).toEqual(['body'])
 
     expect(downloads).toEqual([])
     expect(await guide(NEW)).toBeUndefined()
     expect(await Promise.all([guide(UNEDITED), guide(EDITED)])).toEqual(before)
-    expect(deltaReport(report, false).at(-1)).toMatch(/^En seco: .*Imágenes que subiría: \d+\.$/)
+    const lines = deltaReport(report, false)
+    expect(lines).toContain(`- Cambia ${UNEDITED}: cuerpo (1 imágenes por subir)`)
+    expect(lines.at(-1)).toMatch(/^En seco: .*Imágenes que subiría: \d+\.$/)
   }, 120_000)
 
-  it('con --apply crea la guía nueva como borrador, con sus imágenes', async () => {
+  it('con --apply cambia lo que sigue como lo dejó la importación y deja lo de Torre', async () => {
+    const editedBody = (await guide(EDITED)).body
     const report = await run(true)
+
+    const unedited = await guide(UNEDITED)
+    expect(unedited._status).toBe('published')
+    expect(lexicalText(unedited.body)).toContain('Ahora hay que hablar con Peny Tenciario')
+    expect(downloads).toContain(NEW_IMAGE)
+    // A partir de ahora la guía lleva su snapshot: la siguiente delta solo mira el snapshot.
+    expect(Object.keys(unedited.importSnapshot as object)).toContain('body')
+
+    const edited = await guide(EDITED)
+    expect(edited.body).toEqual(editedBody)
 
     const created = await guide(NEW)
     expect(created._status).toBe('draft')
-    expect(created.importSnapshot).toBeTruthy()
-    expect(downloads.length).toBeGreaterThan(0)
     expect(report.written.created).toBe(1)
+    expect(report.written.updated).toBe(1)
   }, 120_000)
 
-  it('una segunda pasada no crea nada más', async () => {
+  it('una segunda pasada no cambia nada más', async () => {
     downloads.length = 0
     const report = await run(false)
 
     expect(report.newGuides).toEqual([])
+    expect(report.guides.filter((g) => g.changed.length)).toEqual([])
     expect(downloads).toEqual([])
   }, 120_000)
 })

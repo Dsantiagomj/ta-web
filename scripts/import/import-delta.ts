@@ -4,8 +4,8 @@
 // los esbozos que Torre llenó (scripts/redirects/stubs.ts, FILLED_STUBS).
 // Uso: pnpm import:delta --from <inventario nuevo> --previous <inventario anterior>
 //        [--apply] [--remote] [--production]
-// Sin --apply solo informa, página a página: las guías nuevas, con su misión y las imágenes que
-// subiría, y lo que no trata; no escribe ni sube nada. Escribe
+// Sin --apply solo informa, página a página: guías nuevas, campos que cambian, campos de Torre
+// que se quedan, prosa de logros, metalogros y lo que no trata; no escribe ni sube nada. Escribe
 // en la base de DATABASE_URL (vacía: la de pnpm db:dev); contra una base remota pide --remote, y
 // en producción --production. Contra dev, en seco:
 // railway run -s web -e dev -- pnpm import:delta --from <nuevo> --previous <anterior> --remote
@@ -14,6 +14,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { databaseScriptRefusal } from '@/lib/db/script-guard'
 
+import { proseMedia } from './achievements/squarespace-source'
 import { deltaReport, loadDelta } from './delta/load-delta'
 import { compareInventories } from './inventory/read'
 import { runPayloadScript } from '../payload-script'
@@ -53,6 +54,7 @@ await runPayloadScript(
       deltas,
       apply,
       fetchImage: createImageFetcher(),
+      prose: await proseMedia(payload),
       log: (message) => console.log(message),
     })
     console.log('')
