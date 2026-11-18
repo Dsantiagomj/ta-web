@@ -19,6 +19,7 @@ import type {
   ContentBlock,
   ConvertedGuide,
   GuideBlock,
+  GuideDraft,
   GuideSummary,
 } from './squarespace/to-quest-guide'
 
@@ -181,35 +182,34 @@ function filledSummary(summary: GuideSummary, quest: Quest | undefined) {
   return applySummaryFill(full, summaryToFill(full, quest))
 }
 
-/**
- * Guarda las guías convertidas con la API local. Es un trabajo de confianza, así que
- * usa overrideAccess. Idempotente: las guías se buscan por slug y las imágenes por su
- * URL original, de modo que repetirla no duplica nada ni vuelve a descargar, y una guía
- * igual a su último borrador no se toca, para no sumar versiones vacías. Siempre
- * guarda borradores: una guía ya publicada recibe un borrador nuevo y sigue publicada
- * como estaba hasta que Torre lo publique.
- *
- * Nunca deshace lo que Torre cambió en el panel: lo que escribe cada vez se guarda en
- * importSnapshot, y al repetir solo cambia un campo que sigue como lo dejó la última pasada.
- * En una guía importada antes del snapshot, un campo con valor distinto del de Squarespace
- * se trata como suyo. La guía se busca por su URL original, así que cambiarle la dirección
- * no la duplica.
- */
-export async function loadQuestGuides(
-  payload: Payload,
-  guides: ConvertedGuide[],
-  options: LoadQuestGuidesOptions,
-): Promise<LoadQuestGuidesResult> {
-  const log = options.log ?? (() => {})
-  const toLexical = await createHtmlToLexical(payload.config)
-  const result: LoadQuestGuidesResult = {
-    guides: { created: 0, updated: 0, unchanged: 0, skipped: 0 },
-    media: { created: 0, reused: 0 },
-    oddities: {},
-    kept: [],
-  }
+/** Lo que guarda la importación de una guía convertida, antes de buscarla en la base. */
+export interface ImportedGuide {
+  title: string
+  slug: string
+  originalUrl: string
+  summary: ReturnType<typeof filledSummary>
+  quest: number | null
+  body: BodyBlock[]
+}
 
-  const dofusIds = [...new Set(guides.flatMap(({ guide }) => guide.questDofusIds))]
+export interface GuideBuilder {
+  /** La guía como la guardaría la importación; anota en oddities lo que no pudo traer. */
+  build(guide: GuideDraft, oddities: string[]): Promise<ImportedGuide>
+}
+
+/**
+ * Convierte guías al formato que guarda la importación: el cuerpo en Lexical con sus imágenes
+ * de Media (mediaFor da su ID, o lanza ImageDownloadError si no se pudo bajar), los combates
+ * con sus monstruos y el resumen relleno desde la misión enlazada. Lo usan loadQuestGuides y la
+ * importación delta, que lo construye sin subir nada para comparar.
+ */
+export async function createGuideBuilder(
+  payload: Payload,
+  questDofusIds: number[],
+  mediaFor: (url: string, alt: string) => Promise<number>,
+): Promise<GuideBuilder> {
+  const toLexical = await createHtmlToLexical(payload.config)
+  const dofusIds = [...new Set(questDofusIds)]
   const quests = await payload.find({
     collection: 'quests',
     where: { dofusId: { in: dofusIds } },
@@ -233,43 +233,6 @@ export async function loadQuestGuides(
   for (const monster of monsters.docs) {
     const name = comparableMonsterName(monster.name)
     if (!monsterByName.has(name)) monsterByName.set(name, monster.id)
-  }
-
-  // URL original → ID en media, para no repetir consultas ni descargas en la misma pasada.
-  const mediaIdByUrl = new Map<string, number>()
-
-  async function mediaFor(url: string, alt: string): Promise<number> {
-    const known = mediaIdByUrl.get(url)
-    if (known !== undefined) return known
-
-    const existing = await payload.find({
-      collection: 'media',
-      where: { originalUrl: { equals: url } },
-      limit: 1,
-      depth: 0,
-      overrideAccess: true,
-    })
-    let id = existing.docs[0]?.id
-    if (id === undefined) {
-      const created = await payload.create({
-        collection: 'media',
-        data: { alt, originalUrl: url },
-        file: await options.fetchImage(url).catch((cause: unknown) => {
-          // El transporte del CDN puede fallar con los mismos códigos que Postgres.
-          throw new ImageDownloadError(cause instanceof Error ? cause.message : String(cause), {
-            cause,
-          })
-        }),
-        depth: 0,
-        overrideAccess: true,
-      })
-      id = created.id
-      result.media.created += 1
-    } else {
-      result.media.reused += 1
-    }
-    mediaIdByUrl.set(url, id)
-    return id
   }
 
   async function toContentBlock(block: ContentBlock, oddities: string[]): Promise<StepBody | null> {
@@ -312,6 +275,117 @@ export async function loadQuestGuides(
     }
   }
 
+  return {
+    async build(guide, oddities) {
+      // Una guía enlaza una sola misión. Con varias no se elige ninguna al azar: lo decide Torre.
+      const linkIds = [...new Set(guide.questDofusIds)]
+      let linked: Quest | undefined
+      if (linkIds.length > 1) {
+        oddities.push(
+          `Varias misiones de DofusDB (${linkIds.join(', ')}): sin enlazar, elige una en el panel`,
+        )
+      } else if (linkIds.length === 1) {
+        linked = questByDofusId.get(linkIds[0]!)
+        if (!linked) oddities.push(`Misión de DofusDB ${linkIds[0]} sin importar en quests`)
+      }
+
+      const blocks: BodyBlock[] = []
+      for (const block of guide.body) {
+        const converted = await toBodyBlock(block, oddities)
+        if (converted) blocks.push(converted)
+      }
+      // Las listas de monstruos de un combate pasan a un bloque Combate; lo que no casa se queda.
+      const fights = splitFightLists(blocks as FightListBlock[], (name) =>
+        monsterByName.get(comparableMonsterName(name)),
+      )
+      const body = fights.body as BodyBlock[]
+      for (const name of fights.unmatched)
+        oddities.push(`Monstruo sin casar en un combate: ${name}`)
+      // El cuerpo ya está en Lexical: se suelta el DOM de la conversión antes de la siguiente.
+      await releaseDom()
+
+      return {
+        title: guide.title,
+        slug: guide.slug,
+        originalUrl: guide.originalUrl,
+        summary: filledSummary(guide.summary, linked),
+        quest: linked?.id ?? null,
+        body,
+      }
+    },
+  }
+}
+
+/**
+ * Guarda las guías convertidas con la API local. Es un trabajo de confianza, así que
+ * usa overrideAccess. Idempotente: las guías se buscan por slug y las imágenes por su
+ * URL original, de modo que repetirla no duplica nada ni vuelve a descargar, y una guía
+ * igual a su último borrador no se toca, para no sumar versiones vacías. Siempre
+ * guarda borradores: una guía ya publicada recibe un borrador nuevo y sigue publicada
+ * como estaba hasta que Torre lo publique.
+ *
+ * Nunca deshace lo que Torre cambió en el panel: lo que escribe cada vez se guarda en
+ * importSnapshot, y al repetir solo cambia un campo que sigue como lo dejó la última pasada.
+ * En una guía importada antes del snapshot, un campo con valor distinto del de Squarespace
+ * se trata como suyo. La guía se busca por su URL original, así que cambiarle la dirección
+ * no la duplica.
+ */
+export async function loadQuestGuides(
+  payload: Payload,
+  guides: ConvertedGuide[],
+  options: LoadQuestGuidesOptions,
+): Promise<LoadQuestGuidesResult> {
+  const log = options.log ?? (() => {})
+  const result: LoadQuestGuidesResult = {
+    guides: { created: 0, updated: 0, unchanged: 0, skipped: 0 },
+    media: { created: 0, reused: 0 },
+    oddities: {},
+    kept: [],
+  }
+
+  // URL original → ID en media, para no repetir consultas ni descargas en la misma pasada.
+  const mediaIdByUrl = new Map<string, number>()
+
+  async function mediaFor(url: string, alt: string): Promise<number> {
+    const known = mediaIdByUrl.get(url)
+    if (known !== undefined) return known
+
+    const existing = await payload.find({
+      collection: 'media',
+      where: { originalUrl: { equals: url } },
+      limit: 1,
+      depth: 0,
+      overrideAccess: true,
+    })
+    let id = existing.docs[0]?.id
+    if (id === undefined) {
+      const created = await payload.create({
+        collection: 'media',
+        data: { alt, originalUrl: url },
+        file: await options.fetchImage(url).catch((cause: unknown) => {
+          // El transporte del CDN puede fallar con los mismos códigos que Postgres.
+          throw new ImageDownloadError(cause instanceof Error ? cause.message : String(cause), {
+            cause,
+          })
+        }),
+        depth: 0,
+        overrideAccess: true,
+      })
+      id = created.id
+      result.media.created += 1
+    } else {
+      result.media.reused += 1
+    }
+    mediaIdByUrl.set(url, id)
+    return id
+  }
+
+  const builder = await createGuideBuilder(
+    payload,
+    guides.flatMap(({ guide }) => guide.questDofusIds),
+    mediaFor,
+  )
+
   for (const { guide, oddities: conversionOddities } of guides) {
     const oddities = [...conversionOddities]
     result.oddities[guide.slug] = oddities
@@ -321,31 +395,7 @@ export async function loadQuestGuides(
       continue
     }
 
-    // Una guía enlaza una sola misión. Con varias no se elige ninguna al azar: lo decide Torre.
-    const dofusIds = [...new Set(guide.questDofusIds)]
-    let linked: Quest | undefined
-    if (dofusIds.length > 1) {
-      oddities.push(
-        `Varias misiones de DofusDB (${dofusIds.join(', ')}): sin enlazar, elige una en el panel`,
-      )
-    } else if (dofusIds.length === 1) {
-      linked = questByDofusId.get(dofusIds[0]!)
-      if (!linked) oddities.push(`Misión de DofusDB ${dofusIds[0]} sin importar en quests`)
-    }
-
-    const blocks: BodyBlock[] = []
-    for (const block of guide.body) {
-      const converted = await toBodyBlock(block, oddities)
-      if (converted) blocks.push(converted)
-    }
-    // Las listas de monstruos de un combate pasan a un bloque Combate; lo que no casa se queda.
-    const fights = splitFightLists(blocks as FightListBlock[], (name) =>
-      monsterByName.get(comparableMonsterName(name)),
-    )
-    const body = fights.body as BodyBlock[]
-    for (const name of fights.unmatched) oddities.push(`Monstruo sin casar en un combate: ${name}`)
-    // El cuerpo ya está en Lexical: se suelta el DOM de la conversión antes de la siguiente.
-    await releaseDom()
+    const imported = await builder.build(guide, oddities)
 
     // Por su URL original: Torre puede cambiarle la dirección. Si no, por el slug.
     const byUrl = await findGuide(payload, { originalUrl: { equals: guide.originalUrl } })
@@ -357,15 +407,7 @@ export async function loadQuestGuides(
       log(`Guía ${guide.slug}: saltada, la dirección es de otra guía`)
       continue
     }
-    const summary = filledSummary(guide.summary, linked)
-    const imported = {
-      title: guide.title,
-      slug: guide.slug,
-      originalUrl: guide.originalUrl,
-      summary,
-      quest: linked?.id ?? null,
-      body,
-    }
+    const { summary } = imported
 
     if (!current) {
       await payload.create({
@@ -381,7 +423,7 @@ export async function loadQuestGuides(
         overrideAccess: true,
       })
       result.guides.created += 1
-      log(`Guía ${guide.slug}: creada, ${body.length} bloques`)
+      log(`Guía ${guide.slug}: creada, ${imported.body.length} bloques`)
       continue
     }
 
