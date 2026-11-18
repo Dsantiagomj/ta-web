@@ -35,4 +35,13 @@ await png(
   emblemSvg({ colors, size: 180, backdrop: { shape: 'tile', color: dark.bg }, padding: 0.16 }),
   'apple-icon.png',
 )
-console.log('Favicon e icono de iOS listos en src/app/(frontend).')
+// El logo del editor en el JSON-LD (src/lib/seo/json-ld.ts): una URL fija, que Next no
+// renombra como el icono de iOS (apple-icon-<hash>.png). 512 px, como el icono de iOS.
+await sharp(
+  Buffer.from(
+    emblemSvg({ colors, size: 512, backdrop: { shape: 'tile', color: dark.bg }, padding: 0.16 }),
+  ),
+)
+  .png({ compressionLevel: 9 })
+  .toFile(path.resolve('public/img/marca/logo.png'))
+console.log('Favicon, icono de iOS y logo listos en src/app/(frontend) y public/img/marca.')

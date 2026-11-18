@@ -59,20 +59,32 @@ describe('los metadatos', () => {
     ogImage: { url: '/api/media/file/compartir.png', width: 1200, height: 630, alt: 'Torre' },
   })
 
-  it('los del sitio: el nombre y la descripción; la imagen solo si Torre subió una', () => {
+  const brandCard = {
+    url: '/og',
+    width: 1200,
+    height: 630,
+    alt: 'Torrente Arcano',
+    type: 'image/png',
+  }
+  const torreImage = {
+    url: '/api/media/file/compartir.png',
+    width: 1200,
+    height: 630,
+    alt: 'Torre',
+  }
+
+  it('los del sitio: el nombre, la descripción y la imagen de Torre o la tarjeta de la marca', () => {
     expect(siteMetadata(plain)).toMatchObject({
       title: 'Torrente Arcano',
       description: 'Guías de misiones, logros, clases y checklists de Dofus.',
-      openGraph: { siteName: 'Torrente Arcano', locale: 'es_ES' },
+      openGraph: { siteName: 'Torrente Arcano', locale: 'es_ES', images: [brandCard] },
+      twitter: { card: 'summary_large_image', images: [brandCard] },
     })
-    expect(siteMetadata(plain).openGraph).not.toHaveProperty('images')
     expect(siteMetadata(withImage)).toMatchObject({
       title: 'Torre Arcana',
       description: 'Otra descripción.',
-      openGraph: {
-        siteName: 'Torre Arcana',
-        images: [{ url: '/api/media/file/compartir.png', width: 1200, height: 630, alt: 'Torre' }],
-      },
+      openGraph: { siteName: 'Torre Arcana', images: [torreImage] },
+      twitter: { card: 'summary_large_image', images: [torreImage] },
     })
   })
 
@@ -89,8 +101,9 @@ describe('los metadatos', () => {
         url: '/metalogros',
         siteName: 'Torre Arcana',
         locale: 'es_ES',
-        images: [{ url: '/api/media/file/compartir.png', width: 1200, height: 630, alt: 'Torre' }],
+        images: [torreImage],
       },
+      twitter: { card: 'summary_large_image', images: [torreImage] },
     })
   })
 })
