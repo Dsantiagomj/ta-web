@@ -174,9 +174,27 @@ describe('torreRewards', () => {
   })
 })
 
-// Los textos por tramo de Torre (los eventos de Pazcuak): cada tramo en una línea y, debajo,
-// sus cifras otra vez, una por línea.
+// Los textos por tramo de Torre (los eventos de Pazcuak), como los deja la importación: en su
+// página cada tramo es un elemento de lista con sus cifras en una sublista, así que va la
+// línea del tramo y, debajo, sus cifras, una por línea.
 const CRISIS = [
+  'Si eres nivel 1 a 109:',
+  '1 329 586 XP.',
+  '14 041 kamas.',
+  '5 x Cupón chocolate.',
+  'Si eres nivel 110 a 179:',
+  '2 544 537 XP.',
+  '35 601 kamas.',
+  '5 x Cupón avellana.',
+  'Si eres nivel 180 a 200:',
+  '2 750 000 XP.',
+  '43 980 kamas.',
+  '5 x Cupón praliné.',
+].join('\n')
+
+// Lo que guardaba la importación antes de leer bien las sublistas, y sigue en las guías que
+// no se han puesto al día: el texto del tramo con sus cifras pegadas y, debajo, otra vez.
+const CRISIS_BEFORE = [
   'Si eres nivel 1 a 109: 1 329 586 XP.14 041 kamas.5 x Cupón chocolate.',
   '1 329 586 XP.',
   '14 041 kamas.',
@@ -254,6 +272,21 @@ describe('torreLevelRewards', () => {
     })
   })
 
+  it('el texto de antes del arreglo, con las cifras pegadas y repetidas, da los mismos tramos', () => {
+    expect(torreLevelRewards(CRISIS_BEFORE, crisisQuest)).toEqual(
+      torreLevelRewards(CRISIS, crisisQuest),
+    )
+  })
+
+  it('un tramo con sus cifras en la misma línea también se lee', () => {
+    const inline =
+      'Si eres nivel 1 a 109: 1 329 586 XP.14 041 kamas.\nSi eres nivel 110 a 200: 9 XP.'
+    expect(torreLevelRewards(inline, crisisQuest).levels?.[0]).toMatchObject({
+      experience: 1_329_586,
+      kamas: 14_041,
+    })
+  })
+
   it('su cantidad gana; lo que no escribe de un tramo lo pone DofusDB', () => {
     const text = 'Si eres nivel 1 a 109: 7 x Cupón chocolate.\nSi eres nivel 110 a 200: 9 XP.'
     const quest: LinkedQuest = {
@@ -283,7 +316,7 @@ describe('torreLevelRewards', () => {
   })
 
   it('un objeto suyo que DofusDB no da en ese tramo no se inventa: se lista', () => {
-    const text = CRISIS.replace('5 x Cupón chocolate.\nSi', '5 x Cupón de menta.\nSi')
+    const text = CRISIS.replace('5 x Cupón chocolate.', '5 x Cupón de menta.')
     expect(torreLevelRewards(text, crisisQuest).unmatchedItems).toEqual(['5 x Cupón de menta.'])
   })
 

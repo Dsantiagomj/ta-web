@@ -6,10 +6,6 @@
         "body": [
           {
             "blockType": "richText",
-            "html": "<p class=\"sqsrte-large\" style=\"white-space:pre-wrap;\"><strong>Prerequisitos:</strong></p><ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\">Nivel mínimo 180.</p></li></ul>"
-          },
-          {
-            "blockType": "richText",
             "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Algunas partes te las puedes saltar (si ya tienes acceso a las diferentes salas) pero yo te pondré todo el camino por si acaso.</p>"
           },
           {
@@ -142,13 +138,13 @@
     "summary": {
       "needs": {
         "notes": "Un par de pilas steamer (opcional)"
-      }
+      },
+      "prerequisites": "Nivel mínimo 180."
     },
     "title": "Ron Marino"
   },
   "oddities": [
     "Sin misión de DofusDB enlazada",
-    "Falta el bloque Prerrequisitos",
     "Falta el bloque Recompensas",
     "No se encontró la línea de inicio (PNJ y coordenadas)"
   ]
