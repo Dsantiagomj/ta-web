@@ -29,6 +29,7 @@
     "data:refresh": "NODE_OPTIONS=--no-deprecation payload run scripts/refresh-game-data.ts --",
     "data:quests": "pnpm data:refresh",
     "data:dungeon-notes": "NODE_OPTIONS=--no-deprecation payload run scripts/dungeon-notes.ts",
+    "links:legacy": "NODE_OPTIONS=--no-deprecation payload run scripts/links-legacy.ts --",
     "import:guides": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-guides.ts",
     "import:dofus-guides": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-dofus-guides.ts --",
     "import:checklists": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-checklists.ts --",
