@@ -35,6 +35,16 @@ export function needGroupRowLabel(data: Row, rowIndex?: number): string {
   return rowLabelText(r.group, rowIndex, isNeedGroup(name) ? needGroupLabel(name) : undefined)
 }
 
+/**
+ * Una fila de una tabla: sus primeras celdas con texto, separadas por un punto medio
+ * («Fila 3: Tofu · 12 · Astrub»), así Torre la encuentra entre 146 sin abrirla.
+ */
+export function tableRowLabel(data: Row, rowIndex?: number): string {
+  const cells = Array.isArray(data?.cells) ? (data.cells as Row[]) : []
+  const texts = cells.map((cell) => text(cell?.text)?.trim()).filter(Boolean)
+  return rowLabelText(r.row, rowIndex, texts.join(' · ') || undefined)
+}
+
 /** Una fila que se llama por uno de sus campos de texto: «Grupo 1: Recursos». */
 export function textRowLabel(singular: string, field: string) {
   return (data: Row, rowIndex?: number): string =>

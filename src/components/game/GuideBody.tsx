@@ -9,6 +9,7 @@ import { type GuideStart, startSentenceNpc, stepAnchor, stepPin } from '@/lib/gu
 import './game.css'
 import { FightBlock } from './FightBlock'
 import { GuideRichText } from './GuideRichText'
+import { GuideTable } from './GuideTable'
 import { QuestSteps } from './QuestSteps'
 import { TorreTips } from './TorreTips'
 import { VideoFacade } from './VideoFacade'
@@ -40,6 +41,8 @@ function guideBlock(block: GuideBlock, minHeading: 2 | 3, sizes?: string): React
       return <VideoFacade key={block.key} url={block.url} title={block.title} />
     case 'fight':
       return <FightBlock key={block.key} monsters={block.monsters} />
+    case 'table':
+      return <GuideTable key={block.key} table={block} />
     case 'callout': {
       const text = (
         <GuideRichText content={block.content} priorityImage={block.priorityImage} minHeading={4} />

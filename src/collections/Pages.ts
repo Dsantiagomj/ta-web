@@ -5,6 +5,7 @@ import { FightBlock } from '../blocks/FightBlock'
 import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
+import { TableBlock } from '../blocks/TableBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 import { panelStrings } from '../lib/admin/strings'
@@ -110,7 +111,15 @@ export const Pages: CollectionConfig = {
               labels: { singular: 'Bloque', plural: 'Bloques' },
               type: 'blocks',
               admin: { description: s.bodyDescription },
-              blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, StepBlock],
+              blocks: [
+                RichTextBlock,
+                ImageBlock,
+                VideoBlock,
+                CalloutBlock,
+                FightBlock,
+                TableBlock,
+                StepBlock,
+              ],
             },
           ],
         },

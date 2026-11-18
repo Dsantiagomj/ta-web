@@ -25,12 +25,14 @@ import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997e
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { VideoUrlField as VideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1 } from '../../../components/admin/ValidatedTextField'
+import { TablePaste as TablePaste_9e417949892c9a128ffc7a61a806b536 } from '../../../components/admin/TablePaste'
+import { TextRowLabel as TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
+import { TableRowLabel as TableRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { SummaryNote as SummaryNote_666e24196e21524e3cb0a6dcd90c8518 } from '../../../components/quest-guide-admin/SummaryNote'
 import { RelationRowLabel as RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { DofusDbFill as DofusDbFill_cc2d6f7bd3a13a5aca6ed38abfdd94d4 } from '../../../components/achievement-admin/DofusDbFill'
 import { DofusDbNote as DofusDbNote_ef522a00141bf02817f153aea2a46e82 } from '../../../components/achievement-admin/DofusDbNote'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { TextRowLabel as TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { ColorField as ColorField_f18d715b9f5ea63091d1361f9c46fa22 } from '../../../components/admin/ColorField'
 import { ColorSwatch as ColorSwatch_f18d715b9f5ea63091d1361f9c46fa22 } from '../../../components/admin/ColorField'
 import { OptionalVideoUrlField as OptionalVideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1 } from '../../../components/admin/ValidatedTextField'
@@ -84,12 +86,14 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/components/admin/ValidatedTextField#VideoUrlField": VideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1,
+  "/components/admin/TablePaste#TablePaste": TablePaste_9e417949892c9a128ffc7a61a806b536,
+  "/components/admin/RowLabels#TextRowLabel": TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
+  "/components/admin/RowLabels#TableRowLabel": TableRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/quest-guide-admin/SummaryNote#SummaryNote": SummaryNote_666e24196e21524e3cb0a6dcd90c8518,
   "/components/admin/RowLabels#RelationRowLabel": RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/achievement-admin/DofusDbFill#DofusDbFill": DofusDbFill_cc2d6f7bd3a13a5aca6ed38abfdd94d4,
   "/components/achievement-admin/DofusDbNote#DofusDbNote": DofusDbNote_ef522a00141bf02817f153aea2a46e82,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "/components/admin/RowLabels#TextRowLabel": TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/ColorField#ColorField": ColorField_f18d715b9f5ea63091d1361f9c46fa22,
   "/components/admin/ColorField#ColorSwatch": ColorSwatch_f18d715b9f5ea63091d1361f9c46fa22,
   "/components/admin/ValidatedTextField#OptionalVideoUrlField": OptionalVideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1,

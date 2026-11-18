@@ -6,6 +6,7 @@ import { FightBlock } from '@/blocks/FightBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { StepBlock, validateStepCoordinate } from '@/blocks/StepBlock'
+import { TableBlock } from '@/blocks/TableBlock'
 import { validateVideoUrl, VideoBlock } from '@/blocks/VideoBlock'
 import { guideStrings } from '@/lib/guides/strings'
 
@@ -175,10 +176,17 @@ describe('bloque de paso', () => {
     }
   })
 
-  it('su contenido son los bloques de texto, imagen, vídeo y aviso, sin pasos dentro', () => {
+  it('su contenido son los bloques de texto, imagen, vídeo, aviso, combate y tabla, sin pasos dentro', () => {
     const body = field(StepBlock, 'body') as BlocksField
     expect(body).toMatchObject({ type: 'blocks', label: s.body })
-    expect(body.blocks).toEqual([RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock])
+    expect(body.blocks).toEqual([
+      RichTextBlock,
+      ImageBlock,
+      VideoBlock,
+      CalloutBlock,
+      FightBlock,
+      TableBlock,
+    ])
   })
 })
 

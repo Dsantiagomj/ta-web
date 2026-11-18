@@ -138,6 +138,7 @@ describe.each(BOTH)('colección %s', (slug, collection, singular, plural) => {
       'video',
       'callout',
       'fight',
+      'table',
       'step',
     ])
   })

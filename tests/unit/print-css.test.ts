@@ -57,4 +57,16 @@ describe('la hoja de impresión', () => {
     }
     expect(printBlock).toMatch(/display:\s*none\s*!important/)
   })
+
+  it('imprime la tabla entera: sin desplazamiento, sin columna fija y sin partir una fila', () => {
+    const rule = (selector: string) => {
+      const at = printBlock.indexOf(selector)
+      expect(at, selector).toBeGreaterThan(-1)
+      return printBlock.slice(at, printBlock.indexOf('}', at))
+    }
+    // :root delante: game.css se carga después y ganaría con la misma especificidad.
+    expect(rule(':root .gtable {')).toMatch(/overflow:\s*visible/)
+    expect(rule(':root .gtable .gtable__table :is(th, td)')).toMatch(/position:\s*static/)
+    expect(rule(':root .gtable .gtable__table tr')).toMatch(/break-inside:\s*avoid/)
+  })
 })

@@ -182,7 +182,7 @@ export interface QuestGuide {
    */
   title: string;
   slug: string;
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | TableBlock | StepBlock)[] | null;
   /**
    * Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. Cámbialo con libertad: lo que escribas no se sobrescribe, y lo que vacíes se queda vacío. Para volver a copiar lo vacío, pulsa «Rellenar desde DofusDB» bajo la misión.
    */
@@ -759,6 +759,43 @@ export interface FightBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TableBlock".
+ */
+export interface TableBlock {
+  /**
+   * Opcional. Va encima de la tabla y es como la nombra quien usa un lector de pantalla.
+   */
+  title?: string | null;
+  /**
+   * Márcalo si la primera columna dice de qué es cada fila (el nombre del familiar, por ejemplo): va en negrita, se queda a la vista al desplazar la tabla en el móvil y el lector de pantalla la lee con cada celda.
+   */
+  rowHeaders?: boolean | null;
+  /**
+   * Pon «Derecha (cifras)» en las columnas de números: así se leen en columna. Al pegar, las columnas que solo tienen cifras ya van a la derecha.
+   */
+  columns: {
+    header: string;
+    align: 'start' | 'center' | 'end';
+    id?: string | null;
+  }[];
+  rows: {
+    /**
+     * Una celda por columna, en el orden de las columnas.
+     */
+    cells?:
+      | {
+          text?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'table';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StepBlock".
  */
 export interface StepBlock {
@@ -767,7 +804,7 @@ export interface StepBlock {
    */
   x?: number | null;
   y?: number | null;
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | TableBlock)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'step';
@@ -1183,7 +1220,7 @@ export interface DofusGuide {
   /**
    * Para las guías paso a paso, como la Piñata de pino.
    */
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | TableBlock | StepBlock)[] | null;
   outro?: {
     root: {
       type: string;
@@ -2020,7 +2057,7 @@ export interface Page {
   /**
    * El texto, las capturas y los vídeos, con los mismos bloques que las guías.
    */
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | TableBlock | StepBlock)[] | null;
   /**
    * Opcional. Sin título SEO se usa el de la página; sin descripción, el principio del texto.
    */
@@ -2108,7 +2145,7 @@ export interface ClassPage {
   /**
    * Opcional: la guía de la clase, con los mismos bloques que las guías.
    */
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | TableBlock | StepBlock)[] | null;
   /**
    * Opcional. Sin título SEO se usa el de la página; sin descripción, el principio del texto.
    */
@@ -2165,7 +2202,7 @@ export interface DungeonPage {
   /**
    * El texto, las capturas y los vídeos, con los mismos bloques que las guías.
    */
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | TableBlock | StepBlock)[] | null;
   /**
    * Opcional. Sin título SEO se usa el de la página; sin descripción, el principio del texto.
    */
@@ -2465,6 +2502,7 @@ export interface QuestGuidesSelect<T extends boolean = true> {
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
         fight?: T | FightBlockSelect<T>;
+        table?: T | TableBlockSelect<T>;
         step?: T | StepBlockSelect<T>;
       };
   summary?:
@@ -2594,6 +2632,34 @@ export interface FightBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TableBlock_select".
+ */
+export interface TableBlockSelect<T extends boolean = true> {
+  title?: T;
+  rowHeaders?: T;
+  columns?:
+    | T
+    | {
+        header?: T;
+        align?: T;
+        id?: T;
+      };
+  rows?:
+    | T
+    | {
+        cells?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StepBlock_select".
  */
 export interface StepBlockSelect<T extends boolean = true> {
@@ -2607,6 +2673,7 @@ export interface StepBlockSelect<T extends boolean = true> {
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
         fight?: T | FightBlockSelect<T>;
+        table?: T | TableBlockSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -2705,6 +2772,7 @@ export interface DofusGuidesSelect<T extends boolean = true> {
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
         fight?: T | FightBlockSelect<T>;
+        table?: T | TableBlockSelect<T>;
         step?: T | StepBlockSelect<T>;
       };
   outro?: T;
@@ -3066,6 +3134,7 @@ export interface PagesSelect<T extends boolean = true> {
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
         fight?: T | FightBlockSelect<T>;
+        table?: T | TableBlockSelect<T>;
         step?: T | StepBlockSelect<T>;
       };
   seo?:
@@ -3115,6 +3184,7 @@ export interface ClassPagesSelect<T extends boolean = true> {
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
         fight?: T | FightBlockSelect<T>;
+        table?: T | TableBlockSelect<T>;
         step?: T | StepBlockSelect<T>;
       };
   seo?:
@@ -3148,6 +3218,7 @@ export interface DungeonPagesSelect<T extends boolean = true> {
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
         fight?: T | FightBlockSelect<T>;
+        table?: T | TableBlockSelect<T>;
         step?: T | StepBlockSelect<T>;
       };
   seo?:

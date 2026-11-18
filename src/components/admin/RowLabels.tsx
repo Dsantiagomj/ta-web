@@ -10,6 +10,7 @@ import {
   relationRowLabel,
   segmentRowLabel,
   stepRowLabel,
+  tableRowLabel,
   textRowLabel,
 } from '@/lib/admin/row-labels'
 
@@ -36,6 +37,12 @@ export function SegmentLabel() {
 export function NeedGroupLabel() {
   const { data, rowNumber } = useRowLabel<Row>()
   return <span>{needGroupRowLabel(data, rowNumber)}</span>
+}
+
+/** Una fila de una tabla, por el texto de sus primeras celdas. */
+export function TableRowLabel() {
+  const { data, rowNumber } = useRowLabel<Row>()
+  return <span>{tableRowLabel(data, rowNumber)}</span>
 }
 
 /** Una fila que se llama por uno de sus campos de texto. */

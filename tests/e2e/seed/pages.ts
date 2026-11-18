@@ -1,8 +1,9 @@
 // Páginas sueltas de prueba para las E2E (backlog B-09): «Emotes» publicada y un emote suyo
 // con texto, una captura, un paso con coordenadas, un aviso y enlaces de Torre a su propia web
 // (a una página de aquí, a una que solo está en Squarespace y a una URL que aquí responde 410,
-// src/lib/site/site-links.ts); el aviso legal En preparación,
-// que lleva a Squarespace; y la política de cookies publicada, para el pie. Se siembra con
+// src/lib/site/site-links.ts); el aviso legal En preparación, que lleva a Squarespace; la
+// política de cookies publicada, para el pie; y un tutorial con una tabla larga (backlog D-02),
+// que en el móvil se desplaza de lado. Se siembra con
 // scripts/seed-e2e.ts sobre la base vacía de las pruebas, nunca sobre una real.
 import path from 'node:path'
 import type { Payload } from 'payload'
@@ -40,6 +41,74 @@ export const seedPages = {
     title: 'Política de Cookies de torrentearcano.com',
     slug: 'politica-de-cookies',
     intro: 'En este sitio web utilizamos cookies.',
+  },
+  tutorial: {
+    title: 'Familiares para empezar',
+    slug: 'tutorial-familiares',
+    intro: 'Los familiares que puedes criar desde el nivel 1, con lo que dan y lo que comen.',
+    table: {
+      title: 'Familiares de nivel bajo',
+      columns: [
+        { header: 'Familiar', align: 'start' },
+        { header: 'Nivel', align: 'end' },
+        { header: 'Característica', align: 'start' },
+        { header: 'Máximo', align: 'end' },
+        { header: 'Comida', align: 'center' },
+        { header: 'Dónde conseguirlo', align: 'start' },
+      ],
+      rows: [
+        [
+          'Bwak de Fuego',
+          '1',
+          'Inteligencia',
+          '80',
+          'Recursos',
+          'Del huevo que suelta el bwak de fuego en Incarnam',
+        ],
+        [
+          'Bwak de Tierra',
+          '1',
+          'Fuerza',
+          '80',
+          'Recursos',
+          'Del huevo que suelta el bwak de tierra en Incarnam',
+        ],
+        [
+          'Bwak de Aire',
+          '1',
+          'Agilidad',
+          '80',
+          'Recursos',
+          'Del huevo que suelta el bwak de aire en Incarnam',
+        ],
+        [
+          'Bwak de Agua',
+          '1',
+          'Suerte',
+          '80',
+          'Recursos',
+          'Del huevo que suelta el bwak de agua en Incarnam',
+        ],
+        ['Jalatín', '10', 'Vitalidad', '1 200', 'Almas', 'En la tienda de familiares de Astrub'],
+        ['Tofu', '15', 'Agilidad', '80', 'Almas', 'En la tienda de familiares de Astrub'],
+        [
+          'Dragopavo',
+          '20',
+          'Prospección',
+          '50',
+          'Pan',
+          'Lo cría el criador de dragopavos de Amakna',
+        ],
+        [
+          'Pío rosa',
+          '25',
+          'Vitalidad',
+          '1 200',
+          'Semillas',
+          'En el mercadillo de animales de Bonta',
+        ],
+      ],
+    },
   },
 } as const
 
@@ -100,7 +169,7 @@ async function upsert(payload: Payload, data: Record<string, unknown> & { slug: 
 }
 
 export async function seedPagesData(payload: Payload): Promise<void> {
-  const { emotes, emote, notice, cookies } = seedPages
+  const { emotes, emote, notice, cookies, tutorial } = seedPages
   const parent = await upsert(payload, {
     title: emotes.title,
     slug: emotes.slug,
@@ -161,5 +230,21 @@ export async function seedPagesData(payload: Payload): Promise<void> {
     slug: cookies.slug,
     state: 'published',
     body: [{ blockType: 'richText', content: richText(cookies.intro) }],
+  })
+
+  await upsert(payload, {
+    title: tutorial.title,
+    slug: tutorial.slug,
+    state: 'published',
+    body: [
+      { blockType: 'richText', content: richText(tutorial.intro) },
+      {
+        blockType: 'table',
+        title: tutorial.table.title,
+        rowHeaders: true,
+        columns: tutorial.table.columns,
+        rows: tutorial.table.rows.map((cells) => ({ cells: cells.map((text) => ({ text })) })),
+      },
+    ],
   })
 }

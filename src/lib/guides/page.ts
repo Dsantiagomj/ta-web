@@ -16,6 +16,7 @@ import { isDungeonNote, needKey, needNote, type NeedNote, rowText } from './need
 import type { GuideStart } from './step-nav'
 import { guideStrings } from './strings'
 import type { LinkedLevelRewards, LinkedRewards, LinkedNeeds } from './summary'
+import { type TableBlockDoc, type TableView, tableView } from './table'
 
 export { needNote, type NeedNote } from './need-notes'
 
@@ -61,6 +62,7 @@ type ContentBlockDoc =
       id?: string | null
       monsters?: { monster: Relation<MonsterDoc>; quantity: number }[] | null
     }
+  | TableBlockDoc
 
 /** Un monstruo de DofusDB, con su imagen importada si ya está. */
 interface MonsterDoc {
@@ -150,6 +152,8 @@ export type GuideBlock =
       content: RichTextState
       priorityImage?: true
     }
+  /** Una tabla de Torre (DESIGN.md, Table block). */
+  | ({ kind: 'table'; key: string } & TableView)
 
 /** La misión enlazada, con lo que Torre corrigió de ella (nombre y nivel). */
 function linkedQuest(guide: Pick<GuideDoc, 'quest'>): GuideQuest | null {
@@ -503,6 +507,10 @@ export function guideContent(
             : [],
         )
         return monsters.length > 0 ? [{ kind: 'fight', key, monsters }] : []
+      }
+      case 'table': {
+        const table = tableView(block)
+        return table ? [{ kind: 'table', key, ...table }] : []
       }
       case 'image': {
         const image = mediaImageAsset(block.image)

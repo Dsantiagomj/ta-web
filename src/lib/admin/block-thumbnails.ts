@@ -16,6 +16,7 @@ export const blockThumbnails = {
   callout: 'Un consejo de Torre con su avatar y un aviso de cuidado.',
   fight: 'Un combate: cada monstruo con su imagen y su cantidad.',
   step: 'Un paso con sus coordenadas, su texto y una captura.',
+  table: 'Una tabla con su título, los encabezados de las columnas y filas con nombres y cifras.',
   proseVideo: 'Un vídeo de YouTube dentro del texto, bajo un párrafo.',
   needItem: 'Filas de Necesitarás: cada objeto con su icono y su cantidad.',
   needNote: 'Filas de Necesitarás escritas a mano, como una mazmorra o un combate.',

@@ -6,6 +6,7 @@ import { CalloutBlock } from './CalloutBlock'
 import { FightBlock } from './FightBlock'
 import { ImageBlock } from './ImageBlock'
 import { RichTextBlock } from './RichTextBlock'
+import { TableBlock } from './TableBlock'
 import { VideoBlock } from './VideoBlock'
 
 const s = guideStrings.admin.step
@@ -57,7 +58,7 @@ export const StepBlock: Block = {
       label: s.body,
       labels: { singular: 'Bloque', plural: 'Bloques' },
       type: 'blocks',
-      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock],
+      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, TableBlock],
     },
   ],
 }
