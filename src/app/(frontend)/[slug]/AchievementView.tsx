@@ -1,3 +1,4 @@
+import { contentDate } from '@/lib/content-date/format'
 import {
   AchievementCountsFor,
   AchievementHeader,
@@ -47,7 +48,12 @@ export function AchievementView({
       >
         <article className="logro__main">
           <Breadcrumb {...view.breadcrumb} />
-          <AchievementHeader title={view.title} icon={view.icon} meta={view.meta} />
+          <AchievementHeader
+            title={view.title}
+            icon={view.icon}
+            meta={view.meta}
+            updated={contentDate(data.page).modified}
+          />
           <AchievementSheet facts={view.facts} needs={view.needs} />
           <div className="logro__body">
             {intro && (

@@ -16,6 +16,9 @@ type ParentDoc = { title: string; slug: string; state?: PageState | null }
 export interface SitePageDoc {
   title: string
   slug: string
+  /** «Actualizado el» y el JSON-LD (src/lib/content-date/format.ts). */
+  createdAt?: string
+  contentUpdatedAt?: string | null
   state?: PageState | null
   legacyHref?: string | null
   parent?: number | ParentDoc | null

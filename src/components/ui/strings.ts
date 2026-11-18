@@ -5,6 +5,8 @@ export type CalloutVariant = 'tip' | 'warning' | 'stop'
 export const uiStrings = {
   /** La ruta de navegación de las páginas de logro y de guía. */
   breadcrumb: 'Ruta de navegación',
+  /** Antes de la fecha en que Torre cambió la página («Actualizado el 18 de noviembre de 2026»). */
+  updated: 'Actualizado el',
   callout: {
     tip: 'Consejo',
     warning: '¡Importante!',

@@ -46,6 +46,9 @@ export interface PageDoc {
   name: string
   slug: string
   state: PageState
+  /** «Actualizado el» y el JSON-LD (src/lib/content-date/format.ts). */
+  createdAt?: string
+  contentUpdatedAt?: string | null
   points?: number | null
   quests?: { name?: string | null; quests?: Relation<QuestDoc>[] | null }[] | null
   rewards?: {
