@@ -393,17 +393,29 @@ test.describe('progreso de una checklist', () => {
     await expect(row).toHaveAttribute('aria-current', 'true')
   })
 
-  test('pasa axe con progreso, con el menú y con la copia de seguridad abierta', async ({
-    page,
-  }) => {
-    await page.goto(url)
-    await stepBox(page, 2).check()
-    await settled(page)
-    expect(await axe(page)).toEqual([])
-    await page.getByRole('button', { name: 'Más opciones' }).click()
-    expect(await axe(page)).toEqual([])
-    await page.getByRole('button', { name: 'Copia de seguridad' }).click()
-    await settled(page)
-    expect(await axe(page)).toEqual([])
-  })
+  // Un estado por prueba: tres pasadas de axe sobre la checklist en una sola rozaban el tiempo
+  // de una prueba con la máquina cargada.
+  const states = {
+    'con progreso': async () => {},
+    'con el menú abierto': async (page: Page) => {
+      await page.getByRole('button', { name: 'Más opciones' }).click()
+    },
+    'con la copia de seguridad abierta': async (page: Page) => {
+      await page.getByRole('button', { name: 'Más opciones' }).click()
+      await page.getByRole('button', { name: 'Copia de seguridad' }).click()
+    },
+  }
+  for (const [state, open] of Object.entries(states)) {
+    test(`pasa axe ${state}`, async ({ page }) => {
+      await page.goto(url)
+      // La casilla llega desactivada hasta que carga el progreso. Pulsarla antes hace que
+      // Playwright reintente y, al reintentar, desplace la página con otra alineación: la fila 1
+      // quedaba bajo la cabecera fija y axe la medía tapada (target-size).
+      await expect(stepBox(page, 2)).toBeEnabled()
+      await stepBox(page, 2).check()
+      await open(page)
+      await settled(page)
+      expect(await axe(page)).toEqual([])
+    })
+  }
 })
