@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { parseEnv } from 'node:util'
 
 import { DEV_DATABASE, E2E_DATABASE_URL } from '../../src/lib/db/dev-database.ts'
+import { testMediaDir } from '../../src/lib/media/static-dir.ts'
 
 type WebServer = Extract<PlaywrightTestConfig['webServer'], unknown[]>[number]
 
@@ -28,7 +29,9 @@ function appEnv(databaseUrl: string, port: number): Record<string, string> {
     DATABASE_URL_DIRECT: databaseUrl,
     // El origen público: en producción (next start) es obligatorio (src/lib/site/origin.ts).
     NEXT_PUBLIC_SITE_URL: `http://localhost:${port}`,
-    // Sin R2: la imagen sembrada va al disco local (./media) aunque el shell tenga las S3_*.
+    // Sin R2: la imagen sembrada va al disco local aunque el shell tenga las S3_*, a la carpeta
+    // de esta base (media/test/<base>), que la siembra vacía si la base no tiene archivos.
+    MEDIA_STATIC_DIR: testMediaDir(databaseUrl),
     S3_ENDPOINT: '',
     S3_BUCKET: '',
     S3_ACCESS_KEY_ID: '',

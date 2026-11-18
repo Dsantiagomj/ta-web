@@ -1,10 +1,12 @@
 // Siembra las guías, el logro, las guías de Dofus, las checklists, las páginas y una redirección de prueba (tests/e2e/seed/) en la base de las E2E o de
 // Lighthouse CI, después de `pnpm migrate`. Corre con `payload run`; se niega con una base
 // que no sea de esta máquina. Repetirlo no duplica nada.
+import { rmSync } from 'node:fs'
 import { getPayload } from 'payload'
 
 import config from '@payload-config'
 import { isLocalDatabaseUrl, resolveDatabaseUrl } from '@/lib/db/database-url'
+import { staleTestMediaDir } from '@/lib/media/static-dir'
 
 import { seedAchievements } from '../tests/e2e/seed/achievements'
 import { seedChecklistCards } from '../tests/e2e/seed/checklist-cards'
@@ -23,6 +25,11 @@ if (!isLocalDatabaseUrl(databaseUrl)) {
 
 const payload = await getPayload({ config })
 try {
+  // Una base recién vaciada no tiene archivos: lo que quede en su carpeta es de otra ejecución
+  // y haría que Payload renombrara cada subida (y, acumulado, que chocaran dos subidas).
+  const { totalDocs } = await payload.count({ collection: 'media' })
+  const stale = staleTestMediaDir(process.env, totalDocs)
+  if (stale) rmSync(stale, { recursive: true, force: true })
   await seedGuides(payload)
   await seedAchievements(payload)
   await seedDofusGuides(payload)

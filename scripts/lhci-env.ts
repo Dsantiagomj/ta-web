@@ -1,4 +1,5 @@
 import { LHCI_DATABASE_URL } from '../src/lib/db/dev-database.ts'
+import { testMediaDir } from '../src/lib/media/static-dir.ts'
 
 type Env = Record<string, string | undefined>
 
@@ -19,7 +20,9 @@ export function lhciEnv(env: Env, siteUrl = 'http://localhost:3000'): Record<str
     NEXT_PUBLIC_SITE_URL: siteUrl,
     // Se mide el sitio de producción, sin la cabecera noindex del entorno dev.
     APP_ENV: '',
-    // Sin R2: los archivos van al disco local (./media) aunque el shell tenga las S3_*.
+    // Sin R2: los archivos van al disco local aunque el shell tenga las S3_*, a la carpeta de
+    // esta base (media/test/<base>), aparte de la de las E2E.
+    MEDIA_STATIC_DIR: testMediaDir(databaseUrl),
     S3_ENDPOINT: '',
     S3_BUCKET: '',
     S3_ACCESS_KEY_ID: '',
