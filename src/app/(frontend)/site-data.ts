@@ -15,6 +15,7 @@ import { readPageNav } from '@/lib/pages/queries'
 import { SECTION_PAGES_REVALIDATE, SECTION_PAGES_TAG } from '@/lib/section-pages/cache'
 import { readSectionNav } from '@/lib/section-pages/queries'
 import { countSiteGuides } from '@/lib/site/counts'
+import { fetchLiveState, LIVE_REVALIDATE, liveUrl } from '@/lib/site/live'
 import { SITE_COPY_REVALIDATE, SITE_COPY_TAG } from '@/lib/site-copy/cache'
 import { readIndexTexts, readNavigation, readSiteSettings } from '@/lib/site-copy/queries'
 
@@ -98,4 +99,14 @@ export const loadNavigation = unstable_cache(
   async () => readNavigation(await getPayload({ config })),
   ['navigation'],
   { tags: [SITE_COPY_TAG, DOFUS_GUIDES_TAG], revalidate: SITE_COPY_REVALIDATE },
+)
+
+// El directo de Torre, del worker de Twitch (src/lib/site/live.ts): una petición por minuto
+// como mucho, sea cual sea el tráfico. Al caducar se sirve el valor de antes mientras se pide
+// el nuevo, y un worker caído o lento se guarda como «sin directo», así que nunca frena una
+// página más de una vez por minuto.
+export const loadLiveState = unstable_cache(
+  async () => fetchLiveState(liveUrl(process.env)),
+  ['twitch-live'],
+  { revalidate: LIVE_REVALIDATE },
 )

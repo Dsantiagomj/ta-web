@@ -169,6 +169,10 @@ describe('lhciEnv', () => {
     expect(env.MEDIA_BASE_URL).toBe('')
     expect(env.PAYLOAD_SECRET).not.toBe('')
   })
+
+  it('sin el worker de Twitch: la portada medida no depende de la red ni de si Torre emite', () => {
+    expect(lhciEnv({ TWITCH_LIVE_URL: 'https://real.example/' }).TWITCH_LIVE_URL).toBe('off')
+  })
 })
 
 describe('lighthouserc.cjs por partes (LHCI_SHARD)', () => {
