@@ -22,7 +22,8 @@ interface LinkInfo {
 
 /** Cada enlace de la página (la hoja del móvil incluida, aunque esté cerrada), con su sitio. */
 async function links(page: Page): Promise<LinkInfo[]> {
-  return page.locator('a[href]').evaluateAll((anchors) =>
+  // El vídeo de YouTube es la excepción: se reproduce en la misma página (DESIGN.md, Video facade).
+  return page.locator('a[href]:not([data-video-embed])').evaluateAll((anchors) =>
     anchors.map((a) => ({
       href: (a as HTMLAnchorElement).href,
       where: a.closest('header, footer, main, dialog')?.tagName.toLowerCase() ?? 'body',
