@@ -564,24 +564,6 @@
   line-height: 1.3;
 }
 
-/* Una búsqueda a la vez: mientras se ve la del hero, el botón de la cabecera se aparta sin
-   dejar su sitio (visibility, así que nada se mueve). Ctrl K y / siguen abriendo el diálogo. */
-.site-hdr .spill,
-.site-hdr .sbtn {
-  transition:
-    opacity var(--duration-fast) var(--ease-standard),
-    visibility 0s linear 0s;
-}
-
-html.hs-on .site-hdr .spill,
-html.hs-on .site-hdr .sbtn {
-  visibility: hidden;
-  opacity: 0;
-  transition:
-    opacity var(--duration-fast) var(--ease-standard),
-    visibility 0s linear var(--duration-fast);
-}
-
 /* La isla flotante del Krosmoz y los seis Dofus primordiales alrededor. Va antes que el texto
    en el HTML (Hero.tsx): sin `order`, así el texto que se pinta antes de que llegue el resto no
    se mueve. */

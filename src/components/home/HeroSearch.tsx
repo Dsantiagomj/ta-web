@@ -26,8 +26,7 @@ function fit(bar: HTMLElement | null, panel: HTMLElement | null) {
  * mueve nada de la página. El formulario, la etiqueta y la ayuda los pinta el servidor (Hero).
  * Las filas y el motor (HeroResults.tsx y search.ts) y el índice de las guías llegan con
  * import() la primera vez que el campo recibe el foco, nunca al cargar la página; el motor y
- * el índice son los del diálogo de la cabecera, con una sola petición entre los dos. Mientras
- * el campo se ve, el botón de búsqueda de la cabecera se aparta (html.hs-on).
+ * el índice son los del diálogo de la cabecera, con una sola petición entre los dos.
  */
 export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode }) {
   const bar = useRef<HTMLDivElement>(null)
@@ -175,10 +174,8 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
     } else if (event.key === 'Tab') close()
   }
 
-  // Escucha los clics fuera del formulario, el teclado del móvil (visualViewport) y si el
-  // campo se ve, para apartar el botón de búsqueda de la cabecera (html.hs-on).
+  // Escucha los clics fuera del formulario y el teclado del móvil (visualViewport).
   useEffect(() => {
-    const root = document.documentElement
     const form = bar.current?.closest('form')
     const onPointerDown = (event: PointerEvent) => {
       if (!form?.contains(event.target as Node)) {
@@ -189,11 +186,6 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
     const onResize = () => {
       if (panel.current && !panel.current.hidden) fit(bar.current, panel.current)
     }
-    const seen = new IntersectionObserver(
-      ([entry]) => root.classList.toggle('hs-on', entry.isIntersecting),
-      { rootMargin: '-64px 0px 0px 0px' },
-    )
-    if (bar.current) seen.observe(bar.current)
     // Con JavaScript, Intro y el botón eligen una misión; el formulario no se envía.
     const onSubmit = (event: Event) => event.preventDefault()
     form?.addEventListener('submit', onSubmit)
@@ -201,8 +193,6 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
     window.visualViewport?.addEventListener('resize', onResize)
     window.addEventListener('resize', onResize)
     return () => {
-      seen.disconnect()
-      root.classList.remove('hs-on')
       form?.removeEventListener('submit', onSubmit)
       document.removeEventListener('pointerdown', onPointerDown)
       window.visualViewport?.removeEventListener('resize', onResize)

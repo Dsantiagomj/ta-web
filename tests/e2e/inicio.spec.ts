@@ -261,26 +261,28 @@ test.describe('portada', () => {
     await expect(shown(page)).toHaveText('1 misión')
   })
 
-  test('mientras se ve el campo, el botón de búsqueda de la cabecera se aparta', async ({
-    page,
-  }) => {
-    // Una ventana baja: el campo empieza bajo el borde y se puede subir y bajar.
-    await page.setViewportSize({ width: 1440, height: 560 })
-    await open(page)
-    const button = page.locator('.site-hdr .spill')
-    await expect(button).toBeVisible()
-    const box = await button.boundingBox()
-    await page.locator('.ask__bar').evaluate((bar) => bar.scrollIntoView({ block: 'center' }))
-    await expect(button).toBeHidden()
-    // Ctrl K sigue abriendo el diálogo.
-    await page.keyboard.press('Control+k')
-    await expect(page.getByRole('dialog', { name: 'Buscar en el sitio' })).toBeVisible()
-    await page.keyboard.press('Escape')
-    // Fuera de la vista, el botón vuelve en el mismo sitio.
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
-    await expect(button).toBeVisible()
-    expect(await button.boundingBox()).toEqual(box)
-  })
+  // El buscador de la cabecera se ve siempre, también con el campo del hero a la vista: la
+  // píldora desde 1440px y el botón con la lupa por debajo.
+  for (const { width, button } of [
+    { width: 1280, button: '.sbtn' },
+    { width: 1440, button: '.spill' },
+    { width: 2000, button: '.spill' },
+  ]) {
+    test(`a ${width}px, con el campo a la vista, el buscador de la cabecera sigue ahí`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await open(page)
+      await page.locator('.ask__bar').evaluate((bar) => bar.scrollIntoView({ block: 'center' }))
+      await expect(page.locator('.ask__bar')).toBeInViewport()
+      const search = page.locator(`.site-hdr ${button}`)
+      await expect(search).toBeVisible()
+      await expect(search).toHaveCSS('opacity', '1')
+      await expect(search).toHaveCSS('visibility', 'visible')
+      await search.click()
+      await expect(page.getByRole('dialog', { name: 'Buscar en el sitio' })).toBeVisible()
+    })
+  }
 
   test('pasa axe (WCAG 2.2 AA) cerrado, con la pista, cargando, con resultados y sin ellos', async ({
     page,
