@@ -2,6 +2,7 @@ import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
+import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
 import { CHECKLISTS_REVALIDATE, CHECKLISTS_TAG } from '@/lib/checklists/cache'
 import { checklistEntries, checklistNavItems, checklistTeaser } from '@/lib/checklists/list'
 import { readChecklists, readChecklistTeaser } from '@/lib/checklists/queries'
@@ -12,10 +13,13 @@ import { GUIDE_PAGES_REVALIDATE, GUIDE_PAGES_TAG } from '@/lib/guides/cache'
 import { PAGES_REVALIDATE, PAGES_TAG } from '@/lib/pages/cache'
 import { pageNavItems } from '@/lib/pages/page'
 import { readPageNav } from '@/lib/pages/queries'
+import { REDIRECTS_TAG } from '@/lib/redirects/cache'
 import { SECTION_PAGES_REVALIDATE, SECTION_PAGES_TAG } from '@/lib/section-pages/cache'
 import { readSectionNav } from '@/lib/section-pages/queries'
 import { countSiteGuides } from '@/lib/site/counts'
 import { fetchLiveState, LIVE_REVALIDATE, liveUrl } from '@/lib/site/live'
+import { readLiveSlugs } from '@/lib/site/live-slugs'
+import type { LiveSlug } from '@/lib/site/site-links'
 import { SITE_COPY_REVALIDATE, SITE_COPY_TAG } from '@/lib/site-copy/cache'
 import { readIndexTexts, readNavigation, readSiteSettings } from '@/lib/site-copy/queries'
 
@@ -110,3 +114,28 @@ export const loadLiveState = unstable_cache(
   ['twitch-live'],
   { revalidate: LIVE_REVALIDATE },
 )
+
+// Lo que el sitio enseña en /<slug> (src/lib/site/live-slugs.ts), para pasar a relativos los
+// enlaces de Torre a su propia web (src/lib/site/site-links.ts). Cambia cuando se publica o se
+// cambia de dirección cualquier página: caduca con las etiquetas de todas ellas.
+const readLiveSlugsCached = unstable_cache(
+  async () => readLiveSlugs(await getPayload({ config })),
+  ['live-slugs'],
+  {
+    tags: [
+      GUIDE_PAGES_TAG,
+      ACHIEVEMENT_PAGES_TAG,
+      DOFUS_GUIDES_TAG,
+      CHECKLISTS_TAG,
+      PAGES_TAG,
+      REDIRECTS_TAG,
+    ],
+    revalidate: GUIDE_PAGES_REVALIDATE,
+  },
+)
+
+/** Si /<slug> es una página que el sitio enseña, leído una vez por petición. */
+export async function loadLiveSlug(): Promise<LiveSlug> {
+  const slugs = new Set(await readLiveSlugsCached())
+  return (slug) => slugs.has(slug)
+}

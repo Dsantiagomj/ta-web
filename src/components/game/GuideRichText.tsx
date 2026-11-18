@@ -11,7 +11,7 @@ import { Figure } from '@/components/ui/Figure'
 import type { RichTextState } from '@/lib/guides/page'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import { isExternalHref } from '@/lib/site/external'
-import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
+import { isPlaceholderHref } from '@/lib/site/site-links'
 import type { Media } from '@/payload-types'
 
 import { CoordinatesText } from './Coordinates'
@@ -78,19 +78,15 @@ interface LinkFields {
   doc?: { relationTo?: string; value?: unknown }
 }
 
-/**
- * Squarespace dejó algunas coordenadas enlazadas a la propia guía en la web de siempre, con
- * un «#» vacío: no llevan a ninguna parte, así que quedan como texto.
- */
-function isLegacyPlaceholder(href: string): boolean {
-  return href.startsWith(`${LEGACY_SITE_ORIGIN}/`) && href.endsWith('#')
-}
-
-// Un enlace interno a otra guía lleva a su página; a cualquier otra cosa, todavía a nada.
+// Un enlace interno a otra guía lleva a su página; a cualquier otra cosa, todavía a nada. Los
+// enlaces de Torre a su propia web llegan ya resueltos por la página (withSiteLinks,
+// src/lib/site/site-links.ts): relativos si el sitio sirve esa ruta. Las coordenadas que
+// Squarespace dejó enlazadas a la propia guía con un «#» vacío no llevan a ninguna parte, así
+// que quedan como texto.
 function linkHref(fields: LinkFields): string | null {
   if (fields.linkType !== 'internal') {
     const href = safeHref(fields.url)
-    return href && !isLegacyPlaceholder(href) ? href : null
+    return href && !isPlaceholderHref(href) ? href : null
   }
   const value = fields.doc?.value
   if (fields.doc?.relationTo !== 'quest-guides' || !value || typeof value !== 'object') return null

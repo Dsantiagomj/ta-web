@@ -1,5 +1,7 @@
 // Páginas sueltas de prueba para las E2E (backlog B-09): «Emotes» publicada y un emote suyo
-// con texto, una captura, un paso con coordenadas y un aviso; el aviso legal En preparación,
+// con texto, una captura, un paso con coordenadas, un aviso y enlaces de Torre a su propia web
+// (a una página de aquí, a una que solo está en Squarespace y a una URL que aquí responde 410,
+// src/lib/site/site-links.ts); el aviso legal En preparación,
 // que lleva a Squarespace; y la política de cookies publicada, para el pie. Se siembra con
 // scripts/seed-e2e.ts sobre la base vacía de las pruebas, nunca sobre una real.
 import path from 'node:path'
@@ -22,6 +24,12 @@ export const seedPages = {
     step: 'Entra en la mazmorra y gana el último combate.',
     warning: 'Una vez salgas de la mazmorra, ya tendrás el emote.',
     image: { file: 'public/img/sistema/seis-pies-combate.webp', alt: 'La sala del Bworknoso' },
+    links: {
+      text: 'Más emotes:',
+      served: { name: 'todos los emotes', url: 'https://www.torrentearcano.com/emotes-global' },
+      missing: { name: 'bailar', url: '/emote-bailar' },
+      gone: { name: 'la tienda', url: 'https://www.torrentearcano.com/cart' },
+    },
   },
   notice: {
     title: 'Aviso Legal',
@@ -60,6 +68,24 @@ const element = (type: string, children: LexicalNode[], extra: LexicalNode = {})
 const richText = (value: string) =>
   ({
     root: element('root', [element('paragraph', [text(value)], { textFormat: 0, textStyle: '' })]),
+  }) as unknown as RichTextBlock['content']
+
+/** Un párrafo con enlaces escritos (no internos), como los que trajo la importación. */
+const linksText = (lead: string, links: { name: string; url: string }[]) =>
+  ({
+    root: element('root', [
+      element(
+        'paragraph',
+        [
+          text(`${lead} `),
+          ...links.flatMap(({ name, url }) => [
+            element('link', [text(name)], { fields: { url, linkType: 'custom', newTab: false } }),
+            text(' '),
+          ]),
+        ],
+        { textFormat: 0, textStyle: '' },
+      ),
+    ]),
   }) as unknown as RichTextBlock['content']
 
 async function upsert(payload: Payload, data: Record<string, unknown> & { slug: string }) {
@@ -111,6 +137,14 @@ export async function seedPagesData(payload: Payload): Promise<void> {
         body: [{ blockType: 'richText', content: richText(emote.step) }],
       },
       { blockType: 'callout', variant: 'warning', content: richText(emote.warning) },
+      {
+        blockType: 'richText',
+        content: linksText(emote.links.text, [
+          emote.links.served,
+          emote.links.missing,
+          emote.links.gone,
+        ]),
+      },
     ],
   })
 

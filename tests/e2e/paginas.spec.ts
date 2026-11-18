@@ -28,6 +28,28 @@ test.describe('página suelta', () => {
     await expect(page.getByRole('note').getByText(emote.warning)).toBeVisible()
   })
 
+  test('los enlaces de Torre a su web: aquí si el sitio sirve la página, si no a Squarespace', async ({
+    page,
+  }) => {
+    await page.goto(`/${emote.slug}`)
+    const body = page.locator('main')
+    const { served, missing, gone } = emote.links
+    // La página existe aquí: el enlace pasa a relativo y se abre en la misma pestaña.
+    const here = body.getByRole('link', { name: served.name, exact: true })
+    await expect(here).toHaveAttribute('href', `/${emotes.slug}`)
+    await expect(here).not.toHaveAttribute('target', '_blank')
+    // Sin página aquí: a la de Squarespace, también si Torre lo escribió relativo.
+    await expect(body.getByRole('link', { name: missing.name, exact: true })).toHaveAttribute(
+      'href',
+      `https://www.torrentearcano.com${missing.url}`,
+    )
+    // Lo que aquí responde 410 sigue en Squarespace hasta el cambio de dominio.
+    await expect(body.getByRole('link', { name: gone.name, exact: true })).toHaveAttribute(
+      'href',
+      gone.url,
+    )
+  })
+
   test('lleva el SEO de Torre, su URL canónica y Open Graph', async ({ page }) => {
     await page.goto(`/${emote.slug}`)
     await expect(page).toHaveTitle(emote.metaTitle)

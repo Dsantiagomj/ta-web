@@ -1,10 +1,9 @@
 // Los enlaces de Torre a su propia web («/emote-soltar-los-gases»), al importarlos: se quedan
 // relativos si este sitio ya responde esa ruta y, si no, llevan a su página en Squarespace,
 // para no enlazar a un 404. Al repetir la importación cuando la página ya existe, el enlace
-// vuelve a ser relativo (si Torre no tocó ese campo). Código puro.
-import { isReservedSlug } from '@/lib/guides/slug'
-import { lookupLegacyUrl } from '@/lib/redirects/table'
-import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
+// vuelve a ser relativo (si Torre no tocó ese campo). La regla es la de las páginas
+// (src/lib/site/site-links.ts); aquí solo se guardan los relativos. Código puro.
+import { siteLinkHref } from '@/lib/site/site-links'
 
 /**
  * El enlace que se guarda. live dice si /<slug> es una página que el sitio enseña; las rutas
@@ -12,11 +11,5 @@ import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
  */
 export function siteHref(href: string, live: (slug: string) => boolean): string {
   if (!href.startsWith('/') || href.startsWith('//') || href === '/') return href
-  const path = href.split(/[?#]/u)[0]!.replace(/\/+$/u, '')
-  const slug = path.slice(1).toLowerCase()
-  const served =
-    slug !== '' &&
-    !slug.includes('/') &&
-    (isReservedSlug(slug) || lookupLegacyUrl(path) !== null || live(slug))
-  return served ? href : `${LEGACY_SITE_ORIGIN}${href}`
+  return siteLinkHref(href, live)
 }
