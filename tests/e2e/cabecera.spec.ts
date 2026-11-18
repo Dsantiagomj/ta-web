@@ -290,6 +290,7 @@ test.describe('cabecera', () => {
     const response = await request.get(INDEX, { headers: { 'Accept-Encoding': 'gzip' } })
     expect(response.status()).toBe(200)
     expect(response.headers()['content-encoding']).toBe('gzip')
+    expect(response.headers()['vary']).toMatch(/Accept-Encoding/i)
     expect(response.headers()['cache-control']).toMatch(/^public, max-age=\d+/)
     const { guides } = (await response.json()) as { guides: IndexRow[] }
     const slugs = guides.map((row) => row[1])
