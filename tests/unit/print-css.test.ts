@@ -65,7 +65,7 @@ describe('la hoja de impresión', () => {
       return printBlock.slice(at, printBlock.indexOf('}', at))
     }
     // :root delante: game.css se carga después y ganaría con la misma especificidad.
-    expect(rule(':root .gtable {')).toMatch(/overflow:\s*visible/)
+    expect(rule(':root .gtable .gtable__scroll {')).toMatch(/overflow:\s*visible/)
     expect(rule(':root .gtable .gtable__table :is(th, td)')).toMatch(/position:\s*static/)
     expect(rule(':root .gtable .gtable__table tr')).toMatch(/break-inside:\s*avoid/)
   })

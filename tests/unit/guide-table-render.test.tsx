@@ -29,13 +29,18 @@ const pets: TableBlock = {
 const html = (table: TableBlock) => renderToStaticMarkup(<GuideTable table={table} />)
 
 describe('GuideTable', () => {
-  it('nombra la tabla con su <caption>, y la región que se desplaza con el mismo texto', () => {
+  it('pone el título fuera de la región que se desplaza, y nombra con él la región y la tabla', () => {
     const markup = html(pets)
-    const id = markup.match(/<caption id="([^"]+)">Familiares de Astrub<\/caption>/)?.[1]
+    const id = markup.match(
+      /^<div class="gtable"><div class="gtable__title" id="([^"]+)" aria-hidden="true">Familiares de Astrub<\/div>/,
+    )?.[1]
     expect(id).toBeTruthy()
-    expect(markup).toMatch(
-      new RegExp(`^<div class="gtable" role="region" tabindex="0" aria-labelledby="${id}">`),
+    expect(markup).toContain(
+      `<div class="gtable__scroll" role="region" tabindex="0" aria-labelledby="${id}">` +
+        `<table class="gtable__table gtable__table--rows" aria-labelledby="${id}">`,
     )
+    // El título se ve una vez y se anuncia como nombre, no como texto suelto ni <caption>.
+    expect(markup).not.toContain('<caption')
   })
 
   it('los encabezados de columna son <th scope="col"> dentro de <thead>', () => {
@@ -63,10 +68,11 @@ describe('GuideTable', () => {
     expect(markup).not.toContain('gtable__table--rows')
   })
 
-  it('sin título no hay <caption>: la región se nombra por sus columnas', () => {
+  it('sin título no hay título: la región se nombra por sus columnas', () => {
     const { title: _title, ...untitled } = pets
     const markup = html(untitled)
-    expect(markup).not.toContain('<caption')
+    expect(markup).not.toContain('gtable__title')
+    expect(markup).not.toContain('aria-labelledby')
     expect(markup).toContain('aria-label="Tabla: Familiar, Nivel, Zona"')
   })
 
@@ -78,6 +84,6 @@ describe('GuideTable', () => {
 
   it('GuideBody la pinta entre los demás bloques', () => {
     const markup = renderToStaticMarkup(<GuideBody blocks={[pets]} />)
-    expect(markup).toContain('<table class="gtable__table gtable__table--rows">')
+    expect(markup).toContain('<table class="gtable__table gtable__table--rows"')
   })
 })

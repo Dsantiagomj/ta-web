@@ -23,7 +23,9 @@ test.describe('la tabla de una página', () => {
 
     const grid = tableOf(page)
     await expect(grid).toBeVisible()
-    await expect(grid.locator('caption')).toHaveText(table.title)
+    // El título se ve una sola vez, encima de la tabla.
+    await expect(page.getByText(table.title, { exact: true })).toHaveCount(1)
+    await expect(page.getByText(table.title, { exact: true })).toBeVisible()
     await expect(grid.getByRole('columnheader')).toHaveText(
       table.columns.map(({ header }) => new RegExp(`^${header}$`, 'i')),
     )
@@ -83,6 +85,23 @@ test.describe('la tabla de una página', () => {
       tableOf(page).getByRole('cell', { name: table.rows[7][5], exact: true }),
     ).toBeInViewport()
     expect(Math.abs((await name.boundingBox())!.x - before)).toBeLessThan(1)
+  })
+
+  test('a 390px el título se queda en su sitio mientras la tabla se desplaza', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(`/${tutorial.slug}`)
+    const region = regionOf(page)
+    const title = page.getByText(table.title, { exact: true })
+    await title.scrollIntoViewIfNeeded()
+    const before = (await title.boundingBox())!
+    await region.evaluate((node) => node.scrollTo({ left: node.scrollWidth, behavior: 'instant' }))
+    await expect.poll(() => region.evaluate((node) => node.scrollLeft)).toBeGreaterThan(0)
+    await expect(title).toBeVisible()
+    await expect(title).toBeInViewport({ ratio: 1 })
+    const after = (await title.boundingBox())!
+    expect(Math.abs(after.x - before.x)).toBeLessThan(1)
+    // El título queda encima de la región, no dentro de lo que se desplaza.
+    expect(after.y + after.height).toBeLessThanOrEqual((await region.boundingBox())!.y + 1)
   })
 
   test('en el escritorio la caja abraza la tabla, sin desplazarse', async ({ page }) => {

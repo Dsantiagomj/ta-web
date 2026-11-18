@@ -1245,16 +1245,34 @@ ul.needs__notes {
 
 /* ---------- tabla (DESIGN.md, Table block) ---------- */
 
-/* La caja abraza la tabla hasta el ancho de la columna; si la tabla no cabe (en el móvil),
-   se desplaza de lado dentro de ella, nunca la página. Plana: superficie y filete. */
+/* La caja abraza la tabla hasta el ancho de la columna. Plana: superficie y filete. Arriba,
+   el título, quieto; debajo, la región que se desplaza de lado si la tabla no cabe (en el
+   móvil), nunca la página. */
 .gtable {
   width: fit-content;
   max-width: 100%;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
   background: var(--color-surface);
+}
+
+/* El título no ensancha la caja: se parte al ancho de la tabla, como un <caption>. */
+.gtable__title {
+  contain: inline-size;
+  padding: 0.875rem 1rem 0.375rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-lg);
+  line-height: 1.35;
+  font-weight: 700;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+/* Las esquinas de abajo recortan el relleno de una fila al pasar el ratón. */
+.gtable__scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border-radius: 0 0 calc(var(--radius-md) - 1px) calc(var(--radius-md) - 1px);
 }
 
 .gtable__table {
@@ -1264,18 +1282,6 @@ ul.needs__notes {
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
   color: var(--color-ink);
-}
-
-.gtable__table caption {
-  caption-side: top;
-  padding: 0.875rem 1rem 0.375rem;
-  text-align: start;
-  font-family: var(--font-ui);
-  font-size: var(--text-lg);
-  line-height: 1.35;
-  font-weight: 700;
-  color: var(--color-ink);
-  text-wrap: balance;
 }
 
 /* En el móvil y la tableta estrecha, cada columna toma su ancho natural (40ch como mucho) y
