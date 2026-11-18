@@ -13,7 +13,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 1. One branch per change, in a worktree under `../ta-web-worktrees/<name>`.
 2. Strict TDD: write or adjust the test, watch it fail, then implement.
 3. Schema change: generate and commit the migration in the same branch.
-4. Run lint, format check, types, unit and integration locally before each push; run E2E and the dev gate suite once, right before opening the PR, not per commit or per fix (see Testing). After the PR is open (review fixes, rebases, conflict resolution), run only the E2E specs that cover what changed, never the full suite or the dev gate; CI runs them all on every push. Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files. The review runs on Sonnet 5.5 (`claude-sonnet-5-5`; `GGA_CLAUDE_MODEL` overrides it), whatever Claude Code's default model is. Do not skip the hook (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
+4. Run lint, format check, types, unit and integration locally before each push. Locally, E2E runs only the specs that cover what changed (the specs you added or edited, and those for the pages and components you touched), once before opening the PR and again after a fix that touches them; never the full suite. Run the dev gate suite only when the change touches the dev gate (`src/lib/dev-gate/`, `src/proxy.ts`, `robots.txt`, response headers). CI runs every suite on every push to a PR that changes the site, and that run is the full check (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files. The review runs on Sonnet 5.5 (`claude-sonnet-5-5`; `GGA_CLAUDE_MODEL` overrides it), whatever Claude Code's default model is. Do not skip the hook (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
 5. UI change: the layout lint passes (Workflow) and you review your own screenshots at 2560, 1440, 1024, 768 and 390 px (pages use the full width, so a wide screen shows what stretches), Amakna dark and light (plus any theme the change touches), in `tmp/shots/`, next to the approved mockup, before opening the PR.
 6. Open the PR: conventional commit title, Spanish body. Leave `openwiki/` alone; a daily task refreshes it (see Wiki). No auto-merge unless asked.
 
@@ -86,7 +86,7 @@ Spanish only at launch, ready for more: Payload localization is on with `es` as 
 |---|---|
 | One branch per change | Worktrees under `../ta-web-worktrees/<name>`, never inside the repo |
 | One concern per PR | Chain PRs when a change mixes concerns or passes about 400 changed lines |
-| Suites before push | Lint, format check, types, unit and integration before each push; E2E and dev gate once, right before opening the PR. After that, only the E2E specs for what changed; CI runs the rest. See Testing. Re-run a suspected flake alone (`--retries 0`) before calling it a flake |
+| Suites before push | Lint, format check, types, unit and integration before each push. Locally, only the E2E specs for what changed, never the full suite; the dev gate only when the change touches it. CI runs everything. See Testing. Re-run a suspected flake alone (`--retries 0`) before calling it a flake |
 | Auto-merge | Only when the user asks |
 | Ask, do not guess | A blocked decision gets one question, then stop |
 | Screenshots | `tmp/shots/`, 2560, 1440, 1024, 768 and 390 px wide, Amakna dark and light. The author looks at every one before opening the PR |
