@@ -8,7 +8,9 @@
 // Lo que no es eso es prosa. Ante la duda, una lista es de la plantilla: una lista suelta en
 // la página nueva repetiría lo que ya enseña. Salvo en una página sin logro de DofusDB (El
 // guardián del puente de la muerte): ahí Prerrequisitos, Necesitarás y Recompensas solo los
-// dice Torre, así que sus rótulos y sus listas van a la entrada, en su orden.
+// dice Torre, así que sus rótulos y sus listas van a la entrada, en su orden. Y salvo en una
+// página que no enseña misiones (los logros de Alineamiento, que DofusDB da sin ellas): sus
+// listas de misiones son de Torre y se quedan; la plantilla es solo la lista del resumen.
 import { youtubeId, youtubeWatchUrl } from '@/lib/guides/video'
 
 import type { PageBlock, SquarespacePage } from '../squarespace/parse-page'
@@ -121,12 +123,13 @@ const items = (list: Piece[]) => list.flatMap((piece) => (piece.item ? [piece.it
  * plantilla. Una lista que presenta una frase suya («…las misiones del tutorial:») va con
  * ella, y la entrada sigue. Devuelve también dónde sigue la página.
  */
-function readIntro(list: Piece[], from: number): { intro: Piece[]; next: number } {
+function readIntro(list: Piece[], from: number, quests: boolean): { intro: Piece[]; next: number } {
   const intro: Piece[] = []
   let at = from
   while (at < list.length && !isTemplateHeader(list[at]!)) {
     const piece = list[at]!
-    if (piece.tag === 'ul') {
+    // Sin misiones en la página, la lista del principio no es la de las misiones: es de Torre.
+    if (piece.tag === 'ul' && quests) {
       // Una lista que presenta la frase anterior («…te recomiendo:») es de la entrada; si
       // no, es la de las misiones y la entrada acaba.
       const last = intro.at(-1)
@@ -147,24 +150,34 @@ function readIntro(list: Piece[], from: number): { intro: Piece[]; next: number 
  * no recompensas después. Lo que es plantilla del resumen (sus rótulos, sus grupos y sus
  * listas) sale aparte en `summary`, en su orden.
  */
-function readProse(list: Piece[], from: number): { prose: Piece[]; summary: Piece[] } {
+function readProse(
+  list: Piece[],
+  from: number,
+  quests: boolean,
+): { prose: Piece[]; summary: Piece[] } {
   const prose: Piece[] = []
   const summary: Piece[] = []
   let afterTemplate = true
   let inNeeds = false
   let inSummary = false
+  // Las listas seguidas desde el último rótulo o grupo.
+  let lists = 0
   for (let at = from; at < list.length; at += 1) {
     const piece = list[at]!
     if (isTemplateHeader(piece)) {
       afterTemplate = true
       inNeeds = isNeedsHeader(piece)
       inSummary = isSummaryHeader(piece)
+      lists = 0
       if (inSummary) summary.push(piece)
     } else if (inNeeds && afterTemplate && isGroupLabel(piece)) {
       // Un grupo de Necesitarás: su lista sigue.
+      lists = 0
       summary.push(piece)
-    } else if (piece.tag === 'ul' && afterTemplate) {
-      // Sigue la plantilla.
+    } else if (piece.tag === 'ul' && afterTemplate && (quests || lists === 0)) {
+      // Sigue la plantilla. Sin misiones en la página, solo la primera lista tras un rótulo
+      // lo es: las demás no pueden ser las misiones, así que son de Torre.
+      lists += 1
       if (inSummary) summary.push(piece)
     } else {
       afterTemplate = false
@@ -183,6 +196,11 @@ export interface AchievementProseOptions {
    * Recompensas. Sin él, las listas del resumen de Squarespace son de Torre y van a la entrada.
    */
   dofusDb?: boolean
+  /**
+   * Si la página enseña misiones. Sin ellas (un logro de DofusDB sin misiones, como los de
+   * Alineamiento), las listas de misiones de Torre son suyas y se quedan.
+   */
+  quests?: boolean
 }
 
 /**
@@ -194,7 +212,7 @@ export interface AchievementProseOptions {
  */
 export function achievementProse(
   page: SquarespacePage,
-  { dofusDb = true }: AchievementProseOptions = {},
+  { dofusDb = true, quests = true }: AchievementProseOptions = {},
 ): AchievementProse {
   const list = pieces(page.blocks)
   const title = list.findIndex((piece) => /^h[12]$/.test(piece.tag))
@@ -202,8 +220,8 @@ export function achievementProse(
   const templated =
     list[start]?.tag === 'ul' || list.some((piece) => isRewards(piece) || isNeedsHeader(piece))
   if (!templated) return { intro: items(list.slice(start)), outro: [] }
-  const { intro, next } = readIntro(list, start)
-  const { prose, summary } = readProse(list, next)
+  const { intro, next } = readIntro(list, start, quests)
+  const { prose, summary } = readProse(list, next, quests)
   return {
     intro: items(dofusDb ? intro : [...intro, ...summary]),
     outro: items(prose),

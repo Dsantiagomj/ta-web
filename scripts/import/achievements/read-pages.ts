@@ -4,10 +4,14 @@ import { releaseDom } from '../squarespace/dom'
 import { parsePage } from '../squarespace/parse-page'
 import { achievementProse, type AchievementProse } from './prose'
 
-/** Una página de logro de este sitio: su slug y si tiene logro de DofusDB. */
+/**
+ * Una página de logro de este sitio: su slug, si tiene logro de DofusDB y si enseña misiones
+ * (sin ellas, las listas de misiones de Torre son suyas; por defecto, sí las enseña).
+ */
 export interface AchievementPageRef {
   slug: string
   dofusDb: boolean
+  quests?: boolean
 }
 
 /**
@@ -21,10 +25,10 @@ export async function readAchievementPages(
   release: () => Promise<void> = releaseDom,
 ): Promise<Map<string, AchievementProse>> {
   const pages = new Map<string, AchievementProse>()
-  for (const { slug, dofusDb } of refs) {
+  for (const { slug, dofusDb, quests } of refs) {
     const html = await pageHtml(slug)
     if (!html) continue
-    pages.set(slug, achievementProse(parsePage(html), { dofusDb }))
+    pages.set(slug, achievementProse(parsePage(html), { dofusDb, quests }))
     await release()
   }
   return pages

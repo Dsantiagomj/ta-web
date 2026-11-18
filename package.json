@@ -38,6 +38,7 @@
     "import:achievements": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-achievements.ts --",
     "fix:achievements": "NODE_OPTIONS=--no-deprecation payload run scripts/import/fix-achievements.ts --",
     "import:achievement-prose": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-achievement-prose.ts --",
+    "achievements:alineamiento": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-alignment-achievements.ts --",
     "import:pages": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-pages.ts --",
     "import:section-pages": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-section-pages.ts --",
     "import:golden-refresh": "NODE_OPTIONS=--no-deprecation payload run scripts/import/refresh-golden.ts",
