@@ -6,7 +6,10 @@ import { ChecklistsSection } from '@/components/home/ChecklistsSection'
 import { GuideTour } from '@/components/home/GuideTour'
 import { Hero } from '@/components/home/Hero'
 import { LiveStrip } from '@/components/home/LiveStrip'
+import { JsonLd } from '@/components/site/JsonLd'
+import { websiteJsonLd } from '@/lib/seo/json-ld'
 import { liveState } from '@/lib/site/live'
+import { SITE_URL } from '@/lib/site/origin'
 import '@/components/home/home.css'
 
 import {
@@ -36,7 +39,7 @@ export default async function HomePage({
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
   const params = await searchParams
-  const [counts, checklists, { home }, { socials }, nav, live] = await Promise.all([
+  const [counts, checklists, { home }, settings, nav, live] = await Promise.all([
     loadSiteCounts(),
     loadChecklistNav(),
     loadIndexTexts(),
@@ -44,8 +47,17 @@ export default async function HomePage({
     loadNavigation(),
     liveState(params.directo, process.env, loadLiveState),
   ])
+  const { socials } = settings
   return (
     <main id="contenido" className="home">
+      {/* El sitio y su búsqueda (/buscar?q=) para los buscadores (AGENTS.md, SEO). */}
+      <JsonLd
+        data={websiteJsonLd({
+          siteUrl: SITE_URL,
+          siteName: settings.name,
+          description: settings.description,
+        })}
+      />
       <LiveStrip live={live} twitch={socials.twitch} />
       <Hero texts={home} />
       <Areas counts={counts} texts={home.areas} sections={nav.sections} />

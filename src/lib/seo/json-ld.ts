@@ -1,6 +1,7 @@
 // Los datos estructurados (JSON-LD) de las páginas de /<slug> (backlog S-19, AGENTS.md, SEO).
 // Un Article por guía de misión, logro, guía de Dofus y página suelta; no HowTo, cuyos
-// resultados enriquecidos quitó Google. Las migas van en src/components/site/Breadcrumb.tsx.
+// resultados enriquecidos quitó Google. La portada lleva el WebSite con su búsqueda. Las migas
+// van en src/components/site/Breadcrumb.tsx.
 // Código puro.
 
 import { shareStrings } from './strings'
@@ -60,6 +61,29 @@ export function articleJsonLd(input: ArticleInput) {
         width: LOGO.size,
         height: LOGO.size,
       },
+    },
+  }
+}
+
+/**
+ * El sitio, en la portada: un WebSite con su búsqueda, /buscar?q= (la página de resultados que
+ * funciona sin JavaScript), para que Google pueda ofrecer el cuadro de búsqueda del sitio.
+ */
+export function websiteJsonLd(input: { siteUrl: string; siteName: string; description: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: input.siteName,
+    description: input.description,
+    url: `${input.siteUrl}/`,
+    inLanguage: 'es',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${input.siteUrl}/buscar?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
     },
   }
 }
