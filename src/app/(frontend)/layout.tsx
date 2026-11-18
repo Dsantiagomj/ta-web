@@ -7,6 +7,7 @@ import { KofiFloat } from '@/components/site/Kofi'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { classLinks, dungeonLinks, legalLinks, TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
+import { umamiConfig, umamiScript } from '@/lib/analytics/umami'
 import { modeScript } from '@/lib/theme/mode-script'
 import { themeViewport } from '@/lib/theme/theme-color'
 import { MODE_COOKIE, resolveMode, resolveTheme, THEME_COOKIE } from '@/lib/theme/theme'
@@ -59,6 +60,9 @@ export default async function FrontendLayout({ children }: { children: ReactNode
   ])
   // Las listas de clases y mazmorras: de momento el menú solo enseña cuántas hay.
   const classes = classLinks(sectionNav.classes)
+  // La analítica sin cookies (Umami), leída en cada petición: sin UMAMI_HOST y
+  // UMAMI_WEBSITE_ID, o en el entorno dev, no se pinta nada.
+  const analytics = umamiConfig(process.env)
   const dungeons = dungeonLinks(sectionNav.dungeons)
 
   // data-scroll-behavior: el desplazamiento suave (globals.css) es para las anclas de la
@@ -74,6 +78,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
+        {analytics && <script dangerouslySetInnerHTML={{ __html: umamiScript(analytics) }} />}
       </head>
       <body id={TOP_ANCHOR}>
         {preview && <PreviewBar />}

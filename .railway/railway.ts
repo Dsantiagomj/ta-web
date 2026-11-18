@@ -74,6 +74,10 @@ export default defineRailway((ctx) => {
             // La versión de la etiqueta, que muestra /api/health. También la fija el
             // workflow de release.
             APP_VERSION: preserve(),
+            // La analítica sin cookies (src/lib/analytics/umami.ts): la URL de Umami y el ID
+            // de la web en Umami. Sin las dos, no se cuenta nada. En dev nunca se enciende.
+            UMAMI_HOST: preserve(),
+            UMAMI_WEBSITE_ID: preserve(),
           }),
     },
   })

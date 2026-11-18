@@ -85,7 +85,7 @@ Sizes that matter for the plan:
 | Motion | Motion (Framer Motion); React View Transitions where Next marks them stable | duffus.fr uses Framer Motion on React |
 | Payments | Stripe through Better Auth's plugin, or Lemon Squeezy / Paddle as merchant of record | MoR handles EU VAT and invoices for a higher fee |
 | Email | Resend or Postmark, with SPF and DKIM on the domain | Magic links and receipts must land in the inbox |
-| Analytics | Plausible or self-hosted Umami | No personal data, no extra consent flow |
+| Analytics | Self-hosted Umami (decided 2026-11-18), with our own inline tracker | No personal data, no extra consent flow |
 | Consent | None needed for ads (the new site has no ads). Session cookies are strictly necessary; cookieless analytics needs no banner. Revisit if any tracking is added | Decision 2026-11-02: ads removed |
 
 ### Alternatives weighed
