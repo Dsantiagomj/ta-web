@@ -81,8 +81,17 @@ test('una URL retirada da 410 con una página corta en español', async ({ page,
 test('un esbozo sin página da 410; uno cuya página está En preparación, 404', async ({
   request,
 }) => {
-  expect((await request.get('/se-busca-boarus', { maxRedirects: 0 })).status()).toBe(410)
-  expect((await request.get('/se-busca-darma', { maxRedirects: 0 })).status()).toBe(404)
+  expect((await request.get('/frambuesa', { maxRedirects: 0 })).status()).toBe(410)
+  expect((await request.get('/formacion-de-primer-ao', { maxRedirects: 0 })).status()).toBe(404)
+})
+
+test('un esbozo que Torre llenó como guía ya no redirige ni da 410: espera su guía', async ({
+  request,
+}) => {
+  // Sin la guía importada todavía (la delta la trae como borrador), responde 404.
+  for (const path of ['/corazon-de-piedra', '/se-busca-boarus']) {
+    expect((await request.get(path, { maxRedirects: 0 })).status()).toBe(404)
+  }
 })
 
 test('/sitemap.xml lista lo publicado y nunca un borrador', async ({ request }) => {

@@ -37,10 +37,10 @@ describe('proxy y la tabla de URL antiguas', () => {
   })
 
   it('un esbozo, sección que aún cambia, redirige con 307', () => {
-    const response = proxy(request('/corazon-de-piedra'))
+    const response = proxy(request('/no-hay-cosa-mas-sana-que-una-manzana'))
 
     expect(response.status).toBe(307)
-    expect(response.headers.get('location')).toBe('http://localhost:3000/la-larga-marcha')
+    expect(response.headers.get('location')).toBe('http://localhost:3000/un-ciudadano-modelo')
   })
 
   it('un metalogro va al ancla de su panel en /metalogros', () => {

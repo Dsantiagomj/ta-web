@@ -97,7 +97,9 @@ describe('slugs de la tabla de redirecciones', () => {
   it('el autorrelleno lo da por ocupado y busca otro slug; para un metalogro, no', async () => {
     const req = await createLocalReq({}, payload)
     expect(await isRootSlugTaken(req, 'home', 'quest-guides')).toBe(true)
-    expect(await isRootSlugTaken(req, 'corazon-de-piedra', 'achievement-pages')).toBe(true)
+    expect(
+      await isRootSlugTaken(req, 'no-hay-cosa-mas-sana-que-una-manzana', 'achievement-pages'),
+    ).toBe(true)
     expect(await isRootSlugTaken(req, 'metalogro-astrub', 'achievement-groups')).toBe(false)
   })
 })
