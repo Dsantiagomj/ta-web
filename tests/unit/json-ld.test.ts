@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { articleJsonLd, jsonForScript } from '@/lib/seo/json-ld'
+import { articleJsonLd, jsonForScript, websiteJsonLd } from '@/lib/seo/json-ld'
 
 // Los datos estructurados de las guías, los logros, las guías de Dofus y las páginas sueltas
 // (backlog S-19, AGENTS.md, SEO): un Article por página. No HowTo: Google dejó de enseñar sus
@@ -82,6 +82,33 @@ describe('articleJsonLd', () => {
     for (const key of ['headline', 'image', 'datePublished', 'dateModified', 'author']) {
       expect(data, key).toHaveProperty(key)
     }
+  })
+})
+
+describe('websiteJsonLd', () => {
+  it('la portada es un WebSite en español con la búsqueda de /buscar?q=', () => {
+    expect(
+      websiteJsonLd({
+        siteUrl: 'https://torrentearcano.com',
+        siteName: 'Torrente Arcano',
+        description: 'Guías de Dofus.',
+      }),
+    ).toEqual({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Torrente Arcano',
+      description: 'Guías de Dofus.',
+      url: 'https://torrentearcano.com/',
+      inLanguage: 'es',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://torrentearcano.com/buscar?q={search_term_string}',
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    })
   })
 })
 

@@ -99,6 +99,28 @@ test.describe('al compartir', () => {
     expect(response.headers()['content-type']).toBe('image/png')
   })
 
+  test('la portada dice qué sitio es y cómo se busca en él (WebSite y SearchAction)', async ({
+    page,
+    request,
+    baseURL,
+  }) => {
+    await page.goto('/')
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents()
+    const site = blocks.map((text) => JSON.parse(text)).find((data) => data['@type'] === 'WebSite')
+    expect(site).toMatchObject({
+      url: `${baseURL}/`,
+      inLanguage: 'es',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: { urlTemplate: `${baseURL}/buscar?q={search_term_string}` },
+        'query-input': 'required name=search_term_string',
+      },
+    })
+    // La plantilla lleva a una página de resultados que responde.
+    const search = site.potentialAction.target.urlTemplate.replace('{search_term_string}', 'tierra')
+    expect((await request.get(search)).status()).toBe(200)
+  })
+
   test('una dirección sin página no tiene tarjeta', async ({ request }) => {
     expect((await request.get('/no-existe-esta-guia/og')).status()).toBe(404)
   })
