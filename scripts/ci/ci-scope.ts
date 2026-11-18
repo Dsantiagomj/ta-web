@@ -31,7 +31,7 @@ const OFFLINE: RegExp[] = [
   /^scripts\/hooks\//,
   /^scripts\/redirects\//,
   /^scripts\/legacy-links\//,
-  /^scripts\/(review-release|review-release-plan|backfill-guides|backfill-shown-items|backfill-guide-rewards|fix-reward-typos|prefer-dofusdb-rewards|backfill-summary-text|seed-site-copy|refresh-game-data|dungeon-notes|links-legacy|payload-script|media-sizes|zone-backgrounds)\.ts$/,
+  /^scripts\/(review-release|review-release-plan|backfill-guides|backfill-shown-items|backfill-guide-rewards|fix-reward-typos|prefer-dofusdb-rewards|backfill-summary-text|seed-site-copy|refresh-game-data|dungeon-notes|links-legacy|url-map|payload-script|media-sizes|zone-backgrounds)\.ts$/,
   /^scripts\/build-[\w-]+\.ts$/,
   /^tests\/(unit|integration|import|fixtures)\//,
   /^vitest(\.integration|\.import)?\.config\.mts$/,
