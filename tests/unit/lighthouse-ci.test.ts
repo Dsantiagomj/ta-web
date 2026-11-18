@@ -170,6 +170,13 @@ describe('lhciEnv', () => {
     expect(env.PAYLOAD_SECRET).not.toBe('')
   })
 
+  it('sube los archivos a la carpeta de su base, aparte de los de las E2E', () => {
+    expect(lhciEnv({}).MEDIA_STATIC_DIR).toBe('media/test/ta_web_lhci')
+    expect(lhciEnv({ DATABASE_URL: 'postgres://ci@localhost/pruebas' }).MEDIA_STATIC_DIR).toBe(
+      'media/test/pruebas',
+    )
+  })
+
   it('sin el worker de Twitch: la portada medida no depende de la red ni de si Torre emite', () => {
     expect(lhciEnv({ TWITCH_LIVE_URL: 'https://real.example/' }).TWITCH_LIVE_URL).toBe('off')
   })

@@ -109,6 +109,13 @@ describe('appWebServers', () => {
     expect(env.MEDIA_BASE_URL).toBe('')
   })
 
+  it('sube los archivos a la carpeta de su base, también el servidor de analítica', () => {
+    vi.stubEnv('DATABASE_URL', 'postgres://ci@localhost/pruebas')
+
+    expect(appWebServers({ port: 3100 }).at(-1)?.env?.MEDIA_STATIC_DIR).toBe('media/test/pruebas')
+    expect(analyticsWebServer({ port: 3102 }).env?.MEDIA_STATIC_DIR).toBe('media/test/pruebas')
+  })
+
   it('el origen público es el del servidor de pruebas: producción lo exige', () => {
     const env = appWebServers({ port: 3147 }).at(-1)?.env ?? {}
 

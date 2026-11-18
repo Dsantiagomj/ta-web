@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { panelStrings } from '../lib/admin/strings'
 import { IMAGE_WIDTHS, imageSizeName, mediaImageSizes } from '../lib/media/sizes'
+import { mediaStaticDir } from '../lib/media/static-dir'
 import { refuseGameAssetDelete, refuseReferencedDelete } from './delete-guard'
 import { isAdmin } from './editorial-access'
 import {
@@ -94,7 +95,8 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    staticDir: 'media',
+    // Sin R2, en el disco: ./media, o la carpeta de su base en las pruebas (MEDIA_STATIC_DIR).
+    staticDir: mediaStaticDir(),
     imageSizes: mediaImageSizes,
     adminThumbnail: imageSizeName('webp', IMAGE_WIDTHS[0]),
   },
