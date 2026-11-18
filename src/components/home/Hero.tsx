@@ -1,7 +1,6 @@
 import { ArrowIcon, SearchIcon } from '@/components/site/icons'
 import { StaticImg } from '@/components/site/StaticImg'
 import { Picture } from '@/components/ui/Picture'
-import { legacyHref } from '@/lib/site/legacy'
 import { indexTextDefaults, type IndexTexts } from '@/lib/site-copy/defaults'
 
 import { KROSMOZ, ORBS, TORRE_ASK } from './art'
@@ -13,7 +12,7 @@ import { homeStrings as s } from './strings'
  * El hero de la portada (DESIGN.md, Home): el nombre con lo que es, una frase, y Torre que
  * pregunta qué misión estás haciendo sobre la búsqueda de misiones. A un lado, la isla del
  * Krosmoz con los seis Dofus primordiales, que es la imagen principal en el móvil. Sin
- * JavaScript, la búsqueda va a la de la web de siempre. Los textos son de «Portada e índices».
+ * JavaScript, la búsqueda manda el texto a /buscar. Los textos son de «Portada e índices».
  */
 export function Hero({ texts = indexTextDefaults.home }: { texts?: IndexTexts['home'] }) {
   return (
@@ -53,12 +52,7 @@ export function Hero({ texts = indexTextDefaults.home }: { texts?: IndexTexts['h
             </span>
           </h1>
           <p className="hero__lead">{texts.lead}</p>
-          <form
-            className="ask"
-            role="search"
-            aria-label={s.searchForm}
-            action={legacyHref('search')}
-          >
+          <form className="ask" role="search" aria-label={s.searchForm} action="/buscar">
             <div className="ask__top">
               <span className="ask__torre">
                 <Picture

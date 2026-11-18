@@ -110,6 +110,7 @@ const pages: { name: string; path: (page: Page) => Promise<string> }[] = [
   { name: 'los metalogros', path: async () => '/metalogros' },
   { name: 'el índice de checklists', path: async () => '/checklists' },
   { name: 'las guías de Dofus', path: async () => '/guias-dofus' },
+  { name: 'la búsqueda sin JavaScript', path: async () => '/buscar?q=es' },
   ...(process.env.LAYOUT_LINT_PATHS ?? '')
     .split(',')
     .map((path) => path.trim())
