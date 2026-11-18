@@ -172,12 +172,12 @@ export function torreRewards(
   return result
 }
 
-// «Si eres nivel 1 a 109:» y sus cifras en las líneas de debajo, como lo deja la importación
-// (en su página cada tramo es un elemento de lista con sus cifras en una sublista), o detrás
-// de los dos puntos. Las guías importadas antes de que la importación leyera bien las
+// «Si eres nivel 1 a 109:» (o «De nivel 1 a 109:», como en «La melodía de la felicidad») y sus
+// cifras en las líneas de debajo, como lo deja la importación (en su página cada tramo es un
+// elemento de lista con sus cifras en una sublista), o detrás de los dos puntos. Las guías importadas antes de que la importación leyera bien las
 // sublistas guardan «Si eres nivel 1 a 109: 1 329 586 XP.14 041 kamas.5 x Cupón chocolate.»
 // y debajo las mismas cifras otra vez; se leen igual mientras sigan así.
-const TIER = /^(?:si eres (?:de )?)?nivel(?:es)? (\d+) a (\d+)\s*:\s*(.*)$/i
+const TIER = /^(?:si eres (?:de )?|de )?nivel(?:es)? (\d+) a (\d+)\s*:\s*(.*)$/i
 // Corta tras el punto de una palabra («XP.14 041»), no en los miles con punto (1.329.586).
 const TIER_PARTS = /(?<=[^\d\s]\.)\s*(?=\d)/
 
@@ -248,7 +248,7 @@ export interface TorreLevelRewards {
 }
 
 /**
- * Los tramos del texto de Torre («Si eres nivel 1 a 109: …»). Sus cifras ganan; lo que no
+ * Los tramos del texto de Torre («Si eres nivel 1 a 109: …», «De nivel 1 a 109: …»). Sus cifras ganan; lo que no
  * escribe de un tramo lo pone el mismo tramo de DofusDB. Los objetos son los del tramo de
  * DofusDB, con la cantidad que él escribió para el mismo objeto; uno suyo que DofusDB no da
  * en ese tramo no se inventa y se lista.

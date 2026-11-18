@@ -278,6 +278,17 @@ describe('torreLevelRewards', () => {
     )
   })
 
+  // «La melodía de la felicidad» escribe «De nivel 1 a 109:» en vez de «Si eres nivel 1 a 109:».
+  it('«De nivel 1 a 109:» se lee como «Si eres nivel 1 a 109:»', () => {
+    const melodia = CRISIS.replaceAll('Si eres nivel', 'De nivel')
+    expect(torreLevelRewards(melodia, crisisQuest)).toEqual(torreLevelRewards(CRISIS, crisisQuest))
+    const inline = 'De nivel 1 a 109: 1 329 586 XP.14 041 kamas.\nde nivel 110 a 200: 9 XP.'
+    expect(torreLevelRewards(inline, crisisQuest).levels?.[0]).toMatchObject({
+      experience: 1_329_586,
+      kamas: 14_041,
+    })
+  })
+
   it('un tramo con sus cifras en la misma línea también se lee', () => {
     const inline =
       'Si eres nivel 1 a 109: 1 329 586 XP.14 041 kamas.\nSi eres nivel 110 a 200: 9 XP.'
