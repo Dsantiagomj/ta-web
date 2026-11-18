@@ -1,7 +1,6 @@
 import { useId, type ReactNode } from 'react'
 
 import { type CalloutVariant, uiStrings } from './strings'
-import './ui.css'
 
 /**
  * Aviso (DESIGN.md, Callout): una caja con el borde de su color y un título sencillo

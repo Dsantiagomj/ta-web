@@ -1,7 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 import { cx } from './cx'
-import './ui.css'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost'
 

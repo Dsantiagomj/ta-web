@@ -1061,7 +1061,9 @@ From `docs/legacy/plan.md` section 7, enforced by Lighthouse CI on every PR (`pn
 
 Measured on a phone emulated at 412px and 1.75 DPR, with a slow 4G network (150 ms RTT, 1.6 Mbps) and a 4x slower CPU applied through DevTools, not simulated (decided 2026-11-05). The simulated mode (Lantern) charges every main-thread script that runs before the LCP to the LCP image: a guide whose first screenshot paints at about 150 ms scored about 3 s. Applied throttling measures when it paints.
 
-What keeps them: server components, fonts through `next/font/local` with fallback metrics, CSS motion, no on-request image work, and the Motion library confined to client islands.
+What keeps them: server components, fonts through `next/font/local` with fallback metrics, at most three stylesheets per page (`AGENTS.md`, Three stylesheets per page at most), CSS motion, no on-request image work, and the Motion library confined to client islands.
+
+The home's LCP is the Krosmoz isle (`krosmoz-640.avif` at 412 px and 1.75x), not text. Its request shares the first six HTTP/1.1 connections with the two preloaded fonts and the stylesheets, so a fourth stylesheet delays it by a full round trip: on 2026-11-18 the home measured 2,436 to 2,475 ms with four sheets and 2,150 to 2,178 ms with three, in interleaved runs on the same machine.
 
 ## Design process
 

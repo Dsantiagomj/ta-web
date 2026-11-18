@@ -1,7 +1,5 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
-import './ui.css'
-
 /** Casilla nativa con el estilo de DESIGN.md, dentro de su etiqueta. */
 export function Checkbox({
   label,

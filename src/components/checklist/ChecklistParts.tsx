@@ -25,7 +25,6 @@ import { formatAmount } from '@/lib/guides/display'
 
 import { progressStrings as p } from './progress-strings'
 
-import '@/components/ui/ui.css'
 // checklist.css va dentro de achievement.css: una hoja menos en /<slug>.
 import '../achievement/achievement.css'
 
