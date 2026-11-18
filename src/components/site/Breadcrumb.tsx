@@ -2,11 +2,7 @@ import type { BreadcrumbData } from '@/lib/achievements/page'
 
 import '@/components/game/game.css'
 import { uiStrings } from '../ui/strings'
-
-/** El JSON-LD dentro de <script>: sin «<», para que ningún nombre pueda cerrar la etiqueta. */
-function jsonForScript(value: unknown): string {
-  return JSON.stringify(value).replace(/</g, '\\u003c')
-}
+import { JsonLd } from './JsonLd'
 
 /**
  * La ruta de navegación de las páginas de logro y de guía (DESIGN.md, Breadcrumb): solo los
@@ -44,10 +40,7 @@ export function Breadcrumb({ parents, jsonLd }: BreadcrumbData) {
           </li>
         ))}
       </ol>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonForScript(jsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
     </nav>
   )
 }

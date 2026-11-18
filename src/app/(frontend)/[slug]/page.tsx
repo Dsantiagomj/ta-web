@@ -6,22 +6,17 @@ import { NextQuestCard } from '@/components/game/NextQuestCard'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { QuestHeader } from '@/components/game/QuestHeader'
 import { ZoneBackground } from '@/components/game/ZoneBackground'
-import {
-  guideContent,
-  guideSeo,
-  guideStart,
-  nextQuestCard,
-  questHeaderProps,
-} from '@/lib/guides/page'
+import { guideContent, guideStart, nextQuestCard, questHeaderProps } from '@/lib/guides/page'
 
 import { Breadcrumb } from '@/components/site/Breadcrumb'
+import { JsonLd } from '@/components/site/JsonLd'
 import { pageSection } from '@/components/site/nav'
 import { guideBreadcrumb } from '@/lib/achievements/page'
-import { achievementPageStrings } from '@/lib/achievements/strings'
 import { checklistRoute } from '@/lib/checklists/page'
-import { checklistPageStrings } from '@/lib/checklists/strings'
-import { dofusPageStrings } from '@/lib/dofus-guides/strings'
-import { sitePageRoute, sitePageSeo } from '@/lib/pages/page'
+import { contentDate } from '@/lib/content-date/format'
+import { sitePageRoute } from '@/lib/pages/page'
+import { articleJsonLd } from '@/lib/seo/json-ld'
+import { shareCardImage } from '@/lib/seo/share-card'
 import { SITE_URL } from '@/lib/site/origin'
 import { withSiteLinks } from '@/lib/site/site-links'
 import { openGraphDefaults } from '@/lib/site-copy/metadata'
@@ -39,60 +34,10 @@ import { DofusGuideView } from './DofusGuideView'
 import { LivePreviewRefresh } from './LivePreviewRefresh'
 import { loadSitePage } from './page-data'
 import { redirectOrNotFound } from './redirect-data'
+import { slugSeo } from './seo-data'
 import { SitePageView } from './SitePageView'
 
 type Props = { params: Promise<{ slug: string }> }
-
-/** Título y descripción de un logro: el nombre y cuántas misiones tiene. */
-function achievementSeo(name: string, quests: number) {
-  const s = achievementPageStrings.seo
-  return { title: s.title(name), description: s.description(name, quests) }
-}
-
-/** Lo que dicen los metadatos de la página del slug, o null si no hay página. */
-async function slugSeo(slug: string) {
-  const page = await loadGuidePage(slug)
-  if (page) return { ...guideSeo(page.guide), url: `/${page.guide.slug}`, preview: page.preview }
-  const achievement = await loadAchievementPage(slug)
-  if (achievement) {
-    const { name, quests } = achievement.page
-    return {
-      ...achievementSeo(name, quests?.length ?? 0),
-      url: `/${achievement.page.slug}`,
-      preview: achievement.preview,
-    }
-  }
-  const dofus = await loadDofusGuide(slug)
-  if (dofus) {
-    const { seo } = dofusPageStrings
-    return {
-      title: seo.title(dofus.guide.name),
-      description: seo.description(dofus.guide.name),
-      url: `/${dofus.guide.slug}`,
-      preview: dofus.preview,
-    }
-  }
-  const site = await loadSitePage(slug)
-  if (site) {
-    if (sitePageRoute(site.page, site.preview, SITE_URL).kind !== 'page') return null
-    return { ...sitePageSeo(site.page), url: `/${site.page.slug}`, preview: site.preview }
-  }
-  const checklist = await loadChecklist(slug)
-  if (
-    checklist &&
-    checklistRoute(checklist.checklist, checklist.preview, SITE_URL).kind === 'page'
-  ) {
-    const { name, description, slug: url } = checklist.checklist
-    return {
-      // Una checklist de almas se llama por su nombre («Almas del Ocre»).
-      title: checklist.checklist.kind === 'souls' ? name : checklistPageStrings.title(name),
-      description: description || checklistPageStrings.seoDescription(name),
-      url: `/${url}`,
-      preview: checklist.preview,
-    }
-  }
-  return null
-}
 
 // /<slug> es una guía, un logro, una guía de Dofus, una página suelta o una checklist: los
 // slugs no chocan (src/collections/root-slug.ts).
@@ -101,6 +46,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Sin página, la página llama a notFound() y Next pone noindex.
   if (!found) return {}
   const { title, description, url, preview } = found
+  // La tarjeta de la página (/<slug>/og), nunca la imagen de «Ajustes del sitio».
+  const image = shareCardImage(url.slice(1), found.card, found.dates.modified)
   return {
     title,
     description,
@@ -110,12 +57,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url,
-      // El nombre del sitio y la imagen al compartir, de «Ajustes del sitio».
+      // El nombre del sitio, de «Ajustes del sitio».
       ...openGraphDefaults(settings),
+      images: [image],
     },
+    twitter: { card: 'summary_large_image', images: [image] },
     // Un borrador nunca se indexa.
     ...(preview && { robots: { index: false, follow: false } }),
   }
+}
+
+/** El Article de la página (AGENTS.md, SEO), con la tarjeta y las fechas del contenido. */
+async function ArticleData({ slug }: { slug: string }) {
+  const [found, settings] = await Promise.all([slugSeo(slug), loadSiteSettings()])
+  if (!found?.article) return null
+  const { socials } = settings
+  return (
+    <JsonLd
+      data={articleJsonLd({
+        siteUrl: SITE_URL,
+        siteName: settings.name,
+        path: found.url,
+        headline: found.headline,
+        description: found.description,
+        image: shareCardImage(found.url.slice(1), found.card, found.dates.modified).url,
+        published: found.dates.published,
+        modified: found.dates.modified,
+        sameAs: [socials.twitch.url, socials.youtube.url, socials.kick.url],
+      })}
+    />
+  )
 }
 
 /**
@@ -127,17 +98,35 @@ export default async function SlugPage({ params }: Props) {
   // Los enlaces de Torre a su propia web pasan a relativos donde este sitio sirve la ruta
   // (src/lib/site/site-links.ts); el resto lleva a su página de Squarespace.
   const linked = async <T,>(data: T): Promise<T> => withSiteLinks(data, await loadLiveSlug())
+  const article = <ArticleData slug={slug} />
   const page = await loadGuidePage(slug)
-  if (page) return <QuestGuideView page={await linked(page)} />
+  if (page) {
+    return (
+      <>
+        {article}
+        <QuestGuideView page={await linked(page)} />
+      </>
+    )
+  }
   // Un logro o un Dofus En preparación no tienen página: la consulta no se los da a un visitante.
   const achievement = await loadAchievementPage(slug)
   if (achievement) {
-    return <AchievementView data={await linked(achievement)} preview={achievement.preview} />
+    return (
+      <>
+        {article}
+        <AchievementView data={await linked(achievement)} preview={achievement.preview} />
+      </>
+    )
   }
   const dofus = await loadDofusGuide(slug)
   if (dofus) {
     const live = await loadLiveSlug()
-    return <DofusGuideView data={{ ...withSiteLinks(dofus, live), live }} preview={dofus.preview} />
+    return (
+      <>
+        {article}
+        <DofusGuideView data={{ ...withSiteLinks(dofus, live), live }} preview={dofus.preview} />
+      </>
+    )
   }
   // Una página En preparación lleva a su página de Squarespace, como una checklist.
   const site = await loadSitePage(slug)
@@ -145,7 +134,12 @@ export default async function SlugPage({ params }: Props) {
     const route = sitePageRoute(site.page, site.preview, SITE_URL)
     if (route.kind === 'legacy') redirect(route.href)
     if (route.kind === 'none') notFound()
-    return <SitePageView page={await linked(site.page)} preview={site.preview} />
+    return (
+      <>
+        {article}
+        <SitePageView page={await linked(site.page)} preview={site.preview} />
+      </>
+    )
   }
   const checklist = await loadChecklist(slug)
   if (!checklist) return redirectOrNotFound(slug)
@@ -187,6 +181,7 @@ function QuestGuideView({
           <QuestHeader
             title={guide.title}
             data={questHeaderProps(guide, links, giver, place, bosses)}
+            updated={contentDate(guide).modified}
           />
           <GuideSections
             content={guideContent(guide)}

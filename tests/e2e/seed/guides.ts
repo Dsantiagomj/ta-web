@@ -69,6 +69,10 @@ export const seedGuide = {
     position: 2,
   },
   subtitle: 'Misión de Astrub - Nivel 20 - Misión 2 de 3',
+  // La fecha en que Torre cambió la guía por última vez (D-03): la escribe la semilla, que
+  // guarda sin persona, así que el hook la respeta.
+  contentUpdatedAt: '2026-11-15T10:00:00.000Z',
+  updated: 'Actualizado el 15 de noviembre de 2026',
   start: { npc: 'Hupe Esse', x: 7, y: -19 },
   // Los renders del PNJ, como los importa pnpm data:quests (los del catálogo).
   giver: {
@@ -518,6 +522,7 @@ export async function seedGuides(payload: Payload): Promise<void> {
         slug: seedGuide.slug,
         quest: main.id,
         _status: 'published',
+        contentUpdatedAt: seedGuide.contentUpdatedAt,
         summary: {
           prerequisites: `${seedGuide.prerequisite.title}.`,
           rewards: seedGuide.rewardsText,

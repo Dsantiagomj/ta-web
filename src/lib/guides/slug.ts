@@ -16,6 +16,8 @@ export const RESERVED_SLUGS: readonly string[] = [
   'guias-dofus',
   'checklists',
   'buscar',
+  // La tarjeta de la marca al compartir (src/app/(frontend)/og/route.ts).
+  'og',
 ]
 
 /** Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos. */

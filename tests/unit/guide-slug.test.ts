@@ -27,6 +27,8 @@ describe('isGuideSlug', () => {
       'guias-dofus',
       'checklists',
       'buscar',
+      // La tarjeta de la marca al compartir (/og).
+      'og',
     ]) {
       expect(RESERVED_SLUGS).toContain(slug)
       expect(isGuideSlug(slug), slug).toBe(false)

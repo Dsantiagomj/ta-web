@@ -19,3 +19,12 @@ All four are under the SIL Open Font License 1.1. The `OFL-*.txt` files are each
 2. Download the URL of the `/* latin */` block and replace the file here. Keep the name.
 3. Update the table and, if Google changed it, the latin `unicode-range` in `fonts.ts`.
 4. A new family also needs its `<Family> Fallback` and `<Family> Fallback Linux` faces in `src/styles/fonts-fallback.css` (`tests/unit/fonts.test.ts` checks them) and its license file here.
+
+## Share card fonts
+
+`share-card/` holds what the share card (`src/lib/seo/share-card-image.tsx`, `DESIGN.md`, Share card) draws with: `next/og` reads TTF, OTF and WOFF, not woff2, and ignores a variable font's axes. These are static instances that the same API served on 2026-11-18 to a client without woff2 support (`curl` user agent), full character set, server only: no page downloads them.
+
+| File | Family | Weight | Bytes | Source | License |
+|---|---|---|---|---|---|
+| `share-card/rowdies-700.ttf` | Rowdies | 700 | 74,600 | `fonts.gstatic.com/s/rowdies/v19/ptRMTieMYPNBAK219gtm5O4.ttf` | `OFL-rowdies.txt` |
+| `share-card/lexend-700.ttf` | Lexend (static instance) | 700 | 70,952 | `fonts.gstatic.com/s/lexend/v26/wlptgwvFAVdoq2_F94zlCfv0bz1WC9wR_LA.ttf` | `OFL-lexend.txt` |

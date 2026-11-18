@@ -104,14 +104,20 @@ describe('unidades del CSS', () => {
   })
 })
 
+// Lo que pinta next/og (satori) en el servidor no tiene hojas de estilo: sus estilos solo
+// pueden ir en línea. No llega al navegador como HTML.
+const NEXT_OG_FILES = new Set([join('src', 'lib', 'seo', 'share-card-image.tsx')])
+
 describe('estilos inline', () => {
   it('solo pasan propiedades personalizadas al CSS', () => {
-    const offenders = tsxFiles.flatMap((file) => {
-      const source = readFileSync(file, 'utf8')
-      return inlineStyleKeys(source)
-        .filter(({ keys }) => keys.some((key) => !key.startsWith('--')))
-        .map(({ index, keys }) => `${file}:${lineOf(source, index)} ${keys.join(', ')}`)
-    })
+    const offenders = tsxFiles
+      .filter((file) => !NEXT_OG_FILES.has(file))
+      .flatMap((file) => {
+        const source = readFileSync(file, 'utf8')
+        return inlineStyleKeys(source)
+          .filter(({ keys }) => keys.some((key) => !key.startsWith('--')))
+          .map(({ index, keys }) => `${file}:${lineOf(source, index)} ${keys.join(', ')}`)
+      })
     expect(offenders).toEqual([])
   })
 
