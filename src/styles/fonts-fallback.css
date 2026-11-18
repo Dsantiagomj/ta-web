@@ -1,16 +1,57 @@
 /*
- * Respaldos de métricas ajustadas para los sistemas sin Arial.
+ * Respaldos de métricas ajustadas: lo que se pinta mientras llega cada fuente.
  *
- * next/font genera «Montserrat Fallback» sobre local(Arial), con size-adjust y los
- * overrides de ascent y descent calculados contra Arial. Linux y Android no traen Arial:
- * allí esa @font-face no carga y el texto se pinta con la sans del sistema, de otro ancho,
- * hasta que llega la fuente web. El cambio de líneas mueve la página (CLS 0,19 en la guía
- * en CI con la fuente anterior). Estas caras usan los mismos valores sobre fuentes con las
- * métricas de Arial (Liberation Sans, Arimo) y, en Android, Roboto, la más cercana.
+ * «<Familia> Fallback» es Arial con size-adjust y los overrides de ascent y descent de cada
+ * familia, los mismos que generaba next/font/google. Con next/font/local (fonts.ts) el
+ * respaldo automático se apaga, porque calcula otros valores desde el archivo, y estas caras
+ * lo sustituyen con el mismo nombre.
  *
- * Los valores son los que next/font escribe en el CSS compilado para cada familia: si se
+ * Linux y Android no traen Arial: allí esa @font-face no carga y el texto se pinta con la sans
+ * del sistema, de otro ancho, hasta que llega la fuente web. El cambio de líneas mueve la página
+ * (CLS 0,19 en la guía en CI con la fuente anterior). Las caras «<Familia> Fallback Linux» usan
+ * los mismos valores sobre fuentes con las métricas de Arial (Liberation Sans, Arimo) y, en
+ * Android, Roboto, la más cercana.
+ *
+ * Los valores son los que calcula next/font para cada familia de Google
+ * (calculateSizeAdjustValues en next/dist/server/font-utils, tests/unit/fonts.test.ts): si se
  * cambia de familia, se copian de ahí.
  */
+
+@font-face {
+  font-family: 'Montserrat Fallback';
+  src: local('Arial');
+  ascent-override: 85.79%;
+  descent-override: 22.25%;
+  line-gap-override: 0%;
+  size-adjust: 112.83%;
+}
+
+@font-face {
+  font-family: 'Lilita One Fallback';
+  src: local('Arial');
+  ascent-override: 96.14%;
+  descent-override: 22.91%;
+  line-gap-override: 0%;
+  size-adjust: 96.01%;
+}
+
+@font-face {
+  font-family: 'Rowdies Fallback';
+  src: local('Arial');
+  ascent-override: 91.27%;
+  descent-override: 22.43%;
+  line-gap-override: 0%;
+  size-adjust: 109.24%;
+}
+
+@font-face {
+  font-family: 'Lexend Fallback';
+  src: local('Arial');
+  ascent-override: 90.98%;
+  descent-override: 22.74%;
+  line-gap-override: 0%;
+  size-adjust: 109.91%;
+}
 
 @font-face {
   font-family: 'Montserrat Fallback Linux';
@@ -49,8 +90,8 @@
 }
 
 /*
- * Lexend no se precarga y sus títulos van en 600 y 700. Las caras de arriba (y la «Lexend
- * Fallback» de next/font) son la normal de Arial, y sin negritas sintetizadas (globals.css) esos
+ * Lexend no se precarga y sus títulos van en 600 y 700. Las caras de arriba son la normal de
+ * Arial, y sin negritas sintetizadas (globals.css) esos
  * títulos se pintaban en normal, un 3 por ciento más estrechos que Lexend 700: al llegar Lexend,
  * «Misiones generales e historias» pasaba a dos líneas y movía /metalogros (CLS 0,12 en
  * Lighthouse CI). Estas caras dan la negrita de Arial con el ancho de Lexend en cada peso:
