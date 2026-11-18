@@ -165,6 +165,77 @@ describe('conversión de una página en guía de misión', () => {
     expect(richTexts(guide.body)).toEqual(['Primer paso.'])
   })
 
+  it('un elemento con una sublista da su propia línea y luego una por cada elemento de la sublista', () => {
+    const page = pageWith(
+      '<h2>PRUEBA</h2>',
+      '<p>Recompensas:</p><ul>' +
+        '<li><p><span>Si eres nivel 1 a 109: </span></p>' +
+        '<ul><li><p>2 659 173 XP.</p></li><li><p>5 x Cupón chocolate.</p></li></ul></li>' +
+        '<li><p>Si eres nivel 110 a 200:</p><ul><li><p>5 089 075 XP.</p></li></ul></li>' +
+        '</ul>',
+      '<p>Primer paso.</p>',
+    )
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.summary?.rewards).toBe(
+      [
+        'Si eres nivel 1 a 109:',
+        '2 659 173 XP.',
+        '5 x Cupón chocolate.',
+        'Si eres nivel 110 a 200:',
+        '5 089 075 XP.',
+      ].join('\n'),
+    )
+  })
+
+  it('las sublistas dentro de sublistas también dan una línea por elemento, en su orden', () => {
+    const page = pageWith(
+      '<h2>PRUEBA</h2>',
+      '<p>Prerrequisitos:</p><ol><li>Misión A<ol><li>Paso 1<ul><li>Detalle</li></ul></li>' +
+        '<li>Paso 2</li></ol></li><li>Misión B</li></ol>',
+      '<p>Primer paso.</p>',
+    )
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.summary?.prerequisites).toBe('Misión A\nPaso 1\nDetalle\nPaso 2\nMisión B')
+  })
+
+  it('un elemento que solo tiene una sublista no da una línea vacía', () => {
+    const page = pageWith(
+      '<h2>PRUEBA</h2>',
+      '<p>Necesitarás:</p><ul><li><ul><li>1 x Zafiro.</li></ul></li></ul>',
+      '<p>Primer paso.</p>',
+    )
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.summary?.needs).toEqual({ notes: '1 x Zafiro.' })
+  })
+
+  it('reconoce «Prerequisitos» y «Prrerequisitos», como escribe Torre a veces, como Prerrequisitos', () => {
+    for (const label of ['Prerequisitos', 'Prrerequisitos', 'PRERREQUISITOS']) {
+      const page = pageWith(
+        '<h2>PRUEBA</h2>',
+        `<p><strong>${label}:</strong></p><ul><li><p>Nivel mínimo 180.</p></li></ul>`,
+        '<p>Primer paso.</p>',
+      )
+      const { guide, oddities } = toQuestGuide(parsePage(page), {
+        slug: 'prueba',
+        questDofusIds: [1],
+      })
+      expect(guide.summary?.prerequisites, label).toBe('Nivel mínimo 180.')
+      expect(oddities, label).not.toContain('Falta el bloque Prerrequisitos')
+      expect(richTexts(guide.body), label).toEqual(['Primer paso.'])
+    }
+  })
+
+  it('una palabra que solo empieza como una etiqueta no es la etiqueta', () => {
+    const page = pageWith(
+      '<h2>PRUEBA</h2>',
+      '<p>Prerrequisitos para la segunda parte: ninguno.</p>',
+      '<p>Recompensas extra: un emote.</p>',
+    )
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.summary).not.toHaveProperty('prerequisites')
+    expect(guide.summary).not.toHaveProperty('rewards')
+  })
+
   it('solo quita el primer encabezado, el que repite el título; los demás quedan en el cuerpo', () => {
     const page = pageWith('<h2>PRUEBA</h2>', '<h2>Antes de empezar</h2><p>Primer paso.</p>')
     const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })

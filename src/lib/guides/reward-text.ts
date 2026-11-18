@@ -172,8 +172,11 @@ export function torreRewards(
   return result
 }
 
-// «Si eres nivel 1 a 109: 1 329 586 XP.14 041 kamas.5 x Cupón chocolate.»: un tramo y, tras
-// los dos puntos, sus cifras pegadas o en las líneas de debajo.
+// «Si eres nivel 1 a 109:» y sus cifras en las líneas de debajo, como lo deja la importación
+// (en su página cada tramo es un elemento de lista con sus cifras en una sublista), o detrás
+// de los dos puntos. Las guías importadas antes de que la importación leyera bien las
+// sublistas guardan «Si eres nivel 1 a 109: 1 329 586 XP.14 041 kamas.5 x Cupón chocolate.»
+// y debajo las mismas cifras otra vez; se leen igual mientras sigan así.
 const TIER = /^(?:si eres (?:de )?)?nivel(?:es)? (\d+) a (\d+)\s*:\s*(.*)$/i
 // Corta tras el punto de una palabra («XP.14 041»), no en los miles con punto (1.329.586).
 const TIER_PARTS = /(?<=[^\d\s]\.)\s*(?=\d)/
@@ -192,7 +195,8 @@ function readTiers(
   text: string | null | undefined,
 ): { tiers: ReadTier[] } | { unreadable: string } {
   const tiers: ReadTier[] = []
-  // Cada cifra una vez por tramo: repetida igual (como la escribe él), vale; otra, no se lee.
+  // Cada cifra una vez por tramo: repetida igual (el texto de antes del arreglo), vale; otra,
+  // no se lee.
   const add = (tier: ReadTier, part: string): boolean => {
     const experience = EXPERIENCE.exec(part)
     const kamas = KAMAS.exec(part)

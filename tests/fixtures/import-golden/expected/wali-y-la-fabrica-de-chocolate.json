@@ -65,7 +65,7 @@
     "slug": "wali-y-la-fabrica-de-chocolate",
     "summary": {
       "prerequisites": "Nivel mínimo 20.\nLa isla flotante de chocolate.",
-      "rewards": "Si eres nivel 1 a 109: 664 793 XP.7 020 kamas.3 x Cupón chocolate.\n664 793 XP.\n7 020 kamas.\n3 x Cupón chocolate.\nSi eres nivel 110 a 179:1 272 268 XP.17 800 kamas.3 x Cupón avellana.\n1 272 268 XP.\n17 800 kamas.\n3 x Cupón avellana.\nSi eres nivel 180 a 200:1 375 000 XP.21 990 kamas.3 x Cupón praliné.\n1 375 000 XP.\n21 990 kamas.\n3 x Cupón praliné.",
+      "rewards": "Si eres nivel 1 a 109:\n664 793 XP.\n7 020 kamas.\n3 x Cupón chocolate.\nSi eres nivel 110 a 179:\n1 272 268 XP.\n17 800 kamas.\n3 x Cupón avellana.\nSi eres nivel 180 a 200:\n1 375 000 XP.\n21 990 kamas.\n3 x Cupón praliné.",
       "startNpc": "Wali",
       "startX": 0,
       "startY": -7

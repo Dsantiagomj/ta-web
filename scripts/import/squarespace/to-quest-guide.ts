@@ -60,12 +60,21 @@ export interface ConvertedGuide {
   oddities: string[]
 }
 
-type SummaryField = 'prerequisites' | 'needs' | 'rewards'
+export type SummaryField = 'prerequisites' | 'needs' | 'rewards'
 
 const SUMMARY_LABELS: Record<SummaryField, string> = {
   prerequisites: 'Prerrequisitos',
   needs: 'Necesitarás',
   rewards: 'Recompensas',
+}
+
+// Cada etiqueta, sin tildes ni mayúsculas y con sus dos puntos: «Necesitarás hablar con…» es
+// prosa. En las 1272 guías de misiones Torre escribe también «Prerequisitos» (25 guías) y
+// «Prrerequisitos» (el-efecto-paula-rice); son la misma etiqueta.
+const SUMMARY_PATTERNS: Record<SummaryField, RegExp> = {
+  prerequisites: /^pr+er+equisitos\s*:/,
+  needs: /^necesitaras\s*:/,
+  rewards: /^recompensas\s*:/,
 }
 
 // "Habla con" aparece en mitad de muchas guías: solo es el inicio si dice "para empezar".
@@ -246,21 +255,30 @@ function fold(text: string): string {
   return text.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
 }
 
-function summaryLabel(text: string): { field: SummaryField; rest: string } | null {
-  for (const [field, label] of Object.entries(SUMMARY_LABELS) as [SummaryField, string][]) {
-    const folded = fold(label)
-    // Con dos puntos: "Necesitarás hablar con…" es prosa, no la etiqueta del resumen.
-    if (fold(text).startsWith(folded) && /^\s*:/.test(text.slice(label.length))) {
-      return { field, rest: text.slice(label.length).replace(/^\s*:\s*/, '') }
-    }
+/** La etiqueta del resumen con la que empieza un texto y lo que sigue a sus dos puntos. */
+export function summaryLabel(text: string): { field: SummaryField; rest: string } | null {
+  const folded = fold(text.trimStart())
+  for (const [field, pattern] of Object.entries(SUMMARY_PATTERNS) as [SummaryField, RegExp][]) {
+    // Lo que sigue a los dos puntos de la etiqueta, que no tiene otros.
+    if (pattern.test(folded)) return { field, rest: text.slice(text.indexOf(':') + 1).trim() }
   }
   return null
 }
 
-/** Una lista da una línea por elemento; cualquier otro elemento, una línea. */
+/**
+ * Una lista da una línea por elemento, en el orden de la página; cualquier otro elemento,
+ * una línea. Cada elemento da solo su propio texto: el de una sublista sale en las líneas de
+ * sus elementos («Si eres nivel 1 a 109:» y debajo sus recompensas, una por línea).
+ */
 function lines(element: TextElement): string[] {
   if (element.tag !== 'ul' && element.tag !== 'ol') return [element.text]
-  return [...parseHtml(element.html).querySelectorAll('li')].map(normalizedText).filter(Boolean)
+  return [...parseHtml(element.html).querySelectorAll('li')]
+    .map((item) => {
+      const own = item.cloneNode(true) as Element
+      for (const sublist of own.querySelectorAll('ul, ol')) sublist.remove()
+      return normalizedText(own)
+    })
+    .filter(Boolean)
 }
 
 /** Fin de la primera frase a partir de `from`, con el espacio que la separa de la siguiente. */
