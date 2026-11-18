@@ -7,7 +7,7 @@ import {
   stubsSection,
   type StubData,
 } from '../../scripts/redirects/stub-map'
-import { LEGACY_STUBS } from '../../scripts/redirects/stubs'
+import { CRAWLED_STUBS, FILLED_STUBS, LEGACY_STUBS } from '../../scripts/redirects/stubs'
 
 // Los esbozos vacíos de Squarespace (backlog B-04): 301 a su página de logro cuando un
 // visitante puede abrirla, 410 si no. El mapa sale de los datos de DofusDB de ta-web: el
@@ -39,6 +39,35 @@ const data = (extra: Partial<StubData> = {}): StubData => ({
     { slug: 'misiones-nebuloso', collection: 'dofus-guides', page: true },
   ],
   ...extra,
+})
+
+describe('los esbozos que Torre llenó después del rastreo', () => {
+  // El 2026-11-18 Torre ya había escrito 80 de los 166 esbozos como guías de misión (la cadena
+  // de Zurcarák, la de Forjalava y los «Se busca»). Esos se importan como guías: no son
+  // esbozos, así que no redirigen a su logro ni dan 410.
+  it('ya no son esbozos: no salen en LEGACY_STUBS', () => {
+    const stubs = new Set(LEGACY_STUBS.map(({ slug }) => slug))
+    for (const slug of [
+      'corazon-de-piedra',
+      'a-contrapelo',
+      'se-busca-atcham',
+      'se-busca-darma',
+      'hablar-con-el-dios-zurcarak',
+    ]) {
+      expect(FILLED_STUBS).toContain(slug)
+      expect(stubs.has(slug)).toBe(false)
+    }
+    expect(FILLED_STUBS).toHaveLength(80)
+    expect(LEGACY_STUBS).toHaveLength(86)
+  })
+
+  it('cada uno era un esbozo del rastreo, y los que siguen vacíos siguen siendo esbozos', () => {
+    const crawled = new Set(CRAWLED_STUBS.map(({ slug }) => slug))
+    expect(CRAWLED_STUBS).toHaveLength(166)
+    for (const slug of FILLED_STUBS) expect(crawled.has(slug)).toBe(true)
+    expect(new Set(FILLED_STUBS).size).toBe(FILLED_STUBS.length)
+    expect(LEGACY_STUBS.map(({ slug }) => slug)).toContain('hablar-con-el-dios-osamodas')
+  })
 })
 
 describe('stubKeys', () => {
@@ -227,10 +256,10 @@ describe('stubsSection y stubReport', () => {
   })
 })
 
-describe('LEGACY_STUBS', () => {
+describe('CRAWLED_STUBS', () => {
   it('son los 166 esbozos del rastreo, sin repetir', () => {
-    expect(LEGACY_STUBS).toHaveLength(166)
-    expect(new Set(LEGACY_STUBS.map((stub) => stub.slug)).size).toBe(166)
+    expect(CRAWLED_STUBS).toHaveLength(166)
+    expect(new Set(CRAWLED_STUBS.map((stub) => stub.slug)).size).toBe(166)
   })
 })
 

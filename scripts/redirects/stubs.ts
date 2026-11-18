@@ -1,13 +1,15 @@
-// Los 166 esbozos vacíos de Squarespace (backlog B-04): el rastreo del 2026-11-02
-// (silvestre-checklist, out/pages.csv, tipo empty_stub), con el título de cada página. No se
-// importaron: build-stub-redirects.ts los lleva a su página de logro o les da 410.
+// Los esbozos vacíos de Squarespace (backlog B-04). El rastreo del 2026-11-02 encontró 166
+// (silvestre-checklist, out/pages.csv, tipo empty_stub), con el título de cada página. Torre
+// fue llenando algunos después: esos son guías de misión, se importan con pnpm import:delta y
+// no son esbozos (FILLED_STUBS). Los demás no se importaron: build-stub-redirects.ts los lleva
+// a su página de logro o les da 410.
 
 export interface LegacyStub {
   slug: string
   title: string
 }
 
-export const LEGACY_STUBS: readonly LegacyStub[] = [
+export const CRAWLED_STUBS: readonly LegacyStub[] = [
   { slug: 'kolimira-y-dragrillado', title: 'Logro: Kolimira y Dragrillado' },
   { slug: 'grozilla-y-grasmera', title: 'Mazmorra: Grozilla y Grasmera' },
   { slug: 'el-follon-de-arriba', title: 'El follón de arriba' },
@@ -193,3 +195,98 @@ export const LEGACY_STUBS: readonly LegacyStub[] = [
   { slug: 'guia-progresion', title: 'GUIA PROGRESION' },
   { slug: 'cart', title: 'Torrente Arcano' },
 ]
+
+/**
+ * Los esbozos que Torre llenó después del rastreo, ya como guías de misión: el inventario del
+ * 2026-11-18 (pnpm import:inventory). Cuando un inventario nuevo encuentre otro esbozo lleno,
+ * va aquí y se importa con pnpm import:delta.
+ */
+export const FILLED_STUBS: readonly string[] = [
+  'a-contrapelo',
+  'acidos-animados',
+  'alga-y-ritmo',
+  'batir-el-hierro-mientras-este-caliente',
+  'bichejo-non-grato',
+  'como-fieras',
+  'comprobado-y-garantizado',
+  'corazon-de-piedra',
+  'cuestion-de-reputacion',
+  'del-otro-lado-de-miauvizor',
+  'dimensiones-absurdas',
+  'donde-esta-wallycharly',
+  'el-conquistador',
+  'el-crucero-del-aburrimiento',
+  'el-heroe-de-las-plantas-contra-los-mediomuertos',
+  'el-miaumiau-bajo-la-lluvia',
+  'el-raraton-y-el-miaumiau',
+  'fuego-de-dios',
+  'hablar-con-el-dios-zurcarak',
+  'karkasamania',
+  'la-muerte-de-mi-vida',
+  'la-suerte-llama-a-la-suerte',
+  'las-piedras-pican',
+  'los-miaumiaus-hacen-uy-uy-uy-uy-u',
+  'manda-huevos',
+  'mas-alla-de-la-costa',
+  'mis-krobios',
+  'nada-de-malas-pulgas',
+  'no-perdamos-el-juicio',
+  'plantas-contra-mediomuertos',
+  'por-los-pelos',
+  'rojo-y-negro',
+  'santuarios-de-familia',
+  'se-busca-agrisombra',
+  'se-busca-ali-grothor',
+  'se-busca-armada-la-invencible',
+  'se-busca-atcham',
+  'se-busca-balimogli',
+  'se-busca-boarus',
+  'se-busca-burbudazred',
+  'se-busca-buz-beib',
+  'se-busca-carlita-de-la-guerfeld',
+  'se-busca-carter-pillar',
+  'se-busca-caspar',
+  'se-busca-cigua',
+  'se-busca-coldbruselas',
+  'se-busca-crustassius-cley',
+  'se-busca-dambeldoro',
+  'se-busca-darma',
+  'se-busca-dragopavona',
+  'se-busca-glangaf-el-gris',
+  'se-busca-goblechaun',
+  'se-busca-jepricornio',
+  'se-busca-juanca-mole',
+  'se-busca-kosakepika',
+  'se-busca-lonyon-plata',
+  'se-busca-maestro-plomo',
+  'se-busca-maxicof',
+  'se-busca-morblok',
+  'se-busca-mosquerosa',
+  'se-busca-nono-el-wobot',
+  'se-busca-panterrosa',
+  'se-busca-predagob',
+  'se-busca-principe-embaucador',
+  'se-busca-queba-sura',
+  'se-busca-sakaishulud',
+  'se-busca-sam-sagas',
+  'se-busca-simbadas',
+  'se-busca-sin-rostro',
+  'se-busca-takomako',
+  'se-busca-tocap-elotas',
+  'se-busca-turnado',
+  'se-busca-uhno',
+  'se-busca-ultratumbarrayder',
+  'se-busca-vakakiwie',
+  'se-busca-yerar-depandur',
+  'sin-empujar',
+  'tocar-fondo',
+  'un-zas-al-volante',
+  'zapeando',
+]
+
+const filled = new Set(FILLED_STUBS)
+
+/** Los esbozos que siguen vacíos: los que el mapa lleva a su logro o a 410. */
+export const LEGACY_STUBS: readonly LegacyStub[] = CRAWLED_STUBS.filter(
+  ({ slug }) => !filled.has(slug),
+)

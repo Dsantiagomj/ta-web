@@ -9,7 +9,7 @@
 import type { ServedKind } from '@/lib/site/site-links'
 
 import { CLASS_CATALOG, DUNGEON_CATALOG } from '../import/section-pages/catalog'
-import { LEGACY_STUBS } from '../redirects/stubs'
+import { FILLED_STUBS, LEGACY_STUBS } from '../redirects/stubs'
 
 export type BlockerKey =
   | 'classes'
@@ -21,6 +21,7 @@ export type BlockerKey =
   | 'dofus-guides'
   | 'pages'
   | 'checklists'
+  | 'delta-import'
   | 'stub'
   | 'torre-edits'
   | 'undecided'
@@ -63,6 +64,10 @@ export const BLOCKERS: Record<BlockerKey, { es: string; en: string }> = {
     es: 'Torre publica la checklist En preparación',
     en: 'Torre publishes the checklist «En preparación»',
   },
+  'delta-import': {
+    es: 'Guía que Torre escribió en Squarespace después de la importación: entra con pnpm import:delta y luego se publica',
+    en: 'Guide Torre wrote on Squarespace after the import: `pnpm import:delta` brings it in, then it is published',
+  },
   stub: {
     es: 'Esbozo vacío sin fila: espera su página de logro (B-04, S-05; pnpm redirects:stubs dice cuál)',
     en: 'Empty stub with no row: waits for its achievement page (B-04, S-05; `pnpm redirects:stubs` names it)',
@@ -88,6 +93,7 @@ export const BLOCKER_ORDER: readonly BlockerKey[] = [
   'dofus-guides',
   'pages',
   'checklists',
+  'delta-import',
   'stub',
   'torre-edits',
   'undecided',
@@ -140,15 +146,15 @@ const KNOWN: [BlockerKey, ReadonlySet<string>][] = [
       'solo-un-pinchacito',
     ),
   ],
+  // Los esbozos que Torre llenó y las páginas nuevas del inventario del 2026-11-18 (la última
+  // etapa del Dofus Forjalava): guías de misión que trae la importación delta.
+  ['delta-import', slugs(...FILLED_STUBS, 'hablar-con-volkaragnar')],
   // Las legales sin documento en «Páginas»: el pie las enlaza igual (legalLinks).
   ['pages', slugs('aviso-legal', 'politica-de-cookies', 'politica-de-privacidad')],
 ]
 
 /** El porqué de algunas URL sin decidir, para quien decide. */
-const NOTES: Record<string, string> = {
-  'hablar-con-volkaragnar':
-    'Page Torre added on 2026-11-15, after the import: the last step of the Dofus Forjalava. Torre decides: import it as a quest guide, or a redirect row to `/dofus-forjalava`',
-}
+const NOTES: Record<string, string> = {}
 
 /** Quién publica lo En preparación de cada colección. */
 const PREPARING: Record<string, BlockerKey> = {

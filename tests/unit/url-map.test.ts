@@ -92,7 +92,7 @@ describe('classifyOldUrl', () => {
       status: 301,
       section: 'metalogros',
     })
-    expect(classifyOldUrl('/corazon-de-piedra', site)).toMatchObject({
+    expect(classifyOldUrl('/no-hay-cosa-mas-sana-que-una-manzana', site)).toMatchObject({
       kind: 'redirect',
       status: 307,
       section: 'stubs',
@@ -126,12 +126,17 @@ describe('classifyOldUrl', () => {
 
   it('lo que falta dice quién o qué lo desbloquea, y el porqué si hay nota', () => {
     expect(classifyOldUrl('/metalogro-krosmoz', site)).toEqual({ kind: 'missing', blocker: 'S-08' })
-    expect(classifyOldUrl('/se-busca-darma', site)).toEqual({ kind: 'missing', blocker: 'stub' })
-    expect(classifyOldUrl('/hablar-con-volkaragnar', site)).toEqual({
+    expect(classifyOldUrl('/formacion-de-primer-ao', site)).toEqual({
       kind: 'missing',
-      blocker: 'undecided',
-      note: expect.stringMatching(/Forjalava/),
+      blocker: 'stub',
     })
+  })
+
+  it('una guía que Torre escribió en Squarespace después de la importación espera el delta', () => {
+    // Un esbozo que llenó (FILLED_STUBS) y una página nueva del sitemap.
+    for (const path of ['/se-busca-darma', '/corazon-de-piedra', '/hablar-con-volkaragnar']) {
+      expect(classifyOldUrl(path, site)).toEqual({ kind: 'missing', blocker: 'delta-import' })
+    }
   })
 })
 
@@ -182,7 +187,8 @@ describe('el mapa', () => {
     expect(md).toContain(`### ${BLOCKERS.classes.en} (1)`)
     expect(md).toContain('| `/clases-1` | Deferred |')
     expect(md).toContain('| `/dofus-ocre` | Served, «En preparación» |')
-    expect(md).toMatch(/\| `\/hablar-con-volkaragnar` \| Missing \| .*Forjalava/)
+    expect(md).toContain(`### ${BLOCKERS['delta-import'].en} (1)`)
+    expect(md).toContain('| `/hablar-con-volkaragnar` | Missing |')
     expect(md).toContain('| `/home` | `/` | 301 | `hubs` |')
     expect(md).toContain('| `/subscribe` | `hubs` |')
     expect(md).toContain('`/aprendizaje-escudero`')
