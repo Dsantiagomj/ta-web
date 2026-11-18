@@ -46,4 +46,13 @@ describe('readAchievementPages', () => {
     expect((await read(true)).get('ocre-de-ambar')?.intro).toEqual([])
     expect((await read(false)).get('ocre-de-ambar')?.intro).toHaveLength(8)
   })
+
+  it('a una página sin misiones le deja las listas de misiones de Torre', async () => {
+    const read = (quests?: boolean) =>
+      readAchievementPages([{ slug: 'en-guardia', dofusDb: true, quests }], async () =>
+        fixture('en-guardia'),
+      )
+    expect((await read()).get('en-guardia')?.intro).toEqual([])
+    expect((await read(false)).get('en-guardia')?.intro).toHaveLength(2)
+  })
 })

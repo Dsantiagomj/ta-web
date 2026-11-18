@@ -229,6 +229,37 @@ describe('achievementProse', () => {
     })
   })
 
+  describe('una página cuyo logro no tiene misiones (Alineamiento)', () => {
+    // DofusDB no da misiones a los logros de Alineamiento: las listas de Torre (las misiones
+    // de Bonta y de Brakmar) no repiten nada de la página nueva, así que son suyas. Las
+    // recompensas siguen siendo las de DofusDB.
+    it('con misiones, sus listas son la plantilla, como siempre', () => {
+      expect(achievementProse(page('en-guardia'))).toEqual({ intro: [], outro: [] })
+    })
+
+    it('sin misiones, sus listas van a la entrada y las recompensas siguen fuera', () => {
+      const { intro, outro } = achievementProse(page('en-guardia'), { quests: false })
+      expect(outline(intro)).toEqual([
+        'ul: Bonta:Entrenamiento con Tarche.La camarera Doña Claudia.Pan',
+        'ul: Brakmar:El loco entrechocar de las armas.El',
+      ])
+      expect(outro).toEqual([])
+      // Los enlaces de Torre a sus guías, tal cual.
+      expect((intro[0] as { html: string }).html).toContain('href="/entrenamiento-con-tarche"')
+    })
+
+    it('las listas que siguen a las recompensas son suyas: van al cierre', () => {
+      const { intro, outro } = achievementProse(page('ordeno-y-mando'), { quests: false })
+      expect(outline(intro)).toEqual(['p: Cuando hayas hecho las 20 primeras'])
+      expect(outline(outro)).toEqual([
+        'ul: Brakmar:Orden del Ojo Putrefacto:Aprendizaje: Discípulo de',
+        'ul: Bonta:Orden del Ojo Atento:Aprendizaje: Discípulo de',
+      ])
+      // Con misiones, esas listas serían plantilla (dos columnas en Squarespace).
+      expect(achievementProse(page('ordeno-y-mando')).outro).toEqual([])
+    })
+  })
+
   describe('la plantilla se reconoce por su forma exacta, y nada de Torre se pierde', () => {
     it('sin «Recompensas», los grupos de Necesitarás siguen siendo plantilla', () => {
       // Ocre de ámbar sin sus recompensas: «Combates:» y «Mazmorras:» con sus listas no
