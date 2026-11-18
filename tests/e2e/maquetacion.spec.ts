@@ -100,6 +100,16 @@ const pages: { name: string; path: (page: Page) => Promise<string> }[] = [
         ? firstPublished(page, 'achievement-pages', 'where[state][equals]=published')
         : Promise.resolve(`/${seedAchievement.slug}`),
   },
+  // Un logro sin misiones (Alineamiento): «Lo que pide el logro» en lugar de las misiones. Solo
+  // en local: un sitio desplegado no lo tiene hasta que se crean sus páginas.
+  ...(remote
+    ? []
+    : [
+        {
+          name: 'una página de logro sin misiones',
+          path: async () => `/${seedAchievement.alignment.page.slug}`,
+        },
+      ]),
   {
     name: 'una página suelta',
     path: (page) =>
