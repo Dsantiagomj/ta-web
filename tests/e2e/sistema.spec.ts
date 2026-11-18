@@ -271,7 +271,12 @@ test.describe('catálogo /sistema', () => {
     const viewer = page.getByRole('dialog', { name: 'Imagen a pantalla completa' })
     await expect(viewer).toBeVisible()
     await expect(viewer.locator('img')).toBeVisible()
-    expect(await viewer.locator('img').evaluate((img: HTMLImageElement) => img.complete)).toBe(true)
+    // El visor abre el original, otra petición: se espera a que llegue, y decode() falla si
+    // no carga.
+    await viewer.locator('img').evaluate((img: HTMLImageElement) => img.decode())
+    expect(
+      await viewer.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth),
+    ).toBeGreaterThan(0)
     await expect(viewer.getByText('Hupe Esse, en la Biblioteca de Astrub.')).toBeVisible()
     // El visor toma el tema y el modo de la sección de la captura.
     await expect(viewer).toHaveAttribute('data-theme', 'arcano')

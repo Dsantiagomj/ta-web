@@ -709,6 +709,8 @@ test.describe('página de guía', () => {
     // El archivo subido, no una variante «-800x…»: el mismo nombre que el de la semilla.
     const file = seedGuide.image.file.split('/').at(-1)!
     await expect(image).toHaveAttribute('src', new RegExp(`/${file.replace('.', '\\.')}$`))
+    // El original es otra petición: sin él cargado, naturalWidth vale 0.
+    await image.evaluate((img: HTMLImageElement) => img.decode())
     await settled(page)
     const shown = await image.evaluate((img: HTMLImageElement) => {
       const box = img.getBoundingClientRect()
