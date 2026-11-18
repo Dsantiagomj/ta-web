@@ -13,7 +13,16 @@ import type { RawAchievement, RawAchievementCategory } from '@/lib/dofusdb/types
 import categories from '../fixtures/dofusdb/achievement-categories.json'
 import achievements from '../fixtures/dofusdb/achievements.json'
 
+import alignmentAchievements from '../fixtures/dofusdb/achievements-alignment.json'
+
 const ALL = achievements as RawAchievement[]
+
+/** Un logro de Alineamiento: sin misiones, con objetivos de alineamiento y nivel. */
+function alignment(id: number): RawAchievement {
+  const found = (alignmentAchievements as RawAchievement[]).find((raw) => raw.id === id)
+  if (!found) throw new Error(`Falta el logro ${id} en los fixtures`)
+  return structuredClone(found)
+}
 
 function achievement(id: number): RawAchievement {
   const found = ALL.find((candidate) => candidate.id === id)
@@ -109,6 +118,24 @@ describe('mapAchievement', () => {
 
   it('un metalogro del juego no tiene misiones', () => {
     expect(mapAchievement(achievement(1677), counts).quests).toEqual([])
+  })
+
+  it('guarda la descripción y todos los objetivos, también los que no son misiones', () => {
+    const mapped = mapAchievement(alignment(1394), counts)
+    expect(mapped.quests).toEqual([])
+    expect(mapped.description).toBe('Alcanzar el tercer rango de una orden.')
+    expect(mapped.objectives).toEqual(['Rango 3', 'Nivel 130', 'Hablar con el jefe de la ciudad'])
+  })
+
+  it('los objetivos de un logro de misiones son sus misiones; sin descripción, null', () => {
+    const raw = achievement(1671)
+    const mapped = mapAchievement(raw, counts)
+    expect(mapped.objectives).toEqual([
+      'Esto hace aguas',
+      'Seis pies bajo tierra',
+      'El cazador cazado',
+    ])
+    expect(mapped.description).toBeNull()
   })
 
   it('cuenta para los logros del juego que lo piden, también a través de otro', () => {

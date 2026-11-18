@@ -177,6 +177,8 @@ export interface RawAchievement {
   level?: number | null
   /** Su orden dentro de la categoría. */
   order?: number | null
+  /** «Alcanzar el nivel 10 de un alineamiento.» */
+  description?: LocalizedText | null
   /** Los objetivos, que DofusDB añade a cada logro: lo que el juego cuenta para darlo. */
   objectives?: (RawAchievementObjective | null)[] | null
   /** Las recompensas, que DofusDB también añade. */
@@ -231,6 +233,13 @@ export interface MappedAchievement {
   categoryDofusId: number | null
   /** Una fila por misión del logro; varias misiones en una fila son alternativas. */
   quests: { name: string | null; questDofusIds: number[] }[]
+  /** Lo que pide el logro en el juego, o null si DofusDB no lo dice. */
+  description: string | null
+  /**
+   * El nombre de cada objetivo, en orden, también los que no son misiones («Alineamiento
+   * 10», «Nivel 30»): la página de un logro sin misiones los enseña en su lugar.
+   */
+  objectives: string[]
   rewards: { experience: number; kamas: number; items: QuantityByDofusId[] }
   countsFor: MappedMetaAchievement[]
 }

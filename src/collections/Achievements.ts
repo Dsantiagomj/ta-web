@@ -58,6 +58,25 @@ export const Achievements: CollectionConfig = withTorreCorrection(
         ],
       },
       {
+        name: 'description',
+        label: 'Descripción',
+        type: 'textarea',
+        localized: true,
+        admin: { description: 'Lo que pide el logro en el juego, como lo dice DofusDB.' },
+      },
+      {
+        name: 'objectives',
+        label: 'Objetivos',
+        labels: { singular: 'Objetivo', plural: 'Objetivos' },
+        type: 'array',
+        admin: {
+          description:
+            'Todos los objetivos del logro, en orden, también los que no son misiones ' +
+            '(«Alineamiento 10», «Nivel 30»). La página de un logro sin misiones los enseña.',
+        },
+        fields: [{ name: 'name', label: 'Objetivo', type: 'text', localized: true }],
+      },
+      {
         name: 'rewards',
         label: 'Recompensas',
         type: 'group',
