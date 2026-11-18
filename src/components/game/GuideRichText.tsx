@@ -6,9 +6,11 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 import type { ReactNode } from 'react'
 
+import { NewTabNote } from '@/components/site/NewTab'
 import { Figure } from '@/components/ui/Figure'
 import type { RichTextState } from '@/lib/guides/page'
 import { mediaImageAsset } from '@/lib/media/image-asset'
+import { isExternalHref } from '@/lib/site/external'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
 
@@ -112,9 +114,11 @@ function converters(priorityImage: boolean, minHeading: HeadingLevel): JSXConver
       // Sin enlace, su texto es prosa normal: las coordenadas vuelven a ser chips.
       if (!href) return <>{nodesToJSX({ nodes: node.children, parent })}</>
       const children = nodesToJSX({ nodes: node.children })
-      return fields.newTab ? (
+      // Otra web se abre siempre en otra pestaña, aunque no marcara «Abrir en nueva pestaña».
+      return fields.newTab || isExternalHref(href) ? (
         <a href={href} rel="noopener noreferrer" target="_blank">
           {children}
+          <NewTabNote />
         </a>
       ) : (
         <a href={href}>{children}</a>

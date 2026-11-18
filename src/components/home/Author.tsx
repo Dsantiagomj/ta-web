@@ -1,5 +1,6 @@
 import { ArrowIcon, SocialIcon } from '@/components/site/icons'
 import { social } from '@/components/site/nav'
+import { NEW_TAB, NewTabNote } from '@/components/site/NewTab'
 import { Picture } from '@/components/ui/Picture'
 import type { LiveState } from '@/lib/site/live'
 import {
@@ -47,7 +48,7 @@ export function Author({
             {texts.title}
           </h2>
           <p className="author__lead rv">{texts.lead}</p>
-          <a className="join" href={social('discord', socials).href} rel="noopener">
+          <a className="join" href={social('discord', socials).href} {...NEW_TAB}>
             <span className="join__icon" aria-hidden="true">
               <SocialIcon name="discord" />
             </span>
@@ -56,6 +57,7 @@ export function Author({
               <span className="join__d">{texts.joinText}</span>
             </span>
             <ArrowIcon className="join__go" />
+            <NewTabNote />
           </a>
           <div className="stream">
             {live.live ? (
@@ -65,9 +67,10 @@ export function Author({
                   <span className="stream__t">{s.liveTitle}</span>
                   {live.title && <span className="stream__d">«{live.title}»</span>}
                 </p>
-                <a className="stream__go" href={social('twitch', socials).href} rel="noopener">
+                <a className="stream__go" href={social('twitch', socials).href} {...NEW_TAB}>
                   {s.liveGo}
                   <ArrowIcon className="stream__arrow" />
+                  <NewTabNote />
                 </a>
               </div>
             ) : (
@@ -82,7 +85,7 @@ export function Author({
             <ul className="chan" role="list">
               {channels.map((channel) => (
                 <li key={channel.key}>
-                  <a href={channel.href} rel="noopener">
+                  <a href={channel.href} {...NEW_TAB}>
                     <span className="chan__icon" aria-hidden="true">
                       <SocialIcon name={channel.key} />
                     </span>
@@ -93,6 +96,7 @@ export function Author({
                         {s.channels[channel.key as 'twitch' | 'kick' | 'youtube']}
                       </span>
                     </span>
+                    <NewTabNote />
                   </a>
                 </li>
               ))}

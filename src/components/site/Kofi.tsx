@@ -1,4 +1,5 @@
 import { SocialIcon } from './icons'
+import { NEW_TAB, NewTabNote } from './NewTab'
 import { siteShellStrings as s } from './strings'
 
 /**
@@ -11,8 +12,7 @@ export function KofiHeaderButton({ url, iconOnly = false }: { url: string; iconO
     <a
       className={iconOnly ? 'hkofi hkofi--icon' : 'hkofi'}
       href={url}
-      target="_blank"
-      rel="noopener"
+      {...NEW_TAB}
       aria-label={`${s.kofi.name}${s.newTab}`}
     >
       <SocialIcon name="kofi" />
@@ -24,10 +24,10 @@ export function KofiHeaderButton({ url, iconOnly = false }: { url: string; iconO
 /** El botón del Ko-fi flotante: la taza y el título del pie de Torre (solo la taza en el móvil). */
 export function KofiFab({ url, label }: { url: string; label: string }) {
   return (
-    <a className="kofi-fab" href={url} target="_blank" rel="noopener">
+    <a className="kofi-fab" href={url} {...NEW_TAB}>
       <SocialIcon name="kofi" />
       <span className="kofi-fab__t">{label}</span>
-      <span className="sr-only">{s.newTab}</span>
+      <NewTabNote />
     </a>
   )
 }
