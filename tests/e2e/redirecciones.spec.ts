@@ -77,10 +77,13 @@ test('un esbozo sin página da 410; uno cuya página está En preparación, 404'
 })
 
 test('/sitemap.xml lista lo publicado y nunca un borrador', async ({ request }) => {
-  const response = await request.get('/sitemap.xml')
+  // Next comprime los route handlers desde 16.4.6 (AGENTS.md, Next rules).
+  const response = await request.get('/sitemap.xml', { headers: { 'Accept-Encoding': 'gzip' } })
 
   expect(response.status()).toBe(200)
   expect(response.headers()['content-type']).toContain('xml')
+  expect(response.headers()['content-encoding']).toBe('gzip')
+  expect(response.headers()['vary']).toMatch(/Accept-Encoding/i)
   const xml = await response.text()
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, loc]) => new URL(loc).pathname)
   expect(locs).toEqual(expect.arrayContaining(['/', '/metalogros', '/guias-dofus', '/checklists']))
