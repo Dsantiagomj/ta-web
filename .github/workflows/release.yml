@@ -3,7 +3,8 @@ name: Release
 # Despliegue a producción (docs/legacy/infra.md, sección 4). Se lanza a mano desde main con una
 # versión semver: comprueba que Pruebas pasó en ese commit, crea la etiqueta vX.Y.Z y su
 # release, despliega la etiqueta en Railway con la aprobación del entorno production de
-# GitHub y pasa la suite smoke contra producción.
+# GitHub (la web y, después, la tarea semanal game-data) y pasa la suite smoke contra
+# producción.
 
 on:
   workflow_dispatch:
@@ -23,6 +24,9 @@ concurrency:
 env:
   RAILWAY_CLI_VERSION: 5.71.0
   RAILWAY_SERVICE: web
+  # La tarea cron que trae cada semana los datos del juego (.railway/railway.ts). Producción
+  # no tiene fuente de GitHub: recibe aquí el mismo commit que la web.
+  RAILWAY_GAME_DATA_SERVICE: game-data
   RAILWAY_ENVIRONMENT: production
 
 jobs:
@@ -116,7 +120,7 @@ jobs:
     name: Despliegue a producción
     needs: release
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     # Ambiente production: solo acepta despliegues desde main. La aprobación es el
     # primer paso del job release (solo el dueño del repo lo lanza).
     environment:
@@ -173,6 +177,20 @@ jobs:
       - name: Instalar la CLI de Railway
         run: npm install --global "@railway/cli@${RAILWAY_CLI_VERSION}"
 
+      # El servicio game-data de producción se crea una vez a mano, con `railway config
+      # apply` (AGENTS.md, Deploys). Si falta, la release para aquí, antes de tocar la web, y
+      # no a medias después de desplegarla.
+      - name: Comprobar que existe la tarea semanal en producción
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          services=$(railway service list --environment "$RAILWAY_ENVIRONMENT" --json)
+          if ! jq -e --arg name "$RAILWAY_GAME_DATA_SERVICE" 'any(.[]; .name == $name)' <<<"$services" >/dev/null; then
+            echo "::error title=Despliegue::Falta el servicio $RAILWAY_GAME_DATA_SERVICE en el entorno $RAILWAY_ENVIRONMENT de Railway. Créalo una vez con \`railway config apply\` (AGENTS.md, Deploys)."
+            exit 1
+          fi
+          echo "$RAILWAY_GAME_DATA_SERVICE existe en $RAILWAY_ENVIRONMENT."
+
       # `railway up` sube el código sin git, así que Railway no inyecta
       # RAILWAY_GIT_COMMIT_SHA: /api/health mostrará este. La versión es la de la
       # etiqueta, sin la v, porque package.json no se toca en cada release.
@@ -211,6 +229,18 @@ jobs:
           done
           echo "::error title=Despliegue::Producción no sirve $GITHUB_SHA tras 5 minutos."
           exit 1
+
+      # Después de la web: su pre-deploy ya migró la base al esquema de este commit. Desplegar
+      # un cron solo compila la imagen; la tarea corre el miércoles a las 06:00 UTC, no ahora.
+      # Sin --detach ni --ci, como la web: sale con error si el despliegue falla.
+      - name: Desplegar la tarea semanal de los datos del juego
+        timeout-minutes: 15
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          TAG: ${{ needs.release.outputs.tag }}
+        run: |
+          railway up --service "$RAILWAY_GAME_DATA_SERVICE" --environment "$RAILWAY_ENVIRONMENT" \
+            --message "$TAG ($GITHUB_SHA)"
 
   smoke:
     name: Smoke de producción
