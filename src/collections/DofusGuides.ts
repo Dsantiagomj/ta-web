@@ -5,6 +5,7 @@ import { FightBlock } from '../blocks/FightBlock'
 import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
+import { TableBlock } from '../blocks/TableBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { validateOptionalVideoUrl } from '../lib/guides/video'
 import { validateColor } from '../lib/dofus-guides/color'
@@ -379,7 +380,15 @@ export const DofusGuides: CollectionConfig = {
               labels: { singular: 'Bloque', plural: 'Bloques' },
               type: 'blocks',
               admin: { description: s.bodyDescription },
-              blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, StepBlock],
+              blocks: [
+                RichTextBlock,
+                ImageBlock,
+                VideoBlock,
+                CalloutBlock,
+                FightBlock,
+                TableBlock,
+                StepBlock,
+              ],
             },
             richText('outro', 'Cierre'),
           ],

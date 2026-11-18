@@ -123,5 +123,54 @@ export const guideStrings = {
       coordinatesInteger: 'Las coordenadas del juego son números enteros.',
       body: 'Contenido del paso',
     },
+    /** El bloque Tabla (DESIGN.md, Table block). */
+    table: {
+      singular: 'Tabla',
+      plural: 'Tablas',
+      title: 'Título',
+      titleDescription:
+        'Opcional. Va encima de la tabla y es como la nombra quien usa un lector de pantalla.',
+      paste: 'Pegar desde una hoja de cálculo',
+      pasteDescription:
+        'Copia las celdas en Google Sheets o Excel (o una tabla de otra web) y pégalas aquí. ' +
+        'La primera fila son los encabezados. Al pulsar «Rellenar la tabla», las columnas y ' +
+        'las filas de abajo se cambian por lo pegado; nada se guarda hasta que guardes.',
+      pasteButton: 'Rellenar la tabla',
+      pasteEmpty: 'Pega primero las celdas en el recuadro.',
+      pasteHeadOnly:
+        'Solo hay una fila, y la primera son los encabezados: pega también las filas de datos.',
+      pasteDone: (columns: number, rows: number) =>
+        `Listo: ${columns} ${columns === 1 ? 'columna' : 'columnas'} y ${rows} ` +
+        `${rows === 1 ? 'fila' : 'filas'}. Revísalas y guarda.`,
+      rowHeaders: 'La primera columna nombra cada fila',
+      rowHeadersDescription:
+        'Márcalo si la primera columna dice de qué es cada fila (el nombre del familiar, por ' +
+        'ejemplo): va en negrita, se queda a la vista al desplazar la tabla en el móvil y el ' +
+        'lector de pantalla la lee con cada celda.',
+      columns: 'Columnas',
+      column: 'Columna',
+      header: 'Encabezado',
+      align: 'Alineación',
+      alignDescription:
+        'Pon «Derecha (cifras)» en las columnas de números: así se leen en columna. Al pegar, ' +
+        'las columnas que solo tienen cifras ya van a la derecha.',
+      alignOptions: { start: 'Izquierda', center: 'Centro', end: 'Derecha (cifras)' },
+      rows: 'Filas',
+      row: 'Fila',
+      cells: 'Celdas',
+      cell: 'Celda',
+      cellText: 'Texto',
+      cellsDescription: 'Una celda por columna, en el orden de las columnas.',
+      /** El encabezado de una columna que llegó vacía al pegar. */
+      columnFallback: (number: number) => `Columna ${number}`,
+      tooManyCells: (row: number, cells: number, columns: number) =>
+        `La fila ${row} tiene ${cells} celdas y la tabla ${columns} ` +
+        `${columns === 1 ? 'columna' : 'columnas'}: añade una columna o quita la celda que sobra.`,
+    },
+  },
+  /** La tabla en la página. */
+  table: {
+    /** El nombre de una tabla sin título: sus columnas. */
+    regionLabel: (headers: string[]) => `Tabla: ${headers.join(', ')}`,
   },
 } as const

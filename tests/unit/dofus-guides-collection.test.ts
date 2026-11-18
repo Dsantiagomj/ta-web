@@ -244,7 +244,15 @@ describe('colección dofus-guides', () => {
 
   it('el cuerpo usa los bloques de las guías de misión', () => {
     const body = field(DofusGuides.fields, 'body') as BlocksField
-    expect(blockSlugs(body)).toEqual(['richText', 'image', 'video', 'callout', 'fight', 'step'])
+    expect(blockSlugs(body)).toEqual([
+      'richText',
+      'image',
+      'video',
+      'callout',
+      'fight',
+      'table',
+      'step',
+    ])
   })
 
   it('el vídeo es un enlace de YouTube y la checklist un nombre con su enlace', () => {

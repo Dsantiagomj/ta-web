@@ -8,6 +8,7 @@ import { FightBlock } from '@/blocks/FightBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { StepBlock } from '@/blocks/StepBlock'
+import { TableBlock } from '@/blocks/TableBlock'
 import { VideoBlock } from '@/blocks/VideoBlock'
 import { validateOptionalUrl } from '@/collections/Media'
 import {
@@ -351,7 +352,7 @@ describe('colección quest-guides', () => {
     }
   })
 
-  it('arma el cuerpo con bloques de texto, imagen, vídeo, aviso y paso', () => {
+  it('arma el cuerpo con bloques de texto, imagen, vídeo, aviso, combate, tabla y paso', () => {
     const body = field('body') as BlocksField
     expect(body.type).toBe('blocks')
     // Sin labels, el panel muestra «Añadir Body» al elegir un bloque.
@@ -365,6 +366,7 @@ describe('colección quest-guides', () => {
       VideoBlock,
       CalloutBlock,
       FightBlock,
+      TableBlock,
       StepBlock,
     ])
   })

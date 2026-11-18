@@ -109,6 +109,7 @@ describe('colección pages', () => {
       'video',
       'callout',
       'fight',
+      'table',
       'step',
     ])
   })

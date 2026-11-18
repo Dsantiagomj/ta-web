@@ -112,7 +112,7 @@ test.describe('el panel pasa axe sin excepciones', () => {
         .getByRole('dialog')
         .filter({ has: page.getByRole('heading', { name: 'Añadir Bloque' }) })
       const images = drawer.locator('.blocks-drawer__default-image img')
-      await expect(images).toHaveCount(6)
+      await expect(images).toHaveCount(7)
       for (const image of await images.all()) {
         await expect(image).toHaveAttribute('src', /^\/img\/panel\/bloques\/\w+\.webp$/)
         const src = (await image.getAttribute('src'))!

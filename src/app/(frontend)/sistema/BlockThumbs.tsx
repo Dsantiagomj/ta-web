@@ -16,6 +16,7 @@ import {
   images,
   items,
   samples,
+  table,
   video,
 } from './catalog-data'
 
@@ -111,6 +112,18 @@ const previews: Record<BlockThumbnailSlug, (prefix: string) => ReactNode> = {
     />
   ),
   fight: () => <GuideBody blocks={[{ kind: 'fight', key: 'combate', monsters: fight }]} />,
+  // Las tres primeras columnas: en el marco cabe la tabla sin desplazarse.
+  table: () => (
+    <GuideBody
+      blocks={[
+        {
+          ...table,
+          columns: table.columns.slice(0, 3),
+          rows: table.rows.slice(0, 4).map((cells) => cells.slice(0, 3)),
+        },
+      ]}
+    />
+  ),
   step: (prefix) => (
     <div className="quest !p-0">
       <QuestSteps

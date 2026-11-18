@@ -13,6 +13,7 @@ import { CoordinatesText, TravelButton } from '@/components/game/Coordinates'
 import { IconWell } from '@/components/game/IconWell'
 import { ItemChip, ItemSlot } from '@/components/game/Item'
 import { FightBlock } from '@/components/game/FightBlock'
+import { GuideTable } from '@/components/game/GuideTable'
 import { NextQuestCard } from '@/components/game/NextQuestCard'
 import { QuestHeader } from '@/components/game/QuestHeader'
 import { QuestSteps } from '@/components/game/QuestSteps'
@@ -72,6 +73,7 @@ import {
   prose,
   samples,
   steps,
+  table,
   video,
 } from './catalog-data'
 import { BlockThumbs } from './BlockThumbs'
@@ -275,6 +277,12 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
 
           <Group name="fight">
             <FightBlock monsters={fight} />
+          </Group>
+
+          <Group name="table" note={s.notes.table} wide>
+            <div className="guide-body w-full">
+              <GuideTable table={table} />
+            </div>
           </Group>
 
           <Group name="coordinates" note={s.notes.coordinates}>

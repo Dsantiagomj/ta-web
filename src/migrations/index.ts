@@ -49,6 +49,7 @@ import * as migration_20261116_115937_navigation from './20261116_115937_navigat
 import * as migration_20261116_122735_class_and_dungeon_pages from './20261116_122735_class_and_dungeon_pages';
 import * as migration_20261117_005146_zone_backgrounds from './20261117_005146_zone_backgrounds';
 import * as migration_20261118_173121_content_updated_at from './20261118_173121_content_updated_at';
+import * as migration_20261118_183424_table_block from './20261118_183424_table_block';
 
 export const migrations = [
   {
@@ -304,6 +305,11 @@ export const migrations = [
   {
     up: migration_20261118_173121_content_updated_at.up,
     down: migration_20261118_173121_content_updated_at.down,
-    name: '20261118_173121_content_updated_at'
+    name: '20261118_173121_content_updated_at',
+  },
+  {
+    up: migration_20261118_183424_table_block.up,
+    down: migration_20261118_183424_table_block.down,
+    name: '20261118_183424_table_block'
   },
 ];

@@ -32,6 +32,7 @@ export const catalogStrings = {
     wells: 'Huecos de iconos',
     items: 'Objetos',
     fight: 'Combate',
+    table: 'Tabla',
     coordinates: 'Coordenadas',
     steps: 'Pasos',
     next: 'Siguiente misión',
@@ -71,6 +72,8 @@ export const catalogStrings = {
     steps:
       'Separados por una línea, sin números, títulos ni casillas; el 3 lleva la chincheta del paso.',
     video: 'Con portada y sin portada. Nada de YouTube carga hasta pulsar.',
+    table:
+      'Una tabla de Torre: su título, la primera columna como encabezado de fila y las cifras a la derecha. Si no cabe, se desplaza de lado dentro de su caja (se enfoca con el teclado) y la primera columna se queda a la vista.',
     dofus:
       'Tarjetas del índice (una con su etiqueta, otra En preparación, apagada y sin enlace), Necesitarás por grupos (el objeto copia su nombre) y un logro con sus misiones en lista con filetes, sin cajas.',
     checklists:

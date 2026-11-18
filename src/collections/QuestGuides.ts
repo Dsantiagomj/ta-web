@@ -5,6 +5,7 @@ import { FightBlock } from '../blocks/FightBlock'
 import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
+import { TableBlock } from '../blocks/TableBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { linkedQuestId } from '../lib/guides/autofill'
 import { isDungeonNoteIn } from '../lib/guides/need-notes'
@@ -449,7 +450,15 @@ export const QuestGuides: CollectionConfig = {
               label: 'Contenido',
               labels: { singular: 'Bloque', plural: 'Bloques' },
               type: 'blocks',
-              blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, StepBlock],
+              blocks: [
+                RichTextBlock,
+                ImageBlock,
+                VideoBlock,
+                CalloutBlock,
+                FightBlock,
+                TableBlock,
+                StepBlock,
+              ],
             },
           ],
         },

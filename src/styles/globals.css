@@ -253,4 +253,26 @@ html:active-view-transition-type(pagina)::view-transition-new(root) {
   :is(h1, h2, h3) {
     break-after: avoid;
   }
+
+  /* La tabla de Torre, entera en el papel: sin desplazamiento ni columna fija, al ancho de
+     la hoja y sin partir una fila entre dos (DESIGN.md, Table block). game.css se carga
+     después con la misma especificidad, y la columna fija lleva más: de ahí :root .gtable. */
+  :root .gtable {
+    width: auto;
+    overflow: visible;
+  }
+
+  :root .gtable .gtable__table {
+    width: 100%;
+  }
+
+  :root .gtable .gtable__table :is(th, td) {
+    position: static;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  :root .gtable .gtable__table tr {
+    break-inside: avoid;
+  }
 }

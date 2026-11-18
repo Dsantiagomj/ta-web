@@ -121,6 +121,10 @@ html[data-theme='dark'] {
   margin: 0;
 }
 
+.ta-paste {
+  margin-bottom: var(--spacing-field, 1.5rem);
+}
+
 .ta-fill__status:empty {
   display: none;
 }

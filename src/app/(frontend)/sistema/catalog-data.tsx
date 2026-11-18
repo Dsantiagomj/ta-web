@@ -13,7 +13,7 @@ import { posterInk } from '@/lib/checklists/poster-ink'
 import { eggLine } from '@/lib/dofus-guides/egg-line'
 import type { DofusCard } from '@/lib/dofus-guides/index-view'
 import type { DofusGuideView } from '@/lib/dofus-guides/page'
-import type { NextQuestCardData, QuestHeaderData } from '@/lib/guides/page'
+import type { GuideBlock, NextQuestCardData, QuestHeaderData } from '@/lib/guides/page'
 
 // Contenido real del catálogo: la guía de Torre «Seis pies bajo tierra» (DofusDB 1976),
 // «Entretanto, un renacer» (2420) y el vídeo de «Intoxicación profunda» (1433), con el arte
@@ -97,6 +97,31 @@ export const fight = [
   { item: monsters.milirrata, quantity: 1 },
   { item: monsters.miserata, quantity: 1 },
 ]
+
+/**
+ * Una tabla del cuerpo (DESIGN.md, Table block): la primera columna nombra cada fila y las
+ * cifras van a la derecha. La última columna, de texto largo, hace que en el móvil se desplace.
+ */
+export const table: Extract<GuideBlock, { kind: 'table' }> = {
+  kind: 'table',
+  key: 'tabla',
+  title: 'Los jalatós de Amakna',
+  rowHeaders: true,
+  columns: [
+    { header: 'Monstruo', align: 'start' },
+    { header: 'Nivel', align: 'end' },
+    { header: 'Vitalidad', align: 'end' },
+    { header: 'Zona', align: 'center' },
+    { header: 'Lo que suelta', align: 'start' },
+  ],
+  rows: [
+    ['Jalató', '1-5', '80', 'Amakna', 'Lana de jalató y cuero de jalató'],
+    ['Jalatín blanco', '1-5', '25', 'Amakna', 'Lana de jalatín blanco'],
+    ['Jalatín negro', '1-5', '25', 'Amakna', 'Lana de jalatín negro'],
+    ['Jalató de guerra', '6-10', '240', 'Amakna', 'Cuerno de jalató'],
+    ['Jalató Real', '30', '1 350', 'Amakna', 'Corona del Jalató Real, solo en su mazmorra'],
+  ],
+}
 
 /** La tarjeta de la siguiente misión, con arte y sin él. */
 export const nextQuest: NextQuestCardData = {

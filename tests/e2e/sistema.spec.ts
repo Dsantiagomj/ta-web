@@ -24,6 +24,7 @@ const COMPONENTS = [
   'wells',
   'items',
   'fight',
+  'table',
   'coordinates',
   'steps',
   'chain',
