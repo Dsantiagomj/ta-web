@@ -97,6 +97,13 @@ describe('dev', () => {
     expect(web.variables.DEV_BASIC_AUTH_USER).toBeUndefined()
     expect(web.variables.DEV_BASIC_AUTH_PASSWORD).toBeUndefined()
   })
+
+  it('no declara Umami: en dev la analítica está apagada', async () => {
+    const web = await webService('dev')
+
+    expect(web.variables.UMAMI_HOST).toBeUndefined()
+    expect(web.variables.UMAMI_WEBSITE_ID).toBeUndefined()
+  })
 })
 
 describe('production', () => {
@@ -113,6 +120,13 @@ describe('production', () => {
     expect(web.variables.DEV_BASIC_AUTH_USER).toBeUndefined()
     expect(web.variables.GIT_COMMIT_SHA).toEqual({ type: 'preserve' })
     expect(web.variables.APP_VERSION).toEqual({ type: 'preserve' })
+  })
+
+  it('conserva la URL y el ID de Umami, que se crean a mano en Railway', async () => {
+    const web = await webService('production')
+
+    expect(web.variables.UMAMI_HOST).toEqual({ type: 'preserve' })
+    expect(web.variables.UMAMI_WEBSITE_ID).toEqual({ type: 'preserve' })
   })
 })
 
