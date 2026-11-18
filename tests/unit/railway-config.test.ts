@@ -122,82 +122,104 @@ it('cualquier otro entorno falla en vez de adivinar', async () => {
 })
 
 // La tarea semanal que trae de DofusDB los datos del juego (pnpm data:refresh): un servicio
-// cron aparte, solo en dev por ahora. Producción no tiene fuente de GitHub; su tarea llegará
-// con el workflow de release.
+// cron aparte en cada entorno. dev despliega main desde GitHub; producción no tiene fuente de
+// GitHub, así que la despliega el workflow de release con el mismo commit que la web
+// (tests/unit/release-workflow.test.ts).
 async function gameDataService(environment: string) {
   const ctx = createRailwayContext({ environment } as RailwayContextInput)
   const definition = await railway(ctx, project)
-  return (definition.resources ?? []).find(
+  const job = (definition.resources ?? []).find(
     (resource) => 'address' in resource && resource.address === 'service.game-data',
-  ) as unknown as
-    | {
-        source?: { type: string; repo?: string; branch?: string; checkSuites?: boolean }
-        build: Record<string, unknown>
-        deploy: Record<string, unknown>
-        variables: Record<
-          string,
-          { type: string; value?: string; resource?: string; output?: string }
-        >
-      }
-    | undefined
+  )
+  expect(job, 'falta el servicio game-data').toBeDefined()
+  return job as unknown as {
+    source?: { type: string; repo?: string; branch?: string; checkSuites?: boolean }
+    build: Record<string, unknown>
+    deploy: Record<string, unknown>
+    variables: Record<string, { type: string; value?: string; resource?: string; output?: string }>
+  }
 }
 
-describe('tarea semanal de los datos del juego en dev', () => {
-  it('corre pnpm data:refresh --schedule una vez por semana, el miércoles a las 06:00 UTC', async () => {
+describe.each(['dev', 'production'])(
+  'tarea semanal de los datos del juego en %s',
+  (environment) => {
+    it('corre pnpm data:refresh --schedule una vez por semana, el miércoles a las 06:00 UTC', async () => {
+      const job = await gameDataService(environment)
+
+      expect(job.deploy.startCommand).toBe('pnpm data:refresh --schedule')
+      expect(job.deploy.cronSchedule).toBe('0 6 * * 3')
+    })
+
+    it('no reintenta un fallo ni se queda encendida: la siguiente semana o el panel lo repiten', async () => {
+      const job = await gameDataService(environment)
+
+      expect(job.deploy.restartPolicyType).toBe('NEVER')
+      expect(job.deploy.healthcheckPath).toBeUndefined()
+      // Las migraciones las corre la web antes de desplegar; la tarea no migra.
+      expect(job.deploy.preDeployCommand).toBeUndefined()
+    })
+
+    it('compila con Railpack sin el build de Next, que no usa, y corre junto a la web', async () => {
+      const job = await gameDataService(environment)
+
+      expect(job.build.builder).toBe('RAILPACK')
+      expect(job.build.buildCommand).not.toMatch(/pnpm build/)
+      expect(job.variables.RAILPACK_NODE_VERSION).toEqual({ type: 'literal', value: '24.22.2' })
+      expect(job.deploy.multiRegionConfig).toEqual({ 'us-east4-eqdc4a': { numReplicas: 1 } })
+    })
+
+    it('usa los secretos de la web por referencia: ninguno nuevo que crear a mano', async () => {
+      const job = await gameDataService(environment)
+
+      for (const name of [
+        'DATABASE_URL',
+        'PAYLOAD_SECRET',
+        'NEXT_PUBLIC_SITE_URL',
+        'S3_ENDPOINT',
+        'S3_BUCKET',
+        'S3_ACCESS_KEY_ID',
+        'S3_SECRET_ACCESS_KEY',
+        'MEDIA_BASE_URL',
+        'SENTRY_DSN',
+      ]) {
+        expect(job.variables[name], name).toEqual({
+          type: 'reference',
+          resource: 'service.web',
+          output: name,
+        })
+      }
+    })
+  },
+)
+
+describe('tarea semanal en dev', () => {
+  it('despliega main como la web y se marca como dev', async () => {
     const job = await gameDataService('dev')
-    expect(job, 'falta el servicio game-data').toBeDefined()
 
-    expect(job!.deploy.startCommand).toBe('pnpm data:refresh --schedule')
-    expect(job!.deploy.cronSchedule).toBe('0 6 * * 3')
-  })
-
-  it('no reintenta un fallo ni se queda encendida: la siguiente semana o el panel lo repiten', async () => {
-    const job = await gameDataService('dev')
-
-    expect(job!.deploy.restartPolicyType).toBe('NEVER')
-    expect(job!.deploy.healthcheckPath).toBeUndefined()
-    // Las migraciones las corre la web antes de desplegar; la tarea no migra.
-    expect(job!.deploy.preDeployCommand).toBeUndefined()
-  })
-
-  it('despliega main como la web, sin el build de Next, que no usa', async () => {
-    const job = await gameDataService('dev')
-
-    expect(job!.source).toMatchObject({
+    expect(job.source).toMatchObject({
       type: 'github',
       repo: 'Dsantiagomj/ta-web',
       branch: 'main',
     })
-    expect(job!.build.builder).toBe('RAILPACK')
-    expect(job!.build.buildCommand).not.toMatch(/pnpm build/)
-    expect(job!.variables.RAILPACK_NODE_VERSION).toEqual({ type: 'literal', value: '24.22.2' })
-    expect(job!.deploy.multiRegionConfig).toEqual({ 'us-east4-eqdc4a': { numReplicas: 1 } })
-  })
-
-  it('usa los secretos de la web por referencia: ninguno nuevo que crear a mano', async () => {
-    const job = await gameDataService('dev')
-
-    for (const name of [
-      'DATABASE_URL',
-      'PAYLOAD_SECRET',
-      'NEXT_PUBLIC_SITE_URL',
-      'S3_ENDPOINT',
-      'S3_BUCKET',
-      'S3_ACCESS_KEY_ID',
-      'S3_SECRET_ACCESS_KEY',
-      'MEDIA_BASE_URL',
-      'SENTRY_DSN',
-    ]) {
-      expect(job!.variables[name], name).toEqual({
-        type: 'reference',
-        resource: 'service.web',
-        output: name,
-      })
-    }
-    expect(job!.variables.APP_ENV).toEqual({ type: 'literal', value: 'dev' })
+    expect(job.variables.APP_ENV).toEqual({ type: 'literal', value: 'dev' })
   })
 })
 
-it('producción no tiene tarea semanal todavía', async () => {
-  expect(await gameDataService('production')).toBeUndefined()
+describe('tarea semanal en producción', () => {
+  it('no se conecta a GitHub: la despliega el workflow de release, como la web', async () => {
+    const job = await gameDataService('production')
+
+    expect(job.source).toBeUndefined()
+  })
+
+  it('no se marca como dev y reporta a Sentry con el commit que fija el release en la web', async () => {
+    const job = await gameDataService('production')
+
+    expect(job.variables.APP_ENV).toBeUndefined()
+    expect(job.variables.GIT_COMMIT_SHA).toEqual({
+      type: 'reference',
+      resource: 'service.web',
+      output: 'GIT_COMMIT_SHA',
+    })
+  })
 })
