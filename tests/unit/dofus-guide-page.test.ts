@@ -840,6 +840,65 @@ describe('dofusGuideView: los enlaces que se escriben en el panel', () => {
   })
 })
 
+describe('dofusGuideView: los enlaces de Torre a su propia web', () => {
+  // Lo que este sitio enseña: con ello sus enlaces pasan a relativos (src/lib/site/site-links.ts).
+  const live = (slug: string) => ['emote-x', 'al-partir', 'checklist-hielos'].includes(slug)
+
+  it('una fila que no es misión lleva aquí si el sitio sirve la página; si no, a Squarespace', () => {
+    const view = dofusGuideView({
+      ...data({
+        parts: [
+          {
+            blockType: 'dofusQuests',
+            quests: [
+              { title: 'Absoluto servido', link: 'https://www.torrentearcano.com/emote-x' },
+              { title: 'Relativo sin página', link: '/cazadores-cazados' },
+              { title: 'Otra web', link: 'https://www.youtube.com/watch?v=x' },
+            ],
+          },
+        ],
+      }),
+      live,
+    })
+    const [quests] = view.parts
+    if (quests?.kind !== 'quests') throw new Error('Se esperaban misiones sueltas')
+    expect(quests.quests.map((quest) => quest.href)).toEqual([
+      '/emote-x',
+      'https://www.torrentearcano.com/cazadores-cazados',
+      'https://www.youtube.com/watch?v=x',
+    ])
+  })
+
+  it('un logro En preparación lleva al enlace de Torre, aquí si el sitio lo sirve', () => {
+    const view = dofusGuideView({
+      ...data({
+        parts: [
+          {
+            blockType: 'dofusMetalogro',
+            name: 'Un comienzo ejemplar',
+            achievements: [
+              { achievement: 101, note: null, link: 'https://www.torrentearcano.com/al-partir' },
+            ],
+          },
+        ],
+      }),
+      live,
+    })
+    const part = view.parts[0]
+    if (part?.kind !== 'metalogro') throw new Error('Se esperaba un metalogro')
+    expect(part.achievements[0]).toMatchObject({ disabled: true, href: '/al-partir' })
+  })
+
+  it('la checklist En preparación de Squarespace, relativa si el sitio ya la sirve', () => {
+    const view = (url: string) =>
+      dofusGuideView({ ...data({ checklist: { name: 'Checklist', url } }), live }).checklist
+    expect(view('https://www.torrentearcano.com/checklist-hielos')?.href).toBe('/checklist-hielos')
+    expect(view('https://www.torrentearcano.com/lista-ocre')?.href).toBe(
+      'https://www.torrentearcano.com/lista-ocre',
+    )
+  })
+})
+
 describe('dofusGuideView: la corrección de Torre gana a DofusDB', () => {
   const torre = media(99, 'de-torre')
 

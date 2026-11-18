@@ -23,9 +23,10 @@ import { checklistPageStrings } from '@/lib/checklists/strings'
 import { dofusPageStrings } from '@/lib/dofus-guides/strings'
 import { sitePageRoute, sitePageSeo } from '@/lib/pages/page'
 import { SITE_URL } from '@/lib/site/origin'
+import { withSiteLinks } from '@/lib/site/site-links'
 import { openGraphDefaults } from '@/lib/site-copy/metadata'
 
-import { loadSiteSettings } from '../site-data'
+import { loadLiveSlug, loadSiteSettings } from '../site-data'
 
 import { loadAchievementPage } from './achievement-data'
 import { AchievementView } from './AchievementView'
@@ -123,20 +124,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  */
 export default async function SlugPage({ params }: Props) {
   const slug = (await params).slug
+  // Los enlaces de Torre a su propia web pasan a relativos donde este sitio sirve la ruta
+  // (src/lib/site/site-links.ts); el resto lleva a su página de Squarespace.
+  const linked = async <T,>(data: T): Promise<T> => withSiteLinks(data, await loadLiveSlug())
   const page = await loadGuidePage(slug)
-  if (page) return <QuestGuideView page={page} />
+  if (page) return <QuestGuideView page={await linked(page)} />
   // Un logro o un Dofus En preparación no tienen página: la consulta no se los da a un visitante.
   const achievement = await loadAchievementPage(slug)
-  if (achievement) return <AchievementView data={achievement} preview={achievement.preview} />
+  if (achievement) {
+    return <AchievementView data={await linked(achievement)} preview={achievement.preview} />
+  }
   const dofus = await loadDofusGuide(slug)
-  if (dofus) return <DofusGuideView data={dofus} preview={dofus.preview} />
+  if (dofus) {
+    const live = await loadLiveSlug()
+    return <DofusGuideView data={{ ...withSiteLinks(dofus, live), live }} preview={dofus.preview} />
+  }
   // Una página En preparación lleva a su página de Squarespace, como una checklist.
   const site = await loadSitePage(slug)
   if (site) {
     const route = sitePageRoute(site.page, site.preview, SITE_URL)
     if (route.kind === 'legacy') redirect(route.href)
     if (route.kind === 'none') notFound()
-    return <SitePageView page={site.page} preview={site.preview} />
+    return <SitePageView page={await linked(site.page)} preview={site.preview} />
   }
   const checklist = await loadChecklist(slug)
   if (!checklist) return redirectOrNotFound(slug)
@@ -145,9 +154,9 @@ export default async function SlugPage({ params }: Props) {
   if (route.kind === 'legacy') redirect(route.href)
   if (route.kind === 'none') notFound()
   if (checklist.checklist.kind === 'souls') {
-    return <SoulsView data={checklist} preview={checklist.preview} />
+    return <SoulsView data={await linked(checklist)} preview={checklist.preview} />
   }
-  return <ChecklistView data={checklist} preview={checklist.preview} />
+  return <ChecklistView data={await linked(checklist)} preview={checklist.preview} />
 }
 
 /**

@@ -27,7 +27,7 @@ import { isDungeonNote, needKey, needNote } from '@/lib/guides/need-notes'
 import { youtubeId } from '@/lib/guides/video'
 import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
-import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
+import { type LiveSlug, ownSitePath, siteLinkHref } from '@/lib/site/site-links'
 import type { Media } from '@/payload-types'
 
 import { dofusEgg } from './egg'
@@ -184,6 +184,16 @@ export interface DofusGuideData {
   /** La checklist de este Dofus publicada en la web, si la hay: la tarjeta lleva a ella. */
   checklist?: { slug: string }
   siteUrl: string
+  /**
+   * Lo que el sitio enseña en /<slug>: con ello los enlaces de Torre a su propia web pasan a
+   * relativos (src/lib/site/site-links.ts). Sin él, se pintan como los escribió.
+   */
+  live?: LiveSlug
+}
+
+/** Un enlace que Torre escribió, relativo si lleva a una página que el sitio sirve. */
+function ownLink(data: DofusGuideData, href: string): string {
+  return data.live ? siteLinkHref(href, data.live) : href
 }
 
 /**
@@ -544,8 +554,9 @@ function torreRowCard(data: DofusGuideData, row: QuestRowDoc, position: number):
 }
 
 /** Lo que Torre enlaza en una lista de misiones que no es una misión. */
-function linkCard(row: LooseQuestDoc, position: number): DofusQuestCard {
-  const href = siteOrWebHref(row.link)
+function linkCard(data: DofusGuideData, row: LooseQuestDoc, position: number): DofusQuestCard {
+  const written = siteOrWebHref(row.link)
+  const href = written && ownLink(data, written)
   return {
     kind: 'link',
     position,
@@ -566,12 +577,13 @@ function achievementPart(data: DofusGuideData, ref: AchievementRefDoc): Achievem
   const disabled = page.state !== 'published'
   const icon = image(shown(page.achievement)?.icon)
   const points = page.points && page.points > 0 ? page.points : undefined
-  // En preparación no tiene página: el enlace de Torre lleva a la suya, en su web.
-  const link = ref.link?.trim()
+  // En preparación no tiene página: el enlace de Torre lleva a la suya, en su web, o aquí si
+  // este sitio ya sirve esa dirección.
+  const path = ref.link ? ownSitePath(ref.link) : null
   const href = !disabled
     ? `/${page.slug}`
-    : link?.startsWith('/') && !link.startsWith('//')
-      ? `${LEGACY_SITE_ORIGIN}${link}`
+    : path !== null
+      ? siteLinkHref(path, data.live ?? (() => false))
       : undefined
   return {
     name: page.name,
@@ -609,7 +621,7 @@ function partsView(data: DofusGuideData): PartView[] {
         // Las misiones van numeradas; lo que Torre enlaza que no es una misión, sin número.
         let position = 0
         const quests = (part.quests ?? []).flatMap((row) => {
-          if (isLinkRow(row)) return [linkCard(row, position)]
+          if (isLinkRow(row)) return [linkCard(data, row, position)]
           const card = guideCard(data, row.guide ?? null, position + 1, row)
           if (card) position += 1
           return card ? [card] : []
@@ -678,7 +690,9 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
   const poster = image(guide.videoPoster)
   const egg = image(dofusEgg(guide))
   // La checklist de la web si está publicada; si no (En preparación), la de Squarespace.
-  const checklistHref = data.checklist ? `/${data.checklist.slug}` : guide.checklist?.url
+  const checklistHref = data.checklist
+    ? `/${data.checklist.slug}`
+    : guide.checklist?.url && ownLink(data, guide.checklist.url)
   const checklist =
     guide.checklist?.name && checklistHref
       ? { name: guide.checklist.name, href: checklistHref }

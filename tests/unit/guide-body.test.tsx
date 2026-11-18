@@ -85,6 +85,19 @@ describe('GuideRichText', () => {
     expect(markup).toContain('data-copy="/travel 38,-45"')
   })
 
+  it('también cuando la página ya lo pasó a relativo porque el sitio sirve esa guía', () => {
+    // withSiteLinks (src/lib/site/site-links.ts) cambia el enlace antes de pintarlo.
+    const link = {
+      type: 'link',
+      version: 1,
+      fields: { url: '/una-profecia-bastante-extraa#', linkType: 'custom' },
+      children: [text('[38,-45]', 1)],
+    }
+    const markup = html(<GuideRichText content={root(paragraph(link))} />)
+    expect(markup).not.toContain('<a')
+    expect(markup).toContain('data-copy="/travel 38,-45"')
+  })
+
   it('un enlace que abre otra pestaña lleva noopener', () => {
     const link = {
       type: 'link',
