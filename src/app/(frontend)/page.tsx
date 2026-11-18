@@ -12,6 +12,7 @@ import '@/components/home/home.css'
 import {
   loadChecklistNav,
   loadIndexTexts,
+  loadLiveState,
   loadNavigation,
   loadSiteCounts,
   loadSiteSettings,
@@ -22,7 +23,8 @@ import {
 export const metadata: Metadata = { alternates: { canonical: '/' } }
 
 /**
- * La portada (DESIGN.md, Layout: Home): el directo si lo hay, el hero con la búsqueda, qué
+ * La portada (DESIGN.md, Layout: Home): el directo si lo hay (el worker de Twitch de Torre, en
+ * caché un minuto: loadLiveState), el hero con la búsqueda, qué
  * vas a encontrar, cómo es una guía, las checklists y Torre. Las cifras y las checklists son
  * las mismas de la cabecera (loadSiteCounts, loadChecklistNav), así que nunca discrepan. Los
  * textos son de «Portada e índices», las redes de Torre de «Ajustes del sitio» y las secciones
@@ -33,15 +35,15 @@ export default async function HomePage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const [counts, checklists, params, { home }, { socials }, nav] = await Promise.all([
+  const params = await searchParams
+  const [counts, checklists, { home }, { socials }, nav, live] = await Promise.all([
     loadSiteCounts(),
     loadChecklistNav(),
-    searchParams,
     loadIndexTexts(),
     loadSiteSettings(),
     loadNavigation(),
+    liveState(params.directo, process.env, loadLiveState),
   ])
-  const live = liveState(params.directo, process.env)
   return (
     <main id="contenido" className="home">
       <LiveStrip live={live} twitch={socials.twitch} />

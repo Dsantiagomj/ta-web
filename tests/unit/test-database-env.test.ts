@@ -71,6 +71,12 @@ describe('appWebServers', () => {
     expect(app?.env?.DATABASE_URL_DIRECT).toBe('postgres://ci@localhost/pruebas')
   })
 
+  it('arranca sin el worker de Twitch: las pruebas no salen a la red', () => {
+    vi.stubEnv('TWITCH_LIVE_URL', 'https://real.example/')
+
+    expect(appWebServers({ port: 3100 }).at(-1)?.env?.TWITCH_LIVE_URL).toBe('off')
+  })
+
   it('trata una DATABASE_URL en blanco como vacía: base embebida, como pnpm test:lhci', () => {
     vi.stubEnv('DATABASE_URL', '  ')
 

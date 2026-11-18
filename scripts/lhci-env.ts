@@ -25,5 +25,7 @@ export function lhciEnv(env: Env, siteUrl = 'http://localhost:3000'): Record<str
     S3_ACCESS_KEY_ID: '',
     S3_SECRET_ACCESS_KEY: '',
     MEDIA_BASE_URL: '',
+    // Sin el worker de Twitch: la portada medida no sale a la red ni cambia si Torre emite.
+    TWITCH_LIVE_URL: 'off',
   }
 }

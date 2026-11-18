@@ -70,6 +70,9 @@ export function appWebServers({
         S3_ACCESS_KEY_ID: '',
         S3_SECRET_ACCESS_KEY: '',
         MEDIA_BASE_URL: '',
+        // Sin el worker de Twitch (src/lib/site/live.ts): las pruebas no salen a la red y la
+        // portada nunca está en directo; ?directo=1 lo simula donde haga falta.
+        TWITCH_LIVE_URL: 'off',
         ...env,
       },
       reuseExistingServer: false,
