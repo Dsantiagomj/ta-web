@@ -216,12 +216,28 @@ describe('la tabla de legacy-urls.json', () => {
     const stubs = sections.stubs
     // Una sección que se regenera cuando Torre publica: redirección temporal hasta el corte.
     expect(stubs.permanent).toBe(false)
-    expect(lookupLegacyUrl('/corazon-de-piedra')).toEqual({ status: 307, to: '/la-larga-marcha' })
-    // 166 esbozos en el rastreo: 9 son guías de Dofus En preparación, /cart va con los hubs,
-    // /metalogro-alineamiento-misiones con los metalogros, y los 80 de una página de logro En
-    // preparación no tienen fila (404 hasta que se publique).
-    expect(Object.keys(stubs.moved ?? {})).toHaveLength(40)
-    expect(stubs.gone ?? []).toHaveLength(35)
+    expect(lookupLegacyUrl('/no-hay-cosa-mas-sana-que-una-manzana')).toEqual({
+      status: 307,
+      to: '/un-ciudadano-modelo',
+    })
+    // 86 esbozos siguen vacíos (scripts/redirects/stubs.ts): 9 son guías de Dofus En
+    // preparación, /cart va con los hubs, /metalogro-alineamiento-misiones con los metalogros,
+    // y los de una página de logro En preparación no tienen fila (404 hasta que se publique).
+    expect(Object.keys(stubs.moved ?? {})).toHaveLength(4)
+    expect(stubs.gone ?? []).toHaveLength(32)
+  })
+
+  it('B-04: un esbozo que Torre llenó después es una guía: sin fila, la guía responde', () => {
+    // La cadena de Forjalava, la de Zurcarák y los «Se busca» que daban 307 o 410.
+    for (const path of [
+      '/corazon-de-piedra',
+      '/a-contrapelo',
+      '/hablar-con-el-dios-zurcarak',
+      '/se-busca-atcham',
+      '/se-busca-boarus',
+    ]) {
+      expect(lookupLegacyUrl(path)).toBeNull()
+    }
   })
 
   it('los hubs y los metalogros son estables: 301', () => {

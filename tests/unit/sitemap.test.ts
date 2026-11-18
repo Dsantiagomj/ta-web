@@ -139,14 +139,14 @@ describe('sitemapEntries', () => {
         questGuides: [
           { slug: 'home', updatedAt: '2026-11-01T10:00:00.000Z' },
           { slug: 'cart', updatedAt: '2026-11-01T10:00:00.000Z' },
-          { slug: 'corazon-de-piedra', updatedAt: '2026-11-01T10:00:00.000Z' },
+          { slug: 'no-hay-cosa-mas-sana-que-una-manzana', updatedAt: '2026-11-01T10:00:00.000Z' },
           { slug: 'aprendizaje-escudero', updatedAt: '2026-11-01T10:00:00.000Z' },
         ],
       }),
     )
     expect(list).not.toContain(`${SITE}/home`)
     expect(list).not.toContain(`${SITE}/cart`)
-    expect(list).not.toContain(`${SITE}/corazon-de-piedra`)
+    expect(list).not.toContain(`${SITE}/no-hay-cosa-mas-sana-que-una-manzana`)
     expect(list).toContain(`${SITE}/aprendizaje-escudero`)
   })
 

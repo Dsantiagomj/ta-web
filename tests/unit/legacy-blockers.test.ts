@@ -48,17 +48,21 @@ describe('blockerOf', () => {
   })
 
   it('un esbozo vacío sin fila espera su página de logro', () => {
-    expect(blockerOf('/se-busca-darma', null, none)).toBe('stub')
+    expect(blockerOf('/formacion-de-primer-ao', null, none)).toBe('stub')
+  })
+
+  it('una guía que Torre escribió en Squarespace después de la importación espera el delta', () => {
+    // Un esbozo que llenó (FILLED_STUBS) y la página nueva del 2026-11-15.
+    expect(blockerOf('/se-busca-darma', null, none)).toBe('delta-import')
+    expect(blockerOf('/hablar-con-volkaragnar', null, none)).toBe('delta-import')
   })
 
   it('un enlace a una ruta que aquí da 410 y no tiene página que lo sustituya: Torre lo cambia', () => {
     expect(blockerOf('/frambuesa', 'gone', none)).toBe('torre-edits')
   })
 
-  it('lo demás está sin decidir; algunas URL llevan una nota con el porqué', () => {
+  it('lo demás está sin decidir', () => {
     expect(blockerOf('/algo-nuevo', null, none)).toBe('undecided')
-    expect(blockerOf('/hablar-con-volkaragnar', null, none)).toBe('undecided')
-    expect(noteOf('/hablar-con-volkaragnar')).toMatch(/Forjalava/)
     expect(noteOf('/algo-nuevo')).toBeUndefined()
   })
 })
