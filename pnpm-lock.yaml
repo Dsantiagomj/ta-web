@@ -99,6 +99,9 @@ importers:
       happy-dom:
         specifier: 21.0.4
         version: 21.0.4
+      js-yaml:
+        specifier: 5.5.0
+        version: 5.5.0
       lefthook:
         specifier: 2.2.2
         version: 2.2.2
