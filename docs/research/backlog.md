@@ -79,7 +79,7 @@ Quest guides are ported: 1,271 of 1,272, and the last one is now a Dofus guide. 
 |---|---|---|---|---|---|---|---|
 | S-13 | Inline tools as native pages | The tools B-13 keeps become React islands, as plan §8.6 says. About M each, so L for all three | code | L | P1 | squarespace §7 | Blocked on Torre. Waits for B-13 |
 | S-14 | 17 guides without a DofusDB quest | They get no summary from DofusDB. Link a quest where one exists; the how-to pages are expected to have none | Torre (panel) | S | P2 | squarespace §1 | Not started |
-| S-15 | Golden-page import test | Nobody compared the guides block by block. The planned `pnpm test:import` checks 30 golden pages against Squarespace before the delta import | code | M | P1 | squarespace §1; plan §8.1 | In review. `pnpm test:import` pins 30 golden pages across the six Squarespace converters, reviewed against the live site on 2026-11-18 (`tests/fixtures/import-golden/README.md`), and runs in CI as «Importación». `pnpm import:golden-refresh` re-downloads them before the delta import. The converter bugs it found are listed in its PR |
+| S-15 | Golden-page import test | Nobody compared the guides block by block. The planned `pnpm test:import` checks 30 golden pages against Squarespace before the delta import | code | M | P1 | squarespace §1; plan §8.1 | In review (#211). `pnpm test:import` pins 30 golden pages across the six Squarespace converters, reviewed against the live site on 2026-11-18 (`tests/fixtures/import-golden/README.md`), and runs in CI as «Importación». `pnpm import:golden-refresh` re-downloads them before the delta import. The converter bugs it found are listed in its PR |
 
 ### Site-wide features
 
