@@ -2,7 +2,16 @@
 // sobre un conjunto fijo de páginas, contra `pnpm start` en local. scripts/lhci.ts
 // compila, migra una base vacía y arranca la app en el puerto de estas URL.
 
-const BASE_URL = 'http://localhost:3110'
+// LHCI_PORT cambia el puerto (3110 si no), para que dos copias del repo midan a la vez.
+function baseUrlFor(env) {
+  const port = env.LHCI_PORT?.trim() || '3110'
+  if (!/^\d+$/.test(port) || Number(port) < 1 || Number(port) > 65535) {
+    throw new Error(`LHCI_PORT debe ser un puerto, como 3110; llegó «${port}».`)
+  }
+  return `http://localhost:${port}`
+}
+
+const BASE_URL = baseUrlFor(process.env)
 
 // Una línea por página. Cada tipo de página entra cuando exista su ruta. La guía, el logro,
 // la guía de Dofus, la checklist y las checklists del índice los siembra scripts/seed-e2e.ts
@@ -48,6 +57,7 @@ const median = (options) => ({ ...options, aggregationMethod: 'median' })
 const best = (options) => ({ ...options, aggregationMethod: 'optimistic' })
 
 module.exports = {
+  baseUrlFor,
   pagesForShard,
   pages: PAGES,
   ci: {

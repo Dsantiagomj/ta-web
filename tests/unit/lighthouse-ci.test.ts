@@ -173,6 +173,31 @@ describe('lhciEnv', () => {
   it('sin el worker de Twitch: la portada medida no depende de la red ni de si Torre emite', () => {
     expect(lhciEnv({ TWITCH_LIVE_URL: 'https://real.example/' }).TWITCH_LIVE_URL).toBe('off')
   })
+
+  it('arranca sin Umami aunque el shell tenga sus variables: no se mide ni se cuenta', () => {
+    const env = lhciEnv({ UMAMI_HOST: 'https://umami.ejemplo.com', UMAMI_WEBSITE_ID: 'id' })
+
+    expect(env.UMAMI_HOST).toBe('')
+    expect(env.UMAMI_WEBSITE_ID).toBe('')
+  })
+})
+
+describe('lighthouserc.cjs: el puerto (LHCI_PORT)', () => {
+  const { baseUrlFor } = lighthouserc
+
+  it('sin LHCI_PORT mide en el puerto 3110', () => {
+    expect(baseUrlFor({})).toBe('http://localhost:3110')
+    expect(baseUrlFor({ LHCI_PORT: ' ' })).toBe('http://localhost:3110')
+  })
+
+  it('LHCI_PORT cambia el puerto, para que dos copias del repo midan a la vez', () => {
+    expect(baseUrlFor({ LHCI_PORT: '3245' })).toBe('http://localhost:3245')
+  })
+
+  it('rechaza un puerto que no es un número', () => {
+    expect(() => baseUrlFor({ LHCI_PORT: '32a' })).toThrow(/LHCI_PORT/)
+    expect(() => baseUrlFor({ LHCI_PORT: '70000' })).toThrow(/LHCI_PORT/)
+  })
 })
 
 describe('lighthouserc.cjs por partes (LHCI_SHARD)', () => {
