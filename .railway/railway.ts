@@ -1,4 +1,4 @@
-import { defineRailway, github, preserve, project, service } from 'railway/iac'
+import { defineRailway, github, preserve, project, ref, service } from 'railway/iac'
 
 // Infraestructura como código de Railway (docs/legacy/infra.md). Railway no la lee al
 // desplegar: se aplica a mano, una vez por entorno, con `railway config plan` y
@@ -80,11 +80,12 @@ export default defineRailway((ctx) => {
 
   // La tarea semanal que trae de DofusDB los datos del juego (pnpm data:refresh, que deja su
   // fila en «Refrescos de datos»). Railway arranca el contenedor a su hora, corre el comando y
-  // lo apaga: entre una vez y otra no gasta nada, y Neon puede dormir. Solo en dev por ahora:
-  // producción no tiene fuente de GitHub, así que su tarea llegará con el workflow de release.
+  // lo apaga: entre una vez y otra no gasta nada, y Neon puede dormir. dev despliega main desde
+  // GitHub, como la web; producción no tiene fuente de GitHub: el workflow de release sube el
+  // mismo commit que a la web con `railway up --service game-data`, después de que la web migre.
   // Los secretos son referencias a los de la web (${{web.X}}): no hay ninguno nuevo que crear.
   const gameData = service('game-data', {
-    source: github(REPO, { branch: 'main', checkSuites: false }),
+    ...(dev ? { source: github(REPO, { branch: 'main', checkSuites: false }) } : {}),
     // payload run transpila los scripts al vuelo: el build de Next no hace falta.
     build: {
       builder: 'RAILPACK',
@@ -111,9 +112,16 @@ export default defineRailway((ctx) => {
       S3_SECRET_ACCESS_KEY: web.env.S3_SECRET_ACCESS_KEY,
       MEDIA_BASE_URL: web.env.MEDIA_BASE_URL,
       SENTRY_DSN: web.env.SENTRY_DSN,
-      APP_ENV: 'dev',
+      ...(dev
+        ? { APP_ENV: 'dev' }
+        : {
+            // El release de Sentry de los errores de la tarea: el commit que el workflow de
+            // release fija en la web antes de desplegar las dos. ref() porque el tipo de
+            // web.env solo conoce las variables que la web declara en los dos entornos.
+            GIT_COMMIT_SHA: ref(web, 'GIT_COMMIT_SHA'),
+          }),
     },
   })
 
-  return project('ta-web', { resources: dev ? [web, gameData] : [web] })
+  return project('ta-web', { resources: [web, gameData] })
 })
