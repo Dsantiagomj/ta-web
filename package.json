@@ -45,6 +45,7 @@
     "guides:rewards": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guide-rewards.ts --",
     "guides:reward-typos": "NODE_OPTIONS=--no-deprecation payload run scripts/fix-reward-typos.ts --",
     "guides:rewards-dofusdb": "NODE_OPTIONS=--no-deprecation payload run scripts/prefer-dofusdb-rewards.ts --",
+    "guides:summary-text": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-summary-text.ts --",
     "seed:site-copy": "NODE_OPTIONS=--no-deprecation payload run scripts/seed-site-copy.ts --",
     "panel:block-thumbs": "node scripts/build-block-thumbnails.ts",
     "media:sizes": "NODE_OPTIONS=--no-deprecation payload run scripts/media-sizes.ts --",

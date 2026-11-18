@@ -66,7 +66,7 @@ type StepBody = NonNullable<Extract<BodyBlock, { blockType: 'step' }>['body']>[n
  * Para comparar con lo guardado: sin IDs (de bloque y los aleatorios de los enlaces de
  * Lexical) ni campos vacíos, que Payload devuelve como null aunque no se enviaran.
  */
-function comparable(value: unknown): unknown {
+export function comparable(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(comparable)
   if (value && typeof value === 'object') {
     return Object.fromEntries(
@@ -108,7 +108,7 @@ export type TrackedField = (typeof TRACKED_FIELDS)[number]
 type Snapshot = Partial<Record<TrackedField, unknown>>
 
 /** El valor de un campo por su ruta («summary.needs.notes»). */
-function valueAt(doc: unknown, field: TrackedField): unknown {
+export function valueAt(doc: unknown, field: TrackedField): unknown {
   return field
     .split('.')
     .reduce<unknown>(
@@ -118,7 +118,7 @@ function valueAt(doc: unknown, field: TrackedField): unknown {
     )
 }
 
-const same = (a: unknown, b: unknown) =>
+export const same = (a: unknown, b: unknown) =>
   isDeepStrictEqual(comparable(a) ?? null, comparable(b) ?? null)
 
 // Un campo vacío de una guía sin snapshot no lo escribió Torre: la importación lo llena.
@@ -126,6 +126,18 @@ function isEmpty(value: unknown): boolean {
   if (value === null || value === undefined) return true
   if (typeof value === 'string') return !value.trim()
   return Array.isArray(value) && value.length === 0
+}
+
+/**
+ * Si Torre cambió el campo en el panel: ya no tiene lo que escribió la última importación
+ * (`snapshot`). Sin snapshot, un campo con valor se trata como suyo.
+ */
+export function editedSinceImport(
+  stored: unknown,
+  field: TrackedField,
+  snapshot: Partial<Record<TrackedField, unknown>>,
+): boolean {
+  return field in snapshot ? !same(stored, snapshot[field]) : !isEmpty(stored)
 }
 
 const snapshotOf = (data: unknown): Snapshot =>
@@ -384,8 +396,7 @@ export async function loadQuestGuides(
         nextSnapshot[field] = comparable(value) ?? null
         continue
       }
-      const edited = field in snapshot ? !same(stored, snapshot[field]) : !isEmpty(stored)
-      if (edited) {
+      if (editedSinceImport(stored, field, snapshot)) {
         result.kept.push({ slug: guide.slug, field })
         continue
       }
