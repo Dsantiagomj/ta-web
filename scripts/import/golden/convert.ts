@@ -1,8 +1,9 @@
 // Lo que la importación saca de una página de oro: el conversor de su tipo, tal como lo llaman
 // los scripts de import-*.ts, hasta antes de la carga en Payload. La prosa sigue en HTML y las
 // imágenes y los vídeos van por su URL de origen (la carga los sube a Media y los cambia por un
-// ID). Dos datos que la carga saca de fuera se fijan aquí: las guías de misiones no llevan
-// cruce con DofusDB (sale de quest_matches.csv del inventario) y ninguna página se da por
+// ID). Tres datos que la carga saca de fuera se fijan aquí: las guías de misiones no llevan
+// cruce con DofusDB (sale de quest_matches.csv del inventario), las páginas de logro tienen
+// logro de DofusDB salvo las marcadas `noDofusDb` en el catálogo, y ninguna página se da por
 // publicada en este sitio, así que los enlaces de Torre a su propia web van a Squarespace salvo
 // las rutas propias y las de la tabla de redirecciones (dofus-guides/site-links.ts).
 import { achievementProse } from '../achievements/prose'
@@ -29,7 +30,7 @@ export function goldenOutput(page: GoldenPage, html: string): unknown {
     case 'quest':
       return toQuestGuide(parsePage(html), { slug: page.slug, questDofusIds: [] })
     case 'achievement':
-      return achievementProse(parsePage(html))
+      return achievementProse(parsePage(html), { dofusDb: !page.noDofusDb })
     case 'dofus':
       return parseDofusGuide(html)
     case 'page':

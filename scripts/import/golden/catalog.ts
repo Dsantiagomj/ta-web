@@ -12,6 +12,8 @@ export interface GoldenPage {
   kind: GoldenKind
   /** La rama del conversor que fija. */
   why: string
+  /** Una página de logro sin logro de DofusDB: sus listas del resumen son de Torre. */
+  noDofusDb?: true
 }
 
 const page = (kind: GoldenKind, slug: string, why: string): GoldenPage => ({ slug, kind, why })
@@ -48,7 +50,14 @@ export const GOLDEN_PAGES: GoldenPage[] = [
   page('quest', 'ron-marino', 'vídeo en el último paso, pasos sin coordenadas y «Prerequisitos»'),
   // Prosa de los logros: achievements/prose.ts.
   page('achievement', 'draguisla-tortilla', 'entrada con capturas y vídeo'),
-  page('achievement', 'el-guardian-del-puente-de-la-muerte', 'cierre largo con capturas'),
+  {
+    ...page(
+      'achievement',
+      'el-guardian-del-puente-de-la-muerte',
+      'sin logro de DofusDB: su resumen va a la entrada; cierre largo con capturas',
+    ),
+    noDofusDb: true,
+  },
   page('achievement', 'el-perforar-se-va-a-acabar', 'cierre con dos vídeos'),
   // Guías de Dofus: dofus-guides/parse.ts.
   page('dofus', 'dofus-de-los-hielos', 'aviso de su checklist y misiones sueltas'),

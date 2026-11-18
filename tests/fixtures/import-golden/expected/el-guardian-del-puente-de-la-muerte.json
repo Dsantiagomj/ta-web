@@ -1,5 +1,30 @@
 {
-  "intro": [],
+  "intro": [
+    {
+      "html": "<p class=\"sqsrte-large\" style=\"white-space:pre-wrap;\"><strong>Prerrequisitos:</strong></p>",
+      "type": "html"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\">Nivel recomendado 80.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\"><a href=\"/isla-de-los-naufragos\"><strong>Isla de los Náufragos.</strong></a></p></li></ul>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"sqsrte-large\" style=\"white-space:pre-wrap;\"><strong>Necesitarás:</strong></p>",
+      "type": "html"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\">Solo es responder preguntas xD.</p></li></ul>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"sqsrte-large\" style=\"white-space:pre-wrap;\"><strong>Recompensas:</strong></p>",
+      "type": "html"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\">141 660 XP.</p></li></ul>",
+      "type": "html"
+    }
+  ],
   "outro": [
     {
       "html": "<p class=\"\" style=\"white-space:pre-wrap;\">La misión empieza hablando con el <strong>Guardián del Puente de la Muerte [-56,0]</strong>. En realidad es una misión muy sencilla. Se trata de responder correctamente a sus preguntas. Si lo consigues, terminarás la misión y podrás acceder a la zona de la turbera.</p>",
