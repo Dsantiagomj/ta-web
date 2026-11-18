@@ -41,6 +41,7 @@
     "achievements:alineamiento": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-alignment-achievements.ts --",
     "import:pages": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-pages.ts --",
     "import:section-pages": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-section-pages.ts --",
+    "import:inventory": "node scripts/import/refresh-inventory.ts --",
     "import:golden-refresh": "NODE_OPTIONS=--no-deprecation payload run scripts/import/refresh-golden.ts",
     "guides:backfill": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guides.ts --",
     "guides:shown-items": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-shown-items.ts --",
