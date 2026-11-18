@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest'
 import { Hero } from '@/components/home/Hero'
 import { HeroOptions } from '@/components/home/HeroResults'
 import { LiveStrip } from '@/components/home/LiveStrip'
-import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import { resolveIndexTexts, resolveSiteSettings } from '@/lib/site-copy/resolve'
 
 const hero = () => renderToStaticMarkup(<Hero />)
@@ -41,10 +40,11 @@ describe('el hero de la portada', () => {
     )
   })
 
-  it('el campo es un combobox cerrado que, sin JavaScript, busca en la web de siempre', () => {
+  it('el campo es un combobox cerrado que, sin JavaScript, busca en /buscar', () => {
     const markup = hero()
     expect(markup).toMatch(/<form[^>]*role="search"[^>]*aria-label="Buscar una misión"/)
-    expect(markup).toContain(`action="${LEGACY_SITE_ORIGIN}/search"`)
+    expect(markup).toContain('action="/buscar"')
+    expect(markup).not.toContain('torrentearcano.com')
     const input = markup.match(/<input[^>]*id="buscar-mision"[^>]*>/)![0]
     expect(input).toContain('role="combobox"')
     expect(input).toContain('type="text"')

@@ -26,6 +26,7 @@ describe('isGuideSlug', () => {
       'metalogros',
       'guias-dofus',
       'checklists',
+      'buscar',
     ]) {
       expect(RESERVED_SLUGS).toContain(slug)
       expect(isGuideSlug(slug), slug).toBe(false)
