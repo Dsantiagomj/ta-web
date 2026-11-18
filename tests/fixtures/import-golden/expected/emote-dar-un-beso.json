@@ -1,0 +1,93 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Para conseguir este emote, debes dirigirte a <strong>[1,0]</strong> y hablar con <strong>Don Huan. </strong>En ese mismo instante, le tendrás que entregar 1 x Pinza de cangrejo.</span></p>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">En ese mismo instante, le tendrás que entregar 1 x Pinza de cangrejo.</span></p>"
+          },
+          {
+            "alt": "Mapa de un juego con icons de personajes, recursos, objetos y ruinas en un entorno de campo, con destacados en azul y etiquetas en español.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/05dfe11e-37e9-40a3-8f98-c6b10a5927cd/Captura+de+pantalla+2026-04-01+120731.png"
+          },
+          {
+            "alt": "Personaje masculino con voz de dialogo, en un entorno campestre con árboles y rocas, sosteniendo un objeto. Diálogo en cuadro que dice: \"Yo, Don Huan, me pongo siempre triste cuando veo a tantos inconscientes queriendo borrar el pasado de sus mentes\". Otra opción de diálogo que dice: \"Pedir más explicaciones\".",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/77321bec-dfb9-47e6-b628-5834720f530e/Captura+de+pantalla+2026-04-01+120748.png"
+          }
+        ],
+        "x": 1,
+        "y": 0
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Una vez que le entregues la pinza, te empezará a preguntar cosas y <strong>tú tienes que responderle de manera específica. </strong>Las respuestas son las siguientes (no es EXACTAMENTE escrito así pero es muy similar):</span></p><ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\"><strong>“Esa pregunta es estúpida.”</strong></span></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\"><strong>“Eso depende.”</strong></span></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\"><strong>“Según del día, del contexto, de la pareja…”</strong></span></p></li></ul>"
+          },
+          {
+            "alt": "Un diálogo en un juego con preguntas y respuestas sobre el amor y el dinero en un entorno de fantasía con árboles y personajes de dibujos animados.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/5048935d-99ae-4bd5-b3c8-24ae0b3c79d2/Captura+de+pantalla+2026-04-01+120833.png"
+          },
+          {
+            "alt": "dofus torrente arcano. Pantalla de diálogo en un juego con una escena de campo con árboles, rocas y personajes, donde un personaje llamado Don Huan hace una pregunta y aparecen varias opciones de respuesta.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/499d8610-08b6-484c-9fd7-0f9430ecff13/Captura+de+pantalla+2026-04-01+120844.png"
+          },
+          {
+            "alt": "dofus torrente arcano. Pantalla de un juego con un dialogo en español y varias opciones de respuesta, donde la opción resaltada en verde dice: \"Según el día, el contexto, la pareja...\".",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/250c51c8-fe3a-47fd-a840-66ccd02a96da/Captura+de+pantalla+2026-04-01+120854.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Una vez respondido correctamente a sus preguntas, <strong>vuelve a verlo entre las 00h00 y 00h59 (hora Dofus). </strong>Para saber qué hora es en Dofus, puedes escribir en el chat /time y te lo indicará (debes tener el canal de información activado).</span></p>"
+          },
+          {
+            "alt": "dofus torrente arcano. Gran conjunto de personajes con vestuarios coloridos y temáticas variadas en un entorno de juego digital, con diálogos en burbujas de texto",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/1696b6d9-1a9a-47d5-b80c-30e0b0daad0c/Captura+de+pantalla+2026-04-01+204340.png"
+          }
+        ]
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Una vez hablado con <strong>Don Huan [1,10] </strong>en la franja horaria específica, te dará el emote xD.</span></p><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Si quieres usarlo de manera cómoda, también puedes escribi en el chat <strong>/kiss</strong></span></p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Si quieres conseguir los demás emotes, puedes darle click </span><a href=\"/emotes-global\"><span class=\"sqsrte-text-color--white\"><strong>aquí.</strong></span></a></p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/emote-dar-un-beso",
+    "questDofusIds": [],
+    "slug": "emote-dar-un-beso",
+    "summary": {
+      "needs": {
+        "notes": "1 x Pinza de cangrejo.\nIr a una hora en concreto zZzZzZzZ…"
+      },
+      "prerequisites": "Nada mi rrray.",
+      "rewards": "El emote, obviamente xD."
+    },
+    "title": "Emote: Dar un beso"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "No se encontró la línea de inicio (PNJ y coordenadas)",
+    "Encabezado distinto del título: «DAR UN BESO»"
+  ]
+}

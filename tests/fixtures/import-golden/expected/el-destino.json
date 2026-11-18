@@ -1,0 +1,64 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">La misión empieza hablando con Amayiro [-32,-57] en la milicia de Bonta, si eres bontariano y hayas hecho al menos una misión de alineamiento ya.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Te pedirá descubrir el mapa del Barco para ir a la isla de Frigost, que sería en [-34,-16] en la Bahía de Cania, entonces dirígete allí.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Habla con el Capitán Ardier para que te lleve al Burgo de Frigost.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Una vez en el Burgo, se actualizará la misión, y te pedirá ver a Marilú Brificanti [-77,-42] en el Ayuntamiento.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Luego sube las escaleras y habla con la Alcaldesa Lario.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">A continuación, vete a la torre de los archivos [-78,-43] y habla con Caetano Ventiscoso en el primer piso. Te entregará unos archivos sellados.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Por último, vuelve a hablar con Amayiro y entregarle los archivos sellados.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Aquí termina la misión. Espero que te haya ayudado. Desbloquearás acceso a la segunda misión de este logro: <a href=\"/maldicion\"><strong>¡Maldición!</strong></a></p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/el-destino",
+    "questDofusIds": [],
+    "slug": "el-destino",
+    "summary": {
+      "needs": {
+        "notes": "Solo hablar."
+      },
+      "prerequisites": "Nivel mínimo 50.\nAlineamiento Bontariano.",
+      "rewards": "194 062 XP.\n3 480 Kamas.",
+      "startNpc": "Amayiro",
+      "startX": -32,
+      "startY": -57
+    },
+    "title": "El destino"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "Sin pasos: ni marcas «ETAPA n:» ni bloques de texto con sus capturas; la guía queda como prosa",
+    "Bloque de Squarespace sin convertir: image",
+    "Bloque de Squarespace sin convertir: image",
+    "Bloque de Squarespace sin convertir: image",
+    "Bloque de Squarespace sin convertir: image",
+    "Bloque de Squarespace sin convertir: image",
+    "Bloque de Squarespace sin convertir: image",
+    "Bloque de Squarespace sin convertir: image",
+    "Bloque de Squarespace sin convertir: image"
+  ]
+}

@@ -24,6 +24,9 @@ tests/fixtures/squarespace/
 tests/fixtures/dofus-guides/
 tests/fixtures/pages/
 tests/fixtures/section-pages/
+tests/fixtures/import-golden/pages/
+# Salidas de oro: las escribe pnpm test:import -u y se comparan byte a byte
+tests/fixtures/import-golden/expected/
 
 # Datos del Nebuloso copiados tal cual de silvestre-checklist: la importación de las checklists
 tests/fixtures/silvestre-checklist/

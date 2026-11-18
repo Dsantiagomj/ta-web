@@ -1,0 +1,155 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"sqsrte-large\" style=\"white-space:pre-wrap;\"><strong>Prerequisitos:</strong></p><ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\">Nivel mínimo 180.</p></li></ul>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Algunas partes te las puedes saltar (si ya tienes acceso a las diferentes salas) pero yo te pondré todo el camino por si acaso.</p>"
+          },
+          {
+            "alt": "Escena de un videojuego con un fondo de base de metal y madera, con máquinas e instrumentos técnicos. En el centro, una estructura metálica con vidrio azul y un engranaje en la parte superior, rodeada de personajes y objetos flotantes, incluyendo paneles y tubos tecnológicos. Hay una flecha roja apuntando hacia los paneles de la esquina inferior izquierda.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/6090a5bc-6566-42bd-8276-2ac9ac3f8af4/Captura+de+pantalla+2025-03-25+203600.png"
+          },
+          {
+            "alt": "Pantalla de videojuego con personajes y decoraciones en estilo steampunk. Hay dos personajes con armaduras y un oscilador central en el medio. Hay un área con muebles y objetos decorativos, y un personaje en la esquina izquierda. También hay texto en la parte inferior izquierda.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/2da0f663-b1f7-437c-85ba-b33a978a5b73/Captura+de+pantalla+2025-03-25+203615+%281%29.png"
+          },
+          {
+            "alt": "Captura de pantalla de un videojuego con un escenario de una sala de reuniones en una nave o un barco, con personajes y objetos en diferentes niveles, y marcas rojas señalando objetos en la imagen.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/db0497c2-9030-47c0-8db5-8e6f4e96e685/Captura+de+pantalla+2025-03-25+203635.png"
+          },
+          {
+            "alt": "Captura de pantalla de un videojuego con un escenario industrial. En el centro, un área con mesas y sillas, y un objeto resaltado en rojo. En la parte superior, una plataforma con tanques y tuberías. En la esquina inferior izquierda, un chat en vivo con mensajes en español.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/ccee12cc-3c92-41e4-8315-da8d612f46c8/Captura+de+pantalla+2025-03-25+203641.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Esta siguiente parte te la puedes saltar <strong>si ya tienes acceso a la sala de las corrientes.</strong></p>"
+          },
+          {
+            "alt": "Ilustración de una sala en una base submarina con un área de cafetería, maquinaria y una escalera, con una etiqueta y flecha que indica dónde poner una pila steamer.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/805bc080-c3c8-4fe5-895a-44a23d932d62/Captura+de+pantalla+2025-03-25+203641.png"
+          },
+          {
+            "alt": "Escena en una sala de máquinas con maquinaria antigua y tuberías, vista desde un mirador con una barandilla de madera en la parte superior, incluyendo a personajes con trajes, en un estilo de animación o dibujo digital, con una flecha roja que indica un recorrido desde la izquierda hacia la derecha.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/10f87a18-0e45-4c5b-828c-1bc2380644ea/Captura+de+pantalla+2025-03-25+203720.png"
+          },
+          {
+            "alt": "Pantalla de un videojuego con un escenario de fábrica en estilo de dibujos animados. Hay personajes de lápiz y engranajes en la parte inferior izquierda, y en la parte superior derecha, algunos personajes de estilo medieval con armas y un fondo azul con maquinaria. Una línea roja en forma de flecha indica un movimiento hacia la derecha en el escenario.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/35a5caa8-901f-43ff-b06e-7740a7761ddc/Captura+de+pantalla+2025-03-25+203730.png"
+          },
+          {
+            "alt": "Una sala del escondite en el juego Cuphead, con un personaje en la parte superior de un puente de madera. En la parte inferior, hay una mesa y bancos de madera, y un gran aparato con un globo terráqueo mecánico. La pared de fondo tiene varios pasajes y ventanas redondas con agua en su interior. La imagen tiene una línea roja marcando un recorrido en zigzag en la sala.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/64d0616b-bb24-4685-b606-c0cd73dcc44d/Captura+de+pantalla+2025-03-25+203744.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Aquí tendrás que hacer la misión <a href=\"/torcer-el-brazo\"><span class=\"sqsrte-text-color--custom\" style=\"color: rgb(249, 10, 10)\"><strong>Torcer el brazo</strong></span></a><strong> </strong>si no la has hecho aún, y debes luchar contra Brad Zoduro para poder continuar a la sala de las corrientes. Una vez hecho eso, puedes continuar con las imágenes</p>"
+          },
+          {
+            "alt": "Captura de pantalla de un videojuego que muestra una base submarina con varias salas. En la parte superior, hay una sección de salas de las salpicaduras, con un letrero en letras rojas que dice 'Base abisal - Salas de las salpicaduras'. Se destacan con círculos rojos varias pilas steamer, una en la parte superior y otra en la parte inferior, marcadas con etiquetas en rojo que dicen 'PILA STEAMER'. La pantalla también incluye algunas figuras caricaturescas y un mini mapa en la esquina inferior derecha.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/59f4492e-057d-492c-bb4a-285664068ee1/Captura+de+pantalla+2025-03-25+203756.png"
+          },
+          {
+            "alt": "Captura de pantalla de un juego de rompecabezas en una sala de tubos de corriente, con un personaje en la esquina inferior izquierda y una línea roja que conecta dos puntos en el suelo, indicando un camino o acción para el jugador.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/7b371bdb-e28e-44e3-96c3-9096afe9277a/Captura+de+pantalla+2025-03-25+203827.png"
+          },
+          {
+            "alt": "Escenario de una base subterránea con paredes de metal, mesas y utensilios en desuso, y una línea roja que muestra una dirección de una esquina a otra en la parte superior izquierda.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/e95668ca-5d05-4254-8db7-8ebcdc56258e/Captura+de+pantalla+2025-03-25+204040.png"
+          },
+          {
+            "alt": "Pantalla del videojuego 'Bastion' que muestra una sala de la base subterránea con decoraciones de estilo steampunk y personajes. En la imagen hay tres áreas marcadas con círculos rojos y una flecha roja señalando una puerta de salida.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/2644abed-b5c4-4ad5-8bd4-099bc5f3b814/Captura+de+pantalla+2025-03-25+204044+%282%29+%281%29.png"
+          },
+          {
+            "alt": "Ilustración de un sótano o sala de la corriente con paredes de piedra y una estructura metálica. En el centro, hay una mesa de trabajo con utensilios, barriles y un armario. Tres áreas en el piso están marcadas con círculos rojos. Hay personajes y objetos dispersos, incluyendo una jaula, plantas y equipo de trabajo.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b89054ab-0c77-47cc-8891-b6476387196f/Captura+de+pantalla+2025-03-25+204059+%281%29+%281%29.png"
+          },
+          {
+            "alt": "Sala de la base subterránea con escaleras, paredes de metal, decoraciones de estilo steampunk y una plataforma en la parte superior con dos personajes. Una flecha roja señala un camino descendente hacia un área en la parte inferior derecha de la imagen.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/cef35f71-5077-41bb-af21-27585668d119/Captura+de+pantalla+2025-03-25+204044.png"
+          },
+          {
+            "alt": "Imagen del interior de una base subterránea con maquinaria antigua y decoraciones mecánicas. En la parte inferior izquierda hay una pila de vapor con un rótulo que dice 'PILA STEAMER'. Una flecha roja indica que se debe colocar la pila en una base específica en el suelo al lado derecho de la pila. La habitación tiene paredes de color marrón y detalles mecánicos, con luces y herramientas distribuidas por el espacio.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/5d4e5ba9-fbda-41e5-8832-644e477f193a/Captura+de+pantalla+2025-03-25+204153+%281%29+%281%29.png"
+          },
+          {
+            "alt": "Mapa de un nivel de un juego con un área marcada en la parte superior derecha, donde se encuentra una pila steamer, que parece ser un equipo o aparato metálico, con un círculo rojo alrededor. También hay un personaje en la misma área.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/5c9de422-3158-4bec-b081-b8f95dbf2c94/Captura+de+pantalla+2025-03-25+204157.png"
+          },
+          {
+            "alt": "Captura de pantalla de un juego de estilo dibujo animado que muestra una habitación con decoración náutica. Hay escaleras, barreras de cuerda, botellas, y objetos dispersos en un ambiente de madera y metal, con puertas y paredes decoradas con mapas y herramientas antiguas.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/8015debf-24d5-4280-9a34-c1881d038edc/Captura+de+pantalla+2025-03-25+204221+%281%29+%281%29.png"
+          },
+          {
+            "alt": "Ilustración de una escena en una base subterránea con paredes de concreto, escaleras, tuberías y maquinaria antigua. En la parte inferior, hay dos postes de madera con cuerda que parecen ser parte de un decorado o estructura. Hay dos personajes en la escena, uno en la parte superior izquierda y otro en la parte superior derecha, en un entorno de estilo steampunk o de ciencia ficción.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/c296c327-76f5-49fc-bda6-d03758dc9b50/Captura+de+pantalla+2025-03-25+204157.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">En la sala de los abismos ya no hay ron marino. Si aún no te ha quedado muy claro, puedes ver este video.</p>"
+          },
+          {
+            "blockType": "video",
+            "url": "https://www.youtube.com/watch?v=VaY3tyYTq4A"
+          }
+        ]
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/ron-marino",
+    "questDofusIds": [],
+    "slug": "ron-marino",
+    "summary": {
+      "needs": {
+        "notes": "Un par de pilas steamer (opcional)"
+      }
+    },
+    "title": "Ron Marino"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "Falta el bloque Prerrequisitos",
+    "Falta el bloque Recompensas",
+    "No se encontró la línea de inicio (PNJ y coordenadas)"
+  ]
+}

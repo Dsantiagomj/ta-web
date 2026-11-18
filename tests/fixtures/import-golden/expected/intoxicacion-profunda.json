@@ -1,0 +1,69 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Simplemente te va a pedir entregarle 10 “ron marino” que puedes encontrar en las 3 bases. </p>"
+          },
+          {
+            "alt": "Pantalla de diálogo en un juego con personajes en un entorno de fantasía, mostrando opciones de respuesta del jugador.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/30660734-09ae-48b5-b145-693e4fa04e2a/Captura+de+pantalla+2025-03-25+203347.png"
+          }
+        ],
+        "x": 22,
+        "y": 22
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Para más información sobre cómo acceder a la zona, puedes ver <a href=\"/ron-marino\"><strong>Acceso a los mapas de Ron Marino</strong></a> en la que te indico todos los mapas y dónde encontrar todos los rones marinos. <strong>¡Atención, esta misión es diaria y da buenas kamas!</strong></p>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Una vez tengas los 10 ron marino, simplemente vuelve a hablar con Capitán Grog y entregalos.&nbsp;</p>"
+          },
+          {
+            "alt": "Diálogo en un juego entre Capitán Grog y Perro-Arcano, donde Grog habla sobre nadar y el comercio de ron y hallazgo de botellas de ron.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/bc14c78e-1b3c-4068-afbf-5dc07d651070/Captura+de+pantalla+2025-03-25+205111.png"
+          }
+        ]
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Y aquí se termina la misión. Espero haberte ayudado. Puedes volver al logro de estas misiones en <a href=\"/test-de-impermeabilidad\"><strong>Test de impermeabilidad.</strong></a></p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Si no te queda claro, ¡también puedes ver este vídeo! No olvides suscribirte al canal :3</p>"
+      },
+      {
+        "blockType": "video",
+        "url": "https://www.youtube.com/watch?v=VaY3tyYTq4A"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/intoxicacion-profunda",
+    "questDofusIds": [],
+    "slug": "intoxicacion-profunda",
+    "summary": {
+      "needs": {
+        "notes": "Un par de pilas steamer (opcional)."
+      },
+      "prerequisites": "Nivel mínimo 180.",
+      "rewards": "1 000 000 XP\n21 990 kamas.",
+      "startNpc": "Capitán Grog",
+      "startX": 22,
+      "startY": 22
+    },
+    "title": "Intoxicación profunda"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada"
+  ]
+}

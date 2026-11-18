@@ -1,0 +1,23 @@
+{
+  "intro": [],
+  "outro": [
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Te dejo aquí los dos vídeos guía de este logro mi kingu, espero que te ayuden.</p>",
+      "type": "html"
+    },
+    {
+      "title": null,
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=kfhabQMxSHg"
+    },
+    {
+      "title": null,
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=Tf9DaWKJNqg"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>No olvides suscribirte al canal UwU</strong></p>",
+      "type": "html"
+    }
+  ]
+}

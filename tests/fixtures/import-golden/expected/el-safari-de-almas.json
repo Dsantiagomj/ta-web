@@ -1,0 +1,129 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Básicamente la misión la agarras de <strong>Nevark, el Cazador [-47,42] </strong>y le debes entregar todas piedras de alma tanto de monstruos como de archimonstruos. Es como una especie de misión mini Ocre. Hay 4 zonas diferentes con sus monstruos y archis respectivos. <strong>¡ATENCIÓN! </strong>Debes tener todas las almas de una etapa para poder pasar a la siguiente. No se pueden entregar incompleta.</p>"
+      },
+      {
+        "alt": "Personaje en un entorno de estilo selvático junto a un vehículo y estructuras de madera, con texto en español sobre riesgo de safari en la isla.",
+        "blockType": "image",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/aee6aac7-e458-4c16-b03e-d8eaa9c28fa6/Captura+de+pantalla+2025-07-07+060321.png"
+      },
+      {
+        "alt": "Un personaje en un bosque caricaturesco advierte sobre criaturas peligrosas más allá de una puerta y sugiere entregar las almas de los cascacarautos.",
+        "blockType": "image",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/49a81fb7-0fbd-42b9-9a55-95e17ddbd6f2/Captura+de+pantalla+2025-07-07+063227.png"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Entonces, los archimonstruos que debes capturar y etregar por etapa son los siguientes:</p>"
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p><strong>El safari de las almas ancebas</strong></p>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascacreta el Crujiente.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascalva el Marino.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascariquita el Alunarado.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascacripis el Cerealista.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascokris el Esbozado.</p></li></ul>"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p><strong>El safari de las almas jaras</strong></p>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Casccadilla el Tramposo.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascaseosa el Refrescante.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascaolla el Exprés.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascaocado el Mordido.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascablanco el Inmaculado.</p></li></ul>"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p><strong>El safari de las almas chucha</strong></p>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascadilo el Mordiente.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascanenburg el Espumoso.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascascivo el Libidinoso.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascarnudo el Engañado.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascabina el Piloto.</p></li></ul>"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p><strong>El safari de las almas nésicas</strong></p>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascarnivoro el Voraz.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascaduro el Sabio.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascocido el Calcinado.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de Cascoburio el Maldito.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">1 x Alma de CasCoCrane-o el Retorcido.</p></li></ul>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Una vez hayas entregado todas las piedras archimonstruos a <strong>Nevark, el Cazador [-47,42]</strong>, terminarás la misión y te entregará el Dosaurio x)</p>"
+          },
+          {
+            "alt": "Pantalla del juego con una descripción sobre criaturas peligrosas y una opción de dar almas a cascascarios en un entorno de safari o naturaleza.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/f6768e01-847e-4579-a656-8e6f31dacb9a/Captura+de+pantalla+2025-07-07+063244.png"
+          },
+          {
+            "alt": "Mensaje del cazador Nevarc en un entorno de tierra y vegetación, con un personaje en el centro y varios objetos y decoraciones a su alrededor.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/dda1d7de-e558-4d15-9cdb-0a33861b6f5d/Captura+de+pantalla+2025-07-07+063252.png"
+          }
+        ],
+        "x": -47,
+        "y": 42
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Si capturaste tú mismo <strong>las etapas de los archimonstruos</strong>, también recibirás <span class=\"sqsrte-text-highlight\" data-text-attribute-id=\"4f10207a-76fc-41bb-b622-d2e59ccddbc5\">1 x Laska</span> por cada archimonstruo capturado <strong>MANUALMENTE</strong>. Al final de la misión, también se las puedes entregar a <strong>Nevark, el Cazador [-47,42] </strong>para que te de unas recompensas extra (5 x Piedra de alma gigantesca, 1 x Runa GA PA, 1 x Runa GA PM). </p>"
+      },
+      {
+        "alt": "Captura de pantalla del inventario en línea con varios ítems, incluyendo fichas, monedas de oro, y otros objetos de juego.",
+        "blockType": "image",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/e5fa4c2f-fd0c-4376-a2ea-35686828db82/Captura+de+pantalla+2025-07-07+060259.png"
+      },
+      {
+        "alt": "Texto en pantalla que muestra logros en un juego o aplicación, incluyendo la obtención de una piedra de alma, un Runa PA y una Runa GM, con tiempos específicos.",
+        "blockType": "image",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/445a2836-fced-44e3-a881-697dd36f1bf0/Captura+de+pantalla+2025-07-07+063303.png"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Espero que te haya servido esta mini guía. De todos modos, tengo uno en formato vídeo por si acaso. No te olvides de darle al like y suscribirte :3</p>"
+      },
+      {
+        "blockType": "video",
+        "url": "https://www.youtube.com/watch?v=ZHOTlN_FxRE"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/el-safari-de-almas",
+    "questDofusIds": [],
+    "slug": "el-safari-de-almas",
+    "summary": {
+      "needs": {
+        "notes": "Las almas de todos los monstruos y archimonstruos de los cascasaurios: insípidos, secos, incandescentes, húmedos y fangosos."
+      },
+      "prerequisites": "Nivel recomendado 100.\nCaza de cascasaurios",
+      "rewards": "38 644 211 XP (sumando todas las 8 etapas).\n416 870 kamas (sumando todas las 8 etapas).\n5 x Piedra de alma gigantesca (opcional).\n1 x Runa GA PA (opcional).\n1 x Runa GA PM (opcional)."
+    },
+    "title": "El safari de almas"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "No se encontró la línea de inicio (PNJ y coordenadas)"
+  ]
+}

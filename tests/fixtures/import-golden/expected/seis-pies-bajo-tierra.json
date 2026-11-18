@@ -1,0 +1,163 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "alt": "El personaje humanoide recibe un paquete en una biblioteca de madera. Hay una librería llena de libros, una lámpara encendida, y figuras de animales en las estanterías, con una escalera de madera para acceder a los niveles superiores.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/0f0381d1-0af8-4e17-a283-1d41084c0f43/Captura+de+pantalla+2025-09-20+185912.png"
+          }
+        ],
+        "x": 7,
+        "y": -19
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Deberás ir primero al <strong>zaap de Astrub [5,-18]</strong> y hablar con la <strong>Aventurera experimentada.</strong></p>"
+          },
+          {
+            "alt": "Pantalla de un juego con personajes y diálogos en español: 'Aventurera experimentada' y una pregunta sobre un evento relacionado con 'Hupe Esse'.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/416b1cb2-bcc4-43cd-830b-37487948a26a/Captura+de+pantalla+2025-09-20+185918.png"
+          }
+        ],
+        "x": 5,
+        "y": -18
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">A continuación, dirígete a <strong>[1,-17]</strong> para hablar con Gasdora.</p>"
+          },
+          {
+            "alt": "Pantalla de un juego con un escenario forestal y entrada a una mina, con personajes y elementos de interfaz como mapas y objetos en la parte inferior",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/182fdf7a-abba-4a76-b4f7-adc59b7b8d7b/Captura+de+pantalla+2025-09-20+185949.png"
+          }
+        ],
+        "x": 1,
+        "y": -17
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Ahora te tienes que adentrar a la mina, y seguir el camino que te indico abajo hasta llegar a las anutrof perdidas. Están en <strong>[4,-15] </strong>así que dale al autopilotaje y ya.</p>"
+          },
+          {
+            "alt": "Personajes en una cueva, hablando, con tubos y una puerta en el fondo, en un videojuego con diálogo en pantalla.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/8ec94228-c72c-48be-8b5e-b19b905d9908/Captura+de+pantalla+2025-09-20+190029.png"
+          }
+        ],
+        "x": 4,
+        "y": -15
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Habla con <strong>Luci [3,-17]</strong>. Vas a empezar una lucha contra:</p><ul data-rte-list=\"default\"><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">1 x Ramán famélico</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">1 x Milirrata famélica</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">1 x Miserata famélica.</p></li></ul>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Básicamente tienen los mismos hechizos que las versiones comunes de estos monstruos.</p>"
+          },
+          {
+            "blockType": "callout",
+            "html": "<p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Las anutrof NO deben morir. Debes ganar esta lucha sin que se muera ninguna de ellas.</p>",
+            "variant": "warning"
+          },
+          {
+            "alt": "Pantalla de un juego de estrategia por turnos en un escenario de ruina antigua con personajes antropomórficos y maquinaria en desuso.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/c17934a4-84c2-4982-af16-49995733b13f/Captura+de+pantalla+2025-09-20+190046.png"
+          },
+          {
+            "blockType": "callout",
+            "html": "<ul data-rte-list=\"default\"><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">En la preparación del combate, puedes ordenarlas para que estén lo más lejos posible. Esto te puede ayudar bastante.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Intenta vencer primero al Ramán. En mi opinión, es el más molesto, ya que pega de lejos y te puede quitar PA y stats, además de invocar un kólerat que puede ser aún más molesto.</p></li></ul>",
+            "variant": "tip"
+          }
+        ],
+        "x": 3,
+        "y": -17
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Una vez terminado el combate, vuelve a hablar con cualquiera de las anutrof y te acompañarán. Deberás escoltarlas fuera de allí.</p>"
+          },
+          {
+            "alt": "Personajes en un calabozo con tuberías, uno de ellos hablando por chat.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/223990d2-a63d-4922-8097-eb6da20e65ff/Captura+de+pantalla+2025-09-20+190056.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Para ello, dirígete a a <strong>[1,-17]</strong>, en la entrada de la mina. Allí deberás volver a hablar con <strong>Luci</strong>.</p>"
+          },
+          {
+            "alt": "Escena en un entorno natural con personajes en un juego, uno de ellos llamado Luci, que está hablando con otros personajes cerca de vegetación y rocas.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/9fe337a9-99e1-4812-a1b7-aec2da4ef6e3/Captura+de+pantalla+2025-09-20+190130.png"
+          }
+        ],
+        "x": 1,
+        "y": -17
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Ahora, dirígete a la casa de <strong>Kerubim Crepin [3,-17]</strong> y habla con él.</p>"
+          },
+          {
+            "alt": "Un cuarto decorado con muebles coloridos, estanterías llenas de objetos y figuras, y personajes en estilo cartoon, en un entorno de videojuego. Tiene un cartel que explica sobre Kerubim Crepin y un menú de opciones para interactuar.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/6a254e26-ff8c-4694-bf5c-14807124473e/Captura+de+pantalla+2025-09-20+190155.png"
+          }
+        ],
+        "x": 3,
+        "y": -17
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Aquí termina la misión. Espero haberte ayudado. Si sigues hablando con Kerubim, te va a entregar la siguiente y última misión de este logro: <a href=\"/el-cazador-cazado\"><strong>El cazador cazado.</strong></a></p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/seis-pies-bajo-tierra",
+    "questDofusIds": [],
+    "slug": "seis-pies-bajo-tierra",
+    "summary": {
+      "needs": {
+        "notes": "1 x Combate (solo)."
+      },
+      "prerequisites": "Esto hace aguas.",
+      "rewards": "16 380 XP.\n390 kamas.\n1 x Pico de tofu.\n1 x Intestino de araknáusea.\n1 x Pelos de arakna enferma.\n1 x Ojo de arakmutada.",
+      "startNpc": "Hupe Esse",
+      "startX": 7,
+      "startY": -19
+    },
+    "title": "Seis pies bajo tierra"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada"
+  ]
+}

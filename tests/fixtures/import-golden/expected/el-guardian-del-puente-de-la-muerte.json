@@ -1,0 +1,94 @@
+{
+  "intro": [],
+  "outro": [
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">La misión empieza hablando con el <strong>Guardián del Puente de la Muerte [-56,0]</strong>. En realidad es una misión muy sencilla. Se trata de responder correctamente a sus preguntas. Si lo consigues, terminarás la misión y podrás acceder a la zona de la turbera.</p>",
+      "type": "html"
+    },
+    {
+      "alt": "Mapa de una zona con diferentes áreas, marcadores y iconos, incluyendo una marca de tu posición y una notificación de misión disponible.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/3de8766f-2195-4dbf-80e8-7beedd0d0776/Captura+de+pantalla+2025-09-29+192802.png"
+    },
+    {
+      "alt": "Diálogo con el guardián del Puente de la Muerte, quien se presenta y explica que responderá sus preguntas para permitirle pasar o morir.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/f87ba4e0-eb49-413b-9213-53605e7062ee/Captura+de+pantalla+2025-09-29+192807.png"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Las respuestas van a depender de bastantes cosas, así que lee atentamente xD:</p>",
+      "type": "html"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\"><strong>¿Cuál es tu color favorito? </strong>Todas las respuestas son correctas menos la de “<em>Me gusta otro color</em>”.</p></li></ul>",
+      "type": "html"
+    },
+    {
+      "alt": "Pantalla de diálogo del juego con una pregunta sobre el color favorito y cuatro opciones de respuesta en español.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/0f140671-3f95-49ff-bedb-687c1b97e8e1/Captura+de+pantalla+2025-09-29+192858.png"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\"><strong>¿Cuál es el sexo de la persona que no es ni tu hermano ni tu hermana, pero que es hijo de tus padres? </strong>Responde según el sexo de tu personaje. Si eres masculino, pues masculino. Si eres femenino, pues femenino.</p></li></ul>",
+      "type": "html"
+    },
+    {
+      "alt": "Una pantalla de un juego con una pregunta sobre el sexo de una persona, en fondo una ilustración de un puente con estructura roja y árboles en colores amarillos y verdes.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/d7d6e0c0-b2b9-466e-8a0c-f5347255296b/Captura+de+pantalla+2025-09-29+192903.png"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\"><strong>¿Sabes cruzarte los brazos? </strong>Si conoces el emote “cruzarse los brazos” responde que sí, pero si no tienes el emote, pues responde que no.</p></li></ul>",
+      "type": "html"
+    },
+    {
+      "alt": "Una escena de un juego en línea donde se muestra un puente y un personaje en un lado y un animal con sombrero en el otro. En la pantalla aparece un cuadro de diálogo con el título 'El guardián del Puente de la Muerte' y una pregunta: '¿Sabes cruzarlo de brazos?' con tres opciones de respuesta: 'Sí', 'No', y 'Depende del precio de los zaaps'.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/bca8961b-7a60-46df-a659-fb6ffd34e79a/Captura+de+pantalla+2025-09-29+192908.png"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>La famosa pregunta de los pods</strong>: no es tan complicado como parece. Simplemente mira tus pods faltantes y súmale 500. Dependiendo del resultado, deberás escoger una respuesta u otra:</p>",
+      "type": "html"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Tienes en total entre 0 a 499 pods libres → La respuesta es 100.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Tienes en total entre 500 a 1 499 pods libres → La respuesta es 200.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Tienes en total entre 1 500 a 2 499 pods libres → La respuesta es 400.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Tienes en total 2 500 pods libres o más → La respuesta es 600.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">La última respuesta nunca la escojas, a menos que quieras morir como un nub xD.</p></li></ul>",
+      "type": "html"
+    },
+    {
+      "alt": "Escena de un videojuego con paisaje tropical, figuras humanas y un texto de instrucciones para un reto sobre cuántos corales mohitos se pueden llevar sin desprenderse ni un solo objeto.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b7bbc2f5-ad01-456b-a9e0-32c9cf88565b/Captura+de+pantalla+2025-09-29+192927.png"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\"><strong>¿Cuál es el color del Dragopavo blanco? </strong>Responde que es blanco.</p></li></ul>",
+      "type": "html"
+    },
+    {
+      "alt": "Pantalla del juego con un diálogo en español sobre el guardián del Puente de la Muerte y la coloración del dragopavo blanco de San Miguel, con un fondo de playa, rocas y plantas rojas, con un personaje en un barco y otro en la tierra.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/ab04671b-bd2d-4aae-b6db-6864e841e124/Captura+de+pantalla+2025-09-29+192933.png"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\"><strong>La pregunta larga del cuerbok: </strong>Responde con “<em>Un Cuerbok normal o un Cuerbokito Feo?</em>”.</p></li></ul>",
+      "type": "html"
+    },
+    {
+      "alt": "Pantalla de un juego con una pregunta sobre Gorkoko y una figura de un pingüino con un canguro. Fondo con árbol de fantasía y rocas rojas.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/02f99dbc-9b30-4e52-a4b6-961821a3a226/Captura+de+pantalla+2025-09-29+192938.png"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Al Guardián le satisfacen las respuestas, y por lo tanto, te deja entrar a la Turbera.</p>",
+      "type": "html"
+    },
+    {
+      "alt": "Personaje en un juego en línea conversando con un guardián en un puente de madera rodeado de árboles y vegetación en tonos cálidos.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/cdf52e76-c233-422b-ac21-46cbc0f80b73/Captura+de+pantalla+2025-09-29+192944.png"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Aquí termina la misión. Espero que te haya ayudado. Dale click <a href=\"/turbera-maldita\" target=\"\"><strong>aquí</strong></a><strong> </strong>para ver las otras misiones del logro.</p>",
+      "type": "html"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Esta misión la empiezas hablando directamente con <strong>Brad Zoduro</strong> [23,26] al final de la sala de las salpicaduras. Si le vences, terminarás la misión y te ganarás el derecho de avanzar a la siguiente sala. Te recomiendo también pillar la misión <a href=\"/los-mercenarinos-estan-bien-equipados\"><strong>Los mercenarinos están bien equipados</strong></a> ya que, si lo vences, ¡también dropearás una caja de herramienta!</p>"
+          },
+          {
+            "alt": "Pantalla de videojuego con instrucciones y diálogos en español, mostrando personajes y un mini-mapa en la esquina superior derecha.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/1008b827-bed7-4bca-a274-f1fec1ac5e9a/image+-+2025-03-30T115526.349+%281%29.png"
+          }
+        ],
+        "x": 23,
+        "y": 26
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><span style=\"text-decoration:underline\"><strong>Funcionamiento del combate:</strong></span><br>Brad Zoduro está invulnerable durante todo el combate. Para <strong>quitarle la invulnerabilidad, </strong>debes hacer que Brad Zoduro sufra <strong>daños de empuje</strong>, ya sea empujándolo contra una pared, o empujando algo hacia Brad Zoduro. Una vez hecho eso, <strong>deberás aguantar 12 turnos para ganar el combate.</strong> Así que es una lucha de <strong>aguante. </strong>Trata de empujarlo lo mínimo posible ya que cada vez que lo hagas, te pegará 640 de daños en aire, con 40% de erosión.</p>"
+          },
+          {
+            "alt": "Dos personajes en un entorno de juego con bloques y tierra, uno vestido con ropa colorida y otro con ropa oscura, rodeados de efectos visuales de agua o energía.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/7fcd0bdd-bcd1-42c1-ab00-c1d08fb982c5/Captura+de+pantalla+2025-03-30+115844.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Además, invocará al <strong>Pulpor </strong>del cual debes tener mucho cuidado: <strong>si empieza su turno y tú estás CaC con él, te mueres automáticamente</strong> (el primer turno no cuenta). Pegarle al Pulpor tampoco es aconsejable, ya que está invulnerable y perderás vida en su lugar. Sin embargo, esta invocación tiene algo bueno, y es que te va a ir curando 25% de tu vida máxima cada turno y te atraerá hacia él.</p>"
+          },
+          {
+            "alt": "Cangrejo futurista de color naranja con detalles oscuros y ojos brillantes.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/37253a0b-03d4-4f8d-b56b-662744b13044/image+-+2025-03-30T120028.375.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Brad Zoduro te puede pegar con:</p><ul data-rte-list=\"default\"><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\"><strong>Bradbocón</strong>, que primero te quita una duración de efectos, y pega 1 280 daños de agua, de 1 a 5 casillas, con un intervalo de lanzamiento de 2 turnos.&nbsp;</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\"><strong>Zoduro Moduro</strong>, que primero te quita una duración de efectos, y pega 1 280 daños de aire, de 6 a 10 casillas, con un intervalo de lanzamiento de 2 turnos también.&nbsp;</p></li></ul>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Por último, ten mucho cuidado con un escenario en particular. Evita estar en línea entre Brad Zoduro y su Pulpor, ya que Brad Zoduro atraerá a todos sus aliados en línea hasta él, y si tú estás en medio, pues empezará el turno del Pulpor y te matará porque Brad lo atrajo hasta ti.</p>"
+          },
+          {
+            "alt": "Pantalla de un videojuego en la que cuatro personajes (tres humanos y un Pokémon) están en una zona de juego de azulejos. Se muestra una interacción de ataque en la que un personaje humano ataca a un Pokémon con una señal de línea roja. Hay íconos de objetos y un reloj en la parte superior.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/fc333bba-f18e-4e46-bb7d-c36275ec0fb2/image+-+2025-03-30T120701.086+%281%29.png"
+          },
+          {
+            "blockType": "callout",
+            "html": "<ul data-rte-list=\"default\"><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Súbete full a la vitalidad, ya que los daños no te servirán de nada en este combate.&nbsp;</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">¡¡Ponte todos los hechizos defensivos que tengas!! Dofus es un juego táctico, y tienes 22 hechizos con 22 variantes a tu disposición, ÚSALOS. Domina completamente tu clase.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Empuja a Brad Zoduro contra un muro lo antes posible.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Si puedes ponerte equipables que te den resistencia tanto en aire como en agua, mejor, ya que son los elementos principales con los que pega Brad Zoduro.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Si tienes Dofus marfil, maravilloso.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Dokoko importante.</p></li><li><p style=\"text-align:justify;white-space: normal !important;white-space:pre-wrap;\" class=\"\">Dofus Esmeralda NO sirve en este combate, porque sus dos hechizos te quitan 1 duración de efectos antes de sufrir daño.</p></li></ul>",
+            "variant": "tip"
+          }
+        ]
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Yo lo que suelo hacer es ir full tanque y pegarme junto a Brad Zoduro, evitando estar entre él y el Pulpor para no morir en el comienzo de turno de este último. Normalmente, con mucha vida, y algo de paciencia, deberías poder aguantar 12 turnos.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Aquí termina la misión. Espero haberte ayudado. Dale click <a href=\"/test-de-impermeabilidad\"><strong>aquí</strong></a> para ver las otras misiones del logro.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Si aún no te queda muy claro, puedes ver estos dos vídeos que te podrían ayudar bastante. ¡No olvides suscribirte al canal, la verdad es que ayuda muchísimo!</p>"
+      },
+      {
+        "blockType": "video",
+        "url": "https://www.youtube.com/watch?v=eILDA-u4KMc"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Aquí tienes otro vídeo de cómo vencerlo de otra manera:</p>"
+      },
+      {
+        "blockType": "video",
+        "url": "https://www.youtube.com/watch?v=HZSDLbwC9zM"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/torcer-el-brazo",
+    "questDofusIds": [],
+    "slug": "torcer-el-brazo",
+    "summary": {
+      "needs": {
+        "notes": "1 x Luchas semitáctica (solo)."
+      },
+      "prerequisites": "Nivel mínimo 180.",
+      "rewards": "1 250 000 XP.\n21 990 kamas.\n3 x Pila steamer."
+    },
+    "title": "Torcer el brazo"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "No se encontró la línea de inicio (PNJ y coordenadas)"
+  ]
+}

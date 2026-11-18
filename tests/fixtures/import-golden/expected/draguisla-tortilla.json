@@ -1,0 +1,68 @@
+{
+  "intro": [
+    {
+      "html": "<p class=\"sqsrte-large\" style=\"white-space:pre-wrap;\"><span class=\"sqsrte-text-highlight\" data-text-attribute-id=\"b1a15d29-bdae-4db2-ae81-3d99101ddd7d\"><strong>Explicación del monstruo y las sinergias:</strong></span></p>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>Draguisla Bonita </strong>es un monstruo que sale exclusivamente en la isla de Vulkania. Puede haber 4 Draguislas a la vez, una por franja de nivel. Tiene 30% de resistencia en todos los elementos.</p>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">No vamos a perder más tiempo. Te voy a explicar cómo se le gana a <strong>Draguisla Bonita </strong>ya que está <strong>INVULNERABLE </strong>cuando luchas.</p>",
+      "type": "html"
+    },
+    {
+      "alt": "Información de draguisla Bonita en un juego, con diferentes estadísticas y habilidades, en un entorno de bosque con detalles coloridos y caricaturescos.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/50675782-5e8d-4b6b-8ac5-6340cadc929b/Captura+de+pantalla+2025-07-20+102211.png"
+    },
+    {
+      "alt": "Una especie de criatura de fantasía con cuerpo en tonos morados y blancas, con forma de globo o masa, en un fondo negro.",
+      "type": "image",
+      "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/10002b91-e4e7-49b9-8230-19d8ca3d0197/image+-+2025-07-20T103155.557.png"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>Draguisla Bonita </strong>suele pegar poco, pero si te despistas te puede pegar bastante vida con su glifo de agua. Este hace que pierdas 100 pdv por cada PA que hayas usado, así que ten cuidado con él.</p>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Además, cada turno va a invocar un <strong>Cascasaurio frágil. </strong>Este monstruo es la CLAVE para quitarle la invulnerabilidad a Draguisla. Al inicio de cada turno de estos cascasaurios, se dan el estado Indesplazable, pero les cuesta 6 PA para lanzarlo.</p>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Para quitarle la <strong>INVULNERABLE </strong>a <strong>Draguisla Bonita</strong>, vas a necesitar RETIRO DE PA. Tienes que quitarles PA a los Cascasaurios para que no puedan lanzar su hechizo que les da el estado indesplazable. </p>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>Los Cascasaurios tienen 8 PA, y el hechizo de estado indesplazable les cuesta 6 PA, así que si les quitas 3 PA ya es suficiente. Ten en cuenta que por cada intento de retiro PA que sufran, van a ganar 2 PM que puede ser molesto. </strong></p>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Una vez que uno de los Cascasaurios no pueda lanzar su hechizo, pues ya no estará indesplazable.</p>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Ahora, lo único que debes hacer es posicionar ese Cascasaurio junto a otro y empujarlo para que ambos sufran daños de empuje. Una vez hecho eso, ambos cascasaurios se morirán instantáneamente y <strong>Draguisla estará vulnerable durante 2 turnos (antes era 1 turno pero lo han subido a 2 turnos en la 3.2).</strong></p>",
+      "type": "html"
+    },
+    {
+      "html": "<p class=\"sqsrte-large\" style=\"white-space:pre-wrap;\"><span class=\"sqsrte-text-highlight\" data-text-attribute-id=\"dd190b11-5dd8-44a5-ad29-689422b7316d\"><strong>RECOMENDACIONES</strong></span></p>",
+      "type": "html"
+    },
+    {
+      "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\">Antes de nada, te recomiendo buscar una Draguisla Bonita de nivel 152 ya que tienen 11 000 PdV. La de nivel 160 tiene 15 000 PdV y no hay ninguna otra diferencia. Tienen el mismo ratio de drop, y de hecho pega más, así que te complicarías la vida para nada xD.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\">Por supuesto, ten contigo hechizos que retiren PA y buenos posicionadores (hasta puedes usar compañeros como Ravelaca o Gram).</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\">Abajo tienes un video explicativo sobre cómo se le vence, capaz te sirva mi kingu.</p></li></ul>",
+      "type": "html"
+    },
+    {
+      "title": null,
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=l6cfC8E63WU"
+    },
+    {
+      "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>No te olvides suscribirte al canal UwU</strong></p>",
+      "type": "html"
+    }
+  ],
+  "outro": []
+}

@@ -1,0 +1,27 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "richText",
+        "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Leñador: </span><a href=\"/caldera-de-carbon\"><span class=\"sqsrte-text-color--white\"><strong>Caldera de carbón</strong></span></a></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Cazador: </span><a href=\"/mmmh-shab-al\"><span class=\"sqsrte-text-color--white\"><strong>Mmmh, Shab Al</strong></span></a></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Minero: </span><a href=\"/minas-anti-personal\"><span class=\"sqsrte-text-color--white\"><strong>Minas Anti-personal</strong></span></a></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Pescador: </span><a href=\"/tiene-hambre-dessangre\"><span class=\"sqsrte-text-color--white\"><strong>Tiene hambre, Dessangre</strong></span></a></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Alquimista: </span><a href=\"/panecillos-floreados\"><span class=\"sqsrte-text-color--white\"><strong>Panecillos floreados</strong></span></a></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--white\">Campesino: </span><a href=\"/todos-queremos-a-anita\"><span class=\"sqsrte-text-color--white\"><strong>Todos queremos a Anita</strong></span></a></p></li></ul>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-highlight\" data-text-attribute-id=\"644ac210-d2a3-4064-970b-9d97314f0469\"><strong>Para estas misiones, vas a necesitar en total: </strong></span></p><ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Los oficios correspondientes al nivel 200 y nivel 100 de personaje.</strong></p></li></ul>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/el-calendario-de-la-siega",
+    "questDofusIds": [],
+    "slug": "el-calendario-de-la-siega",
+    "summary": {},
+    "title": "El calendario de la siega"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "Falta el bloque Prerrequisitos",
+    "Falta el bloque Necesitarás",
+    "Falta el bloque Recompensas",
+    "No se encontró la línea de inicio (PNJ y coordenadas)",
+    "Sin pasos: ni marcas «ETAPA n:» ni bloques de texto con sus capturas; la guía queda como prosa"
+  ]
+}

@@ -38,6 +38,7 @@
     "import:achievement-prose": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-achievement-prose.ts --",
     "import:pages": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-pages.ts --",
     "import:section-pages": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-section-pages.ts --",
+    "import:golden-refresh": "NODE_OPTIONS=--no-deprecation payload run scripts/import/refresh-golden.ts",
     "guides:backfill": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guides.ts --",
     "guides:shown-items": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-shown-items.ts --",
     "guides:rewards": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guide-rewards.ts --",
@@ -53,6 +54,7 @@
     "generate:types": "NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "test:integration": "vitest run --config vitest.integration.config.mts",
+    "test:import": "vitest run --config vitest.import.config.mts",
     "redirects:stubs": "node scripts/redirects/build-stub-redirects.ts --"
   },
   "dependencies": {
