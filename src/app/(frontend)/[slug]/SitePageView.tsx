@@ -5,6 +5,9 @@ import { guideContent } from '@/lib/guides/page'
 import { sitePageBreadcrumb, type SitePageDoc } from '@/lib/pages/page'
 import { SITE_URL } from '@/lib/site/origin'
 
+import { UpdatedDate } from '@/components/ui/UpdatedDate'
+import { contentDate } from '@/lib/content-date/format'
+
 import { LivePreviewRefresh } from './LivePreviewRefresh'
 
 /**
@@ -21,6 +24,7 @@ export function SitePageView({ page, preview }: { page: SitePageDoc; preview: bo
           <Breadcrumb {...sitePageBreadcrumb(page, SITE_URL)} />
           <header className="qhead">
             <h1 className="qhead__title">{page.title}</h1>
+            <UpdatedDate value={contentDate(page).modified} />
           </header>
           <GuideSections
             content={guideContent(page)}

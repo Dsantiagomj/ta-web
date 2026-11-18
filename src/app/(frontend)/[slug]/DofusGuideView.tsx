@@ -1,3 +1,4 @@
+import { contentDate } from '@/lib/content-date/format'
 import {
   DofusBody,
   DofusChecklist,
@@ -29,7 +30,7 @@ export function DofusGuideView({ data, preview }: { data: DofusGuideData; previe
       <main id="contenido" className="logro dg-page" {...pageSection('dofus')}>
         <article className="logro__main">
           <Breadcrumb {...view.breadcrumb} />
-          <DofusHeader view={view} />
+          <DofusHeader view={view} updated={contentDate(data.guide).modified} />
           {view.checklist && <DofusChecklist checklist={view.checklist} egg={view.egg} />}
           {view.intro && (
             <div className="logro__prose dg-intro guide-body">

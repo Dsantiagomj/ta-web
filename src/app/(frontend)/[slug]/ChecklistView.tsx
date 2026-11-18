@@ -1,3 +1,4 @@
+import { contentDate } from '@/lib/content-date/format'
 import { ChecklistIsland } from '@/components/checklist/ChecklistIsland'
 import {
   ChecklistHeader,
@@ -40,7 +41,7 @@ export function ChecklistView({ data, preview }: { data: ChecklistData; preview:
       <Ambience fx={checklistAmbience(data.checklist.ambience)} />
       <main id="contenido" className="ck" {...pageSection('dofus')}>
         <Breadcrumb {...view.breadcrumb} />
-        <ChecklistHeader view={view} />
+        <ChecklistHeader view={view} updated={contentDate(data.checklist).modified} />
         <section className="ck-win" aria-label={s.windowLabel}>
           <ProgressStrip view={view} />
           <ChecklistTabs view={view} />

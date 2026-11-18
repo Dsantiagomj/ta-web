@@ -63,22 +63,22 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   /* «Empieza con» va también sin render del PNJ: solo texto, sin columna. */
-  grid-template-areas: 'title' 'meta' 'start' 'facts';
+  grid-template-areas: 'title' 'meta' 'updated' 'start' 'facts';
   padding-bottom: 2rem;
   border-bottom: 1px solid var(--zone-rule, var(--color-line));
 }
 
 .qhead[data-giver] {
   grid-template-columns: minmax(0, 1fr) 3.5rem;
-  grid-template-rows: auto auto auto 1fr;
-  grid-template-areas: 'title npc' 'meta npc' 'start start' 'facts facts';
+  grid-template-rows: auto auto auto auto 1fr;
+  grid-template-areas: 'title npc' 'meta npc' 'updated npc' 'start start' 'facts facts';
   column-gap: 0.75rem;
 }
 
 @media (min-width: 36rem) {
   .qhead[data-giver] {
     grid-template-columns: 6.5rem minmax(0, 1fr);
-    grid-template-areas: 'npc title' 'npc meta' 'npc start' 'npc facts';
+    grid-template-areas: 'npc title' 'npc meta' 'npc updated' 'npc start' 'npc facts';
     column-gap: 2.5rem;
   }
 }
@@ -104,6 +104,16 @@
   grid-area: meta;
   margin-top: 0.5rem;
   color: var(--color-ink-2);
+}
+
+/* «Actualizado el 18 de noviembre de 2026», bajo el subtítulo (DESIGN.md, Updated date): la
+   fecha en que Torre cambió la página, pequeña y apagada. Sin subtítulo, bajo el título. */
+.qhead__updated {
+  grid-area: updated;
+  margin-top: 0.375rem;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
 }
 
 /* «Empieza con **Sargento Zaltzom** [-22,-24]», bajo el subtítulo. */

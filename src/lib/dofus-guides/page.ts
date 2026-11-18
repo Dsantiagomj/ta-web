@@ -102,6 +102,9 @@ export interface DofusGuideDoc {
   name: string
   slug: string
   state: PageState
+  /** «Actualizado el» y el JSON-LD (src/lib/content-date/format.ts). */
+  createdAt?: string
+  contentUpdatedAt?: string | null
   level?: number | null
   tag?: 'primordial' | 'event' | null
   color?: string | null

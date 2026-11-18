@@ -1,3 +1,4 @@
+import { UpdatedDate } from '@/components/ui/UpdatedDate'
 import { type CSSProperties, Fragment } from 'react'
 
 import { GuideSections } from '@/components/game/GuideBody'
@@ -35,7 +36,14 @@ function PreparingTag() {
  * misiones - Nivel 180» con la etiqueta (Primordial o Evento) y las columnas de
  * Prerrequisitos y Recompensas, el texto de Torre tal cual con sus enlaces.
  */
-export function DofusHeader({ view }: { view: DofusGuideView }) {
+export function DofusHeader({
+  view,
+  updated,
+}: {
+  view: DofusGuideView
+  /** La fecha en que Torre cambió la guía: «Actualizado el …» bajo el subtítulo. */
+  updated?: string | null
+}) {
   const hasFacts = Boolean(view.prerequisites || view.rewards)
   return (
     <header className="qhead lhead dg-head" style={eggStyle(view.color)}>
@@ -49,6 +57,7 @@ export function DofusHeader({ view }: { view: DofusGuideView }) {
           {view.tag && <span className="dg-tagpill">{view.tag}</span>}
         </p>
       )}
+      <UpdatedDate value={updated} />
       {hasFacts && (
         <div className="qhead__facts">
           {view.prerequisites && (

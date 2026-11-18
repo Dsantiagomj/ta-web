@@ -105,7 +105,7 @@
 /* ---------- cabecera: la de la guía, con el icono del logro donde va el PNJ ---------- */
 
 .lhead {
-  grid-template: 'icon title' 'icon meta' 'facts facts' / 3.75rem minmax(0, 1fr);
+  grid-template: 'icon title' 'icon meta' 'icon updated' 'facts facts' / 3.75rem minmax(0, 1fr);
   column-gap: 1rem;
 }
 
@@ -129,7 +129,7 @@
 /* Desde 36rem la banda de Prerrequisitos y Recompensas se alinea bajo el título. */
 @media (min-width: 36rem) {
   .lhead {
-    grid-template: 'icon title' 'icon meta' '. facts' / 5rem minmax(0, 1fr);
+    grid-template: 'icon title' 'icon meta' 'icon updated' '. facts' / 5rem minmax(0, 1fr);
     column-gap: 1.5rem;
   }
 
@@ -148,7 +148,7 @@
 /* La del logro, más corta: el icono (56px, 68px desde 576px), el título y el subtítulo, sin
    banda; lo demás va en la ficha. Dos clases: game.css (.qhead) puede cargar después. */
 .qhead.lhead--logro {
-  grid-template: 'icon title' 'icon meta' / 3.5rem minmax(0, 1fr);
+  grid-template: 'icon title' 'icon meta' 'icon updated' / 3.5rem minmax(0, 1fr);
   column-gap: 0.875rem;
   padding-bottom: 1.25rem;
 }
@@ -806,7 +806,7 @@
 /* La rejilla de la cabecera del logro, con más especificidad: aquí game.css (.qhead) puede
    cargar después de achievement.css y dejaría el huevo sin su área. */
 .qhead.dg-head {
-  grid-template: 'icon title' 'icon meta' 'facts facts' / 3.75rem minmax(0, 1fr);
+  grid-template: 'icon title' 'icon meta' 'icon updated' 'facts facts' / 3.75rem minmax(0, 1fr);
   column-gap: 1rem;
 }
 @media (min-width: 36rem) {

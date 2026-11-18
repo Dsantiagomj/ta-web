@@ -1,3 +1,4 @@
+import { UpdatedDate } from '@/components/ui/UpdatedDate'
 import { Fragment, type CSSProperties } from 'react'
 
 import { OBJECTIVE_ICONS, GAME_ICONS } from '@/components/game/game-icons'
@@ -79,8 +80,11 @@ function RoadNames({ stop }: { stop: RoadStopView }) {
  */
 export function ChecklistHeader({
   view,
+  updated,
 }: {
   view: Pick<ChecklistView, 'egg' | 'title' | 'description' | 'road'>
+  /** La fecha en que Torre cambió la checklist: «Actualizado el …» bajo su descripción. */
+  updated?: string | null
 }) {
   const road = view.road
   const last = road?.at(-1)
@@ -101,6 +105,7 @@ export function ChecklistHeader({
       <div>
         <h1 className="ck-head__t">{view.title}</h1>
         <p className="ck-head__m">{view.description}</p>
+        <UpdatedDate value={updated} className="ck-head__updated" />
         {road?.map((stop, index) => (
           <p className="ck-head__road" data-road-line={index} hidden={index > 0} key={stop.stepId}>
             {s.road.next}

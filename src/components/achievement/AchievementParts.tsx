@@ -19,6 +19,7 @@ import type {
   GroupItem,
   QuestCard,
 } from '@/lib/achievements/page'
+import { UpdatedDate } from '@/components/ui/UpdatedDate'
 import { formatAmount } from '@/lib/guides/display'
 import { achievementPageStrings as s } from '@/lib/achievements/strings'
 
@@ -48,16 +49,20 @@ export function AchievementHeader({
   title,
   icon,
   meta,
+  updated,
 }: {
   title: string
   icon?: ImageAsset
   meta: string[]
+  /** La fecha en que Torre cambió la página: «Actualizado el …» bajo el subtítulo. */
+  updated?: string | null
 }) {
   return (
     <header className="qhead lhead lhead--logro">
       <AchievementIcon icon={icon} className="lhead__icon" />
       <h1 className="qhead__title">{title}</h1>
       {meta.length > 0 && <p className="qhead__meta">{meta.join(s.metaSeparator)}</p>}
+      <UpdatedDate value={updated} />
     </header>
   )
 }

@@ -1,5 +1,6 @@
 import { srcSetValue } from '@/components/ui/srcset'
 import { MetaParts } from '@/components/ui/MetaParts'
+import { UpdatedDate } from '@/components/ui/UpdatedDate'
 import type { ImageAsset } from '@/components/ui/types'
 import type { QuestHeaderData } from '@/lib/guides/page'
 
@@ -98,10 +99,13 @@ function Subtitle({ meta }: { meta: QuestHeaderData['meta'] }) {
 export function QuestHeader({
   title,
   data,
+  updated,
   headingLevel = 1,
 }: {
   title: string
   data: QuestHeaderData
+  /** La fecha en que Torre cambió la guía: «Actualizado el …» bajo el subtítulo. */
+  updated?: string | null
   headingLevel?: 1 | 2
 }) {
   const Heading = `h${headingLevel}` as const
@@ -112,6 +116,7 @@ export function QuestHeader({
     <header className="qhead" data-giver={right ? '' : undefined}>
       <Heading className="qhead__title">{title}</Heading>
       <Subtitle meta={meta} />
+      <UpdatedDate value={updated} />
       {giver && <Start giver={giver} />}
       {giver && right && <Giver giver={{ ...giver, right }} />}
       <QuestFacts facts={{ prerequisites, needs, rewards }} headingLevel={headingLevel} />
