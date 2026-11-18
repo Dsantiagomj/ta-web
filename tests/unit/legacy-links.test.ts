@@ -1,6 +1,7 @@
 import type { Block, Field } from 'payload'
 import { describe, expect, it } from 'vitest'
 
+import { BLOCKERS } from '../../scripts/legacy-links/blockers'
 import { classifyLink, reportLines, type LegacyLinkEntry } from '../../scripts/legacy-links/report'
 import { hasLinkFields, scanLinks } from '../../scripts/legacy-links/scan'
 
@@ -115,6 +116,7 @@ describe('reportLines', () => {
       where: 'Menú, pie y portada: sección «Clases»',
       href: 'https://www.torrentearcano.com/clases-1',
       served: null,
+      blocker: 'classes',
       note: 'hoy no se enlaza: «Próximamente»',
     },
     {
@@ -122,32 +124,42 @@ describe('reportLines', () => {
       where: 'Guía de misión «Seis pies» (/seis-pies), body.2.content',
       href: 'https://www.torrentearcano.com/emote-bailar',
       served: null,
+      blocker: 'undecided',
     },
     {
       source: 'content',
       where: 'Página «Emotes» (/emotes), body.1.content',
-      href: 'https://www.torrentearcano.com/cart',
+      href: 'https://www.torrentearcano.com/frambuesa',
       served: 'gone',
+      blocker: 'torre-edits',
     },
     {
       source: 'preparing',
-      where: 'Checklist «Hielos» (/checklist-hielos)',
-      href: 'https://www.torrentearcano.com/checklist-hielos',
+      where: 'Página «Aviso legal» (/aviso-legal)',
+      href: 'https://www.torrentearcano.com/aviso-legal',
       served: null,
+      blocker: 'pages',
     },
   ]
 
-  it('agrupa por de dónde sale y dice qué responderá la ruta', () => {
+  it('agrupa por quién o qué lo desbloquea, en el orden de la lista del corte', () => {
     const text = reportLines(entries, { relative: { page: 3, redirect: 1, route: 0 } })
-    expect(text).toContain('Del código (1)')
+    const headers = text.filter((line) => /^\S.*\(\d+\)$/.test(line))
+    expect(headers).toEqual([
+      `${BLOCKERS.classes.es} (1)`,
+      `${BLOCKERS.pages.es} (1)`,
+      `${BLOCKERS['torre-edits'].es} (1)`,
+      `${BLOCKERS.undecided.es} (1)`,
+    ])
     expect(text).toContain(
-      '  Menú, pie y portada: sección «Clases» → https://www.torrentearcano.com/clases-1 · 404 tras el cambio · hoy no se enlaza: «Próximamente»',
+      '  Menú, pie y portada: sección «Clases» → https://www.torrentearcano.com/clases-1 · del código · 404 tras el cambio · hoy no se enlaza: «Próximamente»',
     )
-    expect(text).toContain('Del contenido (2)')
     expect(text).toContain(
-      '  Página «Emotes» (/emotes), body.1.content → https://www.torrentearcano.com/cart · 410 tras el cambio',
+      '  Página «Emotes» (/emotes), body.1.content → https://www.torrentearcano.com/frambuesa · del contenido · 410 tras el cambio',
     )
-    expect(text).toContain('En preparación, lo decide Torre (1)')
+    expect(text).toContain(
+      '  Página «Aviso legal» (/aviso-legal) → https://www.torrentearcano.com/aviso-legal · en preparación · 404 tras el cambio',
+    )
     expect(text.at(-1)).toBe(
       'Resumen: 4 por resolver (1 del código, 2 del contenido, 1 en preparación). Ya van a este sitio: 4 (3 páginas, 1 redirección).',
     )

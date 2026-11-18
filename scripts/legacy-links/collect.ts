@@ -7,7 +7,8 @@
 //   o que responden 410;
 // - el `legacyHref` de lo publicado En preparación, que lleva a Squarespace a propósito hasta
 //   que Torre lo publica.
-// Lo que ya va a este sitio (página publicada, redirección, ruta propia) solo se cuenta.
+// Lo que ya va a este sitio (página publicada, redirección, ruta propia) solo se cuenta. Cada
+// enlace por resolver lleva quién o qué lo desbloquea (blockers.ts).
 import type { CollectionConfig, Field, GlobalConfig, Payload } from 'payload'
 
 import { legalLinks } from '@/components/site/nav'
@@ -17,8 +18,10 @@ import { readNavigation } from '@/lib/site-copy/queries'
 import { readLiveSlugs } from '@/lib/site/live-slugs'
 import type { LiveSlug } from '@/lib/site/site-links'
 
+import { blockerOf, type BlockerContext } from './blockers'
 import { classifyLink, type LegacyLinkEntry, needsAttention, type RelativeCounts } from './report'
 import { type FoundLink, hasLinkFields, scanLinks } from './scan'
+import { preparingIn, readSiteIndex } from './site-index'
 
 /** Colecciones con enlaces que no son de Torre ni se pintan en el sitio. */
 const SKIPPED = new Set(['users', 'redirects', 'game-data-refreshes'])
@@ -56,14 +59,18 @@ class Collector {
   readonly entries: LegacyLinkEntry[] = []
   readonly relative: RelativeCounts = { page: 0, redirect: 0, route: 0 }
 
-  constructor(readonly live: LiveSlug) {}
+  constructor(
+    readonly live: LiveSlug,
+    readonly context: BlockerContext,
+  ) {}
 
   /** Un enlace del contenido: a la lista si pinta a Squarespace o a un 410; si no, se cuenta. */
   content(href: string, where: string) {
     const link = classifyLink(href, this.live)
     if (!link) return
     if (needsAttention(link)) {
-      this.entries.push({ source: 'content', where, href, served: link.served })
+      const blocker = blockerOf(link.path, link.served, this.context)
+      this.entries.push({ source: 'content', where, href, served: link.served, blocker })
     } else if (link.served && link.served !== 'gone') {
       this.relative[link.served] += 1
     }
@@ -73,7 +80,8 @@ class Collector {
   fixed(source: 'code' | 'preparing', href: string, where: string, note?: string) {
     const link = classifyLink(href, this.live)
     if (!link || link.rendered.startsWith('/')) return
-    this.entries.push({ source, where, href, served: link.served, ...(note && { note }) })
+    const blocker = blockerOf(link.path, link.served, this.context)
+    this.entries.push({ source, where, href, served: link.served, blocker, ...(note && { note }) })
   }
 }
 
@@ -178,7 +186,8 @@ async function globalLinks(payload: Payload, config: GlobalConfig, out: Collecto
 
 export async function collectLegacyLinks(payload: Payload): Promise<CollectedLinks> {
   const slugs = new Set(await readLiveSlugs(payload))
-  const out = new Collector((slug) => slugs.has(slug))
+  const site = await readSiteIndex(payload)
+  const out = new Collector((slug) => slugs.has(slug), { preparing: preparingIn(site) })
   const blocks = (slug: string) => payload.config.blocks?.find((block) => block.slug === slug)
   await codeLinks(payload, out)
   const achievements = await liveAchievementIds(payload)

@@ -35,6 +35,7 @@ describe('ciScope', () => {
     [['scripts/seed-site-copy.ts']],
     [['scripts/zone-backgrounds.ts']],
     [['scripts/links-legacy.ts', 'scripts/legacy-links/collect.ts']],
+    [['scripts/url-map.ts', 'scripts/legacy-links/url-map.ts']],
     [['tests/fixtures/dofusdb/quest.json']],
     [['lefthook.yml', '.gga', 'vitest.config.mts', 'eslint.config.mjs']],
     [['scripts/import/x.ts', 'AGENTS.md']],

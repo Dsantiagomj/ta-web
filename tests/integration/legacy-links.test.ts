@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { collectLegacyLinks } from '../../scripts/legacy-links/collect'
+import { readSiteIndex } from '../../scripts/legacy-links/site-index'
 
 import { startPayload } from './payload'
 
@@ -108,16 +109,59 @@ describe('collectLegacyLinks', () => {
         where: `Página «Con enlaces» (/${PREFIX}-enlaces), body.1.content`,
         href: `${SITE}/${PREFIX}-sin-pagina`,
         served: null,
+        blocker: 'undecided',
       },
       {
         source: 'preparing',
         where: `Página «En preparación» (/${PREFIX}-prep)`,
         href: `${SITE}/${PREFIX}-prep`,
         served: null,
+        blocker: 'pages',
       },
     ])
     expect(relative.page).toBeGreaterThanOrEqual(1)
     // Solo lee.
+    expect(await payload.count({ collection: 'pages' })).toEqual(before)
+  })
+})
+
+describe('readSiteIndex', () => {
+  it('lo publicado por slug, con si está En preparación; un borrador no cuenta', async () => {
+    await payload.create({
+      collection: 'pages',
+      data: {
+        title: 'Lista',
+        slug: `${PREFIX}-lista`,
+        state: 'published',
+        _status: 'published',
+      } as never,
+    })
+    await payload.create({
+      collection: 'pages',
+      data: {
+        title: 'Pronto',
+        slug: `${PREFIX}-pronto`,
+        state: 'preparing',
+        _status: 'published',
+      } as never,
+    })
+    await payload.create({
+      collection: 'pages',
+      data: {
+        title: 'Borrador',
+        slug: `${PREFIX}-borrador`,
+        state: 'published',
+        _status: 'draft',
+      } as never,
+      draft: true,
+    })
+    const before = await payload.count({ collection: 'pages' })
+
+    const { documents } = await readSiteIndex(payload)
+
+    expect(documents.get(`${PREFIX}-lista`)).toEqual({ collection: 'pages', preparing: false })
+    expect(documents.get(`${PREFIX}-pronto`)).toEqual({ collection: 'pages', preparing: true })
+    expect(documents.has(`${PREFIX}-borrador`)).toBe(false)
     expect(await payload.count({ collection: 'pages' })).toEqual(before)
   })
 })
