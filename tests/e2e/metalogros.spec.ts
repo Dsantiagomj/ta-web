@@ -216,6 +216,23 @@ test.describe('índice de metalogros', () => {
           .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
           .every((a) => a.playState !== 'running'),
       )
+      // Y que la página haya llegado al panel: el ancla lo trae con un desplazamiento suave
+      // (scroll-behavior: smooth), que no es una animación de getAnimations(). A medio camino,
+      // la cabecera fija tapa parte de .vd-close.
+      await page.waitForFunction(
+        () =>
+          new Promise<boolean>((resolve) => {
+            let last = scrollY
+            let still = 0
+            const frame = () => {
+              still = scrollY === last ? still + 1 : 0
+              last = scrollY
+              if (still >= 3) resolve(true)
+              else requestAnimationFrame(frame)
+            }
+            requestAnimationFrame(frame)
+          }),
+      )
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
         .analyze()
