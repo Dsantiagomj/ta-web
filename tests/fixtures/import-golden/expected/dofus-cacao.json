@@ -1,0 +1,444 @@
+{
+  "banner": null,
+  "body": [],
+  "heading": "DOFUS CACAO",
+  "intro": [
+    [
+      {
+        "t": "text",
+        "v": "Para obtener tu Dofus Cacao, necesitarás cumplir con las siguientes misiones de estos logros en este orden:"
+      }
+    ]
+  ],
+  "needs": {
+    "groups": [
+      {
+        "name": null,
+        "rows": [
+          {
+            "name": "Gobio",
+            "quantity": 25,
+            "segs": [
+              {
+                "t": "text",
+                "v": "25 x Gobio."
+              }
+            ],
+            "text": "25 x Gobio."
+          },
+          {
+            "name": "Ortiga",
+            "quantity": 25,
+            "segs": [
+              {
+                "t": "text",
+                "v": "25 x Ortiga."
+              }
+            ],
+            "text": "25 x Ortiga."
+          },
+          {
+            "name": "Avellana",
+            "quantity": 20,
+            "segs": [
+              {
+                "t": "text",
+                "v": "20 x Avellana."
+              }
+            ],
+            "text": "20 x Avellana."
+          },
+          {
+            "name": "Cuadradito de chocolate negro",
+            "quantity": 13,
+            "segs": [
+              {
+                "t": "text",
+                "v": "13 x Cuadradito de chocolate negro."
+              }
+            ],
+            "text": "13 x Cuadradito de chocolate negro."
+          },
+          {
+            "name": "Fibra criminal",
+            "quantity": 8,
+            "segs": [
+              {
+                "t": "text",
+                "v": "8 x Fibra criminal."
+              }
+            ],
+            "text": "8 x Fibra criminal."
+          },
+          {
+            "name": "Cuadradito de chocolate blanco",
+            "quantity": 7,
+            "segs": [
+              {
+                "t": "text",
+                "v": "7 x Cuadradito de chocolate blanco."
+              }
+            ],
+            "text": "7 x Cuadradito de chocolate blanco."
+          },
+          {
+            "name": "Cuadradito de chocolate con leche",
+            "quantity": 7,
+            "segs": [
+              {
+                "t": "text",
+                "v": "7 x Cuadradito de chocolate con leche."
+              }
+            ],
+            "text": "7 x Cuadradito de chocolate con leche."
+          },
+          {
+            "name": "Tabla de pastelería",
+            "quantity": 5,
+            "segs": [
+              {
+                "t": "text",
+                "v": "5 x Tabla de pastelería."
+              }
+            ],
+            "text": "5 x Tabla de pastelería."
+          },
+          {
+            "name": "Kobalita",
+            "quantity": 5,
+            "segs": [
+              {
+                "t": "text",
+                "v": "5 x Kobalita."
+              }
+            ],
+            "text": "5 x Kobalita."
+          },
+          {
+            "name": "Kosakepega muerto",
+            "quantity": 3,
+            "segs": [
+              {
+                "t": "text",
+                "v": "3 x Kosakepega muerto."
+              }
+            ],
+            "text": "3 x Kosakepega muerto."
+          },
+          {
+            "name": "Varita pitusa",
+            "segs": [
+              {
+                "t": "text",
+                "v": "Varita pitusa."
+              }
+            ],
+            "text": "Varita pitusa."
+          }
+        ]
+      },
+      {
+        "name": "Emotes",
+        "rows": [
+          {
+            "segs": [
+              {
+                "href": "/emote-dar-un-beso",
+                "t": "link",
+                "v": "Dar un beso"
+              },
+              {
+                "t": "text",
+                "v": "."
+              }
+            ],
+            "text": "Dar un beso."
+          },
+          {
+            "segs": [
+              {
+                "href": "/emote-soltar-los-gases",
+                "t": "link",
+                "v": "Soltar los gases"
+              },
+              {
+                "t": "text",
+                "v": "."
+              }
+            ],
+            "text": "Soltar los gases."
+          },
+          {
+            "segs": [
+              {
+                "href": "/emote-sealar-con-el-dedo",
+                "t": "link",
+                "v": "Señalar con el dedo"
+              },
+              {
+                "t": "text",
+                "v": "."
+              }
+            ],
+            "text": "Señalar con el dedo."
+          }
+        ]
+      },
+      {
+        "name": "Mazmorras",
+        "rows": [
+          {
+            "children": [
+              {
+                "name": "Nivel 20 a 119: Fundición de los waddictos",
+                "segs": [
+                  {
+                    "b": true,
+                    "t": "text",
+                    "v": "Nivel 20 a 119"
+                  },
+                  {
+                    "t": "text",
+                    "v": ": Fundición de los waddictos."
+                  }
+                ],
+                "text": "Nivel 20 a 119: Fundición de los waddictos."
+              },
+              {
+                "name": "Nivel 129 a 179: Crocantería",
+                "segs": [
+                  {
+                    "b": true,
+                    "t": "text",
+                    "v": "Nivel 129 a 179"
+                  },
+                  {
+                    "t": "text",
+                    "v": ": Crocantería."
+                  }
+                ],
+                "text": "Nivel 129 a 179: Crocantería."
+              },
+              {
+                "name": "Nivel 180+: Templo del Dios Kao",
+                "segs": [
+                  {
+                    "b": true,
+                    "t": "text",
+                    "v": "Nivel 180+"
+                  },
+                  {
+                    "t": "text",
+                    "v": ": Templo del Dios Kao."
+                  }
+                ],
+                "text": "Nivel 180+: Templo del Dios Kao."
+              }
+            ],
+            "segs": [
+              {
+                "t": "text",
+                "v": "Dependiendo de tu nivel:"
+              }
+            ],
+            "text": "Dependiendo de tu nivel:"
+          }
+        ]
+      },
+      {
+        "name": null,
+        "rows": [
+          {
+            "name": "Un par de combates por allí y por allá",
+            "segs": [
+              {
+                "t": "text",
+                "v": "Un par de combates por allí y por allá."
+              }
+            ],
+            "text": "Un par de combates por allí y por allá."
+          }
+        ]
+      }
+    ],
+    "note": null,
+    "title": "Necesitarás"
+  },
+  "parts": [
+    {
+      "name": "Una pizca de misterio",
+      "quests": [
+        {
+          "name": "La isla flotante de chocolate",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-isla-flotante-de-chocolate",
+              "t": "link",
+              "v": "La isla flotante de chocolate"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": "."
+            }
+          ],
+          "slug": "la-isla-flotante-de-chocolate"
+        },
+        {
+          "name": "La crisis de fe",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-crisis-de-fe",
+              "t": "link",
+              "v": "La crisis de fe"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": "."
+            }
+          ],
+          "slug": "la-crisis-de-fe"
+        },
+        {
+          "name": "Un huevo aparte",
+          "segs": [
+            {
+              "b": true,
+              "href": "/un-huevo-aparte",
+              "t": "link",
+              "v": "Un huevo aparte"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": "."
+            }
+          ],
+          "slug": "un-huevo-aparte"
+        },
+        {
+          "name": "Chocomagia contra chocomancia",
+          "segs": [
+            {
+              "b": true,
+              "href": "/chocomagia-contra-chocomancia",
+              "t": "link",
+              "v": "Chocomagia contra chocomancia"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": "."
+            }
+          ],
+          "slug": "chocomagia-contra-chocomancia"
+        },
+        {
+          "name": "Chocomisterio y chocohuevo",
+          "segs": [
+            {
+              "b": true,
+              "href": "/chocomisterio-y-chocohuevo",
+              "t": "link",
+              "v": "Chocomisterio y chocohuevo"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": "."
+            }
+          ],
+          "slug": "chocomisterio-y-chocohuevo"
+        },
+        {
+          "name": "Ka-kao maravillao",
+          "segs": [
+            {
+              "b": true,
+              "href": "/ka-kao-maravillao",
+              "t": "link",
+              "v": "Ka-kao maravillao"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": "."
+            }
+          ],
+          "slug": "ka-kao-maravillao"
+        }
+      ],
+      "slug": null,
+      "type": "achievement"
+    },
+    {
+      "name": "Paseos digestivos",
+      "quests": [
+        {
+          "name": "La manía de reciclar",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-mania-de-reciclar",
+              "t": "link",
+              "v": "La manía de reciclar"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": "."
+            }
+          ],
+          "slug": "la-mania-de-reciclar"
+        }
+      ],
+      "slug": null,
+      "type": "achievement"
+    },
+    {
+      "segs": [
+        {
+          "b": true,
+          "t": "text",
+          "v": "Te recomiendo realizar también la misión "
+        },
+        {
+          "b": true,
+          "href": "/gajes-del-oficio",
+          "t": "link",
+          "v": "Gajes del oficio"
+        },
+        {
+          "b": true,
+          "t": "text",
+          "v": " junto con la de "
+        },
+        {
+          "b": true,
+          "href": "/chocomagia-contra-chocomancia",
+          "t": "link",
+          "v": "Chocomagia contra chocomancia"
+        },
+        {
+          "b": true,
+          "t": "text",
+          "v": " ya que en ambas misiones te pide realizar la mazmorra de tu nivel."
+        }
+      ],
+      "type": "note"
+    }
+  ],
+  "prerequisites": [
+    [
+      {
+        "t": "text",
+        "v": "Nivel mínimo 20."
+      }
+    ]
+  ],
+  "rewards": null,
+  "video": "nytrpjKnzlM"
+}

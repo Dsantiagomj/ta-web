@@ -1,0 +1,79 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Esta misión es diaria y MUY buena. Te la recomiendo hacer a diario mientras la isla esté disponible.</strong></p>"
+          },
+          {
+            "alt": "Pantalla de videojuego mostrando dos personajes azules y varios elementos en un entorno cavernoso con plataformas y objetos.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/66821743-bc50-4eb6-bfa5-edaf5ca47fd3/Captura+de+pantalla+2026-04-01+121535.png"
+          },
+          {
+            "alt": "Una pantalla de un videojuego con un personaje que lleva un gorro, hablando con un mensaje que dice que jugará a esconderse en una isla y que busca a Wali, con una opción para contar hasta diez y buscar a Wali.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/31a8777e-d429-4128-b7d2-24ae98564f81/Captura+de+pantalla+2026-04-01+121542.png"
+          }
+        ],
+        "x": 0,
+        "y": -7
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Wali va a poner una copia suya en casi <strong>TODOS </strong>los mapas de la Isla de Pazcuak. <strong>Debes encontrar al original. </strong>Los falsos se parecen pero tienen detalles que los diferencian. <strong>¡ATENCIÓN! No le des click al Wali hasta que te asegures al 100% que es el verdadero. Si no, debes esperar 10 minutos para volver a intentarlo.</strong></p>"
+          },
+          {
+            "alt": "Un personaje de videojuego con orejas largas, cara con expresión de tristeza y ropa de navidad, escondido detrás de una pared y una gran señal de 'NO' escrita en rojo.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/79a6fe7e-8912-46cd-aed3-dc6e3fa43fa5/Captura+de+pantalla+2026-04-01+121716.png"
+          },
+          {
+            "alt": "Personaje de aspecto gárgola con gorro navideño y gafas que dice 'Wali', en un entorno de madera y con la palabra 'Sí' escrita en verde.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/09392d72-d5ba-400c-a08e-56956ddd30b9/Captura+de+pantalla+2026-04-01+122043.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Una vez encuentres al verdadero, habla con él.</p>"
+          },
+          {
+            "alt": "Personaje en un videojuego sostiene un cupón, con un fondo de maquinaria y una estatua grande en la pared, en un entorno industrial. El personaje dice: \"¡Me quito el sombrero! Toma este cupón. ¡Vuelve a jugar conmigo mañana!\" junto a una opción para agarrar el cupón con orgullo y marcharse.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/f70b7828-f86d-4514-b85e-24dd7fbe9115/Captura+de+pantalla+2026-04-01+122049.png"
+          }
+        ]
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Aquí termina la misión. Espero que te haya ayudado. Dale click <a href=\"/paseos-digestivos\"><strong>aqu</strong></a><strong>í</strong> para ver las demás misiones de este logro.</p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/wali-y-la-fabrica-de-chocolate",
+    "questDofusIds": [],
+    "slug": "wali-y-la-fabrica-de-chocolate",
+    "summary": {
+      "prerequisites": "Nivel mínimo 20.\nLa isla flotante de chocolate.",
+      "rewards": "Si eres nivel 1 a 109: 664 793 XP.7 020 kamas.3 x Cupón chocolate.\n664 793 XP.\n7 020 kamas.\n3 x Cupón chocolate.\nSi eres nivel 110 a 179:1 272 268 XP.17 800 kamas.3 x Cupón avellana.\n1 272 268 XP.\n17 800 kamas.\n3 x Cupón avellana.\nSi eres nivel 180 a 200:1 375 000 XP.21 990 kamas.3 x Cupón praliné.\n1 375 000 XP.\n21 990 kamas.\n3 x Cupón praliné.",
+      "startNpc": "Wali",
+      "startX": 0,
+      "startY": -7
+    },
+    "title": "Wali y la fábrica de chocolate"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "Falta el bloque Necesitarás"
+  ]
+}

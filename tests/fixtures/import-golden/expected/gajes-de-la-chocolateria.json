@@ -1,0 +1,83 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Debes decirle que “parece preocupada”. <strong>Es una misión diaria.</strong></p>"
+          },
+          {
+            "alt": "Mensaje de bienvenida en una isla llamada Pazcuak en un juego, con una figura femenina vestida con ropa elegante y sombrero, rodeada de puestos de chocolate y dulces.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/48ea5666-527c-4a14-bfa9-6654c53f72ce/image+-+2025-03-08T190810.211.png"
+          }
+        ],
+        "x": -1,
+        "y": -7
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Básicamente te pedirá pasar una de las 3 mazmorras disponibles en la Isla de Pazcuak y <strong>depende de tu nivel.</strong></p>"
+          },
+          {
+            "alt": "Figura animada de una criatura con cuerpo de león y cabeza de un personaje con cabeza de huevo, sosteniendo una espada.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/afe44aa7-3318-44e1-a87a-5ad75803eb96/image+-+2025-03-08T191157.147.png"
+          },
+          {
+            "alt": "Gorila de aspecto pixelado con expresión seria, de color marrón y grande.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/bd8754b8-44c3-40e4-b3a2-62d2f8876f63/image+-+2025-03-08T191146.476.png"
+          },
+          {
+            "alt": "Personaje de estilo animado con vestido y gorro, sosteniendo una escoba y una calabaza decorativa.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/a8793b57-a528-40e0-a9d5-7682d68a3743/image+-+2025-03-08T191128.722.png"
+          }
+        ]
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>Nivel 119 o menos:</strong> Fundición de los Waddictos.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>Nivel 120 a 179:</strong> <a href=\"/mazmorra-crunchidor\"><strong>Crocantería</strong></a>.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><strong>Nivel 180 o más:</strong> <a href=\"/mazmorra-templo-del-dios-kao\"><strong>Templo del Dios Kao.</strong></a></p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Una vez que hayas pasado la mazmorra, vuelve a hablar con Lilivonne Kah [-1,-7].</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Aquí termina la misión. Espero que te haya ayudado.</p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/gajes-de-la-chocolateria",
+    "questDofusIds": [],
+    "slug": "gajes-de-la-chocolateria",
+    "summary": {
+      "needs": {
+        "notes": "Si eres 119 o menos: Fundición de los Waddictos (no hace falta explicarla xD).\nSi eres nivel 120 a 179: Crocantería.\nSi eres 180 o más: Templo del Dios Kao."
+      },
+      "prerequisites": "La isla flotante de chocolate.\nNivel mínimo 20.",
+      "rewards": "Si eres nivel 1 a 109: 2 659 173 XP.28 082 kamas.5 x Cupón chocolate.\n2 659 173 XP.\n28 082 kamas.\n5 x Cupón chocolate.\nSi eres nivel 110 a 179:5 089 075 XP.71 202 kamas.5 x Cupón avellana.\n5 089 075 XP.\n71 202 kamas.\n5 x Cupón avellana.\nSi eres nivel 180 a 200:5 500 000 XP.87 960 kamas.5 x Cupón praliné.\n5 500 000 XP.\n87 960 kamas.\n5 x Cupón praliné.",
+      "startNpc": "Lilivonne Kah",
+      "startX": -1,
+      "startY": -7
+    },
+    "title": "Gajes de la chocolatería"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada"
+  ]
+}

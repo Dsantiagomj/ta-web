@@ -1,0 +1,27 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "richText",
+        "html": "<ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\"><a href=\"/keprinusera\"><strong>Keprinusera.</strong></a></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\"><a href=\"/recuerdos-entomologicos\"><strong>Recuerdos entomológicos.</strong></a></p></li><li><p class=\"\" style=\"white-space:pre-wrap;\"><a href=\"/metamorfooooosis\"><strong>¡Metamorfooooosis!</strong></a></p></li></ul>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\"><span class=\"sqsrte-text-highlight\" data-text-attribute-id=\"644ac210-d2a3-4064-970b-9d97314f0469\"><strong>Para estas misiones, vas a necesitar en total: </strong></span></p><ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\">1 x combate solitario.</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\">Combates aleatorios contra monstruos de una zona para drops de misión.</p></li></ul>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/como-entrar-a-la-casa-de-keprinus",
+    "questDofusIds": [],
+    "slug": "como-entrar-a-la-casa-de-keprinus",
+    "summary": {},
+    "title": "Cómo entrar a la casa de Keprinus"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "Falta el bloque Prerrequisitos",
+    "Falta el bloque Necesitarás",
+    "Falta el bloque Recompensas",
+    "No se encontró la línea de inicio (PNJ y coordenadas)",
+    "Sin pasos: ni marcas «ETAPA n:» ni bloques de texto con sus capturas; la guía queda como prosa"
+  ]
+}

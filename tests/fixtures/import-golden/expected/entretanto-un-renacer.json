@@ -1,0 +1,475 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">La misión empieza hablando con Draconiros [21,-33] en la clásica cueva de siempre, una vez hayas terminado los requisitos.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/411733fa-a336-48bd-ae25-4a4e25215f54/Captura+de+pantalla+2026-07-13+235259.png"
+          }
+        ],
+        "x": 21,
+        "y": -33
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Lo primero de todo, dirígete a la entrada de la mazmorra de Kabaal [43,-57] y utiliza el ámbar gris (doble click, está en objetos de misión).</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/aa091dff-7e86-431a-a871-0f299e562e88/Captura+de+pantalla+2026-07-13+235335.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b8cafaa6-358e-4a47-a1a4-86949ce1733a/Captura+de+pantalla+2026-07-13+235344.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/39ba1a23-7376-4ab8-ac27-cbaba26266cd/Captura+de+pantalla+2026-07-13+235351.png"
+          }
+        ],
+        "x": 43,
+        "y": -57
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Tras esperar un rato, te teleportarás a la zona de Bakujikera, y tienes que darle click a esa vaina para que aparezca y puedas hablar con él.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/8ffb90ee-68f5-4ffa-8155-a9fef095e3b8/Captura+de+pantalla+2026-07-13+235400.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/480546f1-7ea3-4ecb-a549-b427842c0f61/Captura+de+pantalla+2026-07-13+235414.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Luego vete al Santuario de la Última Esperanza, desde el zaap del arco de Vili, y ve un mapa a la derecha para darle click a ese libro y leerlo.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/89d17e1f-d277-4dd4-9992-887e592888c8/Captura+de+pantalla+2026-07-13+235454.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/9d8e98a0-7368-4907-afed-93187f5c972d/Captura+de+pantalla+2026-07-13+235506.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">A continuación, aparecerá Entropix, con el que tienes que hablar. Aquí su texto será diferente dependiendo si has hecho la misión de <strong>Un legado atormentado</strong> o no, pero da un poco igual. Es más por lore.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/bd175b59-f865-4f0e-9aa7-fd404035d4b2/Captura+de+pantalla+2026-07-13+235521.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Ahora ve a la Torre de los Consejos de Astrub [4,-19] y habla con Fallanster. Ya sabes, hay que subir las escaleras y tal.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/9e016734-692b-4907-b393-7418ae77a8fe/Captura+de+pantalla+2026-07-13+235554.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/026eeedf-2e7a-4e5f-b641-9cfb82ff57cc/Captura+de+pantalla+2026-07-13+235605.png"
+          }
+        ],
+        "x": 4,
+        "y": -19
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Después, dirección Castillo de Amakna [4,-6], hasta la sala del fondo y entra a la puerta de la derecha.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/e12d8719-dc1b-445c-8e1d-6332e54f4d71/Captura+de+pantalla+2026-07-13+235621.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/f9436bf8-3f49-4fbb-894e-f40cd1d64258/Captura+de+pantalla+2026-07-13+235716.png"
+          }
+        ],
+        "x": 4,
+        "y": -6
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Allí dale click a ese cofre. Aparecerá un Carnero divino con el que tienes que hablar.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/166d2e68-03f9-44b1-9b06-8d9fd7e575fa/Captura+de+pantalla+2026-07-13+235708.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/0a3d22e9-23cd-4f43-b7d5-8100045f83e0/Captura+de+pantalla+2026-07-13+235732.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Vas a luchar contra él. No es nada del otro mundo. Tiene 5 500 pdv y 0% resistencias. Invoca y pega bien pero no es nada especial a lo que no te hayas enfrentado ya.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/83340f72-3569-45f0-a5f4-ff2cd797ec21/Captura+de+pantalla+2026-07-13+235740.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Una vez ganes el combate, aparecerá la Diosa Feca con la que tienes que hablar. Debes seleccionar las respuestas correctas.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/cf2d807b-0edb-4e8d-a1ad-53d46115944d/Captura+de+pantalla+2026-07-13+235824.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/dd992e75-ac44-4d12-a54f-97834c719bce/Captura+de+pantalla+2026-07-13+235839.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Después tienes que ir a Externam, así que ya sabes, dirección a la entrada de la mazmorra de Ilyzaelle [-73,-76], y habla con el Guardián para que te deje entrar a la sala post final.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/98243e3b-5292-4e2f-a43e-3a6916ea6635/Captura+de+pantalla+2026-07-13+235926.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/2fdc0213-9449-46e1-a3d7-6961d39c39f7/Captura+de+pantalla+2026-07-13+235959.png"
+          }
+        ],
+        "x": -73,
+        "y": -76
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Allí obviamente ponte la máscara mortuoria y entra por el portal.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/4ab79354-ef0e-47fd-9cc7-e1ff46fe525d/Captura+de+pantalla+2026-07-13+235950.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/7b2887a7-61d5-4113-9bd0-65aa4f75dd6b/Captura+de+pantalla+2026-07-14+000013.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Una vez allí, dale doble click directamente al Medallón de Fallanster, en tus objetos de misión. Tienes que esperar un momento.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/a54fb493-1fc6-4471-9c65-449b071c674c/Captura+de+pantalla+2026-07-14+000025.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/5cf7e3dd-a5fb-46e5-82dc-d84ff29eb524/Captura+de+pantalla+2026-07-14+000030.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Aparecerá Allisterina con la que tienes que hablar. Habrá un momento en el que te harás muy muy grande, como un gigante, pero forma parte del lore. Tú sigue hablando con ella y ya xD.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/7428cc33-6d71-41ad-82cd-3d9f19517312/Captura+de+pantalla+2026-07-14+000051.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Allisterina te entregará un Cofrecillo de la reliquia, al que le tienes que dar doble click. Tienes que esperar un momentillo. <strong>Perdón. Se me olvidó tomar imágenes aquí xD.</strong></p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/e807ee8b-601a-42f7-9a33-941ec3556276/Captura+de+pantalla+2026-07-19+134340.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Te teleportarás a un mapa de la Pesadilla de los Devastadores, en la que tienes que hablar con Entropix.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/40686aac-d4ed-43b4-9c7c-9157d27f03d1/Captura+de+pantalla+2026-07-14+000132.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/6ca255de-f498-4c61-93a2-bc5b6a7e4b74/Captura+de+pantalla+2026-07-14+000137.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Aquí vas a empezar una lucha semitáctica contra los 4 Jinetes del Selocalipsis. La lucha es <strong>MUY </strong>parecida a la de <strong>Un legado atormentado</strong>. La única diferencia es que <strong>el que tiene mucha vida y daño eres TÚ, no tu doble. Tu doble en esta lucha NO SIRVE MUCHO.&nbsp;</strong></p><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Ahora bien, básicamente voy a copiar y pegar lo que ya expliqué en la lucha de <strong>Un legado atormentado,</strong> solo que voy a cambiar un par de cosillas y ya, especialmente con <strong>GUERRA.</strong></p>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--custom\" style=\"color: #FAE508;\"><strong>EXPLICACIÓN DEL COMBATE (Te recomiendo leerlo todo. Sí, todo).</strong></span></p><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Empezarás una lucha Semitáctica y aquí voy a explicártelo lo más detallado posible xD Como no me pagan lo suficiente por esto, suscríbete al canal de youtube y twitch.</p><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Lo primero de todo es que vas a invocar un doble que en esta partida no te sirve para mucho<strong>. Le pondrás automáticamente un sacrificio a tu doble, y hará que todo el daño que reciba, pasas a recibirlo tú, así que cuidado. Entropix te ayudará, pero puede morir. De hecho es recomendable que se muera para poder desbloquear GUERRA más fácilmente.</strong></p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/13c41879-9caf-449f-b64e-f78d415c0f38/Captura+de+pantalla+2026-07-11+133635.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/160f3995-521a-4c0e-ae18-4014e6a2db76/Captura+de+pantalla+2026-07-11+133649.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>La clave del combate es bajar a los jinetes hasta la vida en amarillo y meterlos AL CENTRO de un glifo específico que invocarán SOLO SI repites una acción específica 3 veces. Podrás saber cuántas veces te falta hacer el proceso para que aparezca el glifo con el estado que tienen arriba con un círculo amarillo:</strong></p><ul data-rte-list=\"default\"><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--custom\" style=\"color: #FBDA07;\"><strong>Miseria</strong></span>: tienes que darte ESCUDOS en cuerpo a cuerpo con ella. Así subirá su contador. Cuando el contador llega a 3, invocarás el glifo amarillo que durará 2 turnos. Tienes que meterlo en el centro.</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--custom\" style=\"color: #DA09FA;\"><strong>Corrupción</strong></span>: tienes que CURARTE en cuerpo a cuerpo con él. Así subirá su contador. Cuando el contador llega a 3, invocarás el glifo rosado que durará 2 turnos. Tienes que meterlo en el centro.</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--custom\" style=\"color: #8E7F7F;\"><strong>Servidumbre</strong></span>: tienes que DESPLACARTE, teniendo a Servidumbre en Cuerpo a cuerpo. Debes intentar llegar a  Servidumbre sin gastar PM ya que si no, le pegarás la liberación y te reenviará bastante daño, así que trata de llegar a él saltando o teleportándote o como sea. Lo importante es que no llegues a su CaC usando PM, y ya cuando estés CaC, te desplacas. De esta manera pondrá su glifo azul y tienes que meterlo en el centro.</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-color--custom\" style=\"color: #FE0000;\"><strong>Guerra</strong></span>: tienes que evitar que te HAGA DAÑO durante 3 turnos. <strong>Lo jodido es Entropix. Si Guerra le pega a Entropix, NO subirá su contador, así que te recomiendo o matar a Entropix o alejarlo lo más posible de Guerra, para que solo le pueda pegar a tu doble. </strong>De esta manera pondrá un glifo verde y tienes que meterla allí en el centro.</p></li></ul>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b3697130-0a23-4566-85fd-0135c1dbd962/Captura+de+pantalla+2026-07-11+134109.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b42db2e3-8790-4503-a71f-c41fd2a4eea2/Captura+de+pantalla+2026-07-11+140345.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Ahora bien, hay varias cosas que explicar para ayudarte con el combate:</p><ul data-rte-list=\"default\"><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Si te desplazas o mueves a tu doble con tus hechizos, ya sea empujar, atraer, intercambiar, etc. Os curaréis un montón, así que god.</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Si te desplacas de cualquier enemigo, ganarás 20 000 ESCUDO que son CLAVE para vencer a Servidumbre, ya que te reenvía un montón de daño, pero con escudo no te bajará la vida.</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Tu personaje principal tendrá un montón de PA y PM, y podrás pegar muchísimo con <strong>tus hechizos, así que aprovecha también.</strong></p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Los 4 jinetes no los podrás teleportar, solo empujar (A menos que uses una cosa llamada “Ayuda estratégica”, que explicaremos a continuación).</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Entropix ayuda y SE PUEDE MORIR. NO PASA NADA. EL COMBATE SIGUE.</strong></p></li></ul>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/7a1c6d1d-eadd-4a86-8c69-41d5cfae1c57/Captura+de+pantalla+2026-07-11+134611.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-highlight\" data-text-attribute-id=\"08376fa7-9203-417b-bdc4-340d3cf3b9da\"><strong>Cosas CLAVE a tener en cuenta. MUY CLAVE:</strong></span></p><ul data-rte-list=\"default\"><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Cada vez que gastes PM y te pones en CaC con un enemigo, activarás una liberación que empuja 1 casilla y pegará una barbaridad (como 5 000 pdv por golpe). Tienes que intentar con tu personaje principal posicionarte de tal manera que puedas aprovechar todos tus PM y pegarles a los enemigos.</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Tu personaje principal CAUSA MUCHO DAÑO</strong> debido a unos boosts al inicio de combate. Además, si causa daño a cualquier objetivo, le pondrás un estado llamado “<strong>APOYO ESTRATÉGICO</strong>”. Este estado hace que al inicio de tu turno, te intercambiarás con el objetivo con el estado. Esto también sirve con los Jinetes, incluso con Guerra (clave para ponerla en su glifo). Solo puede haber 1 objetivo con el estado Apoyo Estratégico y puedes saber cual es con el símbolo “1”. Además, este estado causará daño a finales de turno de tu doble y no es para nada ignorable.</p></li></ul><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Las primeras dos imágenes son de la mini liberación, mientras que la tercera imagen es para ver el estado de Apoyo estratégico.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/be590d69-59a8-4bf7-8532-319ee14ad0e5/Captura+de+pantalla+2026-07-11+133744.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/35279fe6-0992-4096-a4b5-229403acbfe9/Captura+de+pantalla+2026-07-11+133748.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/11556001-511b-413e-b222-168caff211ae/Captura+de+pantalla+2026-07-11+135114.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Las mecánicas de cada jinete siguen presentes, es decir, Miseria sigue activando su cuervo a mitad de vida, puede saltar, puede poner invulnerable a algún aliado, puede robar mucha potencia etc. Servidumbre sigue reenviando mucho daño PERO NO invocará falceréticas. Corrupción seguirá teniendo el estado Sitepika Terraskas PERO solo él. Los demás no. Y por último, Guerra se hará vulnerable cuando los demás ya se hayan puesto en el centro de su respectivo glifo, y seguirá invocando sus armas en sus franjas de vida.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/99011cdd-0773-488f-91f6-080282c80557/Captura+de+pantalla+2026-07-11+135955.png"
+          },
+          {
+            "blockType": "callout",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><span class=\"sqsrte-text-highlight\" data-text-attribute-id=\"0539e718-9383-4824-bbfe-565d096b1378\"><strong>RECOMENDACIONES GOD:</strong></span></p><ul data-rte-list=\"default\"><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Siempre siempre siempre trata de ir pegándoles con la mini liberación, e intenta siempre empujarlos en la dirección en donde invocarán su glifo (siempre lo invocarán en el mismo sitio).</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Primero intenta vencer a <span class=\"sqsrte-text-color--custom\" style=\"color: #FBDA07;\"><strong>Miseria </strong></span>lo antes posible. Es de las más fáciles. Si tu clase no es capaz de darse escudo, es tan fácil como ponerse un dofus moteado o esmeralda. De esta manera, cada turno podrás poner mínimo 1 estado a Miseria y con tu doble ve pegándole a full. También puedes desplacarte de Miseria para darte 20 000 de escudo, y eso también le aumentará su contador.</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Lo mismo con <span class=\"sqsrte-text-color--custom\" style=\"color: #DA09FA;\"><strong>Corrupción</strong></span>. Si no puedes curar, siempre puedes ponerte un dokoko, hechizos de robo de vida o incluso un Dofus vigilante. Posicionas tu doble en línea y CaC con Corrupción y con el vigilante lo vas activando.</p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Luego hay que ir por <span class=\"sqsrte-text-color--custom\" style=\"color: #8E7F7F;\"><strong>Servidumbre</strong></span>, y contra este necesitas mucha <strong>PACIENCIA</strong>. Lo MEJOR que puedes hacer es llegar a  Servidumbre sin gastar PM ya que si no, le pegarás la liberación y te reenviará bastante daño, así que trata de llegar a él saltando o teleportándote o como sea. Lo importante es que no llegues a su CaC usando PM, y ya cuando estés CaC, te desplacas, y además, puedes gastar otro PM para ir haciéndole algo de daño. En unos 7-8 turnos, normalmente ya le habrás bajado hasta la franja en la que puedes meterlo en el glifo. <strong>Ahora bien, puedes ponerlo en el glifo pegando a Servidumbre con una llamilla o algo para ponerle el estado Apoyo Estratégico, y te pones tú mismo en el glifo, para que en el siguiente turno os cambiéis de sitio. Ojito porque te pueden atraer y cagarlo pero bueno… </strong></p></li><li><p style=\"text-align: justify; ; white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Por último, <span class=\"sqsrte-text-color--custom\" style=\"color: #F60C0C;\"><strong>Guerra</strong></span>. tienes que evitar que te HAGA DAÑO durante 3 turnos. <strong>Lo jodido es Entropix. Si Guerra le pega a Entropix, NO subirá su contador, así que te recomiendo o matar a Entropix o alejarlo lo más posible de Guerra, para que solo le pueda pegar a tu doble. </strong>Intenta  calcular los PM para oneshotear a las armas que invocará, ya que al desplacarte perderás PM’s uno de cada 3 turnos. <strong>Una vez que invoque el glifo verde y esté en la franja de debilidad, pégale una llamilla a Guerra y dirígete tú mismo al centro del glifo para que en el próximo turno os intercambiéns de sitio y listo.</strong></p></li></ul>",
+            "variant": "tip"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/eaab4765-1576-4037-a9b6-4ad1e509e9b7/Captura+de+pantalla+2026-07-11+135639.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/f84f7150-389c-4cce-b375-2c9bd0b31844/Captura+de+pantalla+2026-07-11+135644.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/28f6b16d-f961-4287-94ee-d22c5049d803/Captura+de+pantalla+2026-07-11+140339.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/fa33788a-5742-463a-81bd-88ce27eab6d7/Captura+de+pantalla+2026-07-11+140345.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Una vez hayas ganado el combate, habla con Allisterina que está en el mismo mapa.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/5ff4a558-da26-440f-9b09-04fedc707e25/Captura+de+pantalla+2026-07-14+005045.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Ya por fin puedes salir de allí y dirigirte a Astrub [4,-15] para hablar con Allisteria.</p>"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/3912647a-b513-434b-a69b-adc472b999d5/Captura+de+pantalla+2026-07-14+005106.png"
+          },
+          {
+            "alt": "Entretanto, un renacer",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/7f05d347-5e83-4a26-9092-6a9ac874af23/Captura+de+pantalla+2026-07-14+005119.png"
+          }
+        ],
+        "x": 4,
+        "y": -15
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Aquí termina la misión. Espero que te haya ayudado. Ya te falta poco para terminar este logro. La siguiente y última misión se llama <a href=\"/la-bestia-durmiente\"><strong>La bestia durmiente.</strong></a></p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/entretanto-un-renacer",
+    "questDofusIds": [],
+    "slug": "entretanto-un-renacer",
+    "summary": {
+      "needs": {
+        "notes": "2 x Combates solitarios."
+      },
+      "prerequisites": "Nivel mínimo 190.\nA la vuelta de un sueño perdido.\nToma de conciencia.\nEl fin… o el comienzo.\nBajar a las cenizas.\nPoseer los 6 Dofus Primordiales.",
+      "rewards": "3 000 000 XP.\n52 776 Kamas.",
+      "startNpc": "Draconiros",
+      "startX": 21,
+      "startY": -33
+    },
+    "title": "Entretanto, un renacer"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "alt": "Pantalla de un videojuego con personajes y estructura en una jungla, diálogo con la ayuda del doctor Boing y opciones de respuesta para pelear contra enemigos.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/a7640f4b-ad64-4511-b1bb-b01c2e213aca/Captura+de+pantalla+2025-07-06+163106.png"
+          }
+        ],
+        "x": -48,
+        "y": 44
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Simplemente debes entregarle:</p><ul data-rte-list=\"default\"><li><p class=\"\" style=\"white-space:pre-wrap;\"><strong>40 x Suero de cascasaurio</strong> (maduros si eres nivel 101 a 150 o venerables si eres nivel 151 a 200).</p></li><li><p class=\"\" style=\"white-space:pre-wrap;\"><strong>2 x Sangre de dragón</strong> (Grozilla y Grasmera cansados si eres nivel 101 a 150 o normales si eres nivel 151 a 200).</p></li></ul>"
+          },
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Te recomiendo hacer esta misión con la de <a href=\"/cuidado-con-los-cascasaurios\"><strong>Cuidado con los cascasaurios</strong></a><strong> </strong>y <a href=\"/caza-de-cascasaurios\"><strong>Caza de cascasaurios</strong></a><strong> </strong>para matar a dos pájaros de un tiro.</p>"
+          },
+          {
+            "alt": "Imagen de un frasco de suero de cascarudo con una llave junto a él, y texto en español describiendo sus propiedades y uso.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/4c537635-bb20-4b5f-a48c-cd3ebb028b0f/Captura+de+pantalla+2025-07-08+063618.png"
+          },
+          {
+            "alt": "Descripción de un objeto de videojuego que simula sangre de dragón en un frasco, nivel 1, categoría Arrecife de Vulkania, peso 0 póds, con advertencia sobre los dragones y su sangre.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/8a8d92a3-18e2-4eb7-8856-a94a066c9708/Captura+de+pantalla+2025-07-08+063633.png"
+          }
+        ]
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Una vez tengas los 40 x Suero de cascasaurio y 2 x Sangre de dragón, simplemente vuelve a hablar con <strong>Ayudante del Doctor Boing Boing </strong><a href=\"https://endive-polygon-acsj.squarespace.com/nostalgia-de-juventud#\"><strong>[-48,44]</strong></a><strong> </strong>y entregarlas.</p>"
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Aquí termina la misión. Espero que te haya ayudado. Dale click <a href=\"/el-lado-oscuro\"><strong>aquí</strong></a><strong> </strong>para volver a las misiones extra de Vulkania.</p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/toma-de-sangre",
+    "questDofusIds": [],
+    "slug": "toma-de-sangre",
+    "summary": {
+      "needs": {
+        "notes": "Combates contra monstruos aleatorios de una zona (dependiendo de nuestro nivel).\nMazmorra de Grozilla y Grasmera."
+      },
+      "prerequisites": "Nivel mínimo 100.",
+      "rewards": "6 500 000 XP.\n87 960 Kamas.\n100 x Oricor.",
+      "startNpc": "Ayudante del Doctor Boing Boing",
+      "startX": -48,
+      "startY": 44
+    },
+    "title": "Toma de sangre"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada"
+  ]
+}

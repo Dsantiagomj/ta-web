@@ -1,0 +1,133 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">La misión empieza hablando con Oto Mustam [-25,33] una vez hayas terminado la misión anterior.</p>"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/afcd2733-ff8c-4270-9e44-e48de3003985/Captura+de+pantalla+2026-07-20+010216.png"
+          }
+        ],
+        "x": -25,
+        "y": 33
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Tienes que hablar con Peny Tenciario. Sigue el camino para ello:</p>"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/54bc8bcb-114e-4871-b74a-6ae510f8cadd/Captura+de+pantalla+2026-07-20+010229.png"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/c0d7d1f4-8048-4dc1-a7d1-12a0782801e4/Captura+de+pantalla+2026-07-20+010237.png"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/06025b5b-166c-45db-bf32-f5478cbc9c6a/Captura+de+pantalla+2026-07-20+010245.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Una vez allí, habla con él.</p>"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/615090a9-523b-458d-b366-fe7a67465e51/Captura+de+pantalla+2026-07-20+010255.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Básicamente te pedirá un frasco con veneno de scorbuto, y para ello, tienes que vencer a Nelwynn en su mazmorra, en [-27,17]. <span class=\"sqsrte-text-color--custom\" style=\"color: #F4D60C;\"><strong>¡ATENCIÓN! Una vez hayas vencido al jefe, NO salgas de la mazmorra.</strong></span></p>"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/0d29be8a-befb-46a9-ab69-2f789439de5f/Captura+de+pantalla+2026-07-20+010346.png"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/65c498a5-6edf-497b-8b28-01ae621bd9af/Captura+de+pantalla+2026-07-20+010551.png"
+          }
+        ],
+        "x": -27,
+        "y": 17
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Cuando venzas al jefe, dale click a ese frasco gigante para llenar uno más pequeño con el veneno.</p>"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/59e99f89-7966-40a4-9b77-5cd820e1a348/Captura+de+pantalla+2026-07-20+010644.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Ya solo te falta volver a la milicia de Brakmar [-25,33] y hablar con Peny Tenciario.</p>"
+          },
+          {
+            "alt": "Operación «envenenamiento»",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/f8743f5a-376d-4dec-a55b-45c42a511f8e/Captura+de+pantalla+2026-07-20+010715.png"
+          }
+        ],
+        "x": -25,
+        "y": 33
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Aquí termina la misión. Espero que te haya ayudado. Si hablas con Oto Mustam, te entregará la siguiente misión 30: <a href=\"/el-desafio-del-maestro-guerrero\"><strong>El desafío del maestro guerrero.</strong></a></p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/operacion-envenenamiento",
+    "questDofusIds": [],
+    "slug": "operacion-envenenamiento",
+    "summary": {
+      "needs": {
+        "notes": "1 x Mazmorra Nelwynn."
+      },
+      "prerequisites": "Nivel mínimo 70.",
+      "rewards": "1 319 773 XP.",
+      "startNpc": "Oto Mustam",
+      "startX": -25,
+      "startY": 33
+    },
+    "title": "Operación «envenenamiento»"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "Encabezado distinto del título: «29. OPERACIÓN «ENVENENACIÓN»»"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">La misión empieza hablando con Oto Mustam [-25,33] una vez hayas terminado la misión anterior.</p>"
+          },
+          {
+            "alt": "Un lamentable descuido",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/c6b1a6d6-97a8-40c7-9b19-502b13cddef4/Captura+de+pantalla+2026-07-19+234510.png"
+          }
+        ],
+        "x": -25,
+        "y": 33
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Simplemente le tienes que entregar a Oto Mustam 1 x Cerveza de La Paliza Feliz, que se puede comprar de la taberna La Paliza Feliz en Bonta [-35,-55] o del mercadillo de consumibles xD.</p>"
+          },
+          {
+            "alt": "Un lamentable descuido",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/36d0eb21-c06f-4690-9509-2f2f457dc53d/Captura+de+pantalla+2026-07-19+234518.png"
+          },
+          {
+            "alt": "Un lamentable descuido",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/de7fb9fe-9464-4dfc-a56b-86669d060e97/Captura+de+pantalla+2026-07-19+234523.png"
+          }
+        ],
+        "x": -35,
+        "y": -55
+      },
+      {
+        "blockType": "richText",
+        "html": "<p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Aquí termina la misión. Espero que te haya ayudado. Si sigues hablando con él, te entregará la siguiente misión 10: <a href=\"/cabeza-blanda\"><strong>Cabeza blanda.</strong></a></p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/un-lamentable-descuido",
+    "questDofusIds": [],
+    "slug": "un-lamentable-descuido",
+    "summary": {
+      "needs": {
+        "notes": "1 x Cerveza de La Paliza Feliz."
+      },
+      "prerequisites": "Nivel mínimo 30.\nHay que castigar a… algunos guardias de honor.",
+      "rewards": "137 939 XP.",
+      "startNpc": "Oto Mustam",
+      "startX": -25,
+      "startY": 33
+    },
+    "title": "Un lamentable descuido"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada",
+    "Bloque de Squarespace sin convertir: image"
+  ]
+}

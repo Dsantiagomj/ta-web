@@ -1,0 +1,65 @@
+{
+  "builds": {
+    "pvm": [
+      {
+        "alt": "Una mujer de espaldas que camina por un sendero rodeado de árboles verdes y hierba, con un cielo azul y nubes blancas.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=feu-pvm&classes=1",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/e2efad2b-259c-40df-a463-69da8a6e9d00/dff-D0PcOfMx.png"
+      },
+      {
+        "alt": "No se puede determinar qué hay en la imagen.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=pvm-eau&classes=1",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b31bfa5a-1956-4261-8ccb-168e41244c74/def-ihLn4MhC.png"
+      },
+      {
+        "alt": "No puedo ver la imagen.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=pvm-air&classes=1",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/3c2f4f78-2328-47bd-980d-54285817c566/daf-CXuxpAr9.png"
+      },
+      {
+        "alt": "No se puede ver ninguna imagen en el mensaje.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=pvm-ter&classes=1",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/525e283d-8abe-49d9-b0e1-2fef7c32755c/dtf-CuylgMwG.png"
+      },
+      {
+        "alt": "La imagen muestra una mesa con una planta en una maceta, un cuaderno y un bolígrafo.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=cc-pvm&classes=9",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/fd0de4c1-ce91-4f2c-8f5e-9f5998c2e7ce/descarga.png"
+      }
+    ],
+    "pvp": [
+      {
+        "alt": "Un grupo de personas caminando por una calle en una ciudad, con edificios y arbustos a el fondo.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=pvp-feu&classes=1",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/e2efad2b-259c-40df-a463-69da8a6e9d00/dff-D0PcOfMx.png"
+      },
+      {
+        "alt": "Descripción del contenido de la imagen en español latinoamericano",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=pvp-eau&classes=1",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b31bfa5a-1956-4261-8ccb-168e41244c74/def-ihLn4MhC.png"
+      },
+      {
+        "alt": "Lo siento, no puedo ver la imagen para describirla.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=pvp-air&classes=1",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/3c2f4f78-2328-47bd-980d-54285817c566/daf-CXuxpAr9.png"
+      },
+      {
+        "alt": "No puedo ver la imagen para describirla.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=pvp-ter&classes=1",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/525e283d-8abe-49d9-b0e1-2fef7c32755c/dtf-CuylgMwG.png"
+      },
+      {
+        "alt": "No puedo ver la imagen proporcionada.",
+        "link": "https://www.dofusbook.net/fr/membre/464797-huz/equipements?include=cc-pvm&classes=9",
+        "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/de46011b-3e41-482d-8742-baec5a66ee31/pb-5CAx8A-f.png"
+      }
+    ]
+  },
+  "oddities": [],
+  "pieces": [],
+  "seo": {
+    "metaDescription": "Descubre toda la información sobre Feca en Dofus, incluyendo oficios, alineamiento, mascotas, clases y misiones en esta comunidad no oficial de MMORPG.",
+    "metaTitle": "Feca | Explora y aprende, ¡juega ahora!"
+  },
+  "title": "Feca"
+}

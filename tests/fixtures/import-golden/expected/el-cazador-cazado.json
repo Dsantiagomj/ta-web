@@ -1,0 +1,168 @@
+{
+  "guide": {
+    "body": [
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "alt": "Pantalla de videojuego con personajes y una conversación en un entorno de fantasía, hablando sobre medicina y un plan.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/4f3407f9-27e3-48cd-9c0d-7aace571445d/Captura+de+pantalla+2025-09-20+190204.png"
+          }
+        ],
+        "x": 3,
+        "y": -17
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Dirígete a la <strong>Biblioteca de Astrub [7,-19]</strong> y habla con <strong>Primir</strong>. Dile que estás interesado en los carteles.</p>"
+          },
+          {
+            "alt": "Una sala de biblioteca de madera con estanterías llenas de libros y una alfombra roja en el centro. Hay un personaje con armadura en un lado y un goblin pequeño al centro.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/7f2487c7-403d-47ed-90ae-a953b3e1ae9b/Captura+de+pantalla+2025-09-20+190243.png"
+          }
+        ],
+        "x": 7,
+        "y": -19
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">A continuación dirígete a <strong>[6,-18]</strong> y habla con <strong>Essel Dawa.</strong> Debes contarle el rumor sobre la compra de la estatua.</p>"
+          },
+          {
+            "alt": "Pantalla de un juego con personajes con aspecto de animales en un entorno de bosque. Hay árboles, piedras y una estructura de madera. En la pantalla aparece un diálogo de un personaje llamado Essel Dawa, con opciones de respuesta en un menú.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/fba952eb-8b8a-4aaf-b8f2-6f8a50fdb5d3/Captura+de+pantalla+2025-09-20+190300.png"
+          }
+        ],
+        "x": 6,
+        "y": -18
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Luego dirígete a <strong>[6,-15]</strong>, entra al <strong>taller de joyeros</strong> y habla con <strong>Shani Shings</strong>. Cuéntale el rumor sobre la compra de una estatua.</p>"
+          },
+          {
+            "alt": "Interior de una tienda de objetos y mientras el personaje llamado Shani Sings explica que vende cosas y hace creaciones únicas, hay una alfombra roja en el suelo, con muebles y objetos decorativos alrededor, y personajes en la escena.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/18bb02bf-1cf6-43ea-8c92-9155840c211a/Captura+de+pantalla+2025-09-20+190326.png"
+          }
+        ],
+        "x": 6,
+        "y": -15
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Ahora vete a <strong>[1,-21]</strong> para hablar con <strong>Alberta Borida</strong>. Cuéntale lo mismo que a los dos primeros xD.</p>"
+          },
+          {
+            "alt": "Pantalla del juego con un personaje y un diálogo sobre Astrub, una ciudad pintoresca en un entorno natural junto a un cuerpo de agua, con opciones de respuesta.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/44ff792e-829e-4626-92ad-10572fd8f5a1/Captura+de+pantalla+2025-09-20+190402.png"
+          }
+        ],
+        "x": 1,
+        "y": -21
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Ahora dirígete a <strong>[3,-21]</strong> y habla con el <strong>Investigador Amakneano</strong>. Explícale el plan de Kerubim.&nbsp;</p>"
+          },
+          {
+            "alt": "Un personaje en un entorno de bosque con árbol y estructura de madera, hablando con un mensaje que dice que busca a un estafador y ofrece explicar el plan de Kerubim Crepin.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b02b84fd-ea5f-49ae-9f96-968c3c07c3f1/Captura+de+pantalla+2025-09-20+190421.png"
+          }
+        ],
+        "x": 3,
+        "y": -21
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">A continuación, dirígete a <strong>[6,-19]</strong> y habla con <strong>Hipo Lítico. </strong>Luego habla con cualquiera de los inversitagores que salen al lado y luego vuelve a hablar con <strong>Hipo Lítico. </strong>Aquí lo capturas (ya que él es el estafador). Debes dirigirte a la <strong>milicia de Astrub [5,-19].</strong></p>"
+          },
+          {
+            "alt": "Pantalla de un juego con un personaje en un entorno de fantasía, solicitando ayuda para encontrar a Flecha-arroca, con un diálogo que pregunta si el jugador puede ayudar.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/4319c829-13e3-4b67-8acc-e1908736c9fe/Captura+de+pantalla+2025-09-20+190448.png"
+          },
+          {
+            "alt": "Personajes en un entorno de fantasía, con árboles, escaleras y objetos de aventura, dialogando en un escenario de videojuego.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/8078bc84-e032-4534-9485-be872eb4b3d2/Captura+de+pantalla+2025-09-20+190455.png"
+          }
+        ],
+        "x": 6,
+        "y": -19
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Habla con el <strong>Jefe Bajofrente</strong> y dile que has atrapado a Hipo Lítico.</p>"
+          },
+          {
+            "alt": "Personajes en un juego de aventuras en una sala decorada con posters y armas en exhibición, hablando con un NPC que ofrece opciones de misión.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/60d75bf8-e04b-4be1-b1c0-79148fe3a337/Captura+de+pantalla+2025-09-20+190513.png"
+          }
+        ]
+      },
+      {
+        "blockType": "step",
+        "body": [
+          {
+            "blockType": "richText",
+            "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Por último, baja las escaleras y habla con él.</p>"
+          },
+          {
+            "alt": "Un personaje en un entorno de juego con paredes de madera y jaula, conversando con un personaje con sombrero y una especie de cartel que dice 'Hipo Lítico'.",
+            "blockType": "image",
+            "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/b5808576-4468-4548-80b7-e3c2a47d8d9d/Captura+de+pantalla+2025-09-20+190523.png"
+          }
+        ]
+      },
+      {
+        "blockType": "richText",
+        "html": "<p class=\"\" style=\"white-space:pre-wrap;\">Aquí termina la misión y el logro. Espero que te haya ayudado. Dale click <a href=\"/metalogro-astrub\"><strong>aquí</strong></a><strong> </strong>para ver las otras misiones y logros de Astrub.</p>"
+      }
+    ],
+    "originalUrl": "https://www.torrentearcano.com/el-cazador-cazado",
+    "questDofusIds": [],
+    "slug": "el-cazador-cazado",
+    "summary": {
+      "needs": {
+        "notes": "Literalmente nada xD."
+      },
+      "prerequisites": "Seis pies bajo tierra.",
+      "rewards": "24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.",
+      "startNpc": "Kerubim Crepin",
+      "startX": 3,
+      "startY": -17
+    },
+    "title": "El cazador cazado"
+  },
+  "oddities": [
+    "Sin misión de DofusDB enlazada"
+  ]
+}

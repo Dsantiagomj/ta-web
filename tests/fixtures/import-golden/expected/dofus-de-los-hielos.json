@@ -1,0 +1,576 @@
+{
+  "banner": {
+    "href": "/checklist-dofus-de-los-hielos",
+    "text": "YA TENEMOS CHECKLIST DOFUS DE LOS HIELOS"
+  },
+  "body": [],
+  "heading": "DOFUS DE LOS HIELOS",
+  "intro": [
+    [
+      {
+        "t": "text",
+        "v": "Para obtener tu Dofus de los Hielos, necesitarás cumplir con las siguientes misiones de estos logros. ¡"
+      },
+      {
+        "b": true,
+        "t": "text",
+        "v": "ATENCIÓN! El orden de los logros no está optimizado. Para eso, sacaré una checklist dentro de unas semanas y una guía en YouTube actualizada."
+      }
+    ]
+  ],
+  "needs": {
+    "groups": [
+      {
+        "name": null,
+        "rows": [
+          {
+            "name": "Son tantos ítems y mazmorras, que es mejor ver logro por logro mi king",
+            "segs": [
+              {
+                "t": "text",
+                "v": "Son tantos ítems y mazmorras, que es mejor ver logro por logro mi king."
+              }
+            ],
+            "text": "Son tantos ítems y mazmorras, que es mejor ver logro por logro mi king."
+          }
+        ]
+      }
+    ],
+    "note": null,
+    "title": "Necesitarás"
+  },
+  "parts": [
+    {
+      "name": "Frío al cubo",
+      "quests": [
+        {
+          "name": "La tierra banquisa",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-tierra-banquisa",
+              "t": "link",
+              "v": "La tierra banquisa."
+            }
+          ],
+          "slug": "la-tierra-banquisa"
+        },
+        {
+          "name": "Una alcaldesa de hielo",
+          "segs": [
+            {
+              "b": true,
+              "href": "/una-alcaldesa-de-hielo",
+              "t": "link",
+              "v": "Una alcaldesa de hielo."
+            }
+          ],
+          "slug": "una-alcaldesa-de-hielo"
+        },
+        {
+          "name": "Full contact",
+          "segs": [
+            {
+              "b": true,
+              "href": "/full-contact",
+              "t": "link",
+              "v": "Full contact."
+            }
+          ],
+          "slug": "full-contact"
+        }
+      ],
+      "slug": "frio-al-cubo",
+      "type": "achievement"
+    },
+    {
+      "name": "Abono de peaje",
+      "quests": [
+        {
+          "name": "Antimonárquico",
+          "segs": [
+            {
+              "b": true,
+              "href": "/antimonarquico",
+              "t": "link",
+              "v": "Antimonárquico."
+            }
+          ],
+          "slug": "antimonarquico"
+        },
+        {
+          "name": "Las joyas de la corona",
+          "segs": [
+            {
+              "b": true,
+              "href": "/las-joyas-de-la-corona",
+              "t": "link",
+              "v": "Las joyas de la corona."
+            }
+          ],
+          "slug": "las-joyas-de-la-corona"
+        },
+        {
+          "name": "Duerme y tendrás un pastel",
+          "segs": [
+            {
+              "b": true,
+              "href": "/duerme-y-tendras-un-pastel",
+              "t": "link",
+              "v": "Duerme y tendrás un pastel."
+            }
+          ],
+          "slug": "duerme-y-tendras-un-pastel"
+        },
+        {
+          "name": "Lavandería automática",
+          "segs": [
+            {
+              "b": true,
+              "href": "/lavanderia-automatica",
+              "t": "link",
+              "v": "Lavandería automática."
+            }
+          ],
+          "slug": "lavanderia-automatica"
+        },
+        {
+          "name": "Hace fresco, pero no importa",
+          "segs": [
+            {
+              "b": true,
+              "href": "/hace-fresco-pero-no-importa",
+              "t": "link",
+              "v": "Hace fresco, pero no importa."
+            }
+          ],
+          "slug": "hace-fresco-pero-no-importa"
+        },
+        {
+          "name": "Canozzirujana",
+          "segs": [
+            {
+              "b": true,
+              "href": "/canozzirujana",
+              "t": "link",
+              "v": "Canozzirujana."
+            }
+          ],
+          "slug": "canozzirujana"
+        },
+        {
+          "name": "Allá en la montaña…",
+          "segs": [
+            {
+              "b": true,
+              "href": "/alla-en-la-montaa",
+              "t": "link",
+              "v": "Allá en la montaña…"
+            }
+          ],
+          "slug": "alla-en-la-montaa"
+        },
+        {
+          "name": "Allá arriba, en el pico helado…",
+          "segs": [
+            {
+              "b": true,
+              "href": "/alla-arriba-en-el-pico-helado",
+              "t": "link",
+              "v": "Allá arriba, en el pico helado…"
+            }
+          ],
+          "slug": "alla-arriba-en-el-pico-helado"
+        }
+      ],
+      "slug": "abono-de-peaje",
+      "type": "achievement"
+    },
+    {
+      "name": "Visita guiada",
+      "quests": [
+        {
+          "name": "Bienvenido a Frigost",
+          "segs": [
+            {
+              "b": true,
+              "href": "/bienvenido-a-frigost",
+              "t": "link",
+              "v": "Bienvenido a Frigost."
+            }
+          ],
+          "slug": "bienvenido-a-frigost"
+        },
+        {
+          "name": "Lo esencial está en el lago helado",
+          "segs": [
+            {
+              "b": true,
+              "href": "/lo-esencial-esta-en-el-lago-helado",
+              "t": "link",
+              "v": "Lo esencial está en el lago helado."
+            }
+          ],
+          "slug": "lo-esencial-esta-en-el-lago-helado"
+        },
+        {
+          "name": "Los supervivientes de Frigost",
+          "segs": [
+            {
+              "b": true,
+              "href": "/los-supervivientes-de-frigost",
+              "t": "link",
+              "v": "Los supervivientes de Frigost."
+            }
+          ],
+          "slug": "los-supervivientes-de-frigost"
+        },
+        {
+          "name": "Frigost, una isla que no es como las demás",
+          "segs": [
+            {
+              "b": true,
+              "href": "/frigost-una-isla-que-no-es-como-las-demas",
+              "t": "link",
+              "v": "Frigost, una isla que no es como las demás."
+            }
+          ],
+          "slug": "frigost-una-isla-que-no-es-como-las-demas"
+        },
+        {
+          "name": "Desarrollo sostenible",
+          "segs": [
+            {
+              "b": true,
+              "href": "/desarrollo-sostenible",
+              "t": "link",
+              "v": "Desarrollo sostenible."
+            }
+          ],
+          "slug": "desarrollo-sostenible"
+        },
+        {
+          "name": "Monstruitos y mazmorras",
+          "segs": [
+            {
+              "b": true,
+              "href": "/monstruitos-y-mazmorras",
+              "t": "link",
+              "v": "Monstruitos y mazmorras."
+            }
+          ],
+          "slug": "monstruitos-y-mazmorras"
+        },
+        {
+          "name": "Hasta el fondo del agujero",
+          "segs": [
+            {
+              "b": true,
+              "href": "/hasta-el-fondo-del-agujero",
+              "t": "link",
+              "v": "Hasta el fondo del agujero."
+            }
+          ],
+          "slug": "hasta-el-fondo-del-agujero"
+        }
+      ],
+      "slug": "visita-guiada",
+      "type": "achievement"
+    },
+    {
+      "name": "La llegada del invierno",
+      "quests": [
+        {
+          "name": "Los supervivientes de El Pueblo Sepultado",
+          "segs": [
+            {
+              "b": true,
+              "href": "/los-supervivientes-de-el-pueblo-sepultado",
+              "t": "link",
+              "v": "Los supervivientes de El Pueblo Sepultado."
+            }
+          ],
+          "slug": "los-supervivientes-de-el-pueblo-sepultado"
+        },
+        {
+          "name": "Los últimos supervivientes",
+          "segs": [
+            {
+              "b": true,
+              "href": "/los-ultimos-supervivientes",
+              "t": "link",
+              "v": "Los últimos supervivientes."
+            }
+          ],
+          "slug": "los-ultimos-supervivientes"
+        },
+        {
+          "name": "La vida de castillo",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-vida-de-castillo",
+              "t": "link",
+              "v": "La vida de castillo."
+            }
+          ],
+          "slug": "la-vida-de-castillo"
+        },
+        {
+          "name": "La máquina de desmontar el tiempo",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-maquina-de-desmontar-el-tiempo",
+              "t": "link",
+              "v": "La máquina de desmontar el tiempo."
+            }
+          ],
+          "slug": "la-maquina-de-desmontar-el-tiempo"
+        },
+        {
+          "name": "Al maestro, cuchillada",
+          "segs": [
+            {
+              "b": true,
+              "href": "/al-maestro-cuchillada",
+              "t": "link",
+              "v": "Al maestro, cuchillada."
+            }
+          ],
+          "slug": "al-maestro-cuchillada"
+        },
+        {
+          "name": "Un conde con mucho cuento",
+          "segs": [
+            {
+              "b": true,
+              "href": "/un-conde-con-mucho-cuento",
+              "t": "link",
+              "v": "Un conde con mucho cuento."
+            }
+          ],
+          "slug": "un-conde-con-mucho-cuento"
+        }
+      ],
+      "slug": "la-llegada-del-invierno",
+      "type": "achievement"
+    },
+    {
+      "name": "Un alma helada",
+      "quests": [
+        {
+          "alternatives": [
+            {
+              "name": "La fatalidad",
+              "slug": "la-fatalidad"
+            },
+            {
+              "name": "El destino",
+              "slug": "el-destino"
+            },
+            {
+              "name": "La rivalidad",
+              "slug": "la-rivalidad"
+            }
+          ],
+          "name": "La fatalidad",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-fatalidad",
+              "t": "link",
+              "v": "La fatalidad"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": " - "
+            },
+            {
+              "b": true,
+              "href": "/el-destino",
+              "t": "link",
+              "v": "El destino"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": " - "
+            },
+            {
+              "b": true,
+              "href": "/la-rivalidad",
+              "t": "link",
+              "v": "La rivalidad."
+            }
+          ],
+          "slug": "la-fatalidad"
+        },
+        {
+          "name": "¡Maldición!",
+          "segs": [
+            {
+              "b": true,
+              "href": "/maldicion",
+              "t": "link",
+              "v": "¡Maldición!"
+            }
+          ],
+          "slug": "maldicion"
+        },
+        {
+          "name": "Misión solución",
+          "segs": [
+            {
+              "b": true,
+              "href": "/mision-solucion",
+              "t": "link",
+              "v": "Misión solución."
+            }
+          ],
+          "slug": "mision-solucion"
+        },
+        {
+          "name": "Frío… caliente… ¡que te quemas!",
+          "segs": [
+            {
+              "b": true,
+              "href": "/frio-caliente-que-te-quemas",
+              "t": "link",
+              "v": "Frío… caliente… ¡que te quemas!"
+            }
+          ],
+          "slug": "frio-caliente-que-te-quemas"
+        },
+        {
+          "name": "Una friolera de revelaciones",
+          "segs": [
+            {
+              "b": true,
+              "href": "/una-friolera-de-revelaciones",
+              "t": "link",
+              "v": "Una friolera de revelaciones."
+            }
+          ],
+          "slug": "una-friolera-de-revelaciones"
+        }
+      ],
+      "slug": "un-alma-helada",
+      "type": "achievement"
+    },
+    {
+      "name": "Recién puesto",
+      "quests": [
+        {
+          "name": "El dofus de los hielos",
+          "segs": [
+            {
+              "b": true,
+              "href": "/el-dofus-de-los-hielos",
+              "t": "link",
+              "v": "El dofus de los hielos."
+            }
+          ],
+          "slug": "el-dofus-de-los-hielos"
+        }
+      ],
+      "slug": "recien-puesto",
+      "type": "achievement"
+    },
+    {
+      "quests": [
+        {
+          "name": "La marcha de la emperatriz",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-marcha-de-la-emperatriz",
+              "t": "link",
+              "v": "La marcha de la emperatriz."
+            }
+          ],
+          "slug": "la-marcha-de-la-emperatriz"
+        },
+        {
+          "name": "El S.L.I.P. está que arde",
+          "segs": [
+            {
+              "b": true,
+              "href": "/el-slip-esta-que-arde",
+              "t": "link",
+              "v": "El S.L.I.P. está que arde."
+            }
+          ],
+          "slug": "el-slip-esta-que-arde"
+        },
+        {
+          "name": "Hotel de hielo",
+          "segs": [
+            {
+              "b": true,
+              "href": "/hotel-de-hielo",
+              "t": "link",
+              "v": "Hotel de hielo."
+            }
+          ],
+          "slug": "hotel-de-hielo"
+        },
+        {
+          "name": "La desglaciación",
+          "segs": [
+            {
+              "b": true,
+              "href": "/la-desglaciacion",
+              "t": "link",
+              "v": "La desglaciación."
+            }
+          ],
+          "slug": "la-desglaciacion"
+        },
+        {
+          "name": "El recadero",
+          "segs": [
+            {
+              "b": true,
+              "href": "/el-recadero",
+              "t": "link",
+              "v": "El recadero."
+            }
+          ],
+          "slug": "el-recadero"
+        },
+        {
+          "name": "Luces y sombra",
+          "note": "(solo empezarla)",
+          "segs": [
+            {
+              "b": true,
+              "href": "/luces-y-sombras",
+              "t": "link",
+              "v": "Luces y sombra"
+            },
+            {
+              "b": true,
+              "t": "text",
+              "v": " (solo empezarla)."
+            }
+          ],
+          "slug": "luces-y-sombras"
+        }
+      ],
+      "title": "También algunas misiones random",
+      "type": "quests"
+    }
+  ],
+  "prerequisites": [
+    [
+      {
+        "t": "text",
+        "v": "Nivel mínimo 80."
+      }
+    ]
+  ],
+  "rewards": null,
+  "video": null
+}
