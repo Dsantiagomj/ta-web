@@ -27,5 +27,8 @@ export function lhciEnv(env: Env, siteUrl = 'http://localhost:3000'): Record<str
     MEDIA_BASE_URL: '',
     // Sin el worker de Twitch: la portada medida no sale a la red ni cambia si Torre emite.
     TWITCH_LIVE_URL: 'off',
+    // Sin analítica: Lighthouse no cuenta como visita aunque el shell tenga las UMAMI_*.
+    UMAMI_HOST: '',
+    UMAMI_WEBSITE_ID: '',
   }
 }

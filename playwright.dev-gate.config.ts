@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-import { appWebServers, loadE2eEnvFromFile } from './tests/e2e/app-server'
+import { ANALYTICS_E2E, appWebServers, loadE2eEnvFromFile } from './tests/e2e/app-server'
 
 // La app tal como corre en el entorno dev (pnpm test:e2e:dev-gate): APP_ENV=dev, pública
 // pero sin indexar. Aparte de la suite principal para que esa siga siendo rápida. Con
@@ -23,5 +23,14 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], baseURL: `http://localhost:${port}` },
     },
   ],
-  webServer: appWebServers({ port, env: { APP_ENV: 'dev' } }),
+  // Con las UMAMI_* puestas: en dev la analítica sigue apagada
+  // (tests/e2e-dev-gate/analitica.spec.ts).
+  webServer: appWebServers({
+    port,
+    env: {
+      APP_ENV: 'dev',
+      UMAMI_HOST: ANALYTICS_E2E.host,
+      UMAMI_WEBSITE_ID: ANALYTICS_E2E.websiteId,
+    },
+  }),
 })

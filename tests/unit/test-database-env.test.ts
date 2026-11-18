@@ -1,7 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { E2E_DATABASE_URL } from '../../src/lib/db/dev-database'
-import { appWebServers } from '../e2e/app-server'
+import config from '../../playwright.config'
+import { analyticsWebServer, ANALYTICS_E2E, appWebServers } from '../e2e/app-server'
 import { faultInjectionRefusal, integrationEnv } from '../integration/env'
 
 // `pnpm migrate` prefiere DATABASE_URL_DIRECT: si las pruebas no la fijan, una URL
@@ -112,5 +113,51 @@ describe('appWebServers', () => {
     const env = appWebServers({ port: 3147 }).at(-1)?.env ?? {}
 
     expect(env.NEXT_PUBLIC_SITE_URL).toBe('http://localhost:3147')
+  })
+
+  it('sin Umami aunque el shell tenga sus variables: las pruebas nunca cuentan visitas', () => {
+    vi.stubEnv('UMAMI_HOST', 'https://umami.ejemplo.com')
+    vi.stubEnv('UMAMI_WEBSITE_ID', '5f0e2a3b-1c4d-4e8f-9a0b-1c2d3e4f5a6b')
+
+    const env = appWebServers({ port: 3100 }).at(-1)?.env ?? {}
+
+    expect(env.UMAMI_HOST).toBe('')
+    expect(env.UMAMI_WEBSITE_ID).toBe('')
+  })
+
+  it('las variables propias de una suite (env) ganan a las de la base', () => {
+    const env = appWebServers({ port: 3100, env: { UMAMI_HOST: 'https://umami.invalid' } }).at(
+      -1,
+    )?.env
+
+    expect(env?.UMAMI_HOST).toBe('https://umami.invalid')
+  })
+})
+
+describe('analyticsWebServer', () => {
+  afterEach(() => vi.unstubAllEnvs())
+
+  it('arranca el mismo build en otro puerto, sobre la misma base, con Umami encendido', () => {
+    vi.stubEnv('DATABASE_URL', 'postgres://ci@localhost/pruebas')
+
+    const server = analyticsWebServer({ port: 3102 })
+
+    expect(server.command).toBe('pnpm start --port 3102')
+    expect(server.url).toBe('http://localhost:3102')
+    expect(server.env).toMatchObject({
+      DATABASE_URL: 'postgres://ci@localhost/pruebas',
+      DATABASE_URL_DIRECT: 'postgres://ci@localhost/pruebas',
+      NEXT_PUBLIC_SITE_URL: 'http://localhost:3102',
+      UMAMI_HOST: ANALYTICS_E2E.host,
+      UMAMI_WEBSITE_ID: ANALYTICS_E2E.websiteId,
+    })
+  })
+
+  it('va después de la app principal en la configuración, que compila, migra y siembra', () => {
+    const servers = [config.webServer].flat()
+    const commands = servers.map((server) => server?.command ?? '')
+
+    expect(commands.at(-1)).toMatch(/^pnpm start --port \d+$/)
+    expect(commands.at(-2)).toMatch(/pnpm seed:e2e/)
   })
 })
