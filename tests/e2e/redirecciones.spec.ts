@@ -26,6 +26,13 @@ test('un hub viejo da un 301 directo a la portada', async ({ request }) => {
   expect(location(response.headers())).toBe('/')
 })
 
+test('la página -datos de una checklist da un 301 a su checklist', async ({ request }) => {
+  const response = await request.get('/checklist-nebuloso-datos', { maxRedirects: 0 })
+
+  expect(response.status()).toBe(301)
+  expect(location(response.headers())).toBe('/checklist-nebuloso')
+})
+
 test('un metalogro viejo lleva a su panel de /metalogros', async ({ page, request }) => {
   const response = await request.get(`/${seedAchievement.group.slug}`, { maxRedirects: 0 })
   expect(response.status()).toBe(301)
@@ -59,7 +66,9 @@ test('una dirección que Torre cambió da un 308 a la nueva, que abre su página
   await expect(page.getByRole('heading', { level: 1, name: seedGuide.title })).toBeVisible()
 })
 
-test('una URL retirada da 410 con una página corta en español', async ({ page }) => {
+test('una URL retirada da 410 con una página corta en español', async ({ page, request }) => {
+  // /subscribe también, hasta que existan las cuentas de miembro (D-01): decisión del 2026-11-18.
+  expect((await request.get('/subscribe', { maxRedirects: 0 })).status()).toBe(410)
   const response = await page.goto('/cart')
 
   expect(response?.status()).toBe(410)

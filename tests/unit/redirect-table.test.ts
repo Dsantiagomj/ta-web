@@ -168,23 +168,32 @@ describe('la tabla de legacy-urls.json', () => {
     expect(lookupLegacyUrl('/logros')).toEqual({ status: 301, to: '/metalogros' })
   })
 
-  it('B-06: las páginas de prueba, las de datos de los embeds y /cart dan 410', () => {
-    for (const from of [
-      '/wip',
-      '/hielos-test',
-      '/pruebas',
-      '/checklist-silvestre-datos',
-      '/checklist-hielos-datos',
-      '/checklist-nebuloso-datos',
-      '/cart',
-    ]) {
+  it('B-06: las páginas de prueba, /cart y /subscribe dan 410', () => {
+    // /subscribe da 410 hasta que existan las cuentas de miembro (D-01); decisión del 2026-11-18.
+    for (const from of ['/wip', '/hielos-test', '/pruebas', '/cart', '/subscribe']) {
       expect(lookupLegacyUrl(from), from).toEqual({ status: 410 })
     }
   })
 
+  it('B-06: las páginas -datos eran la checklist entera del embed: van a su checklist', () => {
+    expect(lookupLegacyUrl('/checklist-silvestre-datos')).toEqual({
+      status: 301,
+      to: '/checklist-silvestre',
+    })
+    expect(lookupLegacyUrl('/checklist-hielos-datos')).toEqual({
+      status: 301,
+      to: '/checklist-dofus-de-los-hielos',
+    })
+    expect(lookupLegacyUrl('/checklist-nebuloso-datos')).toEqual({
+      status: 301,
+      to: '/checklist-nebuloso',
+    })
+  })
+
   it('B-05: los 33 metalogros van a su ancla de /metalogros, la del slug sin «metalogro-»', () => {
     const moved = Object.entries(sections.metalogros.moved ?? {})
-    const pages = moved.filter(([from]) => from !== '/metalogro-alineamiento-misiones')
+    const renamed = ['/metalogro-alineamiento-misiones', '/metalogro-misiones-principales']
+    const pages = moved.filter(([from]) => !renamed.includes(from))
     expect(pages).toHaveLength(33)
     for (const [from, to] of pages) {
       expect(to).toBe(`/metalogros#${from.replace(/^\/metalogro-/, '')}`)
@@ -192,6 +201,14 @@ describe('la tabla de legacy-urls.json', () => {
     expect(lookupLegacyUrl('/metalogro-alineamiento-misiones')).toEqual({
       status: 301,
       to: '/metalogros#alineamiento',
+    })
+  })
+
+  it('B-05: /metalogro-misiones-principales va a las misiones de mundo', () => {
+    // Nueve guías de Torre lo enlazan; en Squarespace ya daba 404.
+    expect(lookupLegacyUrl('/metalogro-misiones-principales')).toEqual({
+      status: 301,
+      to: '/metalogros#misiones-de-mundo',
     })
   })
 
@@ -224,7 +241,11 @@ describe('la tabla de legacy-urls.json', () => {
       '/mazmorra-crunchidor',
       '/aviso-legal',
       '/mascotas',
-      '/subscribe',
+      '/team-builder',
+      '/sets-y-clases',
+      '/minotobola-de-nawidad',
+      '/pagina-nueva',
+      '/en-guardia',
       '/metalogro-krosmoz',
       '/checklist-silvestre',
     ]) {

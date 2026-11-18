@@ -1,24 +1,19 @@
 {
   "hubs": {
-    "description": "B-06. Los hubs viejos de Squarespace, las copias de prueba, las páginas de datos de los embeds y la tienda. Se mantiene a mano.",
+    "description": "B-06. Los hubs viejos de Squarespace, las copias de prueba, las páginas -datos (la checklist entera del embed, que ahora es su checklist), la tienda y /subscribe (410 hasta que existan las cuentas de miembro, D-01). Se mantiene a mano.",
     "moved": {
       "/home": "/",
       "/index": "/",
       "/inicio-20": "/",
-      "/logros": "/metalogros"
+      "/logros": "/metalogros",
+      "/checklist-silvestre-datos": "/checklist-silvestre",
+      "/checklist-hielos-datos": "/checklist-dofus-de-los-hielos",
+      "/checklist-nebuloso-datos": "/checklist-nebuloso"
     },
-    "gone": [
-      "/wip",
-      "/hielos-test",
-      "/pruebas",
-      "/checklist-silvestre-datos",
-      "/checklist-hielos-datos",
-      "/checklist-nebuloso-datos",
-      "/cart"
-    ]
+    "gone": ["/wip", "/hielos-test", "/pruebas", "/cart", "/subscribe"]
   },
   "metalogros": {
-    "description": "B-05. Un metalogro es un panel de /metalogros: cada /metalogro-<x> va al ancla que pinta el índice, el slug del metalogro sin «metalogro-». Se mantiene a mano; /metalogro-krosmoz entra cuando exista ese metalogro.",
+    "description": "B-05. Un metalogro es un panel de /metalogros: cada /metalogro-<x> va al ancla que pinta el índice, el slug del metalogro sin «metalogro-». /metalogro-misiones-principales, que Torre enlaza en sus guías, va a las misiones de mundo. Se mantiene a mano; /metalogro-krosmoz entra cuando exista ese metalogro (S-08).",
     "moved": {
       "/metalogro-alineamiento": "/metalogros#alineamiento",
       "/metalogro-almanax": "/metalogros#almanax",
@@ -53,7 +48,8 @@
       "/metalogro-sidimote": "/metalogros#sidimote",
       "/metalogro-sufokia": "/metalogros#sufokia",
       "/metalogro-torres-de-la-hermandad": "/metalogros#torres-de-la-hermandad",
-      "/metalogro-alineamiento-misiones": "/metalogros#alineamiento"
+      "/metalogro-alineamiento-misiones": "/metalogros#alineamiento",
+      "/metalogro-misiones-principales": "/metalogros#misiones-de-mundo"
     }
   },
   "stubs": {
