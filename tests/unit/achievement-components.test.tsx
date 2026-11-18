@@ -5,6 +5,7 @@ import {
   AchievementCountsFor,
   AchievementHeader,
   AchievementNav,
+  AchievementObjectives,
   AchievementQuests,
   AchievementSheet,
   hasSheet,
@@ -289,6 +290,36 @@ describe('AchievementQuests', () => {
   })
 })
 
+describe('AchievementObjectives', () => {
+  it('en lugar de las misiones: la descripción del juego y los objetivos, en una lista', () => {
+    const markup = html(
+      <AchievementObjectives
+        objectives={{
+          description: 'Alcanzar el tercer rango de una orden.',
+          items: ['Rango 3', 'Nivel 130', 'Hablar con el jefe de la ciudad'],
+        }}
+      />,
+    )
+    expect(markup).toMatch(/^<section class="lq lobj" aria-labelledby="[^"]+">/)
+    expect(markup).toMatch(/<h2 class="lq__h" id="[^"]+">Lo que pide el logro<\/h2>/)
+    expect(markup).toContain('<p class="lobj__d">Alcanzar el tercer rango de una orden.</p>')
+    expect(markup).toContain(
+      '<ul class="lobj__list" role="list"><li class="lobj__item">Rango 3</li>' +
+        '<li class="lobj__item">Nivel 130</li>' +
+        '<li class="lobj__item">Hablar con el jefe de la ciudad</li></ul>',
+    )
+    // Ni números ni enlaces: los objetivos se cumplen a la vez, no son pasos.
+    expect(markup).not.toContain('<ol')
+    expect(markup).not.toContain('<a ')
+  })
+
+  it('sin descripción, solo la lista', () => {
+    const markup = html(<AchievementObjectives objectives={{ items: ['Alineamiento 10'] }} />)
+    expect(markup).not.toContain('lobj__d')
+    expect(markup).toContain('Alineamiento 10')
+  })
+})
+
 const items: NonNullable<AchievementPageView['group']>['items'] = [
   {
     name: 'Un ciudadano modelo',
@@ -334,5 +365,19 @@ describe('AchievementNav', () => {
 
   it('sin anterior ni siguiente, nada', () => {
     expect(html(<AchievementNav group="Astrub" previous={null} next={null} />)).toBe('')
+  })
+
+  it('un logro sin misiones cuenta sus objetivos; sin ninguno, ni cifra ni «0 misiones»', () => {
+    const order = { name: 'Mantener en orden', href: '/mantener-en-orden', current: false }
+    const markup = html(
+      <AchievementNav
+        group="Alineamiento"
+        previous={{ ...order, disabled: false, quests: 0, objectives: 2 }}
+        next={{ ...order, name: 'Todo está en orden', disabled: false, quests: 0 }}
+      />,
+    )
+    expect(markup).toContain('<b>2</b> objetivos.')
+    expect(markup).not.toContain('misiones')
+    expect(markup).not.toMatch(/<b>0<\/b>/)
   })
 })

@@ -62,6 +62,10 @@ export const achievementPageStrings = {
   questsWord: (count: number) => (count === 1 ? 'misión' : 'misiones'),
   levels: (min: number, max: number) => (min === max ? `Nivel ${min}` : `Niveles ${min} a ${max}`),
   points: (count: number) => (count === 1 ? '1 punto' : `${count} puntos`),
+  /** Un logro sin misiones (Alineamiento): lo que pide el juego. */
+  objectives: (count: number) => (count === 1 ? '1 objetivo' : `${count} objetivos`),
+  objectivesWord: (count: number) => (count === 1 ? 'objetivo' : 'objetivos'),
+  objectivesHeading: 'Lo que pide el logro',
   pointsWord: (count: number) => (count === 1 ? 'punto' : 'puntos'),
   metaSeparator: ' - ',
   index: 'Metalogros',
@@ -87,8 +91,11 @@ export const achievementPageStrings = {
   seo: {
     title: (name: string) => `${name}: logro de Dofus`,
     description: (name: string, quests: number) =>
-      `Las ${quests} misiones del logro ${name} de Dofus, en orden, con la guía de cada una, ` +
-      'lo que necesitas y las recompensas.',
+      quests > 0
+        ? `Las ${quests} misiones del logro ${name} de Dofus, en orden, con la guía de cada ` +
+          'una, lo que necesitas y las recompensas.'
+        : // Un logro sin misiones (Alineamiento): lo que pide el juego.
+          `Lo que pide el logro ${name} de Dofus y sus recompensas.`,
   },
 } as const
 

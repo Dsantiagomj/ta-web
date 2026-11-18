@@ -70,7 +70,8 @@ export async function readAchievementPage(
           // Sin select: con él, Payload no trae las relaciones de dentro del array. populate
           // limita lo que trae de cada logro y cada misión.
           populate: {
-            achievements: { icon: true, correction: true },
+            // Los objetivos: el anterior y el siguiente sin misiones dicen cuántos tienen.
+            achievements: { icon: true, correction: true, objectives: true },
             quests: { levelMin: true, correction: true },
           },
           depth: 2,
