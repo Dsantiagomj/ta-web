@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react'
 
 import { uiStrings } from './strings'
-import './ui.css'
 
 /**
  * Barra de progreso fija (la pinta el servidor). Pasa la proporción en --ratio y el CSS

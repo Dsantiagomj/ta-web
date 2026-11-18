@@ -4,12 +4,12 @@ import lighthouserc from '../../lighthouserc.cjs'
 
 // Las hojas de estilo bloquean el primer pintado y, en las páginas cuyo LCP es texto (guía,
 // logro, guía de Dofus), deciden el LCP. Por HTTP/1.1 Chrome abre 6 conexiones por
-// origen; la fuente precargada (cabecera Link) y la primera imagen del contenido ocupan
-// dos. Con una quinta hoja, esa espera a que se libere una conexión, unos 450 ms con el 4G
-// lento de pnpm test:lhci, y el LCP pasaba de los 2,5 s del presupuesto (DESIGN.md,
-// Performance budgets). Se comprueban las páginas de lighthouserc.cjs: la que se añada
-// allí entra sola.
-const MAX_STYLESHEETS = 4
+// origen; las dos fuentes precargadas (Montserrat y Rowdies) y la imagen LCP ocupan tres.
+// Con una cuarta hoja, la imagen LCP de la portada esperaba a que se liberara una conexión,
+// unos 450 ms con el 4G lento de pnpm test:lhci, y el LCP quedaba en el límite de los 2,5 s
+// del presupuesto (DESIGN.md, Performance budgets). Se comprueban las páginas de
+// lighthouserc.cjs: la que se añada allí entra sola.
+const MAX_STYLESHEETS = 3
 
 const pages: string[] = lighthouserc.ci.collect.url.map((url: string) => new URL(url).pathname)
 

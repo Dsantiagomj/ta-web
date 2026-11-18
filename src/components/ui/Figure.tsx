@@ -3,8 +3,6 @@ import { Picture } from './Picture'
 import { uiStrings } from './strings'
 import type { ImageAsset } from './types'
 
-import './ui.css'
-
 const s = uiStrings.figure
 
 /**

@@ -3,6 +3,11 @@
 @import './ambience.css';
 /* El selector de tema, que también sale en todas las cabeceras. */
 @import '../theme-picker/theme-picker.css';
+/* Los componentes genéricos (aviso, botón, casilla, barra de progreso, captura y visor): salen
+   en todas las páginas, y como hoja propia eran la cuarta. Con las dos fuentes precargadas,
+   cuatro hojas ocupaban las 6 conexiones HTTP/1.1 y la imagen LCP de la portada esperaba a
+   que se liberara una (tests/e2e/hojas-de-estilo.spec.ts). */
+@import '../ui/ui.css';
 
 /*
  * La cabecera y el pie de todo el sitio (DESIGN.md, Layout: Header y Footer), según el

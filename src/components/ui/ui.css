@@ -2,6 +2,9 @@
  * Lo que las utilidades no expresan bien: el fondo mezclado del aviso, la casilla y la
  * barra de progreso (DESIGN.md, Components). Solo tokens; el movimiento solo transform,
  * opacity y colores, y la regla global de reduced motion lo apaga.
+ *
+ * La importa site.css, no cada componente: así viaja en la hoja de la cabecera, que sale en
+ * todas las páginas, y no es una hoja más que bloquee el primer pintado.
  */
 
 /* Aviso: borde de 2px en su color y su color sobre un suelo neutro del modo (12 % sobre casi

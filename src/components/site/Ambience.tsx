@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import { AMBIENCE_PARTICLES, type ChecklistAmbience } from './ambience-data'
 
 // Los estilos van en ambience.css, que site.css importa: la cabecera los trae a cada página,
-// sin una hoja más (AGENTS.md, Four stylesheets per page at most).
+// sin una hoja más (AGENTS.md, Three stylesheets per page at most).
 
 /**
  * El ambiente (DESIGN.md, Ambience): partículas que suben hacia la cabecera, detrás del
