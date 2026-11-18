@@ -88,8 +88,9 @@ test.describe('portada', () => {
     await expect(shown(page)).toHaveText('Escribe una letra más para buscar.')
     await expect(list(page)).toBeHidden()
     await field(page).fill('es')
-    // También las checklists y las páginas que lo llevan dentro; las misiones van primero.
-    await expect(shown(page)).toHaveText('2 misiones · 1 checklist · 2 páginas')
+    // También las checklists y las páginas que lo llevan dentro (Emotes, la política de cookies y
+    // «Familiares para empezar», el tutorial de la tabla); las misiones van primero.
+    await expect(shown(page)).toHaveText('2 misiones · 1 checklist · 3 páginas')
     const options = list(page).getByRole('group', { name: 'Misiones' }).getByRole('option')
     await expect(options).toHaveCount(2)
     await expect(options.nth(0)).toContainText('Esto hace aguas')
@@ -97,7 +98,7 @@ test.describe('portada', () => {
     await expect(field(page)).toHaveAttribute('aria-expanded', 'true')
     // El lector de pantalla lo oye en la región de estado, cuando se deja de escribir.
     await expect(page.locator('.ask [role="status"]')).toHaveText(
-      '2 misiones · 1 checklist · 2 páginas',
+      '2 misiones · 1 checklist · 3 páginas',
     )
     await field(page).fill('zzzz')
     await expect(shown(page)).toHaveText('Ninguna misión se llama «zzzz». Prueba con otra palabra.')
