@@ -1,6 +1,6 @@
 # ta-web backlog
 
-Date: 2026-11-16. First written on 2026-11-13 as one prioritized list built from three research reports written that day:
+Date: 2026-11-18. First written on 2026-11-13 as one prioritized list built from three research reports written that day:
 
 - **squarespace**: what Torre's Squarespace site has that ta-web does not, cited by report section (§).
 - **duffus**: gaps against duffus.fr, which now has a full Spanish version at `/es` and competes for the same audience, cited by gap number (#) and a sample URL.
@@ -8,7 +8,7 @@ Date: 2026-11-16. First written on 2026-11-13 as one prioritized list built from
 
 The raw reports stay in the git-ignored `tmp/work/` of the main checkout. Decisions already taken come from `docs/legacy/plan.md` (cited as plan §).
 
-On 2026-11-15 every row was checked against `main`, the merged PRs and the dev site (https://ta-web-dev.up.railway.app). Rows that are fully done moved to section 7 with their IDs; the others carry a status. On 2026-11-16 the rows were checked again after #151 to #180.
+On 2026-11-15 every row was checked against `main`, the merged PRs and the dev site (https://ta-web-dev.up.railway.app). Rows that are fully done moved to section 7 with their IDs; the others carry a status. On 2026-11-16 the rows were checked again after #151 to #180. On 2026-11-18 they were checked again after #181 to #208.
 
 ## How to read it
 
@@ -40,11 +40,7 @@ What must exist before the domain moves. The open P0 rows of section 3 (achievem
 
 ## 2. Payload panel for Torre
 
-All 23 rows (A-01 to A-23) are done; they are in section 7. Panel work since then comes from Torre's use of it, not from the audit. Merged since: block previews in the block picker (#151), DofusDB autofill only on create or on request (#165), «Corrección de Torre» on DofusDB data (#167), the missing fields so Torre can write everything (#168), reward fields that are his (#169, #175 to #180), redirects when a slug changes (#170), the weekly data refresh with its «Traer ahora» button (#172), and the «Ajustes del sitio» and «Portada e índices» globals (#173, #174).
-
-| ID | Item | What and why | Owner | Size | Pri | Source | Status |
-|---|---|---|---|---|---|---|---|
-| P-01 | Navigation menu in the panel | The menu sections (name, description, order, hidden, «Próximamente») and the three featured Dofus are hard-coded in `src/components/site/nav.ts`. A «Navegación» global under «Ajustes» moves them to the panel. Keys, links, icons and colors stay in code | code | M | P1 | Owner request, 2026-11-16 | In progress on a branch |
+All 23 audit rows (A-01 to A-23) and P-01 are done; they are in section 7. Panel work since then comes from Torre's use of it, not from the audit. Merged since: block previews in the block picker (#151), DofusDB autofill only on create or on request (#165), «Corrección de Torre» on DofusDB data (#167), the missing fields so Torre can write everything (#168), reward fields that are his (#169, #175 to #180), redirects when a slug changes (#170), the weekly data refresh with its «Traer ahora» button (#172), and the «Ajustes del sitio» and «Portada e índices» globals (#173, #174).
 
 ## 3. Content still to port from Squarespace
 
@@ -74,8 +70,8 @@ Quest guides are ported: 1,271 of 1,272, and the last one is now a Dofus guide. 
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
-| S-10 | Classes | A collection (or B-09), the route and the `/clases-1` hub for 19 pages. 17 are build screenshots under PVM and PVP; `/yopuka-1` and `/selotrop` have long text. About 150 images. Decide whether the `-1` slugs stay or get a 301. Spell data comes later (D-07) | code + Torre (panel) | M | P0 | squarespace §5; duffus #10 | In progress on a branch: the panel collection, an importer that brings each page as «En preparación», and menu links from the collection. The public page and the hub wait on a prototype. `/clases-1` and `/yopuka-1` answer 404 on dev, and the menu links Squarespace |
-| S-11 | Dungeons and bosses | A collection (or B-09), route and index. Six pages have content (`/mazmorra-templo-del-dios-kao`, `/mazmorra-crunchidor`, `/pikabeto`, `/mazmorras-de-nawidad`, `/gruente`, `/minotobola-de-nawidad`), five are 36-word placeholders. Monsters reuse the fight block; DofusDB stats come later (D-06) | code + Torre (panel) | M | P0 | squarespace §6; duffus #9 | In progress on a branch: a page collection beside the DofusDB `dungeons` data (`src/collections/Dungeons.ts`, #98), an importer that brings each page as «En preparación», and menu links from the collection. The public page and the index wait on a prototype |
+| S-10 | Classes | A collection (or B-09), the route and the `/clases-1` hub for 19 pages. 17 are build screenshots under PVM and PVP; `/yopuka-1` and `/selotrop` have long text. About 150 images. Decide whether the `-1` slugs stay or get a 301. Spell data comes later (D-07) | code + Torre (panel) | M | P0 | squarespace §5; duffus #10 | In progress. Merged: the panel collection «Clases» (#184), an importer that brings each page as «En preparación» (#185) and the menu links from the collection (#186). The public page and the `/clases-1` hub wait on a prototype; until then `/clases-1` and `/yopuka-1` answer 404 on dev and the menu links Squarespace |
+| S-11 | Dungeons and bosses | A collection (or B-09), route and index. Six pages have content (`/mazmorra-templo-del-dios-kao`, `/mazmorra-crunchidor`, `/pikabeto`, `/mazmorras-de-nawidad`, `/gruente`, `/minotobola-de-nawidad`), five are 36-word placeholders. Monsters reuse the fight block; DofusDB stats come later (D-06) | code + Torre (panel) | M | P0 | squarespace §6; duffus #9 | In progress. Merged: the panel collection «Mazmorras» beside the DofusDB `dungeons` data (#184), the importer (#185) and the menu links from the collection (#186). The public page and the index wait on a prototype |
 
 ### Other pages
 
@@ -89,11 +85,10 @@ Quest guides are ported: 1,271 of 1,272, and the last one is now a Dofus guide. 
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
-| S-17 | Twitch live card | `src/lib/site/live.ts` is a stub that is never live. Call the existing Cloudflare Worker | code | S | P1 | squarespace §10 | Not started. `src/lib/site/live.ts` is still the stub |
-| S-18 | Analytics | Plausible or Umami, cookieless. Before cutover, so traffic can be compared with Squarespace | code | S | P1 | squarespace §10; plan §4 | Site side done: self-hosted Umami, our own inline tracker, off until `UMAMI_HOST` and `UMAMI_WEBSITE_ID` are set in production (`AGENTS.md`, Analytics). Pending: the Umami service on Railway and the owner's one-time setup |
 | S-19 | `og:image` and richer JSON-LD | Shared links show no image, and only breadcrumbs have JSON-LD. Add `og:image` and Article or HowTo data | code + Torre (panel) | S | P1 | squarespace §12 | Partly done. «Ajustes del sitio» has a share image field (#173), but dev has none uploaded, so pages still have no `og:image`. The only JSON-LD is the breadcrumb (`src/components/site/Breadcrumb.tsx`); Article or HowTo data is not started |
 | S-20 | Newsletter | The plan names a newsletter but no provider. Pick one, then a form for `/subscribe`. There is no subscriber list to bring over | code + Torre | M | P2 | squarespace §10 | Not started |
-| S-23 | Weekly game data refresh in production | `pnpm data:refresh` runs every Wednesday at 06:00 UTC on dev through the `game-data` cron service (#172; `railway config apply` on 2026-11-16). Production has no GitHub source, so its service has to come from the release workflow | code | S | P1 | #172 | In review. `.railway/railway.ts` declares `game-data` in production too and `release.yml` deploys it with `railway up` after the web, on the same tag. Waits for the owner's one-time `railway config apply --environment production` (`AGENTS.md`, Deploys) and the next release |
+| S-24 | Fonts served from the repo | `next/font/google` downloads the fonts at build time, and three builds failed on 2026-11-18 when that download failed (Railway dev, CI on #201 and #208). Serve the same four fonts with `next/font/local` | code | S | P1 | CI, 2026-11-18 | In progress on a branch (`fix/fuentes-locales`) |
+| S-25 | Home LCP at its limit and E2E load flakes | The home page's best LCP in CI sits at 2,496 to 2,518 ms against the 2,500 ms budget, so any PR can fail on it. Under load, a few E2E tests fail again and again (the checklist search, a guide measure of 1051 against 0.5, the checklist row `target-size` in axe). Find the causes instead of rerunning | code | M | P1 | CI, 2026-11-18 | Not started |
 
 ## 4. New features inspired by duffus.fr
 
@@ -189,3 +184,7 @@ Rows finished since 2026-11-13, with the PR that closed each one. Stacked PRs cl
 | B-09 | Generic pages collection | code | #152 (collection and public page), #155 (`pnpm import:pages`) |
 | S-12 | Emotes and how-tos | Torre (panel) | #155. The five pages and `/weyes-magos` are published on dev and answer 200; whether `/weyes-magos` duplicates `/ayudar-a-los-weyes-magos` is still unchecked |
 | S-16 | Site settings global | code + Torre (panel) | #173, #174: share image, footer, socials and the Ko-fi link in «Ajustes del sitio», home and index texts in «Portada e índices». The menu moved to P-01, the Twitch card is S-17, and the announcement bar was dropped (section 6) |
+| P-01 | Navigation menu in the panel | code | #183. The «Navegación» global under «Ajustes» holds the sections' names, order, visibility and «Próximamente», and the three featured Dofus |
+| S-17 | Twitch live card | code | #203: the home page reads Torre's Cloudflare Worker, cached 60 seconds, never breaking the page; #205 opens it in a new tab. The footer card still says where he streams, not whether he is live: a live footer needs a design first |
+| S-18 | Analytics | code | #208: our own inline tracker (about 550 bytes, no cookies) posts page views to self-hosted Umami. Umami runs in its own Railway project, `umami`, since 2026-11-18, with the «Torrente Arcano» website and `UMAMI_HOST` and `UMAMI_WEBSITE_ID` set on production. Views start counting with the next release |
+| S-23 | Weekly game data refresh in production | code | #201: every release deploys the same tag to `web` and then to the `game-data` cron service. The service was created in production on 2026-11-18 (`railway config apply`); its first deploy and Wednesday run come with the next release |
