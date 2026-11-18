@@ -341,26 +341,30 @@ test.describe('catálogo /sistema', () => {
     ).toEqual([])
   })
 
-  test('pasa axe (WCAG 2.2 AA) en todos los temas y modos', async ({ page }) => {
-    await page.goto('/sistema')
-    // El contraste se mide en reposo: durante la entrada escalonada de la cabecera
-    // (opacity de 0 a 1, DESIGN.md, Motion) el texto aún no tiene su color final.
-    await page.waitForFunction(() =>
-      document
-        .getAnimations()
-        // Sin los bucles infinitos del ambiente (DESIGN.md, Ambience), que nunca acaban.
-        .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
-        .every((animation) => animation.playState === 'finished'),
-    )
+  // Una prueba por tema y modo (?tema= y ?modo= dejan una sola sección): el catálogo entero
+  // en una sola pasada de axe rozaba el tiempo de una prueba con la máquina cargada.
+  for (const { theme, mode } of sections) {
+    test(`pasa axe (WCAG 2.2 AA) en ${theme} ${mode}`, async ({ page }) => {
+      await page.goto(`/sistema?tema=${theme}&modo=${mode}`)
+      // El contraste se mide en reposo: durante la entrada escalonada de la cabecera
+      // (opacity de 0 a 1, DESIGN.md, Motion) el texto aún no tiene su color final.
+      await page.waitForFunction(() =>
+        document
+          .getAnimations()
+          // Sin los bucles infinitos del ambiente (DESIGN.md, Ambience), que nunca acaban.
+          .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+          .every((animation) => animation.playState === 'finished'),
+      )
 
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-      .analyze()
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+        .analyze()
 
-    expect(
-      results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
-    ).toEqual([])
-  })
+      expect(
+        results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
+      ).toEqual([])
+    })
+  }
 })
 
 test.describe('catálogo /sistema con el aspecto de la opción D', () => {
