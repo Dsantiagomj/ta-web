@@ -14,7 +14,11 @@ describe('readAchievementPages', () => {
   it('lee cada página, se salta las que no están y suelta el DOM después de cada una', async () => {
     const events: string[] = []
     const pages = await readAchievementPages(
-      ['verde-esmeralda', 'no-existe', 'el-cazador-que-lo-cace'],
+      [
+        { slug: 'verde-esmeralda', dofusDb: true },
+        { slug: 'no-existe', dofusDb: true },
+        { slug: 'el-cazador-que-lo-cace', dofusDb: true },
+      ],
       async (slug) => {
         events.push(`lee ${slug}`)
         return slug === 'no-existe' ? null : fixture(slug)
@@ -32,5 +36,14 @@ describe('readAchievementPages', () => {
       'lee el-cazador-que-lo-cace',
       'suelta',
     ])
+  })
+
+  it('a una página sin logro de DofusDB le deja sus listas del resumen en la entrada', async () => {
+    const read = (dofusDb: boolean) =>
+      readAchievementPages([{ slug: 'ocre-de-ambar', dofusDb }], async () =>
+        fixture('ocre-de-ambar'),
+      )
+    expect((await read(true)).get('ocre-de-ambar')?.intro).toEqual([])
+    expect((await read(false)).get('ocre-de-ambar')?.intro).toHaveLength(8)
   })
 })

@@ -65,14 +65,15 @@ try {
   const log = (message: string) => console.log(message)
   const { docs } = await payload.find({
     collection: 'achievement-pages',
-    select: { slug: true },
+    // El logro de DofusDB: sin él, las listas del resumen de su página son de Torre.
+    select: { slug: true, achievement: true },
     depth: 0,
     draft: true,
     pagination: false,
     overrideAccess: true,
   })
   const pages = await readAchievementPages(
-    docs.map((doc) => doc.slug),
+    docs.map((doc) => ({ slug: doc.slug, dofusDb: doc.achievement != null })),
     pageHtml,
   )
 

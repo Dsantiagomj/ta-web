@@ -42,7 +42,7 @@ The picks come from running the converters over the 1 272 cached quest guides of
 | | | `emote-dar-un-beso` | an emote published as a quest guide |
 | | | `ron-marino` | video inside the last step, steps without coordinates, misspelled «Prerequisitos» |
 | Achievement prose | `achievements/prose.ts` | `draguisla-tortilla` | intro with screenshots, a RECOMENDACIONES paragraph and a video |
-| | | `el-guardian-del-puente-de-la-muerte` | a single-quest achievement: long outro with nine screenshots, template lists dropped |
+| | | `el-guardian-del-puente-de-la-muerte` | a single-quest achievement with no DofusDB achievement (`noDofusDb` in the catalog): its Prerrequisitos, Necesitarás and Recompensas lists go to the intro with their headings, since only Torre gives them; long outro with nine screenshots |
 | | | `el-perforar-se-va-a-acabar` | outro with two videos; quest, needs and rewards lists dropped |
 | Dofus guide | `dofus-guides/parse.ts` | `dofus-de-los-hielos` | checklist banner, achievements and a «misiones random» quest group |
 | | | `dofus-plateado` | numbered meta-achievements in two columns |

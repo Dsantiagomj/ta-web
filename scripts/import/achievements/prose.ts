@@ -6,7 +6,9 @@
 // Las páginas siguen una plantilla: el título (h2), la lista de misiones, «Para estas
 // misiones, vas a necesitar en total:» con sus listas, «Recompensas del logro:» con la suya.
 // Lo que no es eso es prosa. Ante la duda, una lista es de la plantilla: una lista suelta en
-// la página nueva repetiría lo que ya enseña.
+// la página nueva repetiría lo que ya enseña. Salvo en una página sin logro de DofusDB (El
+// guardián del puente de la muerte): ahí Prerrequisitos, Necesitarás y Recompensas solo los
+// dice Torre, así que sus rótulos y sus listas van a la entrada, en su orden.
 import { youtubeId, youtubeWatchUrl } from '@/lib/guides/video'
 
 import type { PageBlock, SquarespacePage } from '../squarespace/parse-page'
@@ -37,7 +39,8 @@ const NEEDS_HEADERS = new Set([
   'necesitaras',
 ])
 const REWARDS_HEADERS = new Set(['recompensas del logro', 'recompensas'])
-const OTHER_HEADERS = new Set(['prerrequisitos', 'misiones del logro'])
+const PREREQUISITES_HEADERS = new Set(['prerrequisitos'])
+const OTHER_HEADERS = new Set(['misiones del logro'])
 // Los grupos de Necesitarás que Torre escribe como rótulo aparte («Combates:» y su lista).
 // Solo estos: un subtítulo suyo corto («Consejo importante:») es prosa.
 const GROUP_LABELS = new Set([
@@ -68,11 +71,15 @@ function label(piece: Piece): string | null {
 const isNeedsHeader = (piece: Piece) => NEEDS_HEADERS.has(label(piece) ?? '')
 const isRewards = (piece: Piece) => REWARDS_HEADERS.has(label(piece) ?? '')
 
-/** Un rótulo de la plantilla: Necesitarás, Recompensas, Prerrequisitos o «Misiones del logro». */
-function isTemplateHeader(piece: Piece): boolean {
+/** Un rótulo del resumen: Prerrequisitos, Necesitarás o Recompensas. */
+function isSummaryHeader(piece: Piece): boolean {
   const text = label(piece) ?? ''
-  return NEEDS_HEADERS.has(text) || REWARDS_HEADERS.has(text) || OTHER_HEADERS.has(text)
+  return NEEDS_HEADERS.has(text) || REWARDS_HEADERS.has(text) || PREREQUISITES_HEADERS.has(text)
 }
+
+/** Un rótulo de la plantilla: los del resumen o «Misiones del logro». */
+const isTemplateHeader = (piece: Piece) =>
+  isSummaryHeader(piece) || OTHER_HEADERS.has(label(piece) ?? '')
 
 /** El rótulo de un grupo de Necesitarás: «Combates:», «Recursos y otras movidas:». */
 const isGroupLabel = (piece: Piece) => GROUP_LABELS.has(label(piece) ?? '')
@@ -137,28 +144,45 @@ function readIntro(list: Piece[], from: number): { intro: Piece[]; next: number 
  * Una lista después de prosa es de esa prosa. Dentro del bloque de Necesitarás (desde su
  * rótulo, mientras solo sigan listas y rótulos de grupo), un rótulo de grupo conocido
  * («Combates:») es plantilla. El bloque acaba con la primera prosa o con otro rótulo, haya o
- * no recompensas después.
+ * no recompensas después. Lo que es plantilla del resumen (sus rótulos, sus grupos y sus
+ * listas) sale aparte en `summary`, en su orden.
  */
-function readProse(list: Piece[], from: number): Piece[] {
+function readProse(list: Piece[], from: number): { prose: Piece[]; summary: Piece[] } {
   const prose: Piece[] = []
+  const summary: Piece[] = []
   let afterTemplate = true
   let inNeeds = false
+  let inSummary = false
   for (let at = from; at < list.length; at += 1) {
     const piece = list[at]!
     if (isTemplateHeader(piece)) {
       afterTemplate = true
       inNeeds = isNeedsHeader(piece)
+      inSummary = isSummaryHeader(piece)
+      if (inSummary) summary.push(piece)
     } else if (inNeeds && afterTemplate && isGroupLabel(piece)) {
       // Un grupo de Necesitarás: su lista sigue.
+      summary.push(piece)
     } else if (piece.tag === 'ul' && afterTemplate) {
       // Sigue la plantilla.
+      if (inSummary) summary.push(piece)
     } else {
       afterTemplate = false
       inNeeds = false
+      inSummary = false
       prose.push(piece)
     }
   }
-  return prose
+  return { prose, summary }
+}
+
+/** Lo que se sabe de la página de logro en este sitio. */
+export interface AchievementProseOptions {
+  /**
+   * Si la página tiene logro de DofusDB, que da sus Prerrequisitos, Necesitarás y
+   * Recompensas. Sin él, las listas del resumen de Squarespace son de Torre y van a la entrada.
+   */
+  dofusDb?: boolean
 }
 
 /**
@@ -166,9 +190,12 @@ function readProse(list: Piece[], from: number): Piece[] {
  * las recompensas (las milicias de las capturas) va al principio del cierre: en la página
  * nueva, las recompensas están en la cabecera y lo que sigue a las misiones es el cierre. Una
  * página sin la plantilla (sin listas al empezar, sin Necesitarás ni recompensas) es toda
- * entrada.
+ * entrada. Sin logro de DofusDB, los rótulos del resumen y sus listas siguen a la entrada.
  */
-export function achievementProse(page: SquarespacePage): AchievementProse {
+export function achievementProse(
+  page: SquarespacePage,
+  { dofusDb = true }: AchievementProseOptions = {},
+): AchievementProse {
   const list = pieces(page.blocks)
   const title = list.findIndex((piece) => /^h[12]$/.test(piece.tag))
   const start = title + 1
@@ -176,5 +203,9 @@ export function achievementProse(page: SquarespacePage): AchievementProse {
     list[start]?.tag === 'ul' || list.some((piece) => isRewards(piece) || isNeedsHeader(piece))
   if (!templated) return { intro: items(list.slice(start)), outro: [] }
   const { intro, next } = readIntro(list, start)
-  return { intro: items(intro), outro: items(readProse(list, next)) }
+  const { prose, summary } = readProse(list, next)
+  return {
+    intro: items(dofusDb ? intro : [...intro, ...summary]),
+    outro: items(prose),
+  }
 }

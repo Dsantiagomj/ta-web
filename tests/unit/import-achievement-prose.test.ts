@@ -177,6 +177,58 @@ describe('achievementProse', () => {
     expect(outro).toEqual([])
   })
 
+  describe('una página sin logro de DofusDB', () => {
+    // El guardián del puente de la muerte no es un logro de DofusDB (backlog S-08): sus
+    // Prerrequisitos, Necesitarás y Recompensas solo los dice Torre.
+    const guardian = () =>
+      parsePage(
+        readFileSync(
+          path.join(
+            __dirname,
+            '../fixtures/import-golden/pages/el-guardian-del-puente-de-la-muerte.html',
+          ),
+          'utf8',
+        ),
+      )
+
+    it('con logro de DofusDB, las listas del resumen son plantilla, como siempre', () => {
+      expect(achievementProse(guardian()).intro).toEqual([])
+    })
+
+    it('sin él, las listas del resumen van a la entrada con sus rótulos, en su orden', () => {
+      const { intro, outro } = achievementProse(guardian(), { dofusDb: false })
+      expect(outline(intro)).toEqual([
+        'p: Prerrequisitos:',
+        'ul: Nivel recomendado 80.Isla de los Náufragos.',
+        'p: Necesitarás:',
+        'ul: Solo es responder preguntas xD.',
+        'p: Recompensas:',
+        'ul: 141 660 XP.',
+      ])
+      // El cierre es el mismo que con DofusDB.
+      expect(outro).toEqual(achievementProse(guardian()).outro)
+    })
+
+    it('los grupos de Necesitarás van con sus listas; la lista de misiones no', () => {
+      const { intro, outro } = achievementProse(page('ocre-de-ambar'), { dofusDb: false })
+      expect(outline(intro)).toEqual([
+        'p: Para estas misiones, vas a necesitar',
+        'ul: Recursos:30 x Ámbar12 x Especias.12 x',
+        'p: Combates:',
+        'ul: 7 x combates (solo).2 x combates',
+        'p: Mazmorras:',
+        'ul: 1 x Akademia de los Goblins.1',
+        'p: Recompensas del logro:',
+        'ul: 4 874 772 XP.35 980 Kamas.Título:',
+      ])
+      expect(outline(outro)).toEqual([
+        'p: Aquí te dejo un video guía',
+        'vídeo https://www.youtube.com/watch?v=ou3O6UVGO0E (sin título)',
+        'p: No olvides suscribirte al canal UwU',
+      ])
+    })
+  })
+
   describe('la plantilla se reconoce por su forma exacta, y nada de Torre se pierde', () => {
     it('sin «Recompensas», los grupos de Necesitarás siguen siendo plantilla', () => {
       // Ocre de ámbar sin sus recompensas: «Combates:» y «Mazmorras:» con sus listas no
