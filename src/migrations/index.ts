@@ -48,6 +48,7 @@ import * as migration_20261115_234449_quest_guide_reward_levels from './20261115
 import * as migration_20261116_115937_navigation from './20261116_115937_navigation';
 import * as migration_20261116_122735_class_and_dungeon_pages from './20261116_122735_class_and_dungeon_pages';
 import * as migration_20261117_005146_zone_backgrounds from './20261117_005146_zone_backgrounds';
+import * as migration_20261118_173121_content_updated_at from './20261118_173121_content_updated_at';
 
 export const migrations = [
   {
@@ -298,6 +299,11 @@ export const migrations = [
   {
     up: migration_20261117_005146_zone_backgrounds.up,
     down: migration_20261117_005146_zone_backgrounds.down,
-    name: '20261117_005146_zone_backgrounds'
+    name: '20261117_005146_zone_backgrounds',
+  },
+  {
+    up: migration_20261118_173121_content_updated_at.up,
+    down: migration_20261118_173121_content_updated_at.down,
+    name: '20261118_173121_content_updated_at'
   },
 ];

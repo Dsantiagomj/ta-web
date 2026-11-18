@@ -35,6 +35,7 @@ import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
 import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
+import { contentDateField, trackContentDate } from './content-date'
 
 const s = checklistStrings.admin
 const rows = panelStrings.rowLabels
@@ -522,7 +523,7 @@ export const Checklists: CollectionConfig = {
     beforeOperation: [rememberRowsWithoutId('prerequisites.groups.rows')],
     beforeValidate: [rejectSharedSlug('checklists'), keepStepIds],
     // Borradores incluidos: es barato y cubre despublicar.
-    beforeChange: [trackSlugMove('checklists')],
+    beforeChange: [trackSlugMove('checklists'), trackContentDate('checklists')],
     afterChange: [revalidateChecklistsAfterChange, applySlugMove('checklists')],
     afterDelete: [revalidateChecklistsAfterDelete],
   },
@@ -881,5 +882,7 @@ export const Checklists: CollectionConfig = {
       type: 'json',
       admin: { hidden: true },
     },
+    // «Actualizado el»: cuándo publicó Torre un cambio del contenido (D-03).
+    contentDateField,
   ]),
 }

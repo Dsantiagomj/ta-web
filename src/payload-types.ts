@@ -278,6 +278,7 @@ export interface QuestGuide {
     | number
     | boolean
     | null;
+  contentUpdatedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -922,6 +923,7 @@ export interface AchievementPage {
     | number
     | boolean
     | null;
+  contentUpdatedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1311,6 +1313,7 @@ export interface DofusGuide {
    * Dónde estaba en la web antigua. La pone la importación; no hace falta tocarla.
    */
   originalUrl?: string | null;
+  contentUpdatedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1984,6 +1987,7 @@ export interface Checklist {
     | number
     | boolean
     | null;
+  contentUpdatedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -2033,6 +2037,7 @@ export interface Page {
     | number
     | boolean
     | null;
+  contentUpdatedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -2528,6 +2533,7 @@ export interface QuestGuidesSelect<T extends boolean = true> {
   originalUrl?: T;
   background?: T;
   importSnapshot?: T;
+  contentUpdatedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2648,6 +2654,7 @@ export interface AchievementPagesSelect<T extends boolean = true> {
             };
       };
   importSnapshot?: T;
+  contentUpdatedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2737,6 +2744,7 @@ export interface DofusGuidesSelect<T extends boolean = true> {
       };
   importSnapshot?: T;
   originalUrl?: T;
+  contentUpdatedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -3035,6 +3043,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
         genericQuests?: T;
       };
   importSnapshot?: T;
+  contentUpdatedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -3066,6 +3075,7 @@ export interface PagesSelect<T extends boolean = true> {
         metaDescription?: T;
       };
   importSnapshot?: T;
+  contentUpdatedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

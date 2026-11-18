@@ -33,6 +33,7 @@ import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
 import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 import { blockImages } from '../lib/admin/block-thumbnails'
+import { contentDateField, trackContentDate } from './content-date'
 
 const s = dofusGuideStrings.admin
 
@@ -303,7 +304,7 @@ export const DofusGuides: CollectionConfig = {
   hooks: {
     beforeValidate: [rejectSharedSlug('dofus-guides')],
     // Borradores incluidos: es barato y cubre despublicar.
-    beforeChange: [trackSlugMove('dofus-guides')],
+    beforeChange: [trackSlugMove('dofus-guides'), trackContentDate('dofus-guides')],
     afterChange: [revalidateDofusGuidesAfterChange, applySlugMove('dofus-guides')],
     // No se borra una guía de Dofus que enlaza una checklist (A-17).
     beforeDelete: [refuseReferencedDelete('dofus-guides')],
@@ -551,5 +552,7 @@ export const DofusGuides: CollectionConfig = {
       hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
+    // «Actualizado el»: cuándo publicó Torre un cambio del contenido (D-03).
+    contentDateField,
   ]),
 }

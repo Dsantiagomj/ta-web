@@ -22,6 +22,7 @@ import { revalidatePagesAfterChange, revalidatePagesAfterDelete } from './revali
 import { rejectSharedSlug } from './root-slug'
 import { applySlugMove, trackSlugMove } from './slug-redirects'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
+import { contentDateField, trackContentDate } from './content-date'
 
 const s = sitePageStrings.admin
 
@@ -51,7 +52,7 @@ export const Pages: CollectionConfig = {
   hooks: {
     beforeValidate: [rejectSharedSlug('pages')],
     // Borradores incluidos: es barato y cubre despublicar.
-    beforeChange: [trackSlugMove('pages')],
+    beforeChange: [trackSlugMove('pages'), trackContentDate('pages')],
     afterChange: [revalidatePagesAfterChange, applySlugMove('pages')],
     afterDelete: [revalidatePagesAfterDelete],
   },
@@ -144,5 +145,7 @@ export const Pages: CollectionConfig = {
       hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { hidden: true },
     },
+    // «Actualizado el»: cuándo publicó Torre un cambio del contenido (D-03).
+    contentDateField,
   ]),
 }
