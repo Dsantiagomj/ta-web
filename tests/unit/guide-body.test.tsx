@@ -48,7 +48,10 @@ describe('GuideRichText', () => {
     }
     const markup = html(<GuideRichText content={root(paragraph(link, text(' y [1,2]', 16)))} />)
     expect(markup).not.toContain('data-copy')
-    expect(markup).toContain('<a href="https://dofusdb.fr/es/tools/map?coord=7,-19">[7,-19]</a>')
+    // Es otra web, así que va a otra pestaña y avisa al lector de pantalla.
+    expect(markup).toContain(
+      '<a href="https://dofusdb.fr/es/tools/map?coord=7,-19" rel="noopener noreferrer" target="_blank">[7,-19]<span class="sr-only">',
+    )
     expect(markup).toContain('<code> y [1,2]</code>')
   })
 

@@ -11,6 +11,7 @@ import { DEFAULT_THEME, type Mode, type Theme } from '@/lib/theme/theme'
 
 import { HeaderIsland } from './HeaderIsland'
 import { KofiHeaderButton } from './Kofi'
+import { NEW_TAB } from './NewTab'
 import { ArrowIcon, ChevronIcon, CloseIcon, MenuIcon, SearchIcon, SocialIcon } from './icons'
 import {
   type ChecklistNavItem,
@@ -450,13 +451,17 @@ function Sheet({
         <ul className="sheet__soc" role="list">
           {socialLinks(socials).map((so) => (
             <li key={so.key}>
-              <a href={so.href} rel="noopener" aria-label={so.name}>
+              <a href={so.href} {...NEW_TAB} aria-label={`${so.name}${s.newTab}`}>
                 <SocialIcon name={so.key} />
               </a>
             </li>
           ))}
           <li>
-            <a href={socials?.kofi.url ?? KOFI_URL} rel="noopener" aria-label={s.socials.kofi}>
+            <a
+              href={socials?.kofi.url ?? KOFI_URL}
+              {...NEW_TAB}
+              aria-label={`${s.socials.kofi}${s.newTab}`}
+            >
               <SocialIcon name="kofi" />
             </a>
           </li>

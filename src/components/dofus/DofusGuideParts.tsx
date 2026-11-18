@@ -5,6 +5,7 @@ import { GuideRichText } from '@/components/game/GuideRichText'
 import { IconWell } from '@/components/game/IconWell'
 import { CopyName } from '@/components/game/Item'
 import { VideoFacade } from '@/components/game/VideoFacade'
+import { SiteOrWebLink } from '@/components/site/NewTab'
 import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
 import type {
@@ -179,18 +180,18 @@ function QuestTitle({ quest }: { quest: DofusQuestCard }) {
   if (quest.links) {
     return quest.links.map((piece, index) =>
       piece.href ? (
-        <a key={index} href={piece.href}>
+        <SiteOrWebLink key={index} href={piece.href}>
           {piece.text}
-        </a>
+        </SiteOrWebLink>
       ) : (
         <Fragment key={index}>{piece.text}</Fragment>
       ),
     )
   }
   return quest.href ? (
-    <a className="dg-ql__a" href={quest.href}>
+    <SiteOrWebLink className="dg-ql__a" href={quest.href}>
       {quest.title}
-    </a>
+    </SiteOrWebLink>
   ) : (
     quest.title
   )

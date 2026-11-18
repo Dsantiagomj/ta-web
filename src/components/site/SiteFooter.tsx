@@ -6,6 +6,7 @@ import { SocialIcon, UpIcon } from './icons'
 import { resolveSiteSettings, type SiteSettings } from '@/lib/site-copy/resolve'
 
 import { LEGAL_LINKS, type NavLink, type Section, SECTIONS, social, TOP_ANCHOR } from './nav'
+import { NEW_TAB, NewTabNote } from './NewTab'
 import { Soon } from './Soon'
 import { StaticImg } from './StaticImg'
 import { siteShellStrings } from './strings'
@@ -91,7 +92,7 @@ export function SiteFooter({
           <h2 className="ft-h" id={`${id}-ft-com`}>
             {s.community}
           </h2>
-          <a className="ft-join" href={social('discord', settings.socials).href} rel="noopener">
+          <a className="ft-join" href={social('discord', settings.socials).href} {...NEW_TAB}>
             <span className="ft-join__i" aria-hidden="true">
               <SocialIcon name="discord" />
             </span>
@@ -99,24 +100,27 @@ export function SiteFooter({
               <span className="ft-join__t">{f.discordTitle}</span>
               <span className="ft-join__d">{f.discordText}</span>
             </span>
+            <NewTabNote />
           </a>
-          <a className="ft-kofi" href={settings.socials.kofi.url} rel="noopener">
+          <a className="ft-kofi" href={settings.socials.kofi.url} {...NEW_TAB}>
             <SocialIcon name="kofi" />
             <span>
               <span className="ft-kofi__t">{f.kofiTitle}</span>
               <span className="ft-kofi__d">{f.kofiText}</span>
             </span>
+            <NewTabNote />
           </a>
           <h3 className="ft-h3">{s.follow}</h3>
           <ul className="slots" role="list">
             {channels.map((c) => (
               <li key={c.key}>
-                <a className="slot" href={c.href} rel="noopener">
+                <a className="slot" href={c.href} {...NEW_TAB}>
                   <span className="slot__w" aria-hidden="true">
                     <SocialIcon name={c.key} />
                   </span>
                   <span className="slot__n">{c.name}</span>
                   <span className="slot__h">{c.handle}</span>
+                  <NewTabNote />
                 </a>
               </li>
             ))}

@@ -1,4 +1,5 @@
 import { ArrowIcon } from '@/components/site/icons'
+import { NEW_TAB, NewTabNote } from '@/components/site/NewTab'
 import type { LiveState } from '@/lib/site/live'
 import { siteSettingsDefaults } from '@/lib/site-copy/defaults'
 
@@ -22,7 +23,7 @@ export function LiveStrip({
   return (
     <section className="live" aria-label={s.label}>
       <div className="home-wrap">
-        <a className="live__card" href={twitch.url} rel="noopener">
+        <a className="live__card" href={twitch.url} {...NEW_TAB}>
           <span className="live__txt">
             <span className="live__where">{s.where(twitch.handle)}</span>
             <span className="live__t">{s.title}</span>
@@ -33,6 +34,7 @@ export function LiveStrip({
             <span className="live__more">{s.goMore}</span>
             <ArrowIcon className="live__arrow" />
           </span>
+          <NewTabNote />
         </a>
       </div>
     </section>

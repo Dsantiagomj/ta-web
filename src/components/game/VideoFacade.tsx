@@ -1,3 +1,4 @@
+import { SiteOrWebLink } from '@/components/site/NewTab'
 import { IMAGE_SIZES } from '@/components/ui/image-sizes'
 import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
@@ -28,7 +29,7 @@ export function VideoFacade({
   if (!id) {
     return (
       <p>
-        <a href={url}>{title}</a>
+        <SiteOrWebLink href={url}>{title}</SiteOrWebLink>
       </p>
     )
   }
