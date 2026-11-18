@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import { achievementPageStrings } from '@/lib/achievements/strings'
 import {
   achievementPageView,
   dungeonPicks,
@@ -618,6 +619,89 @@ describe('achievementPageView', () => {
     expect(alone.breadcrumb.parents).toHaveLength(1)
     expect(alone.group).toBeNull()
     expect(alone.previous).toBeNull()
+  })
+})
+
+describe('un logro sin misiones (Alineamiento): sus objetivos de DofusDB', () => {
+  const objectives = (...names: string[]) => names.map((name) => ({ name }))
+  const alignment = (overrides: Partial<AchievementPageData['page']> = {}) =>
+    data({
+      name: 'Poner orden',
+      slug: 'poner-orden',
+      points: 5,
+      quests: [],
+      rewards: { experience: 1_000, kamas: 50, items: [] },
+      achievement: {
+        icon: media(1, 'logro-221'),
+        description: 'Alcanzar el tercer rango de una orden.',
+        objectives: objectives('Rango 3', 'Nivel 130', 'Hablar con el jefe de la ciudad'),
+        countsFor: [],
+      },
+      group: { name: 'Alineamiento', slug: 'metalogro-alineamiento' },
+      ...overrides,
+    })
+
+  it('la cabecera no dice «0 misiones»: cuenta los objetivos', () => {
+    const view = achievementPageView(alignment())
+    expect(view.meta).toEqual(['3 objetivos', '5 puntos'])
+  })
+
+  it('en lugar de las misiones, la descripción del juego y sus objetivos en orden', () => {
+    const view = achievementPageView(alignment())
+    expect(view.quests).toEqual([])
+    expect(view.objectives).toEqual({
+      description: 'Alcanzar el tercer rango de una orden.',
+      items: ['Rango 3', 'Nivel 130', 'Hablar con el jefe de la ciudad'],
+    })
+  })
+
+  it('un objetivo en blanco no cuenta; sin descripción, solo los objetivos', () => {
+    const view = achievementPageView(
+      alignment({
+        achievement: { description: ' ', objectives: objectives('Alineamiento 10', ' ') },
+      }),
+    )
+    expect(view.objectives).toEqual({ items: ['Alineamiento 10'] })
+    expect(view.meta).toEqual(['1 objetivo', '5 puntos'])
+  })
+
+  it('con misiones, nada de objetivos: las misiones ya los dicen', () => {
+    const view = achievementPageView(
+      data({ achievement: { objectives: objectives('Esto hace aguas'), countsFor: [] } }),
+    )
+    expect(view.objectives).toBeNull()
+    expect(view.meta[0]).toBe('3 misiones')
+  })
+
+  it('sin misiones ni objetivos (escrito a mano), sin lista y sin «0 misiones»', () => {
+    const view = achievementPageView(alignment({ achievement: null }))
+    expect(view.objectives).toBeNull()
+    expect(view.meta).toEqual(['5 puntos'])
+  })
+
+  it('la descripción para buscadores no habla de «0 misiones»', () => {
+    const { description } = achievementPageStrings.seo
+    expect(description('Poner orden', 0)).toBe(
+      'Lo que pide el logro Poner orden de Dofus y sus recompensas.',
+    )
+    expect(description('La ocasión hace al ladrón', 3)).toContain('Las 3 misiones')
+  })
+
+  it('el logro anterior y el siguiente cuentan sus objetivos si no tienen misiones', () => {
+    const page = alignment()
+    const sibling = (id: number, name: string, count: number) => ({
+      id,
+      name,
+      slug: name.toLowerCase().replace(/ /g, '-'),
+      state: 'published' as const,
+      achievement: { objectives: objectives(...Array.from({ length: count }, () => 'x')) },
+      quests: [],
+    })
+    const view = achievementPageView({
+      ...page,
+      siblings: [sibling(1, 'Mantener en orden', 2), { ...sibling(2, 'Poner orden', 3) }],
+    })
+    expect(view.previous).toMatchObject({ name: 'Mantener en orden', quests: 0, objectives: 2 })
   })
 })
 

@@ -43,6 +43,27 @@ export const seedAchievement = {
     poster: 'public/img/sistema/video-ron-marino.webp',
     posterUrl: 'https://i.ytimg.com/vi/ovPAxnBdKYQ/hqdefault.jpg',
   },
+  // Dos logros de Alineamiento, que DofusDB da sin misiones (backlog S-06): su página enseña
+  // la descripción y los objetivos del juego en lugar de «Las misiones, en orden».
+  alignment: {
+    group: { name: 'Alineamiento', slug: 'metalogro-alineamiento' },
+    page: {
+      dofusId: 1394,
+      name: 'Poner orden',
+      slug: 'poner-orden',
+      meta: '3 objetivos - 5 puntos',
+      intro: 'Para este logro hay que subir de rango en una orden de tu alineamiento.',
+      description: 'Alcanzar el tercer rango de una orden.',
+      objectives: ['Rango 3', 'Nivel 130', 'Hablar con el jefe de la ciudad'],
+    },
+    previous: {
+      dofusId: 1393,
+      name: 'Orden del día',
+      slug: 'orden-del-dia',
+      description: 'Alcanzar el segundo puesto en una orden.',
+      objectives: ['Rango 2', 'Nivel 90', 'Hablar con el jefe de la ciudad'],
+    },
+  },
 }
 
 const paragraph = (text: string) => ({
@@ -209,6 +230,54 @@ export async function seedAchievements(payload: Payload): Promise<void> {
         background: page.background,
         intro: page.intro as never,
         outro: page.outro as never,
+        _status: 'published',
+      },
+    })
+  }
+
+  await seedAlignment(payload, icon.id)
+}
+
+/** El metalogro Alineamiento y dos logros sin misiones; repetirla no duplica nada. */
+async function seedAlignment(payload: Payload, iconId: number): Promise<void> {
+  const { alignment } = seedAchievement
+  const group =
+    (await findOne(payload, 'achievement-groups', 'slug', alignment.group.slug)) ??
+    (await payload.create({
+      collection: 'achievement-groups',
+      data: { ...alignment.group, section: 'stories', state: 'published', _status: 'published' },
+    }))
+  const pages = [
+    { ...alignment.previous, intro: undefined },
+    { ...alignment.page, intro: richText(paragraph(alignment.page.intro)) },
+  ]
+  for (const [index, page] of pages.entries()) {
+    if (await findOne(payload, 'achievement-pages', 'slug', page.slug)) continue
+    const achievement =
+      (await findOne<{ id: number }>(payload, 'achievements', 'dofusId', page.dofusId)) ??
+      (await payload.create({
+        collection: 'achievements',
+        data: {
+          dofusId: page.dofusId,
+          name: page.name,
+          icon: iconId,
+          points: 5,
+          description: page.description,
+          objectives: page.objectives.map((name) => ({ name })),
+        },
+      }))
+    await payload.create({
+      collection: 'achievement-pages',
+      data: {
+        achievement: achievement.id,
+        name: page.name,
+        slug: page.slug,
+        state: 'published',
+        group: group.id,
+        order: index + 1,
+        points: 5,
+        rewards: { experience: 1_164_000, kamas: 2_500 },
+        intro: page.intro as never,
         _status: 'published',
       },
     })

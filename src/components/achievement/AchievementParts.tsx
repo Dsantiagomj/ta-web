@@ -14,6 +14,7 @@ import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
 import type {
   AchievementNeeds as Needs,
+  AchievementObjectives as Objectives,
   AchievementPageView,
   CountsFor,
   GroupItem,
@@ -299,6 +300,48 @@ export function AchievementQuests({ quests }: { quests: QuestCard[] }) {
 }
 
 /**
+ * Lo que pide un logro sin misiones (los de Alineamiento), en el lugar de «Las misiones, en
+ * orden»: la descripción del juego y sus objetivos de DofusDB («Rango 3», «Nivel 130»). Una
+ * lista sin números ni enlaces: se cumplen a la vez, no son pasos.
+ */
+export function AchievementObjectives({ objectives }: { objectives: Objectives }) {
+  const id = useId()
+  return (
+    <section className="lq lobj" aria-labelledby={id}>
+      <h2 className="lq__h" id={id}>
+        {s.objectivesHeading}
+      </h2>
+      {objectives.description && <p className="lobj__d">{objectives.description}</p>}
+      <ul className="lobj__list" role="list">
+        {objectives.items.map((item, index) => (
+          <li key={`${index}-${item}`} className="lobj__item">
+            {item}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+/** «**4** misiones.», o «**2** objetivos.» en un logro sin misiones; sin ninguno, nada. */
+function NavCount({ item }: { item: GroupItem }) {
+  const [count, word] = item.quests
+    ? [item.quests, s.questsWord(item.quests)]
+    : [item.objectives ?? 0, s.objectivesWord(item.objectives ?? 0)]
+  if (!count && !item.levels) return null
+  return (
+    <span className="nextq__m">
+      {count > 0 && (
+        <>
+          <b>{count}</b> {word}.
+        </>
+      )}
+      {item.levels && `${count > 0 ? ' ' : ''}${item.levels}.`}
+    </span>
+  )
+}
+
+/**
  * «Cuenta para»: los logros del juego que piden este, directamente o a través de otro. Va en
  * la columna de lectura, después del cierre; sin ninguno no se pinta.
  */
@@ -339,9 +382,7 @@ function NavCard({ item, kicker, dir }: { item: GroupItem; kicker: string; dir: 
       <span className="nextq__txt">
         <span className="nextq__k">{kicker}</span>
         <span className="nextq__t">{item.name}</span>
-        <span className="nextq__m">
-          <b>{item.quests}</b> {s.questsWord(item.quests)}.{item.levels && ` ${item.levels}.`}
-        </span>
+        <NavCount item={item} />
         {item.disabled && <PreparingTag />}
       </span>
     </>

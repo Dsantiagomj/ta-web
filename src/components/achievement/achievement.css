@@ -1205,32 +1205,87 @@
   }
 }
 
+/* ---------- lo que pide un logro sin misiones (Alineamiento) ---------- */
+
+/* En el lugar de las misiones, con su mismo filete y su título: la descripción del juego y
+   los objetivos de DofusDB. Sin números ni línea que los una, porque se cumplen a la vez:
+   cada uno lleva un rombo pequeño en su tono, como el de las misiones. */
+.lobj__d {
+  max-width: var(--width-prose);
+  margin-top: 0.5rem;
+  color: var(--color-ink-2);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+.lobj__list {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+.lobj__item {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: 0.875rem;
+  align-items: center;
+  min-height: 3rem;
+  color: var(--color-ink);
+  font: 600 1.125rem / 1.3 var(--font-display);
+}
+
+.lobj__item::before {
+  content: '';
+  justify-self: center;
+  width: 0.875rem;
+  height: 0.875rem;
+  rotate: 45deg;
+  border-radius: 0.125rem;
+  background: var(--v, var(--color-accent));
+}
+
 /* ---------- la variedad: cada elemento de una lista con su tono (opción D de Torre) ---------- */
 
 /* Uno de los ocho tonos de theme.css por elemento, en orden, en --v: lo toman el rombo de su
    número o de su hueco, su borde o su antetítulo. Nunca en las checklists. */
-:is(.lq__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(8n + 1) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
+  8n + 1
+) {
   --v: var(--color-hue-1);
 }
-:is(.lq__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(8n + 2) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
+  8n + 2
+) {
   --v: var(--color-hue-2);
 }
-:is(.lq__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(8n + 3) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
+  8n + 3
+) {
   --v: var(--color-hue-3);
 }
-:is(.lq__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(8n + 4) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
+  8n + 4
+) {
   --v: var(--color-hue-4);
 }
-:is(.lq__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(8n + 5) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
+  8n + 5
+) {
   --v: var(--color-hue-5);
 }
-:is(.lq__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(8n + 6) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
+  8n + 6
+) {
   --v: var(--color-hue-6);
 }
-:is(.lq__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(8n + 7) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
+  8n + 7
+) {
   --v: var(--color-hue-7);
 }
-:is(.lq__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(8n + 8) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
+  8n + 8
+) {
   --v: var(--color-hue-8);
 }
 

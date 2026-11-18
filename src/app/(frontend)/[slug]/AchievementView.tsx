@@ -3,6 +3,7 @@ import {
   AchievementCountsFor,
   AchievementHeader,
   AchievementNav,
+  AchievementObjectives,
   AchievementQuests,
   AchievementSheet,
   hasSheet,
@@ -20,7 +21,7 @@ import { LivePreviewRefresh } from './LivePreviewRefresh'
 /**
  * La página de un logro (DESIGN.md, Achievement page): las migas, la cabecera con el icono,
  * la ficha (Prerrequisitos, «Necesitarás en total» y Recompensas) y, en logro__body, la
- * entrada de Torre, las misiones en orden, el cierre, «Cuenta para» y el logro anterior y el
+ * entrada de Torre, las misiones en orden (o, sin misiones, lo que pide el logro), el cierre, «Cuenta para» y el logro anterior y el
  * siguiente. En el escritorio la ficha es una columna a la derecha y las misiones van justo
  * debajo del título (logro--sheet); en el móvil, la ficha va entre la cabecera y lo demás.
  * La única isla es la de la guía, para la bolsa de recompensas y la ficha abierta desde
@@ -61,7 +62,9 @@ export function AchievementView({
                 <GuideRichText content={intro} />
               </div>
             )}
-            <AchievementQuests quests={view.quests} />
+            {view.quests.length > 0 && <AchievementQuests quests={view.quests} />}
+            {/* Un logro sin misiones (Alineamiento): lo que pide, en su lugar. */}
+            {view.objectives && <AchievementObjectives objectives={view.objectives} />}
             {outro && (
               <div className="logro__prose guide-body">
                 <GuideRichText content={outro} />

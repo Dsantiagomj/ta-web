@@ -64,6 +64,9 @@ export interface PageDoc {
   achievement?: Relation<{
     icon?: MediaRef
     correction?: Correction | null
+    /** Lo que pide el logro en el juego, para un logro sin misiones (Alineamiento). */
+    description?: string | null
+    objectives?: { name?: string | null }[] | null
     countsFor?:
       | {
           name?: string | null
@@ -84,7 +87,9 @@ export interface SiblingDoc {
   name: string
   slug: string
   state: PageState
-  achievement?: Relation<{ icon?: MediaRef } & Corrected>
+  achievement?: Relation<
+    { icon?: MediaRef; objectives?: { name?: string | null }[] | null } & Corrected
+  >
   quests?: { quests?: Relation<{ levelMin?: number | null } & Corrected>[] | null }[] | null
 }
 
@@ -147,6 +152,8 @@ export interface GroupItem {
   disabled: boolean
   icon?: ImageAsset
   quests: number
+  /** Sin misiones, cuántos objetivos tiene en el juego (Alineamiento). */
+  objectives?: number
   levels?: string
 }
 
@@ -166,15 +173,23 @@ export interface BreadcrumbData {
   }
 }
 
+/** Lo que pide un logro sin misiones, en su lugar: la descripción del juego y los objetivos. */
+export interface AchievementObjectives {
+  description?: string
+  items: string[]
+}
+
 export interface AchievementPageView {
   title: string
   icon?: ImageAsset
-  /** «3 misiones», «Niveles 15 a 25», «10 puntos». */
+  /** «3 misiones», «Niveles 15 a 25», «10 puntos»; sin misiones, «2 objetivos». */
   meta: string[]
   facts: Pick<QuestHeaderData, 'prerequisites' | 'rewards'>
   /** «Necesitarás en total», su propia zona bajo la cabecera. */
   needs: AchievementNeeds
   quests: QuestCard[]
+  /** Solo sin misiones: lo que pide el logro según DofusDB, o null si no lo dice. */
+  objectives: AchievementObjectives | null
   group: { name: string; items: GroupItem[] } | null
   previous: GroupItem | null
   next: GroupItem | null
@@ -194,6 +209,10 @@ function shown<T extends object>(value: Relation<T>): T | null {
   const doc = populated(value)
   return doc && !hiddenByTorre(doc) ? (corrected(doc as never) as T) : null
 }
+
+/** Los nombres de los objetivos de DofusDB, sin los vacíos. */
+const objectiveNames = (rows: { name?: string | null }[] | null | undefined) =>
+  (rows ?? []).flatMap((row) => (row.name?.trim() ? [row.name.trim()] : []))
 
 const icon = (value: MediaRef) => mediaImageAsset(populated(value) as Media | null) ?? undefined
 const positive = (value: number | null | undefined) => (value && value > 0 ? value : undefined)
@@ -432,14 +451,18 @@ function groupItem(doc: SiblingDoc, currentId: number): GroupItem {
       return known.length ? Math.min(...known) : null
     }),
   )
-  const asset = icon(shown(doc.achievement)?.icon)
+  const achievement = shown(doc.achievement)
+  const asset = icon(achievement?.icon)
+  const quests = (doc.quests ?? []).length
+  const objectives = quests ? 0 : objectiveNames(achievement?.objectives).length
   return {
     name: doc.name,
     ...(!current && !disabled && { href: `/${doc.slug}` }),
     current,
     disabled,
     ...(asset && { icon: asset }),
-    quests: (doc.quests ?? []).length,
+    quests,
+    ...(objectives > 0 && { objectives }),
     ...(levels && { levels }),
   }
 }
@@ -539,6 +562,22 @@ function ownPrerequisites(page: PageDoc): QuestHeaderData['prerequisites'] | nul
   return rows.length ? rows : null
 }
 
+/**
+ * Lo que pide en el juego un logro sin misiones (los de Alineamiento: «Alineamiento 10»,
+ * «Nivel 30»): la descripción de DofusDB y sus objetivos en orden. Null si no da ninguno.
+ */
+function achievementObjectives(
+  achievement: {
+    description?: string | null
+    objectives?: { name?: string | null }[] | null
+  } | null,
+): AchievementObjectives | null {
+  const items = objectiveNames(achievement?.objectives)
+  if (items.length === 0) return null
+  const description = achievement?.description?.trim()
+  return { ...(description && { description }), items }
+}
+
 /** Lo que pinta la página de un logro. */
 export function achievementPageView(data: AchievementPageData): AchievementPageView {
   const { page } = data
@@ -584,10 +623,15 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
 
   const quests = questCards(rows, guideByQuest, data.givers)
 
+  const achievement = populated(page.achievement)
+  const objectives = rows.length ? null : achievementObjectives(achievement)
+
   const levels = levelRange(quests.map((card) => card.level))
   const points = positive(page.points)
   const meta = [
-    s.quests(rows.length),
+    // Un logro sin misiones no dice «0 misiones»: dice cuántos objetivos tiene, si los sabe.
+    ...(rows.length ? [s.quests(rows.length)] : []),
+    ...(objectives ? [s.objectives(objectives.items.length)] : []),
     ...(levels ? [levels] : []),
     ...(points ? [s.points(points)] : []),
   ]
@@ -596,7 +640,6 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
   const siblings = group ? data.siblings.map((doc) => groupItem(doc, page.id)) : []
   const at = siblings.findIndex((item) => item.current)
 
-  const achievement = populated(page.achievement)
   const countsFor = (achievement?.countsFor ?? []).flatMap((meta): CountsFor[] => {
     if (!meta.name) return []
     const asset = icon(meta.icon)
@@ -625,6 +668,7 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
     facts: { prerequisites, rewards },
     needs,
     quests,
+    objectives,
     group: group ? { name: group.name, items: siblings } : null,
     previous: at > 0 ? siblings[at - 1]! : null,
     next: at >= 0 && at < siblings.length - 1 ? siblings[at + 1]! : null,
