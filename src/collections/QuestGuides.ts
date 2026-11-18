@@ -32,6 +32,7 @@ import { slugFormatProblem } from '../lib/admin/slug'
 import { panelStrings } from '../lib/admin/strings'
 import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 import { pageBackgroundField } from './zone-background-field'
+import { contentDateField, trackContentDate } from './content-date'
 
 /**
  * Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos.
@@ -394,7 +395,7 @@ export const QuestGuides: CollectionConfig = {
     // Primero el slug sale de la misión; luego no puede ser el de un logro o un metalogro.
     beforeValidate: [fillFromQuest, rejectSharedSlug('quest-guides')],
     // Borradores incluidos: es barato y cubre despublicar.
-    beforeChange: [trackSlugMove('quest-guides')],
+    beforeChange: [trackSlugMove('quest-guides'), trackContentDate('quest-guides')],
     afterChange: [revalidateGuidePagesAfterChange, applySlugMove('quest-guides')],
     // No se borra una guía que sale en una guía de Dofus o en un metalogro (A-17).
     beforeDelete: [refuseReferencedDelete('quest-guides')],
@@ -505,5 +506,7 @@ export const QuestGuides: CollectionConfig = {
       hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { hidden: true },
     },
+    // «Actualizado el»: cuándo publicó Torre un cambio del contenido (D-03).
+    contentDateField,
   ]),
 }

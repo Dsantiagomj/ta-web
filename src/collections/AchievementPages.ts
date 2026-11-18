@@ -23,6 +23,7 @@ import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
 import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 import { pageBackgroundField } from './zone-background-field'
+import { contentDateField, trackContentDate } from './content-date'
 
 const note = (field: string) => dofusDbNote('achievement', field)
 
@@ -53,7 +54,7 @@ export const AchievementPages: CollectionConfig = {
   hooks: {
     beforeValidate: [fillAchievementPage, rejectSharedSlug('achievement-pages')],
     // Borradores incluidos: es barato y cubre despublicar.
-    beforeChange: [trackSlugMove('achievement-pages')],
+    beforeChange: [trackSlugMove('achievement-pages'), trackContentDate('achievement-pages')],
     afterChange: [revalidateAchievementPagesAfterChange, applySlugMove('achievement-pages')],
     // No se borra una página de logro que sale en una guía de Dofus (A-17).
     beforeDelete: [refuseReferencedDelete('achievement-pages')],
@@ -255,5 +256,7 @@ export const AchievementPages: CollectionConfig = {
       type: 'json',
       admin: { hidden: true },
     },
+    // «Actualizado el»: cuándo publicó Torre un cambio del contenido (D-03).
+    contentDateField,
   ]),
 }
