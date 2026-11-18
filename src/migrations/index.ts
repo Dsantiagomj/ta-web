@@ -50,6 +50,7 @@ import * as migration_20261116_122735_class_and_dungeon_pages from './20261116_1
 import * as migration_20261117_005146_zone_backgrounds from './20261117_005146_zone_backgrounds';
 import * as migration_20261118_173121_content_updated_at from './20261118_173121_content_updated_at';
 import * as migration_20261118_183424_table_block from './20261118_183424_table_block';
+import * as migration_20261118_201912_achievement_objectives from './20261118_201912_achievement_objectives';
 
 export const migrations = [
   {
@@ -310,6 +311,11 @@ export const migrations = [
   {
     up: migration_20261118_183424_table_block.up,
     down: migration_20261118_183424_table_block.down,
-    name: '20261118_183424_table_block'
+    name: '20261118_183424_table_block',
+  },
+  {
+    up: migration_20261118_201912_achievement_objectives.up,
+    down: migration_20261118_201912_achievement_objectives.down,
+    name: '20261118_201912_achievement_objectives'
   },
 ];

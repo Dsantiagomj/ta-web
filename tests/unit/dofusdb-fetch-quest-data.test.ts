@@ -180,6 +180,8 @@ describe('fetchQuestData', () => {
       'order',
       'objectiveIds',
       'rewardIds',
+      // Lo que pide un logro sin misiones (Alineamiento), para su página.
+      'description',
     ])
   })
 })

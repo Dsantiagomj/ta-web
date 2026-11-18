@@ -165,6 +165,8 @@ function storedAchievement(doc: Achievement) {
       name: row.name ?? null,
       quests: (row.quests ?? []).map((quest) => id(quest)),
     })),
+    description: doc.description ?? null,
+    objectives: (doc.objectives ?? []).map((row) => ({ name: row.name ?? null })),
     rewards: {
       experience: doc.rewards?.experience ?? null,
       kamas: doc.rewards?.kamas ?? null,
@@ -269,6 +271,8 @@ export async function refreshAchievements(
           return found === undefined ? [] : [found]
         }),
       })),
+      description: row.description,
+      objectives: row.objectives.map((name) => ({ name })),
       rewards: {
         experience: row.rewards.experience,
         kamas: row.rewards.kamas,

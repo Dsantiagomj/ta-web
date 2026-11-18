@@ -165,6 +165,11 @@ export function mapAchievement(raw: RawAchievement, countsFor: CountsForIndex): 
       const questDofusIds = objectiveQuestIds(objective.criterion)
       return questDofusIds.length ? [{ name: spanish(objective.name), questDofusIds }] : []
     }),
+    description: spanish(raw.description)?.trim() || null,
+    objectives: objectives.flatMap((objective) => {
+      const name = spanish(objective.name)?.trim()
+      return name ? [name] : []
+    }),
     rewards: achievementRewards(raw),
     countsFor: countsFor.get(raw.id) ?? [],
   }

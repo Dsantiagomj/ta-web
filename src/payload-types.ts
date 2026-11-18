@@ -1012,6 +1012,19 @@ export interface Achievement {
       }[]
     | null;
   /**
+   * Lo que pide el logro en el juego, como lo dice DofusDB.
+   */
+  description?: string | null;
+  /**
+   * Todos los objetivos del logro, en orden, también los que no son misiones («Alineamiento 10», «Nivel 30»). La página de un logro sin misiones los enseña.
+   */
+  objectives?:
+    | {
+        name?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Para un personaje de nivel 200, como en las páginas de Torre.
    */
   rewards?: {
@@ -3607,6 +3620,13 @@ export interface AchievementsSelect<T extends boolean = true> {
     | {
         name?: T;
         quests?: T;
+        id?: T;
+      };
+  description?: T;
+  objectives?:
+    | T
+    | {
+        name?: T;
         id?: T;
       };
   rewards?:

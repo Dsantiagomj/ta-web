@@ -7,6 +7,7 @@ import type { RawAchievement, RawAchievementCategory } from '@/lib/dofusdb/types
 
 import categories from '../fixtures/dofusdb/achievement-categories.json'
 import achievements from '../fixtures/dofusdb/achievements.json'
+import alignmentAchievements from '../fixtures/dofusdb/achievements-alignment.json'
 
 import { startPayload, tinyPng } from './payload'
 
@@ -120,6 +121,12 @@ describe('refresco de logros desde DofusDB', () => {
       ['De Incarnam a Astrub', 4],
     ])
     expect(doc!.countsFor![0]!.icon).toMatchObject({ gameAsset: gameImageKey('achievement', 82) })
+    expect(doc!.objectives!.map((row) => row.name)).toEqual([
+      'Esto hace aguas',
+      'Seis pies bajo tierra',
+      'El cazador cazado',
+    ])
+    expect(doc!.description ?? null).toBeNull()
   })
 
   it('una misión que no está guardada se omite y se cuenta, pero la fila queda', async () => {
@@ -148,5 +155,38 @@ describe('refresco de logros desde DofusDB', () => {
     const counts = await refreshAchievements(payload, changed, { fetchImage: images().fetchImage })
     expect(counts.achievements).toEqual({ created: 0, updated: 1, unchanged: 4, failed: 0 })
     expect((await achievement(1671))!.points).toBe(15)
+  })
+
+  it('guarda lo que pide un logro sin misiones: su descripción y sus objetivos', async () => {
+    const withAlignment = data()
+    withAlignment.categories.push({ id: 43, name: { es: 'Alineamiento' }, parentId: 8, order: 3 })
+    withAlignment.achievements.push(...(alignmentAchievements as RawAchievement[]))
+    const counts = await refreshAchievements(payload, withAlignment, {
+      fetchImage: images().fetchImage,
+    })
+    expect(counts.achievements).toMatchObject({ created: 2, failed: 0 })
+    const doc = await achievement(1394)
+    expect(doc).toMatchObject({
+      name: 'Poner orden',
+      description: 'Alcanzar el tercer rango de una orden.',
+      category: { dofusId: 43 },
+    })
+    expect(doc!.quests).toEqual([])
+    expect(doc!.objectives!.map((row) => row.name)).toEqual([
+      'Rango 3',
+      'Nivel 130',
+      'Hablar con el jefe de la ciudad',
+    ])
+
+    // Una segunda pasada igual no cambia nada; una descripción nueva, sí.
+    const again = await refreshAchievements(payload, withAlignment, {
+      fetchImage: images().fetchImage,
+    })
+    expect(again.achievements).toMatchObject({ created: 0, updated: 0, unchanged: 7 })
+    const changed = structuredClone(withAlignment)
+    changed.achievements.find((raw) => raw.id === 1394)!.description = { es: 'Otra cosa.' }
+    const updated = await refreshAchievements(payload, changed, { fetchImage: images().fetchImage })
+    expect(updated.achievements).toMatchObject({ updated: 1, unchanged: 6 })
+    expect((await achievement(1394))!.description).toBe('Otra cosa.')
   })
 })

@@ -47,6 +47,8 @@ const ACHIEVEMENT_FIELDS = [
   'order',
   'objectiveIds',
   'rewardIds',
+  // Lo que pide un logro sin misiones (los de Alineamiento): su página lo enseña.
+  'description',
 ]
 const CATEGORY_FIELDS = ['id', 'name', 'parentId', 'order']
 // Los niveles de los grados, sin el resto de cada grado: el Ocre los necesita y pesan poco.
