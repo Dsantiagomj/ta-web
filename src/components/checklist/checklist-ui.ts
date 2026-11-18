@@ -295,6 +295,9 @@ export function startChecklist(latest: () => ChecklistIslandData): () => void {
   document.addEventListener('click', onClick)
   document.addEventListener('keydown', onKeyDown)
   search?.addEventListener('input', onInput)
+  // Lo escrito antes de que llegara la isla (o lo que el navegador restaura al volver atrás)
+  // no disparó ningún input que oír: se filtra ya.
+  if (search?.value.trim()) filter()
   sheet.addEventListener('close', onClose)
   wide.addEventListener('change', onWide)
   return () => {
