@@ -6,7 +6,8 @@
 // Tres niveles; gana el más alto de los archivos tocados:
 // - docs: documentación. Lint y formato (Prettier también revisa el Markdown).
 // - offline: lo que no entra en el build ni en los servidores de las E2E y de Lighthouse
-//   (importadores, hooks, pruebas unitarias y de integración). Sin build, E2E ni presupuestos.
+//   (importadores, hooks, pruebas unitarias, de integración y de la importación). Sin build,
+//   E2E ni presupuestos.
 // - full: todo lo demás, incluido lo que no se reconoce. Ante la duda, todo.
 // La auditoría corre en los tres: un aviso crítico nuevo bloquea todos los PR.
 //
@@ -31,8 +32,8 @@ const OFFLINE: RegExp[] = [
   /^scripts\/redirects\//,
   /^scripts\/(review-release|review-release-plan|backfill-guides|backfill-shown-items|backfill-guide-rewards|fix-reward-typos|prefer-dofusdb-rewards|seed-site-copy|refresh-game-data|dungeon-notes|payload-script|media-sizes|zone-backgrounds)\.ts$/,
   /^scripts\/build-[\w-]+\.ts$/,
-  /^tests\/(unit|integration|fixtures)\//,
-  /^vitest(\.integration)?\.config\.mts$/,
+  /^tests\/(unit|integration|import|fixtures)\//,
+  /^vitest(\.integration|\.import)?\.config\.mts$/,
   /^(eslint\.config\.mjs|lefthook\.yml|\.gga|\.prettierrc\.json|\.prettierignore)$/,
   /^(\.mcp\.json|skills-lock\.json|\.env\.example)$/,
   /^\.claude\//,
@@ -56,13 +57,14 @@ export function ciScope(files: string[]): CiScope {
 
 const JOBS: Record<CiScope, string[]> = {
   docs: ['install', 'lint', 'audit'],
-  offline: ['install', 'lint', 'typecheck', 'unit', 'integration', 'audit'],
+  offline: ['install', 'lint', 'typecheck', 'unit', 'integration', 'import', 'audit'],
   full: [
     'install',
     'lint',
     'typecheck',
     'unit',
     'integration',
+    'import',
     'build',
     'e2e',
     'lighthouse',

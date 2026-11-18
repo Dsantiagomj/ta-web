@@ -36,6 +36,9 @@ describe('ciScope', () => {
     [['tests/fixtures/dofusdb/quest.json']],
     [['lefthook.yml', '.gga', 'vitest.config.mts', 'eslint.config.mjs']],
     [['scripts/import/x.ts', 'AGENTS.md']],
+    [['scripts/import/refresh-golden.ts', 'scripts/import/golden/catalog.ts']],
+    [['tests/import/golden-pages.test.ts', 'vitest.import.config.mts']],
+    [['tests/fixtures/import-golden/pages/x.html', 'tests/fixtures/import-golden/expected/x.json']],
   ])('no toca el sitio compilado: %j', (files) => {
     expect(ciScope(files)).toBe('offline')
   })
@@ -102,6 +105,7 @@ describe('jobsFor', () => {
       'typecheck',
       'unit',
       'integration',
+      'import',
       'audit',
     ])
   })
@@ -113,6 +117,7 @@ describe('jobsFor', () => {
       'typecheck',
       'unit',
       'integration',
+      'import',
       'build',
       'e2e',
       'lighthouse',

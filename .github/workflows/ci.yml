@@ -100,6 +100,17 @@ jobs:
       - uses: ./.github/actions/setup
       - run: pnpm test
 
+  # Las 30 páginas de oro de la importación de Squarespace (backlog S-15): sin base ni red.
+  import:
+    name: Importación
+    needs: [changes, install]
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'import')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+      - run: pnpm test:import
+
   build:
     name: Build
     needs: [changes, install]
@@ -286,7 +297,8 @@ jobs:
   pruebas:
     name: Pruebas
     if: always()
-    needs: [changes, install, lint, typecheck, unit, integration, build, e2e, lighthouse, audit]
+    needs:
+      [changes, install, lint, typecheck, unit, integration, import, build, e2e, lighthouse, audit]
     runs-on: ubuntu-latest
     steps:
       # Pasa si cada job que pide `changes` pasó y ninguno falló ni se canceló. Un job
