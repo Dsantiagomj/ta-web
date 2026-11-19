@@ -5,7 +5,8 @@
 //   las tres herramientas incrustadas. Ni redirección ni 410.
 // - Lo publicado En preparación: Torre lo publica, según su colección.
 // - Lo que espera una fila del backlog (S-06, S-08), un esbozo sin fila (B-04) o un cambio de
-//   Torre en el panel; y lo que nadie ha decidido todavía.
+//   Torre en el panel, como la errata de un enlace (typos.ts); y lo que nadie ha decidido
+//   todavía.
 import type { ServedKind } from '@/lib/site/site-links'
 
 import { CLASS_CATALOG, DUNGEON_CATALOG } from '../import/section-pages/catalog'
@@ -24,6 +25,7 @@ export type BlockerKey =
   | 'delta-import'
   | 'stub'
   | 'torre-edits'
+  | 'typo'
   | 'undecided'
 
 /** El texto de cada bloqueo: en español para la consola, en inglés para docs/. */
@@ -76,6 +78,10 @@ export const BLOCKERS: Record<BlockerKey, { es: string; en: string }> = {
     es: 'Torre cambia el enlace: aquí da 410 y nada lo sustituye',
     en: 'Torre edits the link: it answers 410 here and nothing replaces it',
   },
+  typo: {
+    es: 'Torre corrige la errata del enlace: la página que quería ya está aquí',
+    en: 'Torre fixes the typo in the link: the page it meant is already here',
+  },
   undecided: {
     es: 'Sin decidir: una página, una fila de redirección o un cambio en el panel',
     en: 'Undecided: a page, a redirect row or an edit in the panel',
@@ -96,6 +102,7 @@ export const BLOCKER_ORDER: readonly BlockerKey[] = [
   'delta-import',
   'stub',
   'torre-edits',
+  'typo',
   'undecided',
 ]
 

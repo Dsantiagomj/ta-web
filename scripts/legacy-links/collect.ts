@@ -22,6 +22,7 @@ import { blockerOf, type BlockerContext } from './blockers'
 import { classifyLink, type LegacyLinkEntry, needsAttention, type RelativeCounts } from './report'
 import { type FoundLink, hasLinkFields, scanLinks } from './scan'
 import { preparingIn, readSiteIndex } from './site-index'
+import { withTypoTarget } from './typos'
 
 /** Colecciones con enlaces que no son de Torre ni se pintan en el sitio. */
 const SKIPPED = new Set(['users', 'redirects', 'game-data-refreshes'])
@@ -62,6 +63,8 @@ class Collector {
   constructor(
     readonly live: LiveSlug,
     readonly context: BlockerContext,
+    /** Los slugs que sirve el sitio: la errata de un enlace apunta a uno de ellos. */
+    readonly served: readonly string[],
   ) {}
 
   /** Un enlace del contenido: a la lista si pinta a Squarespace o a un 410; si no, se cuenta. */
@@ -70,7 +73,8 @@ class Collector {
     if (!link) return
     if (needsAttention(link)) {
       const blocker = blockerOf(link.path, link.served, this.context)
-      this.entries.push({ source: 'content', where, href, served: link.served, blocker })
+      const entry = { source: 'content' as const, where, href, served: link.served, blocker }
+      this.entries.push(withTypoTarget(entry, this.served))
     } else if (link.served && link.served !== 'gone') {
       this.relative[link.served] += 1
     }
@@ -185,9 +189,10 @@ async function globalLinks(payload: Payload, config: GlobalConfig, out: Collecto
 }
 
 export async function collectLegacyLinks(payload: Payload): Promise<CollectedLinks> {
-  const slugs = new Set(await readLiveSlugs(payload))
+  const live = await readLiveSlugs(payload)
+  const slugs = new Set(live)
   const site = await readSiteIndex(payload)
-  const out = new Collector((slug) => slugs.has(slug), { preparing: preparingIn(site) })
+  const out = new Collector((slug) => slugs.has(slug), { preparing: preparingIn(site) }, live)
   const blocks = (slug: string) => payload.config.blocks?.find((block) => block.slug === slug)
   await codeLinks(payload, out)
   const achievements = await liveAchievementIds(payload)
