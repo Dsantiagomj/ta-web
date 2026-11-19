@@ -1,6 +1,7 @@
 // El mapa de los esbozos vacíos de Squarespace (backlog B-04), en código puro: cada esbozo va
 // a la página de su logro cuando un visitante puede abrirla; queda sin fila (404) mientras esa
-// página esté En preparación, y da 410 solo si no hay página que esperar.
+// página esté En preparación, y da 410 solo si no hay página que esperar: un logro sin página,
+// una misión que ningún logro de ta-web pide, o un nombre que no casa con nada.
 // El esbozo es el nombre de un logro o el de una de sus misiones; casa por los datos de
 // DofusDB que ya tiene ta-web (las misiones con su logro, los logros con su lista). Lo usa
 // build-stub-redirects.ts, que lee esos datos y escribe la sección `stubs` de la tabla.
@@ -30,6 +31,8 @@ export type StubOutcome =
       achievement?: string
     }
   | { slug: string; kind: 'gone'; reason: 'unmatched' | 'no-page'; achievement?: string }
+  /** Es una misión de ta-web, pero ningún logro de ta-web la pide: no hay página que esperar. */
+  | { slug: string; kind: 'gone'; reason: 'no-achievement'; quest: string }
   /** Su página de logro existe pero no se ve todavía: sin fila, 404 hasta que se publique. */
   | { slug: string; kind: 'pending'; achievement: string; page: string }
   /** Casa con varios logros: sin fila hasta que Torre elija uno en STUB_OVERRIDES. */
@@ -112,6 +115,11 @@ export function mapStubs(
       (a.quests ?? []).flatMap((row) => (row.name ? [{ name: row.name, achievement: a }] : [])),
     ),
   ]
+  // Toda misión por su nombre, tenga logro o no: para decir que el esbozo es una misión sin logro.
+  const questNames = new Map<string, string>()
+  for (const { name } of data.quests) {
+    for (const key of stubKeys(name)) if (!questNames.has(key)) questNames.set(key, name)
+  }
   const questIndex = indexBy(
     questRows,
     (row) => stubKeys(row.name),
@@ -136,7 +144,12 @@ export function mapStubs(
     const keys = [slug, ...stubKeys(stub.title)]
     const named = candidates(achievementIndex, keys)
     const found = named.length ? named : candidates(questIndex, keys)
-    if (!found.length) return { slug, kind: 'gone', reason: 'unmatched' }
+    if (!found.length) {
+      const quest = keys.map((key) => questNames.get(key)).find(Boolean)
+      return quest
+        ? { slug, kind: 'gone', reason: 'no-achievement', quest }
+        : { slug, kind: 'gone', reason: 'unmatched' }
+    }
     if (found.length > 1) {
       return { slug, kind: 'ambiguous', candidates: found.map((a) => `${a.name} (${a.dofusId})`) }
     }
@@ -177,6 +190,7 @@ export function stubsSection(
 
 const GONE_REASONS = {
   'no-page': '410: su logro no tiene página',
+  'no-achievement': '410: es una misión sin logro en ta-web',
   unmatched: '410: no casa con ningún logro ni misión',
 } as const
 
@@ -215,7 +229,10 @@ export function stubReport(outcomes: StubOutcome[]): string {
     const group = gone.filter((o) => o.reason === reason)
     if (!group.length) continue
     lines.push('', `${GONE_REASONS[reason]} (${group.length}):`)
-    for (const o of group) lines.push(`  /${o.slug}${o.achievement ? ` (${o.achievement})` : ''}`)
+    for (const o of group) {
+      const name = 'quest' in o ? o.quest : o.achievement
+      lines.push(`  /${o.slug}${name ? ` (${name})` : ''}`)
+    }
   }
   if (skipped.length) {
     lines.push('', `Fuera de la sección (${skipped.length}):`)

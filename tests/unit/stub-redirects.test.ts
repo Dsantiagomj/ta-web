@@ -178,13 +178,29 @@ describe('mapStubs', () => {
       reason: 'no-page',
       achievement: 'Sin página',
     })
-    expect(run([{ slug: 'mision-huerfana', title: 'Misión huérfana' }])[0]).toMatchObject({
+    expect(run([{ slug: 'mision-huerfana', title: 'Misión huérfana' }])[0]).toEqual({
+      slug: 'mision-huerfana',
       kind: 'gone',
-      reason: 'unmatched',
+      reason: 'no-achievement',
+      quest: 'Misión huérfana',
     })
     expect(run([{ slug: 'se-busca-boarus', title: 'Se busca: Boarus' }])[0]).toMatchObject({
       kind: 'gone',
       reason: 'unmatched',
+    })
+  })
+
+  it('una misión que DofusDB no ata a ningún logro da 410 y se nombra como misión', () => {
+    // Las misiones de Frigost («Al servicio del rey»…) y de Nawidad que Torre dejó como esbozo:
+    // ta-web las tiene, pero ningún logro las pide, así que no hay página que esperar.
+    const [outcome] = run([{ slug: 'al-servicio-del-rey', title: 'Al servicio del rey' }], {
+      quests: [{ name: 'Al servicio del rey', achievement: { dofusId: null } }],
+    })
+    expect(outcome).toEqual({
+      slug: 'al-servicio-del-rey',
+      kind: 'gone',
+      reason: 'no-achievement',
+      quest: 'Al servicio del rey',
     })
   })
 
@@ -223,6 +239,7 @@ describe('stubsSection y stubReport', () => {
       { slug: 'corazon-de-piedra', title: 'Corazón de piedra' },
       { slug: 'formacion-de-primer-ao', title: 'Formación de primer año' },
       { slug: 'se-busca-boarus', title: 'Se busca: Boarus' },
+      { slug: 'mision-huerfana', title: 'Misión huérfana' },
       { slug: 'jyfus', title: 'JYFUS' },
     ],
     data(),
@@ -233,26 +250,36 @@ describe('stubsSection y stubReport', () => {
     expect(stubsSection(outcomes)).toEqual({
       permanent: false,
       moved: { '/corazon-de-piedra': '/la-larga-marcha' },
-      gone: ['/se-busca-boarus'],
+      gone: ['/se-busca-boarus', '/mision-huerfana'],
     })
   })
 
   it('el día del corte (cutover) sus redirecciones pasan a 301', () => {
     expect(stubsSection(outcomes, { cutover: true })).toEqual({
       moved: { '/corazon-de-piedra': '/la-larga-marcha' },
-      gone: ['/se-busca-boarus'],
+      gone: ['/se-busca-boarus', '/mision-huerfana'],
     })
   })
 
   it('el informe cuenta cada grupo y nombra cada esbozo', () => {
     const report = stubReport(outcomes)
     expect(report).toMatch(/Redirecciones: 1/)
-    expect(report).toMatch(/410: 1/)
+    expect(report).toMatch(/410: 2/)
     expect(report).toMatch(/Pendientes: 1/)
     expect(report).toMatch(/\/corazon-de-piedra → \/la-larga-marcha/)
     expect(report).toMatch(/\/formacion-de-primer-ao.*formacion-practica/)
     expect(report).toMatch(/\/se-busca-boarus/)
     expect(report).toMatch(/\/jyfus.*dofus-guides/)
+  })
+
+  it('el informe separa las misiones sin logro de lo que no casa con nada', () => {
+    const report = stubReport(outcomes)
+    expect(report).toMatch(
+      /410: es una misión sin logro en ta-web \(1\):\n {2}\/mision-huerfana \(Misión huérfana\)/,
+    )
+    expect(report).toMatch(
+      /410: no casa con ningún logro ni misión \(1\):\n {2}\/se-busca-boarus\n/,
+    )
   })
 })
 
