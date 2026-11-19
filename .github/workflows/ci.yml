@@ -58,6 +58,9 @@ jobs:
             exit 1
           fi
 
+  # Comprueba que pnpm install --frozen-lockfile pasa. Ningún job lo espera: con la caché
+  # del store cada uno instala en unos 20 s, y esperarlo retrasaba 30 s el arranque de todos.
+  # Cuando cambia pnpm-lock.yaml, los jobs descargan las dependencias a la vez.
   install:
     name: Instalación
     runs-on: ubuntu-latest
@@ -67,7 +70,7 @@ jobs:
 
   lint:
     name: Lint y formato
-    needs: [changes, install]
+    needs: changes
     if: contains(fromJSON(needs.changes.outputs.jobs), 'lint')
     runs-on: ubuntu-latest
     steps:
@@ -78,7 +81,7 @@ jobs:
 
   typecheck:
     name: Tipos
-    needs: [changes, install]
+    needs: changes
     if: contains(fromJSON(needs.changes.outputs.jobs), 'typecheck')
     runs-on: ubuntu-latest
     steps:
@@ -92,7 +95,7 @@ jobs:
 
   unit:
     name: Unitarias
-    needs: [changes, install]
+    needs: changes
     if: contains(fromJSON(needs.changes.outputs.jobs), 'unit')
     runs-on: ubuntu-latest
     steps:
@@ -103,7 +106,7 @@ jobs:
   # Las 30 páginas de oro de la importación de Squarespace (backlog S-15): sin base ni red.
   import:
     name: Importación
-    needs: [changes, install]
+    needs: changes
     if: contains(fromJSON(needs.changes.outputs.jobs), 'import')
     runs-on: ubuntu-latest
     steps:
@@ -113,7 +116,7 @@ jobs:
 
   build:
     name: Build
-    needs: [changes, install]
+    needs: changes
     if: contains(fromJSON(needs.changes.outputs.jobs), 'build')
     runs-on: ubuntu-latest
     steps:
@@ -128,11 +131,17 @@ jobs:
           restore-keys: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
       - run: pnpm build
 
+  # En tres partes (vitest --shard reparte los archivos), cada una con su Postgres: dentro
+  # de una parte los archivos siguen yendo de uno en uno, porque comparten la base.
   integration:
-    name: Integración
-    needs: [changes, install]
+    name: Integración ${{ matrix.part }}/3
+    needs: changes
     if: contains(fromJSON(needs.changes.outputs.jobs), 'integration')
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3]
     services:
       postgres:
         image: postgres:17.11
@@ -154,13 +163,19 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
-      - run: pnpm test:integration
+      - run: pnpm test:integration --shard=${{ matrix.part }}/3
 
+  # En cuatro partes (playwright --shard reparte los archivos), cada una con su build, su
+  # Postgres y un worker. La suite del modo dev solo corre en la primera.
   e2e:
-    name: E2E
-    needs: [changes, install]
+    name: E2E ${{ matrix.part }}/4
+    needs: changes
     if: contains(fromJSON(needs.changes.outputs.jobs), 'e2e')
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3, 4]
     services:
       postgres:
         image: postgres:17.11
@@ -193,10 +208,11 @@ jobs:
       - uses: ./.github/actions/chromium
         timeout-minutes: 20
 
-      - run: pnpm test:e2e
+      - run: pnpm test:e2e --shard=${{ matrix.part }}/4
 
       # La app en modo dev (pública, con noindex), sobre el mismo build.
       - run: pnpm test:e2e:dev-gate
+        if: matrix.part == 1
         env:
           E2E_SKIP_BUILD: '1'
 
@@ -204,24 +220,24 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v7.0.2
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.part }}
           path: playwright-report/
           retention-days: 7
 
   # Los presupuestos de DESIGN.md con Lighthouse CI, en paralelo con las E2E y partidos en
-  # dos: cada parte mide un trozo de las páginas de lighthouserc.cjs (LHCI_SHARD). Cada una
+  # cuatro: cada parte mide un trozo de las páginas de lighthouserc.cjs (LHCI_SHARD). Cada una
   # compila en su job, con el entorno de pnpm test:lhci (scripts/lhci-env.ts), sobre la
   # caché de .next que guardó el Build de una ejecución anterior. Con la caché exacta (un PR
   # que no toca src/) el build tarda unos 10 s.
   lighthouse:
-    name: Presupuestos (Lighthouse CI) ${{ matrix.part }}/2
-    needs: [changes, install]
+    name: Presupuestos (Lighthouse CI) ${{ matrix.part }}/4
+    needs: changes
     if: contains(fromJSON(needs.changes.outputs.jobs), 'lighthouse')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        part: [1, 2]
+        part: [1, 2, 3, 4]
     services:
       postgres:
         image: postgres:17.11
@@ -240,7 +256,7 @@ jobs:
       # Base vacía: pnpm test:lhci compila, aplica las migraciones, siembra las guías de
       # prueba y arranca `pnpm start`.
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/ta_web
-      LHCI_SHARD: ${{ matrix.part }}/2
+      LHCI_SHARD: ${{ matrix.part }}/4
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
