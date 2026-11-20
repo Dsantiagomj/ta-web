@@ -57,7 +57,6 @@ export interface ChecklistModel {
 
 export type QuestLock =
   | { step: number }
-  | { checklist: string | null }
   | { need: number }
   /** La terminó sola el juego al terminar esta (la última de las suyas). */
   | { alone: number }
@@ -68,6 +67,8 @@ export interface QuestState {
   done: boolean
   /** Por qué no se puede deshacer aquí. */
   lock?: QuestLock
+  /** Hecha en otra checklist: su nombre, o null si no se conoce. Se puede deshacer aquí. */
+  elsewhere?: string | null
   /** A medias: el objetivo por el que va. */
   at?: number
   /** Una madre a medias: las hijas sin terminar que espera. */
@@ -324,7 +325,7 @@ export function questState(p: Progress, m: ChecklistModel, index: number, id: nu
   const row = step.quests.find((quest) => quest.id === id)
   if (row?.kind === 'mandatory' && stepDone(p, m, index)) return { done: true }
   // Hecha en otra checklist, y aquí no
-  if (finished) return { done: true, lock: { checklist: m.names[String(entry.by!.c)] ?? null } }
+  if (finished) return { done: true, elsewhere: m.names[String(entry.by!.c)] ?? null }
   const at = typeof entry?.o === 'number' && entry.o > 0 ? entry.o : undefined
   if (at === undefined) return { done: false }
   const wait = (m.parents[id] ?? [])
@@ -472,9 +473,12 @@ export function setQuest(
     next.quests[id] = { o: 'done', by, at: now }
     return complete(p, next, m, now)
   }
-  // Lo hecho en otra checklist se queda: allí sigue hecha. Solo se quita lo de esta.
+  // El progreso es uno: desmarcada aquí, lo está en todas. Si la apuntó un paso marcado de otra
+  // checklist, ese paso también se desmarca, como al desmarcarla allí.
   const own = next.quests[id]
-  if (!own?.by || isSelf(m, own.by.c)) delete next.quests[id]
+  delete next.quests[id]
+  const elsewhere = own?.by && !isSelf(m, own.by.c) ? own.by.s : undefined
+  if (elsewhere && next.steps[elsewhere]?.done) next.steps[elsewhere] = { done: false, at: now }
   // Las de este paso que piden terminada a esta y apuntó este paso vuelven a lo suyo, como en
   // silvestre-checklist: sin ella no pueden estar terminadas.
   const dependents = new Set(m.requiredBy.get(id) ?? [])

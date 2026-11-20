@@ -34,7 +34,7 @@ export const progressStrings = {
   markQuest: (name: string) => `Marcar «${name}» como hecha`,
   unmarkQuest: (name: string) => `Marcar «${name}» sin hacer`,
   lockedStep: (n: number) => `Hecha en el paso ${n}`,
-  lockedChecklist: (name: string | null) =>
+  doneElsewhere: (name: string | null) =>
     name ? `Hecha en la checklist del ${name}` : 'Hecha en otra checklist',
   lockedNeed: (name: string) => `La pide “${name}”`,
   /** La terminó sola el juego al terminar otra («Bienvenido a Frigost»). */

@@ -120,7 +120,7 @@ test.describe('progreso de una checklist', () => {
     await expect(giver.locator('[data-q-hit]')).toBeDisabled()
   })
 
-  test('lo hecho en otra checklist sale hecho y bloqueado, y cuenta en el porcentaje', async ({
+  test('lo hecho en otra checklist sale hecho, cuenta en el porcentaje y se desmarca aquí', async ({
     page,
   }) => {
     await page.goto(`/${seedChecklists.hielos.slug}`)
@@ -133,8 +133,15 @@ test.describe('progreso de una checklist', () => {
       `Hecha en la checklist del ${seedChecklists.hielos.name}`,
     )
     await expect(giver.locator('[data-q-hit]')).toHaveAttribute('aria-pressed', 'true')
-    await expect(giver.locator('[data-q-hit]')).toBeDisabled()
     await expect(pct(page)).not.toHaveText('0 %')
+
+    // Desmarcada aquí, también lo está allí, con su paso
+    await giver.locator('[data-q-hit]').click()
+    await expect(giver.locator('[data-q-hit]')).toHaveAttribute('aria-pressed', 'false')
+    await expect(giver.locator('[data-ck-lock]')).toBeHidden()
+    await page.goto(`/${seedChecklists.hielos.slug}`)
+    await expect(questButton(page, 1, seedGuide.title)).toHaveAttribute('aria-pressed', 'false')
+    await expect(stepBox(page, 1)).not.toBeChecked()
   })
 
   test('los filtros Pendientes y Hechos', async ({ page }) => {

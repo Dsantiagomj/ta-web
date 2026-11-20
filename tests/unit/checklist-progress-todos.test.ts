@@ -64,13 +64,13 @@ function shared(other: ChecklistDraft): { index: number; quest: number } {
 
 describe('el rush y las checklists que repite', () => {
   for (const id of Object.keys(OTHERS) as (keyof typeof OTHERS)[]) {
-    it(`una misión terminada en la del ${NAMES[id]} sale hecha en el rush, sin poder deshacerse aquí`, () => {
+    it(`una misión terminada en la del ${NAMES[id]} sale hecha en el rush, y se puede deshacer aquí`, () => {
       const { index, quest } = shared(others[id]!)
       const p: Progress = emptyProgress()
       p.quests[quest] = { o: 'done', by: { c: OTHERS[id], s: 'paso-1' }, at: 1 }
       expect(questState(p, model, index, quest)).toEqual({
         done: true,
-        lock: { checklist: NAMES[id] },
+        elsewhere: NAMES[id],
       })
     })
 
@@ -80,7 +80,7 @@ describe('el rush y las checklists que repite', () => {
       p.quests[quest] = { o: 'done', by: { c: id }, at: 1 }
       expect(questState(p, model, index, quest)).toEqual({
         done: true,
-        lock: { checklist: NAMES[id] },
+        elsewhere: NAMES[id],
       })
     })
   }

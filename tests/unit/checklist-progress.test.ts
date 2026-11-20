@@ -159,17 +159,34 @@ describe('marcar misiones', () => {
     expect(undone.quests[10]).toBeUndefined()
   })
 
-  it('una misión hecha en otra checklist sale hecha y dice en cuál', () => {
+  it('una misión hecha en otra checklist sale hecha, dice en cuál y se puede desmarcar aquí', () => {
     const p = { ...emptyProgress(), quests: { 10: { o: 'done' as const, by: { c: 8 }, at: 1 } } }
-    expect(questState(p, model, 0, 10)).toEqual({
-      done: true,
-      lock: { checklist: 'Dofus de los Hielos' },
-    })
+    expect(questState(p, model, 0, 10)).toEqual({ done: true, elsewhere: 'Dofus de los Hielos' })
     const unknown = {
       ...emptyProgress(),
       quests: { 10: { o: 'done' as const, by: { c: 99 }, at: 1 } },
     }
-    expect(questState(unknown, model, 0, 10)).toEqual({ done: true, lock: { checklist: null } })
+    expect(questState(unknown, model, 0, 10)).toEqual({ done: true, elsewhere: null })
+    const undone = setQuest(p, model, 0, 10, false, NOW)
+    expect(undone.quests[10]).toBeUndefined()
+    expect(questState(undone, model, 0, 10)).toEqual({ done: false })
+  })
+
+  it('desmarcar aquí lo hecho en un paso marcado de otra checklist también desmarca ese paso', () => {
+    const p = {
+      ...emptyProgress(),
+      quests: {
+        11: { o: 'done' as const, by: { c: 8, s: 'hielos-1' }, at: 1 },
+        12: { o: 'done' as const, by: { c: 8, s: 'hielos-1' }, at: 1 },
+      },
+      steps: { 'hielos-1': { done: true, at: 1 }, 'hielos-2': { done: true, at: 1 } },
+    }
+    const undone = setQuest(p, model, 0, 11, false, NOW)
+    expect(undone.quests[11]).toBeUndefined()
+    expect(undone.steps['hielos-1']).toEqual({ done: false, at: NOW })
+    // Lo demás de ese paso sigue hecho, como al desmarcar una misión de un paso en su checklist
+    expect(undone.quests[12]).toEqual(p.quests[12])
+    expect(undone.steps['hielos-2']).toEqual({ done: true, at: 1 })
   })
 
   it('con su paso marcado aquí, una misión hecha también en otra checklist no se bloquea', () => {
@@ -505,18 +522,15 @@ describe('revisión del PR 5: restaurar una copia', () => {
   })
 })
 
-describe('revisión del PR 5: lo hecho en otra checklist', () => {
-  it('desmarcar aquí, con el paso marcado, no borra lo que se hizo en otra checklist', () => {
+describe('lo hecho en otra checklist', () => {
+  it('desmarcar aquí, con el paso marcado, la desmarca también en la otra checklist', () => {
     let p = setStep(emptyProgress(), model, 0, true, NOW)
     p = { ...p, quests: { ...p.quests, 11: { o: 'done', by: { c: 8 }, at: 1 } } }
     expect(questState(p, model, 0, 11)).toEqual({ done: true })
     p = setQuest(p, model, 0, 11, false, NOW + 1)
     expect(stepDone(p, model, 0)).toBe(false)
-    expect(p.quests[11]).toEqual({ o: 'done', by: { c: 8 }, at: 1 })
-    expect(questState(p, model, 0, 11)).toEqual({
-      done: true,
-      lock: { checklist: 'Dofus de los Hielos' },
-    })
+    expect(p.quests[11]).toBeUndefined()
+    expect(questState(p, model, 0, 11)).toEqual({ done: false })
   })
 })
 
