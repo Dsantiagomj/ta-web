@@ -3,9 +3,6 @@ type: workflow
 title: Quest guide rewards
 description: How a quest guide stores its rewards as fields Torre edits (XP, minimum XP, kamas, items, level tiers and other rewards) beside the Squarespace text, how the guide header picks between them and DofusDB, and the one-off maintenance scripts that filled and cleaned them (guides:rewards, guides:rewards-dofusdb, guides:reward-typos, guides:shown-items).
 tags: [quest-guides, rewards, dofusdb, scripts, maintenance]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
 sources:
   - id: openwiki-source-a3fe1d37be9dfac8725ba9b3
     resource: repo://scripts/backfill-guide-rewards.ts
@@ -29,6 +26,8 @@ sources:
     resource: repo://src/lib/guides/reward-typos.ts
   - id: openwiki-source-8a5e1b96a7445e1d78fb454c
     resource: repo://src/lib/guides/shown-items.ts
+  - id: openwiki-source-3e1b4c5db899d67481848ee9
+    resource: repo://src/lib/text/edit-distance.ts
   - id: openwiki-source-fffb44058cdb04a97873b705
     resource: repo://tests/integration/backfill-guide-rewards.test.ts
   - id: openwiki-source-0e600d85c9497a58a469ec8f
@@ -39,7 +38,10 @@ sources:
     resource: repo://tests/unit/guide-prefer-dofusdb.test.ts
   - id: openwiki-source-74f2a6a0ab63cbfa580c3571
     resource: repo://tests/unit/guide-reward-text.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Quest guide rewards
@@ -78,7 +80,7 @@ The fields arrived after about 1,250 guides existed, so a set of one-off scripts
 
 - `readRewardsText` (`src/lib/guides/reward-text.ts`) reads Torre's text only where it has one reading: XP, kamas and «N x item» lines. A text by level, «XP repartidos» or two XP lines is not read: the guide gets DofusDB's values and is listed for review.
 - `torreRewards` matches his item lines to the quest's reward items. A line that names no reward item of the quest is listed.
-- For a quest with level tiers, an empty «Por nivel» is filled from his per-tier text («Si eres nivel 1 a 109: …», `torreLevelRewards`) or from DofusDB's tiers, and the report says which.
+- For a quest with level tiers, an empty «Por nivel» is filled from his per-tier text («Si eres nivel 1 a 109: …» or «De nivel 1 a 109: …», `torreLevelRewards`) or from DofusDB's tiers, and the report says which. A tier's figures may follow the colon or sit on the lines below, as the import now writes a list item with a sub-list; text imported before that fix, with the figures glued after the colon and repeated below, still reads while the repeated figures are equal.
 
 ### `pnpm guides:rewards-dofusdb`
 
@@ -86,7 +88,7 @@ The fields arrived after about 1,250 guides existed, so a set of one-off scripts
 
 ### `pnpm guides:reward-typos`
 
-`scripts/fix-reward-typos.ts`, logic in `src/lib/guides/reward-typos.ts`. It fixes item-name typos in «Recompensas en texto» («1 x Fragmento de Ugahruleta.» for «Ugahlureta»). An item line counts as a clear typo when it names no reward item of the quest but is close to exactly one: the same words, at most one edit per five letters of a word and two in all, and the same quantity. Only the name changes, to DofusDB's (or Torre's correction of the item), and the item's row is added to a non-empty `rewardItems`. Books (DofusDB type 25), notes and items the quest does not give stay as written and are listed with the reason. It prints each change as «slug: antes → después».
+`scripts/fix-reward-typos.ts`, logic in `src/lib/guides/reward-typos.ts`. It fixes item-name typos in «Recompensas en texto» («1 x Fragmento de Ugahruleta.» for «Ugahlureta»). An item line counts as a clear typo when it names no reward item of the quest but is close to exactly one: the same words, at most one edit per five letters of a word and two in all (`editDistance`, an edit distance with transpositions of neighbouring letters in `src/lib/text/edit-distance.ts`, shared with the typo group of `pnpm links:legacy`), and the same quantity. Only the name changes, to DofusDB's (or Torre's correction of the item), and the item's row is added to a non-empty `rewardItems`. Books (DofusDB type 25), notes and items the quest does not give stay as written and are listed with the reason. It prints each change as «slug: antes → después».
 
 ### `pnpm guides:shown-items`
 

@@ -46,10 +46,10 @@ sources:
     resource: repo://src/lib/site/legacy.ts
   - id: openwiki-source-d33df43572e5728236d37447
     resource: repo://tests/unit/error-pages.test.tsx
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Standalone pages
@@ -65,7 +65,8 @@ Torre's site has a handful of pages that are not a quest, an achievement, a Dofu
 | `state` | «Publicada» or «En preparación», the same field as achievement pages |
 | `legacyHref` | «Enlace en Squarespace», a sidebar field shown only while the page is «En preparación»; must be a valid URL when set |
 | `parent` | «Página superior», a relationship to another page (never itself), used only for the breadcrumb |
-| `body` | Rich text, image, video, callout, fight and step blocks, in the «Contenido» tab |
+| `body` | Rich text, image, video, callout, fight, table and step blocks, in the «Contenido» tab |
+| `contentUpdatedAt` | Hidden: when a panel user last published a content change, for the «Actualizado el» line and the JSON-LD (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)) |
 | `seo` | `metaTitle` and `metaDescription` (at most 160 characters), localized, in the «SEO» tab |
 | `importSnapshot` | Hidden JSON with what the last import wrote; cleared on duplicate |
 
@@ -79,9 +80,9 @@ The `[slug]` route tries, in order, a quest guide, an achievement page, a Dofus 
 
 1. `loadSitePage` (`src/app/(frontend)/[slug]/page-data.ts`) reads it once per request. With Next's draft mode and a panel session it reads the latest draft as that user, uncached; otherwise it reads the published version through `unstable_cache` under the `pages` tag with a 600-second `revalidate` (`src/lib/pages/cache.ts`). `readSitePage` (`src/lib/pages/queries.ts`) always reads with `overrideAccess: false`, returns a page in any state, and populates only the title, slug and state of the parent.
 2. `sitePageRoute` applies `legacyRoute` (`src/lib/site/legacy.ts`), the same rule as checklists: a published page, or any page in preview, renders; a page «En preparación» redirects to its `legacyHref`, unless that link is missing, invalid or points at this same site, which answers 404.
-3. `SitePageView` renders the quest guide's reading column: the breadcrumb, the title as the `h1` and the body through `GuideSections`, with `PageEnhancements` as the only client island and the live preview refresh in draft mode (the preview bar comes from the layout, above the header). No quest header, next quest card or progress.
+3. `SitePageView` renders the quest guide's reading column: the breadcrumb, the title as the `h1` with the «Actualizado el» date under it (`UpdatedDate`), and the body through `GuideSections`, with `PageEnhancements` as the only client island and the live preview refresh in draft mode (the preview bar comes from the layout, above the header). No quest header, next quest card or progress.
 
-`sitePageSeo` (`src/lib/pages/page.ts`) gives the metadata: Torre's SEO title and description when written; otherwise the page title, and the first text of the body (rich text, callout or a step's text) clipped at a word to 160 characters, or the title when the body has no text. Open Graph adds the site name and share image from «Ajustes del sitio» (see [Site settings and index texts](../cms/site-copy.md)). A draft in preview is never indexed.
+`sitePageSeo` (`src/lib/pages/page.ts`) gives the metadata: Torre's SEO title and description when written; otherwise the page title, and the first text of the body (rich text, callout or a step's text) clipped at a word to 160 characters, or the title when the body has no text. Open Graph adds the site name from «Ajustes del sitio» (see [Site settings and index texts](../cms/site-copy.md)) and the page's own share card, `/<slug>/og`, and the page renders an Article JSON-LD (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)). Torre's links to his own site become relative where this site serves the path (`withSiteLinks`). A draft in preview is never indexed.
 
 `sitePageBreadcrumb` gives «Inicio», then the parent page only when it is populated and published, then the page itself.
 

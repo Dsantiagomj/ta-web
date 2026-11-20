@@ -32,6 +32,8 @@ sources:
     resource: repo://src/app/(frontend)/layout.tsx
   - id: openwiki-source-e6259e232b376ac021274244
     resource: repo://src/endpoints/health.ts
+  - id: openwiki-source-805634794c8e4fbf34a2f5bc
+    resource: repo://src/lib/analytics/umami.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-d71565e37020ac0fe77be60d
@@ -48,6 +50,8 @@ sources:
     resource: repo://src/lib/media/storage.ts
   - id: openwiki-source-c31449ae998e78dd836b84bc
     resource: repo://src/lib/monitoring/sentry.ts
+  - id: openwiki-source-e917033cef40494d844249a6
+    resource: repo://src/lib/site/live.ts
   - id: openwiki-source-2e24cfbb628a19f71e2bf154
     resource: repo://src/lib/site/origin.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
@@ -62,10 +66,10 @@ sources:
     resource: repo://tests/integration/env.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Environment configuration
@@ -85,15 +89,19 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `NEXT_PUBLIC_SITE_URL` | `siteUrl` and `SITE_URL` in `src/lib/site/origin.ts`: `metadataBase` in `src/app/(frontend)/layout.tsx`, canonical URLs, the JSON-LD, the `robots.txt` sitemap line, `/sitemap.xml` and the `Location` of legacy redirects. Trailing slashes are dropped. Required in production; development and tests fall back to `http://localhost:3000` | `.env`, Railway; the E2E and Lighthouse servers set it to their own `localhost` port |
 | `APP_ENV` | `isDevEnvironment` (the `noindex` header, `robots.txt`, the `/sistema` catalog), `sentryServerOptions` | Railway `dev` sets `dev`; empty locally and in production |
 | `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL` | `readS3Settings` (`src/lib/media/storage.ts`) | Railway |
+| `MEDIA_STATIC_DIR` | `src/lib/media/static-dir.ts`: another folder instead of `./media` when there is no R2 | Not needed by hand: the E2E and Lighthouse servers set it to `media/test/<database>`, one folder per test database |
+| `TWITCH_LIVE_URL` | `liveUrl` (`src/lib/site/live.ts`): the Cloudflare Worker that says whether Torre is live on Twitch, for the home page. Empty means Torre's worker (`TWITCH_LIVE_URL` constant); `off` never asks and the home page is never live | Empty in deployments; the E2E and Lighthouse servers set `off` |
+| `UMAMI_HOST`, `UMAMI_WEBSITE_ID` | `umamiConfig` (`src/lib/analytics/umami.ts`): Umami's URL and the website's UUID. Both valid or no tracker renders; never on the dev environment; read on every request, so changing them needs a restart, not a build | Railway production only (preserved secrets); the test servers blank them, except the E2E analytics server. See [Analytics with Umami](../operations/analytics.md) |
 | `SENTRY_DSN` | `sentryServerOptions` (`src/lib/monitoring/sentry.ts`) | Railway |
 | `SENTRY_AUTH_TOKEN` | `next.config.ts`, at build time | Railway (declared, not yet populated) |
 | `DOFUSDB_WRITE_CONCURRENCY` | `writeConcurrencyFromEnv` (`src/lib/dofusdb/refresh-quests.ts`), only for `pnpm data:refresh` (alias `pnpm data:quests`) | `.env` or the shell; empty means 8 |
 | `GIT_COMMIT_SHA` | `deployedCommit` (`src/lib/deploy/commit.ts`) | The release workflow, for production |
 | `APP_VERSION` | `resolveVersion` (`src/endpoints/health.ts`) | The release workflow, for production; falls back to the `package.json` version |
 | `RAILWAY_GIT_COMMIT_SHA`, `RAILWAY_ENVIRONMENT_NAME` | `deployedCommit`, `isDevEnvironment`, Sentry | Injected by Railway |
-| `E2E_PORT`, `E2E_DEV_GATE_PORT`, `E2E_SKIP_BUILD` | Playwright configs; `pnpm test:lhci` also reads `E2E_SKIP_BUILD` | `.env` or the shell |
+| `E2E_PORT`, `E2E_DEV_GATE_PORT`, `E2E_ANALYTICS_PORT`, `E2E_SKIP_BUILD` | Playwright configs (`E2E_ANALYTICS_PORT`: the second `pnpm test:e2e` server, with Umami on; default `E2E_PORT` + 2); `pnpm test:lhci` also reads `E2E_SKIP_BUILD` | `.env` or the shell |
 | `E2E_DESIGN_CATALOG` | `isDesignCatalogEnabled` (`src/lib/dev-gate/design-catalog.ts`): `1` opens `/sistema` on a production build | Only `playwright.config.ts`, for the `pnpm test:e2e` app; never a deployed environment |
 | `CHROME_PATH` | `scripts/lhci.ts`: the browser Lighthouse measures with; Playwright's Chromium when empty | The process environment only, not `.env` |
+| `LHCI_PORT` | `scripts/lhci.ts`: the port of the app Lighthouse measures; 3110 when empty, so two worktrees can measure at once | The process environment only |
 | `SMOKE_BASE_URL` | `playwright.config.ts` | The shell or the smoke workflow; never `.env` |
 | `RAILWAY_TOKEN`, `PROD_URL`, `DEV_URL` | GitHub workflows only | GitHub environment secrets and repository variables |
 | `GGA_CLAUDE_MODEL` | `scripts/hooks/gga-review.sh`: exported as `ANTHROPIC_MODEL` for the per-commit gga review; empty means `claude-sonnet-5-5` | The shell; local tooling only, the app never reads it |
@@ -146,17 +154,17 @@ Each group of variables has one small resolver function that takes an `env` reco
 
 ## Railway variable declarations
 
-`.railway/railway.ts` declares every Railway variable for the `web` service. Secrets use `preserve()`, which keeps the value already stored in Railway and never creates one, so secrets are entered in the Railway dashboard. A variable missing from this file is deleted by `railway config apply`, so any new Railway variable must be declared here first. The file sets `APP_ENV=dev` only for `dev`, and `GIT_COMMIT_SHA` and `APP_VERSION` only for `production`.
+`.railway/railway.ts` declares every Railway variable for the `web` service. Secrets use `preserve()`, which keeps the value already stored in Railway and never creates one, so secrets are entered in the Railway dashboard. A variable missing from this file is deleted by `railway config apply`, so any new Railway variable must be declared here first. The file sets `APP_ENV=dev` only for `dev`, and `GIT_COMMIT_SHA`, `APP_VERSION`, `UMAMI_HOST` and `UMAMI_WEBSITE_ID` only for `production`.
 
-In `dev` the file also declares the `game-data` service, the weekly `pnpm data:refresh --schedule` cron task. Its variables are references to the `web` service's (`web.env.DATABASE_URL`, `PAYLOAD_SECRET`, the `S3_*` set, `MEDIA_BASE_URL`, `SENTRY_DSN` and `NEXT_PUBLIC_SITE_URL`), plus `APP_ENV=dev` and `RAILPACK_NODE_VERSION`, so it needs no secret of its own (see [Deployment](../operations/deployment.md)).
+In both environments the file also declares the `game-data` service, the weekly `pnpm data:refresh --schedule` cron task. Its variables are references to the `web` service's (`web.env.DATABASE_URL`, `PAYLOAD_SECRET`, the `S3_*` set, `MEDIA_BASE_URL`, `SENTRY_DSN` and `NEXT_PUBLIC_SITE_URL`), plus `RAILPACK_NODE_VERSION` and, in `dev`, `APP_ENV=dev`; in `production`, `GIT_COMMIT_SHA` is a reference to the web's, so the task's Sentry errors carry the release commit. It needs no secret of its own (see [Deployment](../operations/deployment.md)).
 
 ## Test isolation from real databases
 
 Tests never trust a `DATABASE_URL` that might come from `.env`:
 
-- The Playwright configs load only the three `E2E_*` keys from `.env` (`loadE2eEnvFromFile` in `tests/e2e/app-server.ts`), and the smoke variables only from the process environment.
-- `pnpm test:lhci` loads the same three keys through `loadE2eEnvFromFile`, then overrides the app's environment with `lhciEnv` (`scripts/lhci-env.ts`): its own database for both URLs, a dummy `PAYLOAD_SECRET` when none is set, `NEXT_PUBLIC_SITE_URL` set to the local server, `APP_ENV` blank so it measures the public site rather than the dev gate, and every `S3_*` variable and `MEDIA_BASE_URL` blank. See [Performance budgets](../testing/performance-budgets.md).
-- E2E servers and the integration setup set `DATABASE_URL_DIRECT` to the same value as `DATABASE_URL`, because `pnpm migrate` prefers the direct URL and a value inherited from the shell would migrate a real database. The E2E app server also blanks every `S3_*` variable and `MEDIA_BASE_URL`, so the seeded image goes to local disk.
+- The Playwright configs load only the four `E2E_*` keys from `.env` (`loadE2eEnvFromFile` in `tests/e2e/app-server.ts`), and the smoke variables only from the process environment.
+- `pnpm test:lhci` loads the same keys through `loadE2eEnvFromFile`, then overrides the app's environment with `lhciEnv` (`scripts/lhci-env.ts`): its own database for both URLs, a dummy `PAYLOAD_SECRET` when none is set, `NEXT_PUBLIC_SITE_URL` set to the local server, `APP_ENV` blank so it measures the public site rather than the dev gate, every `S3_*` variable and `MEDIA_BASE_URL` blank with `MEDIA_STATIC_DIR` set to its database's folder, `TWITCH_LIVE_URL=off` and both `UMAMI_*` blank. See [Performance budgets](../testing/performance-budgets.md).
+- E2E servers and the integration setup set `DATABASE_URL_DIRECT` to the same value as `DATABASE_URL`, because `pnpm migrate` prefers the direct URL and a value inherited from the shell would migrate a real database. The E2E app server (`appEnv`) also blanks every `S3_*` variable and `MEDIA_BASE_URL` and points `MEDIA_STATIC_DIR` at its database's own folder, so the seeded image goes to local disk; it sets `TWITCH_LIVE_URL=off` and blanks both `UMAMI_*`, so the tests never reach the network or count a visit. Only `analyticsWebServer`, the second server, turns Umami on against `https://umami.e2e.invalid`.
 - `integrationEnv` blanks every `S3_*` variable and `MEDIA_BASE_URL`, so integration uploads go to local disk.
 
 See [Test suites](../testing/test-suites.md).

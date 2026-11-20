@@ -12,6 +12,8 @@ sources:
     resource: repo://scripts/redirects/stubs.ts
   - id: openwiki-source-14ca87abed0f0ffc69067570
     resource: repo://src/app/(frontend)/%5Bslug%5D/redirect-data.ts
+  - id: openwiki-source-e662deaf5fc4b6bc8b7128a5
+    resource: repo://src/app/(frontend)/site-data.ts
   - id: openwiki-source-90182fdeabeb5c115ecbd1e9
     resource: repo://src/app/sitemap.ts
   - id: openwiki-source-9b463f6e95f19dbe107025a0
@@ -42,8 +44,12 @@ sources:
     resource: repo://src/lib/seo/read-sitemap.ts
   - id: openwiki-source-f2cbd23a46d400c9ec031b6b
     resource: repo://src/lib/seo/sitemap.ts
+  - id: openwiki-source-d7984cca81aea65b0b072b91
+    resource: repo://src/lib/site/live-slugs.ts
   - id: openwiki-source-2e24cfbb628a19f71e2bf154
     resource: repo://src/lib/site/origin.ts
+  - id: openwiki-source-0d7ee8b23c7e115457b05c3b
+    resource: repo://src/lib/site/site-links.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
   - id: openwiki-source-a976bd3068a0e57bcc18a4a6
@@ -62,10 +68,10 @@ sources:
     resource: repo://tests/unit/slug-redirects.test.ts
   - id: openwiki-source-bdd83d0bfa58ad00bbe25676
     resource: repo://tests/unit/stub-redirects.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Legacy redirects, sitemap and robots.txt
@@ -85,15 +91,15 @@ Each top-level key is a section:
 
 Today there are three sections:
 
-- **`hubs`** (B-06, kept by hand): old hubs such as `/home`, `/index` and `/inicio-20` go to `/`, and `/logros` goes to `/metalogros`. Test copies, the data pages behind the old embeds (`/checklist-silvestre-datos` and the like) and `/cart` answer `410`.
-- **`metalogros`** (B-05, kept by hand): each `/metalogro-<x>` goes to the anchor of its panel on the metalogros index, `/metalogros#<x>`. `/metalogro-alineamiento-misiones` also goes to `#alineamiento`.
+- **`hubs`** (B-06, kept by hand): old hubs such as `/home`, `/index` and `/inicio-20` go to `/`, and `/logros` goes to `/metalogros`. The data pages behind the old embeds (`/checklist-silvestre-datos`, `/checklist-hielos-datos`, `/checklist-nebuloso-datos`) held the whole checklist and now go to their checklist. Test copies (`/wip`, `/hielos-test`, `/pruebas`), `/cart` and `/subscribe` answer `410`; `/subscribe` stays gone until member accounts exist (D-01).
+- **`metalogros`** (B-05, kept by hand): each `/metalogro-<x>` goes to the anchor of its panel on the metalogros index, `/metalogros#<x>`. `/metalogro-alineamiento-misiones` also goes to `#alineamiento`, and `/metalogro-misiones-principales`, which Torre links from his guides, goes to the world quests, `#misiones-de-mundo`. `/metalogro-krosmoz` joins when that metalogro exists (S-08).
 - **`stubs`** (B-04, generated, `permanent: false`): Squarespace's empty stub pages, sent to their achievement page or answered with `410`. See [The stubs section](#the-stubs-section).
 
 The rules, also in AGENTS.md (Redirects):
 
 - **301 for what is stable, 307 for what still changes.** Browsers and crawlers keep a 301 for good, so a section a script still rewrites answers 307.
 - **410 only for what is gone for good.** A URL whose page will exist later gets no row and answers 404 until the page is published.
-- **Do not redirect what is still on Squarespace.** Classes, dungeons, legal pages, tools, `/subscribe`, `/metalogro-krosmoz` and the checklists not yet ported stay out of the table until their section is ported or Torre drops them. When a section is ported (B-08), its URLs whose slug changes get a new section with a 301 each; a URL whose slug stays the same needs no entry.
+- **Do not redirect what is still on Squarespace.** Classes, dungeons, legal pages, tools, `/metalogro-krosmoz` and the checklists not yet ported stay out of the table until their section is ported or Torre drops them. When a section is ported (B-08), its URLs whose slug changes get a new section with a 301 each; a URL whose slug stays the same needs no entry.
 
 ## Validation: `src/lib/redirects/table.ts`
 
@@ -127,18 +133,28 @@ A page whose slug is a table source would never be seen, because the proxy answe
 
 ## The stubs section
 
-Squarespace had 166 empty stub pages (`scripts/redirects/stubs.ts`, from the 2026-11-02 crawl), each titled with an achievement or quest name. `pnpm redirects:stubs` (`scripts/redirects/build-stub-redirects.ts`) rewrites only the `stubs` section:
+The 2026-11-02 crawl found 166 empty stub pages (`CRAWLED_STUBS` in `scripts/redirects/stubs.ts`), each titled with an achievement or quest name. Torre has since filled some of them with whole quest guides: those are listed in `FILLED_STUBS`, are imported by `pnpm import:delta` (see [Inventory and delta import](../data/delta-import.md)) and are no longer stubs, so they get no row and the guide answers. `LEGACY_STUBS` is the crawled list minus the filled ones. `pnpm redirects:stubs` (`scripts/redirects/build-stub-redirects.ts`) rewrites only the `stubs` section:
 
 1. It reads the public REST API of a deployed site as a visitor, without credentials: dev by default, `--from <origin>` for production.
 2. `mapStubs` (`scripts/redirects/stub-map.ts`) derives the slugs a title could have produced (no accents, with or without the ñ) and matches them against achievement names and the names of their quests, using the DofusDB data ta-web already holds. Each stub ends up as one of:
    - `moved`: to the achievement page, when a visitor can open it; `STUB_OVERRIDES` sends a few Dofus stubs to their Dofus guide;
    - `pending`: the page exists but is «En preparación», so no row and a 404 until it is published;
-   - `gone`: no match, or an achievement with no page to wait for, so `410`;
+   - `gone`: an achievement with no page to wait for, a quest that no achievement of ta-web asks for, or a name that matches nothing, so `410`; the report gives each reason its own group;
    - `ambiguous`: the name matches several achievements, so no row and a report naming the candidates, for Torre to pick one in `STUB_OVERRIDES`;
    - `skipped`: the slug is already a ta-web document or is in another section.
 3. `stubsSection` writes the redirects with `permanent: false` (307), plus the 410s, and prints a report of what went where. `--dry-run` writes nothing.
 
 Rerun it after Torre publishes achievement pages. On cutover day it runs against production with `--cutover`, which drops `permanent: false` so the stub redirects become 301. `tests/unit/stub-redirects.test.ts` covers the matching, the outcomes, the section and the report.
+
+## Torre's links to his own site
+
+Torre's rich text, written for Squarespace, links his own pages as `https://www.torrentearcano.com/<path>` or `/<path>`. Before the cutover some of those paths are served here and some are not. `siteLinkHref` (`src/lib/site/site-links.ts`) decides what each link renders:
+
+- `ownSitePath` reads the path of a link to Torre's site, absolute (with or without `www`) or relative; a link to another site, an anchor or a non-address is left alone.
+- `servedPath` says what this site answers there: an own route (the home page, a reserved slug), a legacy table row (`redirect`, or `gone` for a 410), a page whose slug is live, or nothing.
+- When this site serves the path (and it is not a 410), the link becomes relative. Otherwise it points at Squarespace, which still has the page; a relative link is made absolute there. So a link never leads to a 404 here, and a 410 path stays on Squarespace for `pnpm links:legacy` to list.
+
+`readLiveSlugs` (`src/lib/site/live-slugs.ts`) gives the live slugs as an anonymous visitor sees them: published quest guides, and achievement pages, Dofus guides, standalone pages and checklists in the Publicada state, plus the slugs Torre changed. `loadLiveSlug` caches them under every page's cache tag. The `/<slug>` route passes each loaded page through `withSiteLinks`, which rewrites every Lexical link and autolink node with a written URL, anywhere in the data, without touching the cached original. The Dofus guide import applies the same rule when it stores links (see [Importing Torre's Dofus guides](../data/dofus-guides-import.md)). The read-only reports that check what is left before cutover are in [Legacy link reports and URL map](legacy-links.md).
 
 ## Changed slugs: the `redirects` collection
 

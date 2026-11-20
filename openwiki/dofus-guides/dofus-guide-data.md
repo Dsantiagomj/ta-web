@@ -36,10 +36,10 @@ sources:
     resource: repo://tests/unit/dofus-guides-index-global.test.ts
   - id: openwiki-source-bf9fb1ff7357ca38b1ad1283
     resource: repo://tests/unit/revalidate-guides.test.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Dofus guide data model
@@ -76,12 +76,13 @@ Two states matter and they are different things. `_status` (draft or published) 
 | `needs` | group | Necesitarás: an optional `title` (empty means "Necesitarás"), an optional `note` over all of it, and `groups` (below) |
 | `rewards`, `intro`, `outro` | rich text, localized | |
 | `parts` | blocks | The achievements and quests, in order (below) |
-| `body` | blocks | "Paso a paso", for step-by-step guides such as the Piñata de pino. Uses the quest guide blocks: rich text, image, video, callout, fight and step (see [Guide body blocks](../cms/blocks.md)) |
+| `body` | blocks | "Paso a paso", for step-by-step guides such as the Piñata de pino. Uses the quest guide blocks: rich text, image, video, callout, fight, table and step (see [Guide body blocks](../cms/blocks.md)) |
 | `video` | text | Optional YouTube URL, validated like the video block (`validateOptionalVideoUrl`), in the browser too through `OptionalVideoUrlField` |
 | `videoPoster` | upload to `media` | The video's poster, stored in Media so the page never fetches it from YouTube |
 | `checklist` | group of `name` and `url` | The checklist card on the page; `url` is validated by `validateOptionalUrl` |
 | `importSnapshot` | json, hidden | What the import last wrote per field, so a rerun never overwrites Torre's edits (see [Dofus guides import](../data/dofus-guides-import.md)) |
 | `originalUrl` | text | The Squarespace URL, in the sidebar |
+| `contentUpdatedAt` | date, hidden | When a panel user last published a content change (`trackContentDate`); the page's «Actualizado el» date (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)) |
 
 The form arranges these fields in three unnamed tabs, which only order the form: «Contenido» (intro, parts, body and outro), «Ficha» (level, tag, color, egg, prerequisites, rewards, aliases, checklist, video and poster) and «Necesitarás». The Dofus item, name, slug, state and order sit above the tabs.
 

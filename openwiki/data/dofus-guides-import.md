@@ -28,14 +28,16 @@ sources:
     resource: repo://scripts/import/live-slugs.ts
   - id: openwiki-source-5405923907e430198e1340e6
     resource: repo://scripts/import/media-by-url.ts
+  - id: openwiki-source-0d7ee8b23c7e115457b05c3b
+    resource: repo://src/lib/site/site-links.ts
   - id: openwiki-source-aca8c5eca0bb9faed8b02eb3
     resource: repo://tests/integration/import-dofus-guides.test.ts
   - id: openwiki-source-97156998ae416ce7b748cfeb
     resource: repo://tests/integration/import-dofus-items.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Importing Torre's Dofus guides
@@ -73,7 +75,7 @@ Names are compared after `fold`: lowercase, no accents, punctuation turned into 
 - **Achievement pages**: by linked slug, otherwise by folded name. A matched achievement becomes a `dofusAchievement` part with `pageQuests: false` and `ownQuests`: the quest rows as Torre wrote them, in his order, each with its title (`rowTitle`: the text up to its last link, without his step number or final full stop), the guides it links (several when he joins alternatives) and its note. What is not a quest (how to do the achievement) goes after it as a note. The part keeps `link`, his link to the achievement, for when its page is «En preparación». When his list differs from the quests of the achievement page, the report lists both under "Misiones distintas".
 - An achievement with no matching page does not lose its quests: it becomes a `dofusQuests` part titled with the achievement's name.
 - **Quest lists** (`questBlocks`): quests with a guide become rows of a `dofusQuests` part in Torre's order; a line that links something that is not a quest stays as a row with its link; a line with neither becomes a `dofusNote` in its place and splits the list («Hazla antes de la siguiente:»).
-- **Links to his own site** (`siteHref` in `scripts/import/dofus-guides/site-links.ts`): a link such as `/emote-soltar-los-gases` stays relative when this site already answers that path (a reserved route, a source of the legacy redirect table or a slug in `liveSiteSlugs`, `scripts/import/live-slugs.ts`: published quest guides and checklists, and published achievement pages, Dofus guides and standalone pages that are not «En preparación»). Otherwise it points at the same path on Torre's Squarespace site, so it never leads to a 404. A rerun after that page exists turns the link relative again, unless Torre changed the field.
+- **Links to his own site** (`siteHref` in `scripts/import/dofus-guides/site-links.ts`, which applies the same rule the pages use at render time, `siteLinkHref` in `src/lib/site/site-links.ts`, and only stores relative links): a link such as `/emote-soltar-los-gases` stays relative when this site already answers that path (a reserved route, a source of the legacy redirect table that does not answer 410, or a slug in `liveSiteSlugs`, `scripts/import/live-slugs.ts`: published quest guides and checklists, and published achievement pages, Dofus guides and standalone pages that are not «En preparación»). Otherwise it points at the same path on Torre's Squarespace site, so it never leads to a 404. A rerun after that page exists turns the link relative again, unless Torre changed the field.
 - **Necesitarás rows**: a row with a name becomes a `needItem` when `matchItem` finds the item, and otherwise stays as a `needNote` with Torre's text. A row with a quantity is a sure item, so a failed lookup stops the import. A row without a quantity is an item (quantity 1) only when exactly one game item has that name; if the DofusDB lookup fails it stays a note and the report lists it.
 
 ### Necesitarás groups

@@ -20,6 +20,8 @@ sources:
     resource: repo://src/collections/checklist-rules.ts
   - id: openwiki-source-c74463529d89880b13383ea1
     resource: repo://src/collections/Checklists.ts
+  - id: openwiki-source-b5ebd1b0d78d15bedec5d16c
+    resource: repo://src/collections/content-date.ts
   - id: openwiki-source-eec436a9dcb7734a62bf153f
     resource: repo://src/collections/editorial-access.ts
   - id: openwiki-source-14b74cda6fb31c51d7062a0d
@@ -32,10 +34,10 @@ sources:
     resource: repo://src/lib/checklists/strings.ts
   - id: openwiki-source-7a4e3f6c5cd439edff79c99b
     resource: repo://tests/integration/import-checklists.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Checklist data and import
@@ -73,7 +75,7 @@ Checklists live in the `checklists` collection (`src/collections/Checklists.ts`)
 
 Access follows the editorial rules: visitors read published documents, panel users read everything and create and update. Deleting uses `adminOrNotImported('importSnapshot')`: an admin deletes any checklist, an editor only one the import did not create (see [Admin panel](../cms/admin-panel.md)). The collection sets `disableDuplicate: true`, because a copy would carry the same step identifiers and two checklists would share progress.
 
-The collection mounts `GET /api/checklists/:slug/details` and `GET /api/checklists/poster-progress`, and expires the `checklists` and `dofus-guides` cache tags on every save and delete, drafts included (a Dofus guide links its checklist once it is published). When a published checklist changes its slug, `trackSlugMove` and `applySlugMove` add a redirect from the old address (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
+The collection mounts `GET /api/checklists/:slug/details` and `GET /api/checklists/poster-progress`, and expires the `checklists` and `dofus-guides` cache tags on every save and delete, drafts included (a Dofus guide links its checklist once it is published). When a published checklist changes its slug, `trackSlugMove` and `applySlugMove` add a redirect from the old address (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)). A hidden `contentUpdatedAt` date, set by `trackContentDate` when a panel user publishes a content change, gives the checklist's «Actualizado el» date (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)).
 
 ### Steps
 

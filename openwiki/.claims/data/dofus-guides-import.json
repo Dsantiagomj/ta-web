@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:338d859995b6f8d6fd367003ba20d4a40887c3ade4b29ed965610daf6d41dc34",
+  "pageVersion": "sha256:5cceb2aab7be651dc76229c5e164adfe1cdbd325b32f0d6dbb75d7edf80fece5",
   "claims": [
     {
       "id": "claim_9569fdd409a944ff92b2c1726085be24",
       "statement": "pnpm import:dofus-guides runs the database guard before starting Payload, only counts and warns without --apply, and with --from reads <dir>/<slug>.html instead of downloading Torre's pages.",
       "evidence": [
         {
-          "resource": "repo://package.json#L32-L32",
-          "version": "repo-lines-v1:sha256:cd6dd651045b58bac56c5ffd886feed870c6822f6be248c5bcd51352b2fb259c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjdlMzY2YzIyZTZlYmUyMTFlMjUxOTcwMTcwNWQ0Y2Q1ZTA3YzEyNmMzNzZjMzhlZTA4YWU5ZTNhNzUyMTI1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTA0ZDc3Mzc1MmY2NzI3YTE2ZmVkNTAwMGY1NTBjYWMyODQwZGRjNjczNmU4MDg5OWQ2MGRjMDNmYTY2M2YzOCJ9"
+          "resource": "repo://package.json#L35-L35",
+          "version": "repo-lines-v1:sha256:cd6dd651045b58bac56c5ffd886feed870c6822f6be248c5bcd51352b2fb259c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmExNzUzYTcyYTJlZjhhZDdhNzg2OTZjODI1MTk1YzJjYWNkMWY1ZmY0ZmVlYmQxMjIyZDBhY2Y1ODYxOGY2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTA0ZDc3Mzc1MmY2NzI3YTE2ZmVkNTAwMGY1NTBjYWMyODQwZGRjNjczNmU4MDg5OWQ2MGRjMDNmYTY2M2YzOCJ9"
         },
         {
           "resource": "repo://scripts/import/import-dofus-guides.ts#L1-L60",
@@ -222,15 +222,19 @@
     },
     {
       "id": "claim_5c141cf5660d4d04b82941229556ff54",
-      "statement": "siteHref keeps a link to Torre's own site relative when this site already answers the path (a reserved route, a legacy redirect source or a live slug) and otherwise points it at the same path on his Squarespace site.",
+      "statement": "siteHref keeps a link to Torre's own site relative when this site already answers the path (a reserved route, a legacy redirect source that does not answer 410, or a live slug) and otherwise points it at the same path on his Squarespace site, through the same siteLinkHref rule the pages use.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/dofus-guides/site-links.ts#L1-L22",
-          "version": "repo-lines-v1:sha256:82eb38d3ea232d3e35a495734db12609634f372ea3c34b5f1915be18f8e183cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4ODQ5MjUxMzZmODk0YjEyZTBhNWRlNTFhNDA4Y2RlNjU3NmNmNmI5M2ZlZTk2YjVkOTRmZWNjYmEzMWZkMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/import/dofus-guides/site-links.ts#L1-L15",
+          "version": "repo-lines-v1:sha256:af0b7d7acc79643643e802e9a87235443ff5ae9e9a83acb6d9f0f1654686962e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4ODQ5MjUxMzZmODk0YjEyZTBhNWRlNTFhNDA4Y2RlNjU3NmNmNmI5M2ZlZTk2YjVkOTRmZWNjYmEzMWZkMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://scripts/import/live-slugs.ts#L1-L37",
           "version": "repo-lines-v1:sha256:34ae4b9a56cad49e9e2e608f34ad412a562b72275705def7abcbdc006697e823:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2MzZmY2Q3NmE0YWY3YWE1NDU5ZDczMGVhZjQ5YjNkN2RhZjdkYTc2M2ZmMjk3MjQwOTQ0Mzc0YTQ4YjljNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/site/site-links.ts#L45-L70",
+          "version": "repo-lines-v1:sha256:9d0a4f064eb442fc0e1fcdf57e022576ec958c132f5dffc0dfb4c4eeb09b8ccf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3MjYzYmU1YjIwODVjYjg0YTI1Y2M2ZWQ4NzIyNmMzYmQ5NTczM2E4MGVhMGVjZmM1YzdhZTRlNTk0YzBjMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljZTVkOTQxZDYxMDVlNGJjOTNlYzE2Yjc1MDRhMGY0MTBlYTM4ZWY0ODQxNDdmYjViZmU1NjE1YTFjZWY1NjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzODkxNjVkYTQzMWY1NTgzZDViNzRmNDJjZTcwOWQ4NzQ0Yjc1MzYxYmUwNTRkOGIwMmQ1MTYzNzZjOGU4NDEifQ"
         },
         {
           "resource": "repo://tests/integration/import-dofus-guides.test.ts#L962-L1013",
@@ -241,6 +245,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

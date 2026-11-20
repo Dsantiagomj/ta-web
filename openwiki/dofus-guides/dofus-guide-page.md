@@ -10,6 +10,8 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/DofusGuideView.tsx
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
+  - id: openwiki-source-c7403ffa805d074d48baea6e
+    resource: repo://src/app/(frontend)/%5Bslug%5D/seo-data.ts
   - id: openwiki-source-10b98fc83fb5e49b777c3566
     resource: repo://src/components/achievement/achievement.css
   - id: openwiki-source-4d5101e22a43d90e5f3610c9
@@ -24,10 +26,10 @@ sources:
     resource: repo://tests/integration/dofus-guide-queries.test.ts
   - id: openwiki-source-dfcb2081da061b860bb5cf7e
     resource: repo://tests/unit/dofus-guide-page.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Dofus guide page
@@ -36,7 +38,7 @@ A published Dofus guide (see [Dofus guide data model](dofus-guide-data.md)) rend
 
 ## Route
 
-`src/app/(frontend)/[slug]/page.tsx` tries, in order, a quest guide, an achievement page, a Dofus guide, a standalone page and a checklist; slugs never collide across them. `loadDofusGuide(slug)` runs only when neither of the first two exists; when it returns null the route tries the rest and finally answers a 308 to a changed slug's new address or 404 (see [Request pipeline](../architecture/request-pipeline.md)). `generateMetadata` uses the same order: for a Dofus guide the title and description come from `dofusPageStrings.seo` with the guide name, the canonical URL is `/<slug>`, Open Graph type is `article` with the site name and share image from «Ajustes del sitio», and a preview sets `robots: { index: false, follow: false }`.
+`src/app/(frontend)/[slug]/page.tsx` tries, in order, a quest guide, an achievement page, a Dofus guide, a standalone page and a checklist; slugs never collide across them. `loadDofusGuide(slug)` runs only when neither of the first two exists; when it returns null the route tries the rest and finally answers a 308 to a changed slug's new address or 404 (see [Request pipeline](../architecture/request-pipeline.md)). `generateMetadata` uses the same order: for a Dofus guide the title and description come from `dofusPageStrings.seo` with the guide name, the canonical URL is `/<slug>`, Open Graph type is `article` with the site name from «Ajustes del sitio» and the page's own share card (`/<slug>/og`, the Dofus egg on the card), and a preview sets `robots: { index: false, follow: false }`. The route also renders the page's Article JSON-LD and passes the loaded guide and the live slugs to the view, so Torre's links to his own site become relative where this site serves the path (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)).
 
 A guide in state `preparing` has no page: the query filters it out for visitors, so the route returns 404.
 
@@ -78,7 +80,7 @@ A guide in state `preparing` has no page: the query filters it out for visitors,
   - A note is Torre's rich text.
   - A part whose achievement page or quest guide the visitor cannot see is not rendered; a metalogro or loose-quest list left empty is dropped.
 - **Video**: the YouTube ID, the guide name as title and the poster from Media.
-- **Checklist**: a card when the guide has a checklist name and somewhere to link: the published checklist of this Dofus on this site, or else the guide's Squarespace checklist URL.
+- **Checklist**: a card when the guide has a checklist name and somewhere to link: the published checklist of this Dofus on this site, or else the guide's Squarespace checklist URL, made relative when this site serves its path (`ownLink`, which applies `siteLinkHref` to every link Torre wrote on the guide: the checklist URL and the loose link rows). Links to other sites open in a new tab (`SiteOrWebLink`).
 - **Previous and next**: the neighbours of the current guide among the published Dofus of the list, each with its egg and meta line.
 - **Breadcrumb**: "Guías de Dofus" (`/guias-dofus`) as the only parent; the guide itself goes only in the `BreadcrumbList` JSON-LD.
 
@@ -86,7 +88,7 @@ A guide in state `preparing` has no page: the query filters it out for visitors,
 
 `DofusGuideView` (`src/app/(frontend)/[slug]/DofusGuideView.tsx`) lays out the column; the parts are in `src/components/dofus/DofusGuideParts.tsx`. They reuse the achievement page's styles (`achievement.css`, classes `logro`, `lhead`, `lnav`) and the guide components:
 
-- `DofusHeader`: the egg (`Picture` with `priority`, the LCP image), the title, the meta line with the tag pill, and the Prerrequisitos and Recompensas columns, Torre's rich text with its links.
+- `DofusHeader`: the egg (`Picture` with `priority`, the LCP image), the title, the meta line with the tag pill, the «Actualizado el» date (`UpdatedDate`, from `contentDate(guide).modified`), and the Prerrequisitos and Recompensas columns, Torre's rich text with its links.
 - `DofusChecklist`: the checklist card with the egg.
 - Hues: the section titles of the body (`.dg-sec > h2`) cycle through `--color-hue-2`, `--color-hue-5` and `--color-hue-8`; the quest rows of each achievement part (`.dg-ql__i`) take the eight hues in order like the achievement page's quest list; Prerrequisitos and Recompensas in the header take their part hues (see [Achievement page](../achievements/achievement-page.md#hues)). The video stays at `--width-video` however wide the column is.
 - `DofusNeeds`: the title, the guide's note, then one block per group (`DofusNeedGroup`, also drawn alone by the `/sistema` catalog for the panel thumbnails) with its name; in each part, the subtitle and then the item rows in columns (icon well, "N ×" and the name) followed by the notes, each in Torre's order. Every item name is a `CopyName`, which copies it to search in the game. The notes sit in a grid of `auto-fit` columns at least 15rem wide, so a lone note takes the full row up to the text measure (`--width-prose`) instead of being squeezed into one column; a dungeon note's boss renders in its well with `kind="dungeon"`.

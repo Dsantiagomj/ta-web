@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:22b0391b4a90c7dc381a278f1d5d562b5a9692eac724e18fd55d5f89be66b54f",
+  "pageVersion": "sha256:180d2e4a8c068319d704e963a0871bf35a991022ba110da03c893ef34c9b3b42",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
@@ -80,11 +80,15 @@
     },
     {
       "id": "claim_665b4ae26d0c49448763bfa54e166c05",
-      "statement": "Without R2 configured, uploads are stored under the media static directory.",
+      "statement": "Without R2 configured, uploads are stored under the media static directory: ./media, or the folder MEDIA_STATIC_DIR names.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Media.ts#L96-L100",
-          "version": "repo-lines-v1:sha256:40c26fa76858a09dd68cf4badfc6b7bf8e3f4dcf8cd3406a2828f2d5f469d6d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmRhMzk5M2E3MzE1ZGQ3NWEyNGZkNDI2OWIyMThmYWJiYjVjZjI1ZDAyMTIzZDZhNTI3MTU3MDhhNDMzODQ2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWExYzA4MTQ5MDEwZTAwMDZiMGFlODBmMTJlNDU1ZDE2NzE3ZWYzYTE4MDc3MmYwOThlNzc3MmFmNjJmN2VhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+          "resource": "repo://src/collections/Media.ts#L97-L102",
+          "version": "repo-lines-v1:sha256:bcc493904ea44c44d3d9a558481d816bd7baa20ca11eedb309f6ca9c4d9259f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmRhMzk5M2E3MzE1ZGQ3NWEyNGZkNDI2OWIyMThmYWJiYjVjZjI1ZDAyMTIzZDZhNTI3MTU3MDhhNDMzODQ2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWExYzA4MTQ5MDEwZTAwMDZiMGFlODBmMTJlNDU1ZDE2NzE3ZWYzYTE4MDc3MmYwOThlNzc3MmFmNjJmN2VhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+        },
+        {
+          "resource": "repo://src/lib/media/static-dir.ts#L10-L17",
+          "version": "repo-lines-v1:sha256:bc8084ff0a89cfa448c67802849f13aaf90782a078180adc124c2ea29aaa8409:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjZlMmQyNTZjZTRkMDRkZDg5YTY3NjM3MmI3YmY0ZTE2NmQzMDZmMzBlMzEyZWEyZDA5ZDhjMzMwOTFiYzE2NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzM4ZTllN2VlMDBmZGNlMTQ3NzI4MGExNmNlMWQ0MmRjYzIxMDlhNGFlNDdkNzNkODAzYmMwOGZjYjMxMDU2NiJ9"
         }
       ]
     },
@@ -103,12 +107,12 @@
       "statement": "The Squarespace import stores each image once in media as the original file with alt and originalUrl, looking it up by originalUrl before downloading, and Payload generates its sizes on that upload.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L198",
-          "version": "repo-lines-v1:sha256:08550d15e744dd27715062dc2f06c86d6ecc26ddb0f17ce3376909bbccc60ad7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkN2ExZmIxYzE4ZmQzOTk5MjE5NmEwNDUxNTcwNTEwMWJkOWNkMjc4YmFiYTc0NTUwMDVjOThmZTM0MmYyYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA1Mjg4ZTRiZThjODExNzA1YWIzMzQ5Y2UxZmUwMTdjMzJkYWYyMWEyMzEwNTk4OTgwMzY1ZjM5NjQ1ZjQwYWYifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L345-L381",
+          "version": "repo-lines-v1:sha256:3bea1782d8fa84d355dac111a8f81cbe5cae74355f01548fb2926d5b448ffd53:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2MDZiMTJjYWE1YjZiOWM1MThkNGY5NThiYjI0ODk1NjUyYzZjZjFlYjdmMjMzMzg0M2M1OGQyN2NlNWI3MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU5NzMyZGRlYTdiODA4MmM3NDc4ODJkZmI3Y2YzYWUzZjUzMDY4NGZiMmNkZDM5NGM4MzM3MmVkYjUyMDNlZmQifQ"
         },
         {
-          "resource": "repo://src/collections/Media.ts#L86-L95",
-          "version": "repo-lines-v1:sha256:711ed127e36429d32714f1c7f5b1e4d75ddd95852a840c787f85855a17d48026:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NGQ4YzA3MzQyOTg5MzEwMTU3NmQ4OGQ5OTEyN2U4OWQ2ODkxZDNiMTdlODlkZjAyZWM5YWU3MDcwNWQ4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0N2JmNzk3ZWQ3ZWMwMjk4MTViOTU5NGZmMDZmYTBiYzQwMGJmZmJjY2Q2NWQwOWYyYTVhZTRlZDVmYTAyMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5YTQyYzZjODM0Yzk5MWM3MDIyMWEzNzVhZTk3YTAxZDRiMzNmOTQzZjdlZGNjYzUzNTE1YjdmZjZiNzRhOWYifQ"
+          "resource": "repo://src/collections/Media.ts#L87-L96",
+          "version": "repo-lines-v1:sha256:711ed127e36429d32714f1c7f5b1e4d75ddd95852a840c787f85855a17d48026:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NGQ4YzA3MzQyOTg5MzEwMTU3NmQ4OGQ5OTEyN2U4OWQ2ODkxZDNiMTdlODlkZjAyZWM5YWU3MDcwNWQ4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0N2JmNzk3ZWQ3ZWMwMjk4MTViOTU5NGZmMDZmYTBiYzQwMGJmZmJjY2Q2NWQwOWYyYTVhZTRlZDVmYTAyMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MDg4MTExMjBmN2FmNzZmZTdiZDEwNWE0NmQ2NjcyYWUyOGM1MzFjMjg5MzY4MDQ0Mjg0NDI2MjA0ZjU1MzgifQ"
         }
       ]
     },
@@ -205,7 +209,7 @@
       "statement": "In the media collection any panel account can upload and edit, only an administrator can delete, and beforeDelete refuses to delete game art with a gameAsset key or an image that a guide, a standalone page, a class or dungeon page, a Torre correction, a checklist, achievement prose, a zone background, the checklists index teaser or the site settings share image uses.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Media.ts#L40-L60",
+          "resource": "repo://src/collections/Media.ts#L41-L61",
           "version": "repo-lines-v1:sha256:5b6e3d0d8162d85a32504f896913d5f4c6a46ce616b8c322a554ba93df8646fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NmI4YTBlODgyZjhlMzdjODIwODVmZjE1NDk4MzcyODFhNTE4YmEwODM1MTVkZmU0YTAyMmIwNTJiMDQ0MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1MmNjYWY4NmE5ZjM1MzY4ZmU3ODdmNzg2MjU5N2ViMzZiMWFhNjIwMjBkZTExZjFkOWY3MmYxNzJkNmViYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhY2QxZGM1NjFkZDRhY2NkNjBkM2M2YjY4MGJhNzE1NWQ0ZTFmZTY0ZTljOWY1Yjk5ODI4YTgyMzgwZGRmNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljNDUxNDMwYzM4NWI2MjRjYmIwNDE4MmRlOTI3MDk4ZTJiZGJiOWIzZDkwNGJiMWJhMjI2MjBhNjYzYmZkYzEifQ"
         },
         {
@@ -267,10 +271,28 @@
           "version": "repo-lines-v1:sha256:38df022e7ec0a02a748cbe5941c9cf3508ce99880f9068b8e4f64623ebfd6b3d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2M2FlMTQ2YjFjYjU1MDUwY2I5OTFlZDhhZmUyYTM4NTk2ZjczYWFhMThjMmU4OGZlZmNiYTY1ZmU5OTI2OWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5NmY4Y2IwODNmYTgwMGE0ZGNkMjk2OTcyMmQ3YjkyNjg2YWRkOWViZTM2NTU0OTJmYTY3MmIxYTdjZWQyNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwY2VjMzkxZDBkNTZjYmU5ZjBhNmJhOTJlNGUxMmNjYmUzNjAxMDc5NmJkYzhkYjdmYWMyOGUzODQzNWU4OGMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_c6539a0fcc1e4c8889d116c81513254c",
+      "statement": "testMediaDir gives each test database the folder media/test/<database>, and the E2E seed empties that folder before uploading when the database has no media record, never touching ./media, a folder outside media/test or a setup with R2.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/seed-e2e.ts#L26-L33",
+          "version": "repo-lines-v1:sha256:07f24174bfe1294c9bcd3f3e207d6c2c5a1882c3361f4694d51083a5bc9e2797:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWZlMzllZGE4ZmVjYWVmYzI3MWZhODg5NmE1ZTk3NWU4YzQ2NWE3ZWNhMmM0MzMzZjIwNWFlNDU4ZTJlMWYzZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzY1ZjkwMjZjOTc0OWIzZDZiZWYwYjc2MGVmM2YxNDNjZDVhYzYzN2NhOTllOTIzOGQyM2FlNTEzMzc5YTJmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzgyMTNkODA5OTFjZjJhZmQwM2RlNzViNDgzMDEzMGMyOThjMzIzODczOTgyN2MxMjkzNGI4NGM1MWU5YzMyYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDVmYmU5OTY4MmZkOGEwM2NlY2VlZGM1Nzk2YWY0ZDkyYzAzNWVlNzExNDkwM2I4M2FkYjliODZlYjcyNTBmOCJ9"
+        },
+        {
+          "resource": "repo://src/lib/media/static-dir.ts#L19-L40",
+          "version": "repo-lines-v1:sha256:fa49c24fd48379c707d9165da7b9fcc095c4aea6063c094aff22850faa7ecfd5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5ODljMzEzZThlNTBkMTUxZDMwOWUyZWM2ZWNhZDM2MTQ0MjE3MjExNjA5ZjIxOTc5NzAzNTQ3MTNmYTljZDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/media-static-dir.test.ts#L11-L60",
+          "version": "repo-lines-v1:sha256:1d0b67e48c496a2dcb04d79854536758f9503964213fb80227f2bf52a97e2fd1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlZGU3MDZhMjJhZTY1ZWMwMWE0M2FkMDVhOTdmMWIxZWRmMDhiNjZiYWQxM2RkZmExMmViNmJhZTg3Mzg1ZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZTExMTQzOWExZjUxMjcwMzcyYzAzY2FkMTNkYTZmOWQyOWY0MjY2ZTg5OWQ0ZmQ4M2U0ZWU5MzEyMjA2NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdiNGIwZmYxZTVmMDViMDg5OTAyMGVmYjgxYWY5Mzg4ZjdjYjI1ZmYwY2VhNDIxMjQ1YWZiODEwNDdhYzM3YzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE5ODMwOWZmNDI0NTQ5YmU3NDZkZGZkMzZjODAxZTRmNTJmOThkYjllMWViYzY4OThjMGNhNDJiMDg4NmNlMzUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

@@ -1,9 +1,11 @@
 ---
 type: testing
 title: Test suites
-description: The six test suites (unit, integration, E2E, dev-gate E2E, smoke and the Lighthouse CI budgets), what each one covers, how each provisions its database and app server, and the guards that keep tests away from real databases.
+description: The seven test suites (unit, integration, import golden pages, E2E, dev-gate E2E, smoke and the Lighthouse CI budgets), what each one covers, how each provisions its database and app server, and the guards that keep tests away from real databases.
 tags: [testing, vitest, playwright, integration, e2e]
 sources:
+  - id: openwiki-source-164e2da859b5277df81c7d94
+    resource: repo://.github/workflows/ci.yml
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
@@ -18,12 +20,18 @@ sources:
     resource: repo://scripts/lhci-env.ts
   - id: openwiki-source-b8d2cb44b5c8224f8b87d0ce
     resource: repo://scripts/seed-e2e.ts
+  - id: openwiki-source-92d3ab1ac58352db5a7208ba
+    resource: repo://tests/e2e-dev-gate/analitica.spec.ts
+  - id: openwiki-source-32431d29f06d622fcef95733
+    resource: repo://tests/e2e/analitica.spec.ts
   - id: openwiki-source-b7bd22dad74cd163547ea010
     resource: repo://tests/e2e/ancho.spec.ts
   - id: openwiki-source-15d81576125ffd9d62dc8605
     resource: repo://tests/e2e/app-server.ts
   - id: openwiki-source-df563b1c48e3697f45171c21
     resource: repo://tests/e2e/brand.spec.ts
+  - id: openwiki-source-465c7e625d67dea56657419a
+    resource: repo://tests/e2e/buscar.spec.ts
   - id: openwiki-source-427eacf7850519fc2b6f8403
     resource: repo://tests/e2e/cabecera.spec.ts
   - id: openwiki-source-7bdfd1e280a0f7acbb93545d
@@ -42,6 +50,10 @@ sources:
     resource: repo://tests/e2e/checklists-index.spec.ts
   - id: openwiki-source-521a6f9330c660134b3f506f
     resource: repo://tests/e2e/colores-forzados.spec.ts
+  - id: openwiki-source-fac0617efe4abe58dae7ad5d
+    resource: repo://tests/e2e/compartir.spec.ts
+  - id: openwiki-source-cc8de129cc22529dbe506ad9
+    resource: repo://tests/e2e/enlaces-externos.spec.ts
   - id: openwiki-source-4416cc7317c4d82e3e3b5a9d
     resource: repo://tests/e2e/fondo-zona.spec.ts
   - id: openwiki-source-29d77f6ec30639b62aac4359
@@ -50,6 +62,8 @@ sources:
     resource: repo://tests/e2e/guia.spec.ts
   - id: openwiki-source-0541138ab33ba7b069dd2d9c
     resource: repo://tests/e2e/guias-dofus.spec.ts
+  - id: openwiki-source-f2beaf80b1decf5de1f10e4c
+    resource: repo://tests/e2e/hojas-de-estilo.spec.ts
   - id: openwiki-source-56e69ff855b72fe8f7271241
     resource: repo://tests/e2e/impresion.spec.ts
   - id: openwiki-source-1ad069df7a453770f4cdef35
@@ -58,6 +72,8 @@ sources:
     resource: repo://tests/e2e/kofi.spec.ts
   - id: openwiki-source-f282069309be3e71d0f9abfa
     resource: repo://tests/e2e/layout-lint.ts
+  - id: openwiki-source-e93314dd57b554043afd97ed
+    resource: repo://tests/e2e/logro-sin-misiones.spec.ts
   - id: openwiki-source-1f65cb688406ef2eb6ebe494
     resource: repo://tests/e2e/logro.spec.ts
   - id: openwiki-source-9484de14d1905b6558564507
@@ -78,6 +94,8 @@ sources:
     resource: repo://tests/e2e/panel-papeles.spec.ts
   - id: openwiki-source-993f89ea470e9a6cd87d8250
     resource: repo://tests/e2e/panel-refrescos.spec.ts
+  - id: openwiki-source-3cddcdd131fbde803c1285b0
+    resource: repo://tests/e2e/panel-tabla.spec.ts
   - id: openwiki-source-ea417dee8b5fd3c2b35d3972
     resource: repo://tests/e2e/panel.spec.ts
   - id: openwiki-source-c04b26872daa30d9d3f5983e
@@ -102,6 +120,8 @@ sources:
     resource: repo://tests/e2e/sistema.spec.ts
   - id: openwiki-source-a493eb920ff6a7f8859a6c69
     resource: repo://tests/e2e/smoke.spec.ts
+  - id: openwiki-source-44e10325cb132cfb3088b93a
+    resource: repo://tests/e2e/tabla.spec.ts
   - id: openwiki-source-9c65b52c433aba335735dff5
     resource: repo://tests/e2e/temas.spec.ts
   - id: openwiki-source-ffbd2a66dcd49833dd7094eb
@@ -120,6 +140,10 @@ sources:
     resource: repo://tests/integration/achievement-pages.test.ts
   - id: openwiki-source-fe280752cf4e8fded95852d9
     resource: repo://tests/integration/backfill-fights.test.ts
+  - id: openwiki-source-cb75e69c02d7702f518710b0
+    resource: repo://tests/integration/backfill-summary-text.test.ts
+  - id: openwiki-source-6c075afc076ebc8f82b84f46
+    resource: repo://tests/integration/content-date.test.ts
   - id: openwiki-source-7da6adea234eeecb4f217f67
     resource: repo://tests/integration/delete-references.test.ts
   - id: openwiki-source-ba0c02c20c1203ccdd8a9159
@@ -138,10 +162,18 @@ sources:
     resource: repo://tests/integration/guide-search-index.test.ts
   - id: openwiki-source-8f0065e4504cfadc651f72a5
     resource: repo://tests/integration/guide-single-quest-migration.test.ts
+  - id: openwiki-source-320ff860c1a7de47e4c8c77d
+    resource: repo://tests/integration/import-alignment-achievements.test.ts
+  - id: openwiki-source-ad71a64f6dd2ca8539db322b
+    resource: repo://tests/integration/import-delta.test.ts
   - id: openwiki-source-6d63967683e8fb611f26b906
     resource: repo://tests/integration/import-disconnect.test.ts
   - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
     resource: repo://tests/integration/import-quest-guides.test.ts
+  - id: openwiki-source-93b4381cfff66e6b28748328
+    resource: repo://tests/integration/legacy-links.test.ts
+  - id: openwiki-source-ac4e7288ab3ba74b8c2eb11c
+    resource: repo://tests/integration/live-slugs.test.ts
   - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
     resource: repo://tests/integration/migrations.test.ts
   - id: openwiki-source-5753af90697570a0ebcd954f
@@ -164,6 +196,8 @@ sources:
     resource: repo://tests/integration/remove-step-title-migration.test.ts
   - id: openwiki-source-f4f637fe7c0ff45ea1a88a59
     resource: repo://tests/integration/site-counts.test.ts
+  - id: openwiki-source-4244ac2d5001271bd2048f96
+    resource: repo://tests/integration/table-block.test.ts
   - id: openwiki-source-cb15629b981f292fdc846429
     resource: repo://tests/integration/users-lockout.test.ts
   - id: openwiki-source-5bc1bf3e63433094c2d46303
@@ -186,6 +220,8 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
+  - id: openwiki-source-a43a9e5ed45afaa192ecca23
+    resource: repo://tests/unit/fonts.test.ts
   - id: openwiki-source-0dce08d52a9be6f19ead446b
     resource: repo://tests/unit/game-components.test.tsx
   - id: openwiki-source-cd37c5a886e3aa1e214dad74
@@ -226,22 +262,25 @@ sources:
     resource: repo://tests/unit/ui-components.test.tsx
   - id: openwiki-source-b58f839a189d87a7e1f37d39
     resource: repo://vitest.config.mts
+  - id: openwiki-source-6084df42bc550c2967b0e6f1
+    resource: repo://vitest.import.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Test suites
 
-The repo works test-first (AGENTS.md: strict TDD). There are six suites. All of them run in CI except smoke, which runs after deploys.
+The repo works test-first (AGENTS.md: strict TDD). There are seven suites. All of them run in CI except smoke, which runs after deploys.
 
 | Suite | Command | Runner | Location | Needs |
 |---|---|---|---|---|
 | Unit | `pnpm test` | Vitest | `tests/unit/` | Nothing |
 | Integration | `pnpm test:integration` | Vitest | `tests/integration/` | Postgres, migrations |
+| Import golden pages | `pnpm test:import` | Vitest | `tests/import/` | Nothing (saved pages in `tests/fixtures/import-golden/`) |
 | E2E | `pnpm test:e2e` | Playwright | `tests/e2e/` | Production build, Postgres, migrations |
 | Dev environment | `pnpm test:e2e:dev-gate` | Playwright | `tests/e2e-dev-gate/` | Same build, `APP_ENV=dev` |
 | Smoke | `pnpm test:smoke` | Playwright (`@smoke` subset) | `tests/e2e/` | A local server, or a deployed URL |
@@ -260,7 +299,7 @@ The repo works test-first (AGENTS.md: strict TDD). There are six suites. All of 
 - DofusDB refresh: `dofusdb-client` (paging, `$select[]` fields, ID chunks, pauses and errors through an injected fake `fetch`, never the network; retries of network errors and 429, 502, 503 and 504 with doubling waits, jitter, `Retry-After` and one log line each, giving up after 5 attempts with the URL in the error, and no retry on 400 or 404, through injected `sleep`, `log` and `random`), `dofusdb-criterion` (`requiredTerms`: the terms joined by `&` at the top level or inside `&`-only brackets, nothing from a level with `|`, nothing for an empty criterion), `dofusdb-map-quest` (names, start positions, zone, achievement, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, the XP range, per-step flooring, the last reward entry, items and IDs), `dofusdb-npc-render` (render URLs and keys), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`), `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions are looked up by ID; the sub-areas and areas of the start maps; the whole monster and item catalogs, every achievement and every achievement category come from `fetchAll` with only the fields used), `dofusdb-map-achievement` (objectives, alternatives, the experience of Torre's pages, rewards for level 200, `countsFor`), `dofusdb-game-images` (the 128 px image URL and the per-image key) and `dofusdb-write-concurrency` (`DOFUSDB_WRITE_CONCURRENCY`: empty gives the default, which stays below pg's pool of 10, a positive integer is read, and `0`, `-2`, `1.5` and `ocho` throw);
 - shared helpers: `concurrency` (`mapWithConcurrency` keeps input order, never runs more than `limit` tasks, runs them one by one with `limit` 1, rejects with the first error once running tasks settle without starting more, handles an empty list, and rejects a `limit` below 1 or not an integer);
 - Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary with the "Necesitarás" text as `needs.notes`, start NPC, what leaves the body, the closing paragraph kept whole, callouts, steps with marker titles as bold paragraphs, Torre's recommendations, oddities), `fight-lists` (fight lists turned into fight blocks), `import-restore-closing` (`closingParagraph` and `restoreClosing`), `import-dom` (`releaseDom`), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
-- design system: `ui-components` and `game-components` (`.test.tsx` files that render each component with `renderToStaticMarkup` and check its markup, accessible names, hit targets and empty states; see [Design system components](../frontend/design-system-components.md)), `amount` (`.test.tsx`: the U+202F thousands separator), `coordinates`, `display-format` and `video-url` (the guide display helpers), `theme-css` (every semantic token is re-declared for nested `data-theme`/`data-mode`), `fonts` (Montserrat as the only preload, its weights and Lilita One on demand, with `next/font/google` mocked), `emblem` (`.test.tsx`: the emblem, its standalone SVG and the committed favicon) and `design-catalog` (when `/sistema` opens);
+- design system: `ui-components` and `game-components` (`.test.tsx` files that render each component with `renderToStaticMarkup` and check its markup, accessible names, hit targets and empty states; see [Design system components](../frontend/design-system-components.md)), `amount` (`.test.tsx`: the U+202F thousands separator), `coordinates`, `display-format` and `video-url` (the guide display helpers), `theme-css` (every semantic token is re-declared for nested `data-theme`/`data-mode`), `fonts` (Montserrat as the only preload, its weights and Lilita One on demand, with `next/font/local` mocked, and no file importing `next/font/google`), `emblem` (`.test.tsx`: the emblem, its standalone SVG and the committed favicon) and `design-catalog` (when `/sistema` opens);
 - Dofus guides: `dofus-guides-collection` and `dofus-guides-index-global` (fields, access, the shared slug space, the hidden import snapshot, the global's intro), `dofus-guide-page` (the view model), `dofus-index-view`, `dofus-index-cards` (`.test.tsx`) and `dofus-nav` (index cards, filters, search and menu items), `dofus-needs` (`.test.tsx`: Necesitarás groups), `revalidate-guides` (which cache tags each hook expires), `import-dofus-guide-parse` and `import-video-poster` (the Dofus guides import). See [Dofus guide data model](../dofus-guides/dofus-guide-data.md) and [Importing Torre's Dofus guides](../data/dofus-guides-import.md).
 - checklists: `checklists-collection`, `checklist-page`, `checklist-components` and `checklist-island` (`.test.tsx`), `checklist-details`, `checklist-details-query` and `checklist-details-fill`, `checklist-list` and `checklists-index`, `checklist-progress`, `checklist-progress-parity` (the same results as the old app's engine), `checklist-legacy` and `legacy-objective-indices` (old browser keys), `checklist-step-ids`, `checklist-segment-rules`, `checklist-weights`, `checklist-quest-graph`, `checklist-helpers`, `checklist-backup-age`, `derive-checklist`, `dofusdb-quest-stages` and `import-checklist-map` (the checklists import); `tests/unit/helpers/nebuloso.ts` builds the shared Nebuloso data. See [Checklist data and import](../checklists/checklist-data.md), [Checklist page and index](../checklists/checklist-page.md) and [Checklist progress engine](../checklists/progress.md);
 - panel: `admin-panel-config`, `admin-components` (`.test.tsx`), `admin-row-labels`, `admin-locked-row`, `admin-references`, `admin-slug-problem`, `delete-guard` and `users-first-account` (roles, labels, custom components, locked fields and the delete guards). See [Admin panel](../cms/admin-panel.md);
@@ -270,7 +309,11 @@ The repo works test-first (AGENTS.md: strict TDD). There are six suites. All of 
 - newer features: `pages-collection`, `site-pages` and `import-pages-convert` (standalone pages); `site-copy`, `site-copy-globals`, `site-copy-seed` and `index-texts` (the site copy globals); `slug-redirects`; `torre-correction`, `game-data-refresh-endpoint`, `refresh-game-data-summary` and `refresh-row-failures` (corrections and refresh runs); `guide-reward-text`, `guide-backfill-rewards`, `guide-prefer-dofusdb`, `guide-reward-typos` and `shown-items-backfill` (guide rewards); `checklist-road`, `checklist-road-ui`, `checklist-progress-todos`, `import-checklist-todos` and `checklist-souls-nav` (the rush checklist and souls navigation); `dofus-egg`, `dofus-index-island` (the `/guias-dofus` island's import graph) and `import-dofus-site-links`; `admin-block-thumbnails`; and `playwright-projects` (panel specs run in their own one-worker project).
 - color design and themes: `theme` and `mode-script` (the free themes, Amakna by default, both cookies), `theme-picker` (`.test.tsx`), `theme-color` (the browser bar color per theme and mode), `theme-css` (hue and token contrast), `callout-fill` (each callout keeps its hue and its ink passes 4.5:1), `achievement-sheet-rule` (the sheet's rule at 3:1 in every theme and mode), `admin-colors` (the panel's Arcano colors match `theme.css`), `dofus-egg-line` (the Dofus card borders at 3:1), `meta-parts` (`.test.tsx`), `print-css` (the print stylesheet), `error-pages` (`.test.tsx`) and `checklist-progress-state` (`data-ck-state`). See [Theme and mode](../frontend/theme-and-mode.md) and [Styles, tokens and site shell](../frontend/styles-and-shell.md);
 - zone background: `zone-background` (subarea, map pick, watermark crop), `zone-background-layer` (`.test.tsx`), `zone-background-fields` and `zone-veil` (text and rule contrast over the veil). See [Zone background](../frontend/zone-background.md);
-- tooling: `commit-msg` (runs the git hook script), `gga-review-hook` (the gga hook pins the review model), `review-release` (the `pnpm review:release` planning: file selection, batches, prompt, verdict and report; see [Release review](../workflows/release-review.md)), `lighthouse-ci` (the `lighthouserc.cjs` assertions and `lhciEnv`; see [Performance budgets](performance-budgets.md)).
+- tooling: `commit-msg` (runs the git hook script), `gga-review-hook` (the gga hook pins the review model), `review-release` (the `pnpm review:release` planning: file selection, batches, prompt, verdict and report; see [Release review](../workflows/release-review.md)), `lighthouse-ci` (the `lighthouserc.cjs` assertions, `LHCI_PORT` and `lhciEnv`; see [Performance budgets](performance-budgets.md)), `release-workflow` (what `release.yml` deploys) and `next-compression` (Next gzips route handlers).
+- delta import and golden pages: `import-inventory`, `import-delta-rule`, `import-delta-match` and `import-delta-metalogros` (see [Inventory and delta import](../data/delta-import.md#tests)); `import-golden-trim-source`, `import-golden-stable-json`, `import-golden-line-diff` and `import-golden-refresh` (see [Import golden tests](import-golden.md#unit-tests-of-the-tooling)); `import-summary-text` and `import-alignment-achievements`;
+- sharing and dates: `share-card`, `share-card-image`, `json-ld`, `content-date` and `updated-date` (`.test.tsx`). See [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md#tests);
+- analytics and links: `umami` (see [Analytics with Umami](../operations/analytics.md#how-the-tests-keep-it-off)); `url-map`, `legacy-links`, `legacy-blockers` and `legacy-link-typos` (see [Legacy link reports and URL map](../operations/legacy-links.md#tests)); `site-links` (`siteLinkHref`) and `external-links` (`.test.tsx`: links to other sites open in a new tab);
+- newest pages and blocks: `guide-table` and `guide-table-render` (`.test.tsx`: the table block), `search-page` (`.test.tsx`: `/buscar`), `checklist-search` and `media-static-dir` (the media folder of each test database).
 
 ## Integration
 
@@ -299,8 +342,13 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `migrations.test.ts` checks that the migrations roll back and re-apply: it runs the Payload CLI (`pnpm payload migrate:down`, which reverts the last batch, every migration in the test database, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was, and asserts the output names the latest migration. Before that it saves a checklist with a «Nota» segment and an achievement row «Hasta una misión», enum values later migrations added, so a `down` that cannot drop a value in use fails here. It starts the CLI twice, so it has its own 180 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
 - `needs-list-migration.test.ts` calls the `20261104_195910_needs_list` migration's `down` and `up` directly on a guide with notes, writes text into the old columns of the guide and its version in between, and checks that after `up` both read it as `summary.needs.notes` with an empty item list. `up` runs in a `finally` so the database never stays on the old schema.
 - Newer files: `checklists.test.ts`, `checklist-page-queries.test.ts`, `checklist-list-queries.test.ts` and `import-checklists.test.ts` (the checklists collection, its page and index reads, and the import); `panel-roles.test.ts`, `users-access.test.ts`, `users-roles-migration.test.ts`, `delete-references.test.ts` and `field-locks.test.ts` (roles, the last-admin guard, refused deletes and locked fields; `createPanelUser` takes a role and defaults to an administrator); `legacy-slugs.test.ts` (no slug shadowed by the redirect table), `sitemap-read.test.ts` (the sitemap read as a visitor) and `preview-target.test.ts` (`findPreviewSlug`); `import-achievement-prose.test.ts`, `dungeon-report.test.ts` and `refresh-subareas.test.ts`; `pages.test.ts` and `import-pages.test.ts` (standalone pages, see [Standalone pages](../pages/standalone-pages.md)); `site-copy.test.ts` (see [Site settings and index texts](../cms/site-copy.md)); `slug-redirects.test.ts` (old slugs answering with a 308); `site-search-content.test.ts` (the search index's `content` rows); `torre-corrections.test.ts`, `refresh-game-data.test.ts` and `game-data-refresh-runs.test.ts` (Torre's corrections, the whole refresh and its run rows; see [Torre corrections to DofusDB data](../data/torre-corrections.md) and [DofusDB game data refresh](../data/dofusdb-refresh.md)); `backfill-guide-rewards.test.ts`, `prefer-dofusdb-rewards.test.ts`, `fix-reward-typos.test.ts` and `backfill-shown-items.test.ts` (the guide reward scripts, see [Quest guide rewards](../data/guide-rewards.md)); and `ambience-migration.test.ts`.
+- Newest files: `import-delta.test.ts` (`pnpm import:delta`: a dry run that writes and uploads nothing, `--apply` changing only what the import left as it was, and an idempotent rerun), `import-alignment-achievements.test.ts` (the Alineamiento pages: dry run, creation «En preparación», rerun, and nothing without the stored category), `backfill-summary-text.test.ts` (`pnpm guides:summary-text`), `content-date.test.ts` (the `contentUpdatedAt` hook), `table-block.test.ts` (the table block saved alone and inside a step, read as a visitor, and its validation), `legacy-links.test.ts` (`collectLegacyLinks` and `readSiteIndex`) and `live-slugs.test.ts` (`readLiveSlugs`).
 - `guide-single-quest-migration.test.ts` calls the `20261104_210644_guide_single_quest` migration's `down` and `up` directly on a guide linked to one quest. After `down` it checks the quest is a relation row for the guide and its version, then adds a second quest behind it; after `up` (in a `finally`) it checks that `quest_id`, `version_quest_id` and Payload's `quest` on the guide and its versions hold the first quest.
 - `zone-background.test.ts` and `zone-backgrounds-script.test.ts` cover the zone background with a fake DofusDB source and the fixture renders in `tests/fixtures/zones/`: the endpoint's access, the cropped render stored once per map, the refresh leaving a background alone, a panel save limited to the background, the map picked from a published guide's start, the page's own image winning, and `pnpm zones:backgrounds` listing, filling and changing nothing on a rerun. See [Zone background](../frontend/zone-background.md#tests).
+
+## Import golden pages
+
+`vitest.import.config.mts` runs `tests/import/**/*.test.ts` in the Node environment. `pnpm test:import` converts thirty saved Squarespace pages with the import converters and compares each output with its reviewed copy, without a database or the network; `-u` accepts new outputs. CI runs it in its own «Importación» job. See [Import golden tests](import-golden.md).
 
 ## E2E
 
@@ -309,11 +357,12 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 1. `pnpm build` (skipped with `E2E_SKIP_BUILD=1`).
 2. With no `DATABASE_URL` (a blank or whitespace-only value counts as none, as in `pnpm test:lhci`): start `pnpm db:dev` (reusing a running one) and reset `ta_web_e2e` with `scripts/db-e2e-reset.ts`.
 3. `pnpm migrate` on the empty database.
-4. `pnpm seed:e2e`: the test guides from `tests/e2e/seed/guides.ts` ("Seis pies bajo tierra" published with an introduction, three steps and a closing, its zone, achievement, XP range and the NPC with renders; its prerequisite's published guide; an unpublished draft), the achievement data from `tests/e2e/seed/achievements.ts` ("La ocasión hace al ladrón" in the Astrub metalogro with the three seeded guides' quests, a published achievement before it and one in preparation after it, and a metalogro with nothing published), the Dofus guides from `tests/e2e/seed/dofus-guides.ts` (the full "Dofus Ocre" with its egg, prerequisites, Necesitarás, the seeded achievement with its quests, a loose quest with Torre's note, the checklist and the video; "Dofawa" published without achievements; "Jyfus" in preparation; and the index intro) the panel users for the preview and panel tests (several, because each sign-in rewrites the account's sessions and specs running at once would log each other out), the checklists from `tests/e2e/seed/checklists.ts` (a trimmed «Dofus Nebuloso» with three real steps, prerequisites and Necesitarás; «Dofus de los Hielos» published, sharing a quest with it, with a generic row and a quest the game finishes on its own; «Silvestre» in preparation linking to Squarespace, with a draft holding what the import brings), the extra index entries from `tests/e2e/seed/checklists-index.ts` (one in preparation with a legacy link, one without, a draft that never shows, and «Almas del Ocre» in preparation with a souls draft) the poster art from `tests/e2e/seed/checklist-cards.ts` (scenes, an NPC and its framing, and the «???» teaser on), the standalone pages from `tests/e2e/seed/pages.ts` and a slug redirect from `tests/e2e/seed/redirects.ts`. Rerunning the seed duplicates nothing. `scripts/seed-e2e.ts` refuses any database that is not local (`isLocalDatabaseUrl`).
+4. `pnpm seed:e2e`: the test guides from `tests/e2e/seed/guides.ts` ("Seis pies bajo tierra" published with an introduction, three steps and a closing, its zone, achievement, XP range and the NPC with renders; its prerequisite's published guide; an unpublished draft), the achievement data from `tests/e2e/seed/achievements.ts` ("La ocasión hace al ladrón" in the Astrub metalogro with the three seeded guides' quests, a published achievement before it and one in preparation after it, and a metalogro with nothing published), the Dofus guides from `tests/e2e/seed/dofus-guides.ts` (the full "Dofus Ocre" with its egg, prerequisites, Necesitarás, the seeded achievement with its quests, a loose quest with Torre's note, the checklist and the video; "Dofawa" published without achievements; "Jyfus" in preparation; and the index intro) the panel users for the preview and panel tests (several, because each sign-in rewrites the account's sessions and specs running at once would log each other out), the checklists from `tests/e2e/seed/checklists.ts` (a trimmed «Dofus Nebuloso» with three real steps, prerequisites and Necesitarás; «Dofus de los Hielos» published, sharing a quest with it, with a generic row and a quest the game finishes on its own; «Silvestre» in preparation linking to Squarespace, with a draft holding what the import brings), the extra index entries from `tests/e2e/seed/checklists-index.ts` (one in preparation with a legacy link, one without, a draft that never shows, and «Almas del Ocre» in preparation with a souls draft) the poster art from `tests/e2e/seed/checklist-cards.ts` (scenes, an NPC and its framing, and the «???» teaser on), the standalone pages from `tests/e2e/seed/pages.ts` (including an emote with Torre's links to his own site, a page here, one only on Squarespace and one that answers 410, and «Familiares para empezar», a tutorial with a long table) and a slug redirect from `tests/e2e/seed/redirects.ts`. The achievement seed also adds the Alineamiento metalogro with two achievements without quests, and the published guide carries a `contentUpdatedAt` date for «Actualizado el». Before seeding, it empties the database's media folder when the database has no media rows, so leftovers of an earlier run never make Payload rename an upload. Rerunning the seed duplicates nothing. `scripts/seed-e2e.ts` refuses any database that is not local (`isLocalDatabaseUrl`).
 5. `scripts/clear-data-cache.ts` empties Next's data cache, so no guide cached by an earlier run hides the fresh database.
 6. `pnpm start --port 3100` (`E2E_PORT`), a port of its own so a running `pnpm dev` on 3000 is never reused by mistake.
+7. `analyticsWebServer`: a second `pnpm start` of the same build and database on `E2E_ANALYTICS_PORT` (default `E2E_PORT` + 2), with Umami pointed at a fake host, for `analitica.spec.ts`. It starts after the main server, which builds, migrates and seeds. See [Analytics with Umami](../operations/analytics.md#how-the-tests-keep-it-off).
 
-`appWebServers` in `tests/e2e/app-server.ts` builds that server list and passes `DATABASE_URL_DIRECT` equal to `DATABASE_URL`, because `pnpm migrate` prefers the direct URL, sets `NEXT_PUBLIC_SITE_URL` to the local origin, which `next start` requires, and blanks every `S3_*` variable and `MEDIA_BASE_URL` so the seeded image goes to local disk. `playwright.config.ts` adds `E2E_DESIGN_CATALOG=1` to the app's environment, which opens the `/sistema` catalog on this production build; no deployed environment sets it. Only Chromium runs. In CI: one worker, one retry, traces on first retry, GitHub and HTML reporters, and `forbidOnly`.
+`appWebServers` in `tests/e2e/app-server.ts` builds that server list and passes `DATABASE_URL_DIRECT` equal to `DATABASE_URL`, because `pnpm migrate` prefers the direct URL, sets `NEXT_PUBLIC_SITE_URL` to the local origin, which `next start` requires, blanks every `S3_*` variable and `MEDIA_BASE_URL` so the seeded image goes to local disk, in the database's own folder (`MEDIA_STATIC_DIR`, `media/test/<database>`), sets `TWITCH_LIVE_URL` to `off` so no test reaches the network, and blanks both Umami variables so no test counts a visit. A suite's own `env` wins over these. `playwright.config.ts` adds `E2E_DESIGN_CATALOG=1` to the app's environment, which opens the `/sistema` catalog on this production build; no deployed environment sets it. Only Chromium runs. In CI: one worker, one retry, traces on first retry, GitHub and HTML reporters, and `forbidOnly`.
 
 Playwright runs Chromium only, with one worker, one retry and `forbidOnly` in CI. Specs whose file name matches `panel(-…)?.spec.ts` run in a separate `panel` project with one worker even locally: Payload locks a document an account has open, so two files opening the same panel document with different accounts at once would hit «Documento bloqueado». `tests/unit/playwright-projects.test.ts` pins the split.
 
@@ -329,10 +378,10 @@ Specs:
 - `maquetacion.spec.ts`: the layout review. It loads every public page type (home, a guide, an achievement page, a Dofus guide, each checklist with every step opened and its Prerrequisitos and Objetos, the Ocre souls page, `/metalogros`, `/checklists` and `/guias-dofus`) at 390, 768, 1024, 1440 and 2560 px and runs `lintLayout` (`tests/e2e/layout-lint.ts`), a generic check that knows no component. It flags a page wider than the window, an element whose content overflows it, text clipped by `overflow` or cut with an ellipsis without the full text in `aria-label` or `title`, a text of three or more words broken one word per line, a broken text of two or more words in a box narrower than about 8ch, and overlapping siblings. An element with `data-layout-lint-ignore` is skipped with its subtree, only with a comment that says why. Against a deployment (`SMOKE_BASE_URL`) it reads published pages through Payload's API and signs in to the panel for the previews only with `LAYOUT_LINT_PANEL_LOGIN=1` and its credentials; `LAYOUT_LINT_PATHS` adds routes (see [Environment configuration](../architecture/configuration.md)).
 - `redirecciones.spec.ts`: legacy redirects and 410s, `/sitemap.xml`, `robots.txt` and the home canonical URL. See [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md).
 - `paginas.spec.ts`: standalone pages (see [Standalone pages](../pages/standalone-pages.md#tests)); `panel-textos.spec.ts`: editing the site copy in the panel and seeing it on the site; `panel-navegacion.spec.ts`: changing the Dofus phrase of the mobile menu in «Navegación» and seeing it on the site; `panel-refrescos.spec.ts`: the last refresh in «Refrescos de datos» and the «Traer ahora» button, which only an administrator sees and the API refuses to an editor; `checklist-rush.spec.ts`: the rush checklist's Dofus road; `ambiente.spec.ts`: the ambience particles.
-- `hojas-de-estilo.spec.ts`: at most four stylesheets on every page of `lighthouserc.cjs`. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#stylesheets-per-page).
+- `hojas-de-estilo.spec.ts`: at most three stylesheets on every page of `lighthouserc.cjs`. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#stylesheets-per-page).
 - `movimiento.spec.ts`: motion with and without reduced motion: page view transitions with a still header, panels, the search dialog and results, the phone menu, the viewer, the video player and the metalogros tiles. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#motion).
 - `cabecera.spec.ts`: the site header, footer and search dialog, including achievements and metalogros in the search, the Dofus panel built from the collection, and Clases and Mazmorras shown as «Próximamente» without a panel or link. See [Site header, footer and search](../frontend/site-shell-and-search.md#tests).
-- `inicio.spec.ts`: the home page and its hero search, including achievements in their own group and the Clases and Mazmorras cards without a link. See [Home page](../frontend/home-page.md#tests). See [Public quest guide page](../frontend/guide-page.md#tests).
+- `inicio.spec.ts`: the home page and its hero search, including achievements in their own group and the Clases and Mazmorras cards without a link. See [Home page](../frontend/home-page.md#tests).
 - `brand.spec.ts`: the favicon SVG, PNG fallback and iOS icon links, the emblem left of the name in the header with the theme colors, 30px on phones, and axe on the header in Arcano dark and light.
 - `fonts.spec.ts`: the home page and the guide preload only the Montserrat and Rowdies files, every Montserrat weight comes from its file in one family, the guide title is Rowdies 700 with Lexend part headings, and card titles, buttons and eyebrows are Lexend.
 - `temas.spec.ts`: the theme from the cookies (Amakna without one, a free theme as saved, Ocre rendered as Amakna, the `localStorage` theme applied and its cookie rewritten), the header theme picker (menu, keyboard, click, Escape and outside click, swatches following the mode, the menu inside the viewport) and the browser bar color. See [Theme and mode](../frontend/theme-and-mode.md#tests).
@@ -341,11 +390,15 @@ Specs:
 - `ancho.spec.ts`: the full-width frame: the header, content and footer sharing their edges, the side margin at each width, the content capped at 110rem and centered at 2560px with backgrounds reaching the edges, the floating Ko-fi ending where the content ends, no page overflowing, more Dofus cards per row on wide screens, checklist posters starting at the left, columns reaching the right gutter, running text not growing with the column, and the video stopping at 81rem.
 - `impresion.spec.ts`: a guide in a dark theme prints light, without header or footer. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#print).
 - `colores-forzados.spec.ts`: in forced colors, the chosen `/guias-dofus` filter keeps its indicator, and a checklist's checked box, progress bar and open step stay visible.
+- `analitica.spec.ts`: no Umami script or request on the main server, and on the analytics server one visit per loaded page and one per App Router route change, with every request intercepted (`analytics-capture.ts`). See [Analytics with Umami](../operations/analytics.md).
+- `buscar.spec.ts`: `/buscar` without JavaScript, the query kept in the field, the matches marked and grouped, a short notice for an empty or one-letter query, `noindex` and no JavaScript of its own. See [Site header, footer and search](../frontend/site-shell-and-search.md).
+- `compartir.spec.ts`: each page's share card and its cache, the home page's brand card and WebSite JSON-LD, no card for a slug without a page, and the «Actualizado el» line with `<time datetime>`. See [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md).
+- `enlaces-externos.spec.ts`: links to other sites open in a new tab and say so. `logro-sin-misiones.spec.ts`: an Alineamiento achievement page counts objectives instead of quests. `tabla.spec.ts` and `panel-tabla.spec.ts`: the table block on the site (headers, numbers aligned right, sideways scroll at 390px, print) and its «Pegar desde una hoja de cálculo» in the panel. See [Guide body blocks](../cms/blocks.md).
 - `sistema.spec.ts`: the `/sistema` component catalog in all five themes and both modes: figures with the narrow no-break thousands space, every component group visible (including the Dofus guide parts), hand-written CSS following each section's theme, coordinate and item name copy, 40px hit targets, icon wells following the mode, no YouTube request before a video click, the 480px screenshot on a phone, the fullscreen image viewer (open, close, focus return, theme), and axe (`@axe-core/playwright`, WCAG 2.2 AA tags) on the open viewer and the whole page. See [Component catalog (/sistema)](../frontend/component-catalog.md).
 
 ## Dev environment
 
-`playwright.dev-gate.config.ts` starts one instance of the same build with `APP_ENV=dev` on port 3101 (`E2E_DEV_GATE_PORT`), seeded like the E2E app. With `E2E_SKIP_BUILD=1` it reuses the E2E build, which works because the proxy reads the environment at startup, not at build. The cases (public pages, `noindex` everywhere, no basic-auth challenge, `robots.txt`) are in [Dev environment](../operations/dev-gate.md#tests).
+`playwright.dev-gate.config.ts` starts one instance of the same build with `APP_ENV=dev` on port 3101 (`E2E_DEV_GATE_PORT`), seeded like the E2E app. With `E2E_SKIP_BUILD=1` it reuses the E2E build, which works because the proxy reads the environment at startup, not at build. It also sets both Umami variables, and `tests/e2e-dev-gate/analitica.spec.ts` checks that dev still renders no script and sends no visit. The other cases (public pages, `noindex` everywhere, no basic-auth challenge, `robots.txt`) are in [Dev environment](../operations/dev-gate.md#tests).
 
 ## Smoke
 
@@ -356,17 +409,17 @@ Specs:
 
 ## Budgets
 
-`pnpm test:lhci` runs Lighthouse CI against the production path on its own `ta_web_lhci` database, three mobile runs per page against the `DESIGN.md` budgets (LCP, CLS, compressed JavaScript, image size and format). In CI it runs in its own two-part job (`LHCI_SHARD`), each part building on the cached `.next`. See [Performance budgets](performance-budgets.md).
+`pnpm test:lhci` runs Lighthouse CI against the production path on its own `ta_web_lhci` database, three mobile runs per page against the `DESIGN.md` budgets (LCP, CLS, compressed JavaScript, image size and format). In CI it runs in its own four-part job (`LHCI_SHARD`), each part building on the cached `.next`. See [Performance budgets](performance-budgets.md).
 
 ## Fixtures
 
-`tests/fixtures/dofusdb/` holds real DofusDB rows (`quests.json`, `npcs.json`, `map-positions.json`) shared by the DofusDB unit tests and `refresh-quests.test.ts`. The quests cover a plain criterion, several start positions, alternatives joined by `|` and a `Qa=` term. `quests-steps.json` adds nine quests with their steps, rewards and objectives, and `items.json` and `monsters.json` hold exactly the items and monsters those quests name; they feed the rewards, needs, fetch and refresh tests. `items-unreferenced.json` adds three items no fixture quest names (a sword and two quest items of supertype 14), so the fetch and refresh tests can check that the whole catalog is stored. `achievements.json` and `achievement-categories.json` hold real DofusDB achievements and categories for the achievement mapping and refresh tests.
+`tests/fixtures/dofusdb/` holds real DofusDB rows (`quests.json`, `npcs.json`, `map-positions.json`) shared by the DofusDB unit tests and `refresh-quests.test.ts`. The quests cover a plain criterion, several start positions, alternatives joined by `|` and a `Qa=` term. `quests-steps.json` adds nine quests with their steps, rewards and objectives, and `items.json` and `monsters.json` hold exactly the items and monsters those quests name; they feed the rewards, needs, fetch and refresh tests. `items-unreferenced.json` adds three items no fixture quest names (a sword and two quest items of supertype 14), so the fetch and refresh tests can check that the whole catalog is stored. `achievements.json` and `achievement-categories.json` hold real DofusDB achievements and categories for the achievement mapping and refresh tests, and `achievements-alignment.json` holds Alineamiento achievements, which DofusDB gives without quests.
 
-`tests/fixtures/squarespace/` holds trimmed copies of the five demo Squarespace pages and six more real pages used by the recommendations tests, one HTML file per slug, read by the import unit tests. Prettier ignores the directory so the files stay byte for byte as the parser expects.
+`tests/fixtures/squarespace/` holds trimmed copies of the five demo Squarespace pages and six more real pages used by the recommendations tests, one HTML file per slug, read by the import unit tests. Prettier ignores the directory so the files stay byte for byte as the parser expects. `tests/fixtures/import-golden/` holds the thirty golden pages and their reviewed outputs (see [Import golden tests](import-golden.md#the-fixtures)).
 
 ## Guards against touching real data
 
-- Playwright reads only `E2E_PORT`, `E2E_DEV_GATE_PORT` and `E2E_SKIP_BUILD` from `.env` (`loadE2eEnvFromFile`); a `DATABASE_URL` in `.env` never reaches the tests, and the smoke variables come only from the shell. The process environment always wins.
+- Playwright reads only `E2E_PORT`, `E2E_DEV_GATE_PORT`, `E2E_ANALYTICS_PORT` and `E2E_SKIP_BUILD` from `.env` (`loadE2eEnvFromFile`); a `DATABASE_URL` in `.env` never reaches the tests, and the smoke variables come only from the shell. The process environment always wins.
 - E2E, integration and Lighthouse CI use their own databases (`ta_web_e2e`, `ta_web_integration`, `ta_web_lhci`), dropped and recreated per run, so local dev data in `ta_web` is untouched.
 - All three force `DATABASE_URL_DIRECT` to the test database so `pnpm migrate` cannot follow a direct URL inherited from the shell. `tests/unit/test-database-env.test.ts` pins this for integration and E2E, and that E2E treats a blank `DATABASE_URL` as empty; `tests/unit/lighthouse-ci.test.ts` pins it for `lhciEnv`.
 
@@ -382,4 +435,5 @@ Specs:
 - [Writing a quest guide](../cms/guide-authoring.md)
 - [Squarespace import](../data/squarespace-import.md)
 - [Performance budgets](performance-budgets.md)
+- [Import golden tests](import-golden.md)
 - [Component catalog (/sistema)](../frontend/component-catalog.md)

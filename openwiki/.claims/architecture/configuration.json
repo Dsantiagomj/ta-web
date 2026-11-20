@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e638f8092cb65d60e178f0ac205c8887de9eeb3370fa6beb8f7471d009f5bee5",
+  "pageVersion": "sha256:f169ae6655f7037212097d43375debf8926ac41bf7245694515c32e3c84a5286",
   "claims": [
     {
       "id": "claim_42400d3df44b4e5298904441ab906a39",
@@ -17,8 +17,8 @@
       "statement": "The pnpm migrate script sets DATABASE_CONNECTION=direct so migrations use the direct database URL.",
       "evidence": [
         {
-          "resource": "repo://package.json#L28-L28",
-          "version": "repo-lines-v1:sha256:7bd538d206ebc8bf337a53b84d047dee8eb8c4a20de36f4f46581fc885b27cff:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE4NTZjMTcwNWJlZDliOGVlZGFmZGY5MjhlZWIwZmI0NDQwNGU3OWRkNjhiNzI1MmE2ZTFlYWRkN2Y1YTUxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQxZjI2ZGI3MjIxNzBkMmNiYzc4N2ZlMDk0ZGE2MWFkMzc4MjYyNjdkOTdmODhmMWVmMmI1MDNhYTBkZWJkZiJ9"
+          "resource": "repo://package.json#L57-L57",
+          "version": "repo-lines-v1:sha256:7bd538d206ebc8bf337a53b84d047dee8eb8c4a20de36f4f46581fc885b27cff:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM2MDJlZGIwM2VjYWEzZDk2YmQ5NDBiOTQxNjQwY2IxZDcwZDQ1MDhiNzQ1NGVjYjI3MjA2N2NhYjkyMzA5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQxZjI2ZGI3MjIxNzBkMmNiYzc4N2ZlMDk0ZGE2MWFkMzc4MjYyNjdkOTdmODhmMWVmMmI1MDNhYTBkZWJkZiJ9"
         }
       ]
     },
@@ -37,8 +37,8 @@
       "statement": "isDevEnvironment treats the environment as dev when APP_ENV or RAILWAY_ENVIRONMENT_NAME equals 'dev' after trimming and lowercasing.",
       "evidence": [
         {
-          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L23-L27",
-          "version": "repo-lines-v1:sha256:187a4e5b4c22b66955f457ccca0c899a147fb5530d59c8aa3a9ae0c6deff93f8:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDUxNzEyMDFiMjYxYjU5Y2NlNjBmZDgxN2IyZGU1MTRhNzA4ZGY1OWM0ZTIwMTlkNjY3YTMyMTZhMTY4MjdjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTljMzc5ODExOGZkODQyZTRlZDZlNjczNWI5NTQwYTUxYzkwMWNiYjc2ZGYzMTAyOWYwM2FhNGQ1ZjIzNWYyNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWFkYWVlZGY1OGQ0MmFlMTdmZjUxNTBkZjk4NTE1NjNkYmFlYzM0ZDg1NTc2YTdiODgwMmExYzdhZGRlMmYzNyJ9"
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L10-L14",
+          "version": "repo-lines-v1:sha256:187a4e5b4c22b66955f457ccca0c899a147fb5530d59c8aa3a9ae0c6deff93f8:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDUxNzEyMDFiMjYxYjU5Y2NlNjBmZDgxN2IyZGU1MTRhNzA4ZGY1OWM0ZTIwMTlkNjY3YTMyMTZhMTY4MjdjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTg3ODA5MGM5NDZkN2FkNWM4NmJlMDQwMTZhYzkxZDc3NjAwZGI3MmY5NjhhYWRhMzM3YThiMDhiNTY5MGQ3OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     },
@@ -67,8 +67,8 @@
       "statement": "The release workflow sets GIT_COMMIT_SHA and APP_VERSION on the production Railway service before deploying because railway up does not provide RAILWAY_GIT_COMMIT_SHA and package.json is not bumped per release.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/release.yml#L176-L187",
-          "version": "repo-lines-v1:sha256:7b8b26d39c1f9a2db6b25f47855cbd7e955cee1e15e56a5095c017053a61ce10:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0ZmUyNWM1MDcxZWFmOTZjZDFlMTcwN2IyYWIwOTg3ZDA2Zjg2Mjk3NGIwYjI1NWQwMDNjNzc3ZjEyMjM0YjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ZWI4MzVkNWE5YzI4N2FlMDhlYzFkMWYwM2E5OWQzNDZkYjI4NTEyZmQwNzNkZDk0NDI1ODdiZmQwOTlmMjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3MmMwY2I2MzRkMDc5MWQ5YWIwZDg5YzFkMjYwMjFjYzA3YjRkMzlkOTI5ZGY1MzA3YjA5NGE3ZDljZWNmNmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhmNGExYjAyNTRmMmFmY2FmMDM0M2MwN2I4NWZmOTFiYzVmMjA3YzNiODk0YTg0ODYxN2M2NmI0NzdiMmNmZmUifQ"
+          "resource": "repo://.github/workflows/release.yml#L194-L205",
+          "version": "repo-lines-v1:sha256:7b8b26d39c1f9a2db6b25f47855cbd7e955cee1e15e56a5095c017053a61ce10:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0ZmUyNWM1MDcxZWFmOTZjZDFlMTcwN2IyYWIwOTg3ZDA2Zjg2Mjk3NGIwYjI1NWQwMDNjNzc3ZjEyMjM0YjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ZWI4MzVkNWE5YzI4N2FlMDhlYzFkMWYwM2E5OWQzNDZkYjI4NTEyZmQwNzNkZDk0NDI1ODdiZmQwOTlmMjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5ODM5ZmMyZjg2YTE2NWUzZTExYjJhMzk5ODllNTViZDc2N2JmMzYwMzg3OGE0MjAwODE1YWYwN2FiMThjYzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhmNGExYjAyNTRmMmFmY2FmMDM0M2MwN2I4NWZmOTFiYzVmMjA3YzNiODk0YTg0ODYxN2M2NmI0NzdiMmNmZmUifQ"
         }
       ]
     },
@@ -77,8 +77,8 @@
       "statement": "The Railway IaC declares secrets with preserve(), sets APP_ENV only for dev and GIT_COMMIT_SHA and APP_VERSION only for production, and any Railway variable must be declared there first because config apply removes undeclared ones.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L48-L77",
-          "version": "repo-lines-v1:sha256:b4fff254048a63a7ee9d728e08ec49b6a4fee92f4fcda7f8d94afc3fa079aac0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZGZmMjA5OWRkMTY4OTJhZDc2MTg4ZmNkYTBkZjFkMzU1ODdhZmE3ZDc3NjE1ZDVhNDM3M2VjNmJmN2EwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiMGUwMDkyNjFjNWYzNTU1MWJhOGExM2JhNTU5NTU4YjVmNzY5MzdjNzVlMmNkY2E3ZGYyZTNiYWI4OTE3YmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzZmVkN2ZiNWM3M2ViMzU2YWZhMDNjYjZmYzllNTg1OGUxOWRkOWU0ZjdhMWE1N2VmODJlOWI0MjUwN2YwOWMifQ"
+          "resource": "repo://.railway/railway.ts#L49-L82",
+          "version": "repo-lines-v1:sha256:b0a051581328b162b68d74f4d54d8ef20f6ca6b91450f3ac94234e0657e3766b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZGZmMjA5OWRkMTY4OTJhZDc2MTg4ZmNkYTBkZjFkMzU1ODdhZmE3ZDc3NjE1ZDVhNDM3M2VjNmJmN2EwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiMGUwMDkyNjFjNWYzNTU1MWJhOGExM2JhNTU5NTU4YjVmNzY5MzdjNzVlMmNkY2E3ZGYyZTNiYWI4OTE3YmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkwZmM0MGEzZDVkY2QwYmM4OWM3YzM2MDU4YWNjZDcyOGM0YmJiYTE2OTI1N2Y2ZTQzMTE3ODNhNDE3MTE0ZDcifQ"
         },
         {
           "resource": "repo://.railway/railway.ts#L7-L10",
@@ -88,15 +88,15 @@
     },
     {
       "id": "claim_ed77b386a2ba4980b15b24d9863a172c",
-      "statement": "The Playwright configs load only E2E_PORT, E2E_DEV_GATE_PORT and E2E_SKIP_BUILD from .env, and E2E servers set DATABASE_URL_DIRECT equal to DATABASE_URL, set NEXT_PUBLIC_SITE_URL to their own localhost port, and blank every S3 variable and MEDIA_BASE_URL, so migrations never target a database inherited from the shell and uploads stay on local disk.",
+      "statement": "The Playwright configs load only E2E_PORT, E2E_DEV_GATE_PORT, E2E_ANALYTICS_PORT and E2E_SKIP_BUILD from .env, and E2E servers set DATABASE_URL_DIRECT equal to DATABASE_URL, set NEXT_PUBLIC_SITE_URL to their own localhost port, and blank every S3 variable and MEDIA_BASE_URL, so migrations never target a database inherited from the shell and uploads stay on local disk.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/app-server.ts#L58-L74",
-          "version": "repo-lines-v1:sha256:4ba3fe975c69c676433c242f1d5107b77f629c63ce71bb8325a3dac10fd8be39:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE1OGZlYmIxNGI0ODEzY2NkYmRlMzBmYzc5YTNjMGU2ZDhkZWJjYmZiZmMwYjc4YTIwMjI0ZjViMjQyMjFlZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmNGQzYzkxNzMxOGY2ZTY3ODMxMzYwZTA4MmVmNWQ0OGNmMGI0NzIwMDU5OWUyYjBmMmYxNTFiZTlkOTM5OTYifQ"
+          "resource": "repo://tests/e2e/app-server.ts#L10-L20",
+          "version": "repo-lines-v1:sha256:b633706eb77c1d5530e26c71450d547599f03d06ae4c2ea153592b45e6482f22:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4MzhjMTdjNjM4MzU0OWY3MDg1OGMzN2UyYzA5NTVmOGY5YzM0MGUzZDkwZDJiZTE4N2VlYzVkMzc1ZjEyYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4ZWVjZjcyYmI5Zjc0NDBiODcyYTM4NDNiNGM3Y2NiZDI0Nzk0YjYyMzUwM2JjMTU0MzQzOGZjZjZhMGQ0NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhZTE1ZWQ2YTZiZWFiOWI3YjRiNWU2ODQ1Mjk3MzkzZTgxYzA5YzFlYzI0YTM2Yzc5MmNlM2ExM2U5NzY5ZDkifQ"
         },
         {
-          "resource": "repo://tests/e2e/app-server.ts#L9-L19",
-          "version": "repo-lines-v1:sha256:a25c46db313b30ecf9e16a446f06685f4d9c38a57aef7d803ed35ba7976f3bdd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4MzhjMTdjNjM4MzU0OWY3MDg1OGMzN2UyYzA5NTVmOGY5YzM0MGUzZDkwZDJiZTE4N2VlYzVkMzc1ZjEyYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4ZWVjZjcyYmI5Zjc0NDBiODcyYTM4NDNiNGM3Y2NiZDI0Nzk0YjYyMzUwM2JjMTU0MzQzOGZjZjZhMGQ0NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFiMzQ1NjVjZGFhNDVmMDkzOTM0ZjU5NjIxMWJlMTYzMDM3NjkxNmQyOGM1MjNkMTJlZDljMDFjMmU3ZGVlZDAifQ"
+          "resource": "repo://tests/e2e/app-server.ts#L25-L47",
+          "version": "repo-lines-v1:sha256:b90154e380306d37f700fa549021046c1dce79a6277875471e0bc6b43b518915:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3ZTEyOGRlM2RmNDE0YWUxZjM2NjEwYzMzYTYwZjBkZWE1ZDE1MTFhNWQzMTU2MzQzNjBhOWZlMTNhM2JhMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyNTZkN2NhYzM3MGVhZGIzMDUxMGFmZWFhNzIxNWVjMGE5MjRkNGEzNWE1ZTc1ZDE4YzBlZTAzZjUxNGNhNWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4NmYxODcwNjQyMDhmMzE0NTY5NGZhZjkxODQyMzdjMzk5NTk0OWM1ODM3ZTgzZjVlMThkNzI4NDRhMDUzOWYifQ"
         }
       ]
     },
@@ -125,8 +125,8 @@
       "statement": "The frontend layout builds metadataBase from SITE_URL, the public origin read from NEXT_PUBLIC_SITE_URL.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/layout.tsx#L24-L28",
-          "version": "repo-lines-v1:sha256:75283bdf043cf101811feb70df503d6fc7c8e26fa9772331ae8a5674bbd30037:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2Y0NmQ0ZDRmMDdkYzZkMGQ4MTQ5ZWFhZWRkOTg2NTZhZjM5MzkyNDQwZmVhMWFkNzQ2ZTFkZWRlNTNhNTE1NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTAxYjgyMWE5YTcxYmFmNDljODg4Y2NhYjAyY2E3MWZhNGI2ZjkyMTYwYTBiNTA5ZWJmNjJlMWM4YWFjZjZlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzVmZGE2NTEyODc3MWY1ZWUwZjUyNmI5YTE3ODRiMDc3OTA4NDU2YjYyZWRhM2MxZDIxZjAxMjJiZDg3N2UyNyJ9"
+          "resource": "repo://src/app/(frontend)/layout.tsx#L25-L29",
+          "version": "repo-lines-v1:sha256:0da30203524415f143207f7fa0372f99c54cc850e00e3c0a01f3cafdf5aafb28:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWJhYmU1ZTJhZGY5ZTQ1MWViNzU0YzkyNTg0NDI2OWRlNGFjNmFmMzU1N2VhMTgzMzNkZTVlODAxMThhMDQ1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmJhNzhiOGFlZTRlN2QwY2I1ZmRmY2Y2Y2QzMDk0OTdmMmZiZDVlZmQ0OTllODMwODc2ZWQwZWJiMjAxODllNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWUwN2FhMDllZjdlNWNiZWRiYTkzZTQ0ZTEzOTY0NzkyZWI3N2FjYWNkZWI1NmU3YWVjYjRiNmE0ZmMzNTk2NyJ9"
         }
       ]
     },
@@ -135,7 +135,7 @@
       "statement": "resolveVersion returns the trimmed APP_VERSION or, when it is missing or blank, the package.json version.",
       "evidence": [
         {
-          "resource": "repo://.env.example#L66-L68",
+          "resource": "repo://.env.example#L87-L89",
           "version": "repo-lines-v1:sha256:e9d18be5bbab7d8196dd61c9c8ba3712c6f58aa352372f4e150f0c5d72825862:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWM3NTNmOWVlZTBmOWUxZmFiYzYxZThhNDAzNWM1OTY4ZmRmODYwOTkzYjhmN2QxNmY3ZmRiNzIxYjg2OGFhNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTAwZjkzZWZhM2EwZWExZjcxODZiZWZhZWFkMmE1Y2UyZWE2MTRmYTdlMTI2ODE2ODJiZDIyMTA0NjAyMmQ2ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjI1OTBmZjhlNjJlYjlmZDIyZmFjOTgwYTQxMGYwMGViZmZhMGZkNzc2OWJkMTE2MDY1ZTQ1Y2VkY2U4ZmYxZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjA4ZjY4MThhZDk4Yzg4N2FhZjJlNmE2ZDFjMWYyNGZlMDIwZWY2NThhOGYxZmUyMTg2YTk4ZTY5NGJmYTU5YiJ9"
         },
         {
@@ -173,8 +173,8 @@
       "statement": "Each concurrent DofusDB write holds one Postgres pool connection; the pool sets no explicit max, so pg's default of 10 applies and .env.example advises not exceeding 9.",
       "evidence": [
         {
-          "resource": "repo://.env.example#L36-L39",
-          "version": "repo-lines-v1:sha256:2e9f86291477ff70894197bdc03fc585d92a032b76b00c40a4835c30b67da2e8:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzM2MGU0ZDUwMmFjNTcyN2NhOWRhZjk3MTY0YmI2ZDVmMzdjOTM1ZWZlZWNlNDE5M2UzMjVjNzQ4ZDlkYTMzNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjMDZiZDJlNGUwYjI5NjA1YmQxYmE1MTBmYTVhOWM0M2U0ZmFiZjI1MzkwNTUyNzM3Y2JmYTMwODJhNGJkOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDVkMTI1NTE5NWZjNmUyODBmZTQyNTE4Mjg0MjYwNmViODNkYTdkNWZkYjNkNTVkYzU4YjM5MmRhZDUyMTdlOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTJmMzY4MjZiNmY3ZDk5YjYwZTI2ZjkwNjY5Y2NlYWM0ZjY0YmM4YjVmMjliZDVmYjQzYjg1MzcxYmUxMjVhNyJ9"
+          "resource": "repo://.env.example#L44-L47",
+          "version": "repo-lines-v1:sha256:2e9f86291477ff70894197bdc03fc585d92a032b76b00c40a4835c30b67da2e8:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzM2MGU0ZDUwMmFjNTcyN2NhOWRhZjk3MTY0YmI2ZDVmMzdjOTM1ZWZlZWNlNDE5M2UzMjVjNzQ4ZDlkYTMzNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjMDZiZDJlNGUwYjI5NjA1YmQxYmE1MTBmYTVhOWM0M2U0ZmFiZjI1MzkwNTUyNzM3Y2JmYTMwODJhNGJkOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmQwNGUxZGU4YjU3Yzk0OTczN2RlNmRiNWIzMWQ1YmRiMDJkZTcyZDcwZGEyMjQxZjc4ZTdkOGIxYmMzMzZmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTk4YWE4OWNlMGI1ODI2ZmI5NzgxODc2ZmM0ZjQ0NWU4MGVlNjI5NmRiZDQ2ZGI5NDUyMjYzMDgzMWI1YjZmNCJ9"
         },
         {
           "resource": "repo://src/lib/dofusdb/refresh-quests.ts#L40-L44",
@@ -182,7 +182,7 @@
         },
         {
           "resource": "repo://src/payload.config.ts#L130-L150",
-          "version": "repo-lines-v1:sha256:4c6bb9beea29934990be361ef2c7687af5103523ffee166b675e1bb1d30c74c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2YWU4ZDEyMWYyZmZkNTQ4ZjJiZjQ1MmYzMDY1ODVjODk4NjNlZTI3YTFkZTM2MTlhZjEyZDcyNzQxYzQ2MDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZTZmY2RkNGQ3Mjc0ODdlOGI4ZDdhNDM3N2YwNjJjZDFiY2U1OTQ0NGQ2ZDczYWE4OGNhNTg0OGY5NGI0ZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4OGMwZWZkM2NkZDQ1ZTUwZjE2MmM2MGIzOTdkNWFjNjA0ZDc5NThlNzEzYWU0MDUxZDMzZWE5MmMxMTI2NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyNDNjNzQ1YWY3ZDdkODc5YWY1NTE4MTZlODI1MmI5NDUzYjNmZGI4NmRlZmM4YTA5YWM5NjE2ZTFkOTI0YjMifQ"
+          "version": "repo-lines-v1:sha256:eb876ac14416ddacd0cfee4f1a8b1751ca683750e1e2f3fd4a01e45394844537:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZWY5NGMwNzZlZDU0YTE2YWQ5ODEyMGIxOTg3ZjlhZjhjZWQ1OWI0ZWI2NDA2OTA5ZjZjMzE4YjM4MTdlZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3OTY2YzEzYzIzZTQ2NmVmMTZmYzA0OGFkMzc3ZTk0YzFiY2E5MzMzMDE2ZDgxZmNiOTc3M2ExOWViZTIzZWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjZGJjNzExZDRkZDIzZWJjZDliNTEwMjQ5NmM0ZDA5ZDM4MjY3N2ZlNjZmY2U0NmVhNzIwNDhkZWJhZDlmYjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViYTk4ODMxZDFiNTA1OWU3MDVhNjJiMTk5ZWMzNDQwZGFkMzc0YTNmZTE1YjFhZTcxZDRjNDRlMmNkYmUzMmIifQ"
         }
       ]
     },
@@ -191,8 +191,8 @@
       "statement": "isDesignCatalogEnabled opens the /sistema catalog when NODE_ENV is development, when the environment is dev, or when E2E_DESIGN_CATALOG is exactly '1'; playwright.config.ts sets E2E_DESIGN_CATALOG=1 for the E2E app server.",
       "evidence": [
         {
-          "resource": "repo://playwright.config.ts#L32-L34",
-          "version": "repo-lines-v1:sha256:67405c468b417cea65c4376f231f6aff6e21e32fcb43819ce0928fc8ef2905dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzVmMjBiYTUxZWYzYjkzZWRlNDY3ZTY0YWQ0MDczNzgxZjViYWNhZDJkMzRhNGZhNTM0MmM0NWVmYzg2NTQ0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWJhZTM1MTg0ZTI3YmRkZjgwMzAxYTA0YTA3ZmNiNjg2NWY2ODBiMDRhMDYwODVmZjUyOTRkODcxOGNmZmI4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFkZmE1YjQ0MGRhOTU5NDdhYTYyZmYzODBlNDYzNTk3YzZmMTFmOWM4OGM5MWQ1YWMwYjNiZTY5NmM4M2ExNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+          "resource": "repo://playwright.config.ts#L49-L55",
+          "version": "repo-lines-v1:sha256:d3d66bb190aa509b2ba453ce9ec40850563c5023c6bcbf7764459d586811d35c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzVmMjBiYTUxZWYzYjkzZWRlNDY3ZTY0YWQ0MDczNzgxZjViYWNhZDJkMzRhNGZhNTM0MmM0NWVmYzg2NTQ0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODE3ZjdmNDA5NjhlZGU4NWY1NzFmMzAxMTU1MmQ0ZTM2ZDNjNjFiZmViZmM2ZDQ3YmQ0MDFiZTQzNmYwNTNjNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFkZmE1YjQ0MGRhOTU5NDdhYTYyZmYzODBlNDYzNTk3YzZmMTFmOWM4OGM5MWQ1YWMwYjNiZTY5NmM4M2ExNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODE2OTAyZWJjZmFkZTNlNThlMTcwMDQ1ODVhZTdiNjQxZTE4MGM3MzdjMjMwNmVhYTIxMTQ3YTQ4ZjlmYzAzMyJ9"
         },
         {
           "resource": "repo://src/lib/dev-gate/design-catalog.ts#L11-L13",
@@ -202,11 +202,11 @@
     },
     {
       "id": "claim_e5f9a86db9c84967b5a327875072cca9",
-      "statement": "lhciEnv points both DATABASE_URL and DATABASE_URL_DIRECT at the configured DATABASE_URL or the ta_web_lhci embedded database, supplies a dummy PAYLOAD_SECRET when none is set, sets NEXT_PUBLIC_SITE_URL to the local server, blanks APP_ENV, and blanks every S3 variable and MEDIA_BASE_URL.",
+      "statement": "lhciEnv points both DATABASE_URL and DATABASE_URL_DIRECT at the configured DATABASE_URL or the ta_web_lhci embedded database, supplies a dummy PAYLOAD_SECRET when none is set, sets NEXT_PUBLIC_SITE_URL to the local server, blanks APP_ENV, blanks every S3 variable and MEDIA_BASE_URL with MEDIA_STATIC_DIR set to its database's folder, sets TWITCH_LIVE_URL to off and blanks both Umami variables.",
       "evidence": [
         {
-          "resource": "repo://scripts/lhci-env.ts#L10-L29",
-          "version": "repo-lines-v1:sha256:312385d01cdd1237af6af3177bc6565b4eb2bb61e539e320a26e1d49982a9818:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZWI1Yzc3ZjllZmZkNWM5NzFjMmY0ZmVjNDUxNTQ4OGU5YjVhNmI4ZmZjOTQ1MjY4ZGEzNjcyMzk3OGZhMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/lhci-env.ts#L11-L37",
+          "version": "repo-lines-v1:sha256:1ca651c99deda344c66ab43e0ed05cbccbdb271eee2c50026379bb1814bd1f92:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZWI1Yzc3ZjllZmZkNWM5NzFjMmY0ZmVjNDUxNTQ4OGU5YjVhNmI4ZmZjOTQ1MjY4ZGEzNjcyMzk3OGZhMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -263,8 +263,8 @@
       "statement": "pnpm review:release reads RELEASE_REVIEW_MODEL (default fable), RELEASE_REVIEW_JOBS (3), RELEASE_REVIEW_TIMEOUT_MINUTES (20) and RELEASE_REVIEW_BATCH_CHARS (120000) from the process environment, and rejects a numeric value that is not a positive integer.",
       "evidence": [
         {
-          "resource": "repo://.env.example#L94-L100",
-          "version": "repo-lines-v1:sha256:ae1a2c950bc2ec9901dd73bbaf41e58fe96d4523483ae2abfb43b6724a72ded6:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjkyZDAwY2M2NDJlMjgwNWFhODIxOTdhM2ViZmJiMGY1ZDJjNTRmNjc1MWRhZDYzNTg5OTNhMDg2M2IzYTYzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWNiYzIyNDU5NTExZDFiZjE1ZjU3OTc3MzkzOThiYWQ0YzU0NDZlNzY4ZGQ0YTFkNzJkYjNlOWU2M2U2MDNjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTlkMTFlMTU0MzdkNjFiZDIzMzI2ZTdjNmI3OTU5ODM5YjQwODgxNTIwNjE4MzI4NzMzYjAxMzdhNTlmOGViMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://.env.example#L115-L121",
+          "version": "repo-lines-v1:sha256:ae1a2c950bc2ec9901dd73bbaf41e58fe96d4523483ae2abfb43b6724a72ded6:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjkyZDAwY2M2NDJlMjgwNWFhODIxOTdhM2ViZmJiMGY1ZDJjNTRmNjc1MWRhZDYzNTg5OTNhMDg2M2IzYTYzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWNiYzIyNDU5NTExZDFiZjE1ZjU3OTc3MzkzOThiYWQ0YzU0NDZlNzY4ZGQ0YTFkNzJkYjNlOWU2M2U2MDNjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTlkMTFlMTU0MzdkNjFiZDIzMzI2ZTdjNmI3OTU5ODM5YjQwODgxNTIwNjE4MzI4NzMzYjAxMzdhNTlmOGViMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTY0M2FjYTQ1OWJmMWEyYjdlZTUxNmY2Y2YxMmZjYmVmZDZiYjA2NDZmYzgyOTQyNjZlOWQ2Njk1N2NiNWMwYyJ9"
         },
         {
           "resource": "repo://scripts/review-release.ts#L37-L45",
@@ -291,7 +291,7 @@
       "statement": "LHCI_SHARD of the form part/total makes lighthouserc.cjs measure one contiguous slice of its page list, with sizes differing by at most one and the extra pages in the first parts; a malformed value or more parts than pages throws.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L25-L45",
+          "resource": "repo://lighthouserc.cjs#L34-L54",
           "version": "repo-lines-v1:sha256:c86c080126568a38dd53076f02f9323bd413473659b6d5042cd2be40545c494d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjNjljMjBlOGQ4NDViOWZjZDc3ZDBjNTRjNzhhNDdlZTg0NjVhY2U2OTQxYjU2OTg1NmNhOTQyNDY2MzAzODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmODBhNmMzODVhNTAwYjkzNDdmNjgyYWZhOWE0YjljYzI5ZTFmZTM3ZjAyOTFlODJhNjFjZmJlYzE3ODhjZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwOWIyZTEzYTliZGIyMGQ2NjE5OTkyYjBhZWI3NTNmZmY2OGYxYTZmOGVmYTljN2Y4OTFmOTZkMWZlNmY5NjEifQ"
         }
       ]
@@ -301,12 +301,12 @@
       "statement": "Against a deployment (SMOKE_BASE_URL) the layout review only signs in to the panel when LAYOUT_LINT_PANEL_LOGIN is exactly 1 and LAYOUT_LINT_PANEL_EMAIL and LAYOUT_LINT_PANEL_PASSWORD are set; locally it uses a seeded panel account, and LAYOUT_LINT_PATHS adds comma-separated routes.",
       "evidence": [
         {
-          "resource": "repo://.env.example#L102-L109",
+          "resource": "repo://.env.example#L123-L130",
           "version": "repo-lines-v1:sha256:4aa1afdabae34c3eae89a1699ef9796626b20bc777e4682a8e9ea6aa82a25163:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjMzYzQyNDk4MWVjZjMxM2ZlZTQxMTMzMTdkYmYxMGNiMTA4OThmYzM2NjllOWZjMGJmODY3OTRiMjRlODEwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTQ2OWEyY2FlN2RmZjcxNWQ4NmY2Yzg0OWQ2Yjc4MTIzODk5YWY1NDEzMDQ5ZDg0MTA2ZGI0ZDVhNTA4MDIzMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmI4OTAyMmEyMWExYzA3ZDc0OTdiMzFkMjVkNWVkMjdlZGNhNTQ0ZGY2NTE2ZTExYzA3NWQ0MzY4MTNiOWJiMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
-          "resource": "repo://tests/e2e/maquetacion.spec.ts#L113-L117",
-          "version": "repo-lines-v1:sha256:d73d4357f495f963f68dff1477759758ae1d0072eee3255dd67e916ef9fdf79c:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVmYjZlNDA4Zjk4NTE2Y2FlOGY5MjAyYTY5YzZkZDBjYmJkZTIxNmIzZjAxNjA3OWJlMGUzZDlmMDMxNmZiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDc2ZTZkYjUwMDJmMGIzNGQ0NmJlMjU1ZjYxOGU5NDMyYjUxYTAwMmJlOGZjZDliODRjMDljZjc1YTY2N2IwYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzJiZTVmYzVhNWJjOGFlZjdjMDA5Zjg5MjUzZGI0ZDUzYTIxMjZmMjk0ZTc4MTMxZTMwY2U3NTNlNDc1MjQxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWFjNmQzMTcxMTFkYTY2YTI4OTY4MGJmNTViYWQxYzIyOTRkNjc0MmVmNzMwZDM2NWYyOTUyMDc0MmRjODU3YiJ9"
+          "resource": "repo://tests/e2e/maquetacion.spec.ts#L124-L128",
+          "version": "repo-lines-v1:sha256:d73d4357f495f963f68dff1477759758ae1d0072eee3255dd67e916ef9fdf79c:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVmYjZlNDA4Zjk4NTE2Y2FlOGY5MjAyYTY5YzZkZDBjYmJkZTIxNmIzZjAxNjA3OWJlMGUzZDlmMDMxNmZiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDc2ZTZkYjUwMDJmMGIzNGQ0NmJlMjU1ZjYxOGU5NDMyYjUxYTAwMmJlOGZjZDliODRjMDljZjc1YTY2N2IwYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjVhMDkwOTFhOTA3MWQ2MWM5MDI5YjJiZDA0NTNkYjM2ZjhmOWRiZjZkMWMxM2ZjOTg0N2IzMGRlMDhlN2E4MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWFjNmQzMTcxMTFkYTY2YTI4OTY4MGJmNTViYWQxYzIyOTRkNjc0MmVmNzMwZDM2NWYyOTUyMDc0MmRjODU3YiJ9"
         },
         {
           "resource": "repo://tests/e2e/maquetacion.spec.ts#L18-L35",
@@ -316,17 +316,41 @@
     },
     {
       "id": "claim_0f4204a2b76d45899890ded3569d8a0e",
-      "statement": "The dev-only game-data Railway service takes its database, Payload, storage, Sentry and site URL variables as references to the web service's variables and sets APP_ENV=dev, so it needs no secret of its own.",
+      "statement": "The game-data Railway service, declared in both environments, takes its database, Payload, storage, Sentry and site URL variables as references to the web service's variables, with APP_ENV=dev in dev and a reference to the web's GIT_COMMIT_SHA in production, so it needs no secret of its own.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L81-L118",
-          "version": "repo-lines-v1:sha256:44033ec354e5392920e78d4667fb957ee88d39edd6aced4300674cb1485306a3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhZGQ4ZGJmZTNkMjk3MGFjODJjZWM2NDZjYzFjNTQyMzYwNjIzODRjYzVmNmE2ZWYzYjA1NWFjMjk4YmMwMWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNWU3Yzc5YzJmZmE4NTQzOGIwNjg2ZDAzN2NmNDBjMmY1YTU1N2Q1YmUxMDQwZTUxNzM2MWVmZWQ0ODdlNzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0NTJiNWI5N2M1M2MxOTBjN2Y4ZmJhYjA4ZTRhNzJlNjMzOTdkNjFhNzA3MzZiNDUyYjNjMWRiYTA0ZWM1ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+          "resource": "repo://.railway/railway.ts#L85-L130",
+          "version": "repo-lines-v1:sha256:c46df162b22878b3c5194b3f745e2aceadc4475a002564e6fad07466714c7682:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhZGQ4ZGJmZTNkMjk3MGFjODJjZWM2NDZjYzFjNTQyMzYwNjIzODRjYzVmNmE2ZWYzYjA1NWFjMjk4YmMwMWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmNzE3MDI1ZjgzMGVmMGEwNDkyYzc0OGNlMDI3NjMzOGYyYjgyYTg0ZmNiNWExNjY2NTdmODg1ZDg0YjZmYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0NTJiNWI5N2M1M2MxOTBjN2Y4ZmJhYjA4ZTRhNzJlNjMzOTdkNjFhNzA3MzZiNDUyYjNjMWRiYTA0ZWM1ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_442a44a39cf545679bc3830ed99eedb1",
+      "statement": "liveUrl returns Torre's Twitch worker URL when TWITCH_LIVE_URL is empty or unset, null when it is off (case-insensitive), and the given URL otherwise.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/site/live.ts#L16-L36",
+          "version": "repo-lines-v1:sha256:dd663bd354ffb8edf11209eb37d64462c0ac6ab8c1515ce7b5ca9fe4e5991917:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlNTFlMDFjZDY3NDI3ZmI1NTBlYjhmMWNhN2JmMDQ4MGRlNjUyNjc1NTlmNDQ2MDI4ZWI4YjExNTZjZjc5OGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2MjA3NDVhMzkxYzFmMzNmMDgxMWUyZjg2ZDE5MWMzMmFjNWFiOWJjNThmMjVlMzQyYWZhY2U0Y2RhMThhZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllMmM5ZGYyYjRlMGQ1NzBjODVmNTgwYzVhYTMyZjVlMDg5MWRkMDBlYzMwYTJiMjYwNTgxMDk5ZDE1YjQ3OWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c621efbcecfd44239545bdc2461b28e9",
+      "statement": "umamiConfig returns null on the dev environment, when UMAMI_WEBSITE_ID is not a UUID, or when UMAMI_HOST is not an http(s) URL without credentials; Railway declares both Umami variables only in production.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L77-L80",
+          "version": "repo-lines-v1:sha256:7abd4d31c4ff5cddb98ed9c2e589b0feda1a99513b4de9470c3eed989e89165f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTBiNmYzN2EzM2Q5YzVmNzJjZThkOTFjNDllN2JhZDA1YWNmMjNjMDU5Yzk3NzM4MTFjYjE1NTFmMzQzYTViMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWJiOTVkNjIyMjhlMzFkNDViMTc0YTQxYWM5ZDAzMWFlNDM3MzVkMzU5OWY2ZGRlZDkwNmZhNWJlZGZkOWJlMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWU3MDk2Y2UxZTEyN2ZmMDkwNmE4N2Q4MjgwY2M1Nzg0ODVlMWRjOWEwNjViMWU1ZDQ0ZDk4N2Q2MjViZmUxNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzI3MmFlODFiZGQ4MGU3NzNhNDg2Y2FlMTcwNjg0NzdiOGRjMTc1MDgzNjAyMThlZGQ3NmY3ODQ0ZjZjYWE4NiJ9"
+        },
+        {
+          "resource": "repo://src/lib/analytics/umami.ts#L16-L28",
+          "version": "repo-lines-v1:sha256:06b2df6ccc57faccd9294c6baa971d1ce9d9e6c2797bd3ad3d724b1826a84b8e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkOGNhMGMxZmRlMTljNzUwZWVlODgwODkzNmM4NTAxOGRhOGFjMDg1OTgyMTFiZThjYzU3YTViZDQ1YTFmZDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmNWQxOWY1OTliZDIyMzk4ZGI1ODUwYTVhNDI3YzFjYTNjM2E5OWVhZThkYzZlYzRmNTQxMDEwYjgyNzY2NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyNzM1NjBiZTJhMmFhMTFmNGI4ODc1NzQzOTBmODM0NTFiODhjNzlhYWIyNzZhNTA4OTY0Y2RhMWEwNzM5OWYifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

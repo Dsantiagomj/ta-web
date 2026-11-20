@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:194173d7a7aba6b05a84c1e99c1bd37e763de3fa99893da6d07b71d7dee676f4",
+  "pageVersion": "sha256:6882d8c7be8fdb9300559a12f2aca6eef89fb1e0de6e7946ca80591acc135e10",
   "claims": [
     {
       "id": "claim_b7363d714d21414a86a3e5db4e0c28e6",
       "statement": "A quest guide's summary holds XP, minimum XP, kamas, reward items, level tiers, other rewards and the Squarespace rewards text as separate fields, with the item tier table renamed through dbName.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L205-L340",
-          "version": "repo-lines-v1:sha256:8618a087f410c50372aff9f4c35755e87089fc8138315560d0ea1f4bf203744c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1ZGQ0YzBiYzA2NzNiMWNhNWE4YjhiNzgxNGUxMTk4YzU2NDRiNDU1MjA4ZGNkMGY5MjRjYTc3NmVhOTQ2Y2ZkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0ZDVjZDJmYjRmM2RmODg0NTE1MjU1YjM5NTIzZjJmOGI1NDcyYmVlYTlmNTY2ZmZjYTIwNGRiODAyNTYxMDQxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1MmRiYjczNWU0ZThmYmI2YmY5N2I1YWM4YmQ2MTBlYjUwNTJmYTE2OTkxMTZhNDBkMjI4OTZjZDZhMjdmMmFjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2MTk5YTMzYWM4ODY2MzFjNGFlMjQ3YzU5ZDYxYjIzOWRlOGE2YjJhYWYyZmM1ZjRiZjM3ZDBlMDc5ZTcxODE4In0"
+          "resource": "repo://src/collections/QuestGuides.ts#L207-L342",
+          "version": "repo-lines-v1:sha256:8641512d6898f684345912a8d5ed85f593078032128a52f4d680e8bd8fec5317:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2M2RlMWVlYjVlYWQ4MmE1MGVhNjg2NTA2NjY1OWIxNjE4OWVlN2FiNTgwMGJiYzUyMTUwYWI2MjM4YTI5NzRmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJjNjNkNTM1Y2UzODA2M2Q2YjRjNTFkOGMzODZhN2Y5YjNlNTgwYTE0YTEwYzA3YjE5OGRmYWYxOWM5M2EzYmZlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiZDRlN2EzOWRiODNjMjYyNDIzNTVkYzdkNDM0M2M5NDE4MTk4M2FlMzVmNjE2YmNhYzg0ZWQwM2Y0ZGU5NWFkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0OTY5MWRlMjM1MjU4ZDdjYWU2ZTU4YzNiZDgyZTg0NjM2OTAyMTRiZGQyODM1NmRjNmQwYTEwNzkyYzU0ODQ0In0"
         }
       ]
     },
@@ -17,11 +17,11 @@
       "statement": "The guide header shows level tiers when Torre wrote two or more or, without his, DofusDB's tiers with items in Torre's order; otherwise Torre's XP with his own minimum or DofusDB's XP and minimum, his or DofusDB's kamas and items, and only when nothing is given, the lines of the rewards text.",
       "evidence": [
         {
-          "resource": "repo://src/lib/guides/page.ts#L236-L258",
+          "resource": "repo://src/lib/guides/page.ts#L240-L262",
           "version": "repo-lines-v1:sha256:9c028c0c2147a5042ec39b0832e96bd4be1252fd466cba113b51f6fecbb94237:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3MzliNDczYmExY2JlOTBhNWYxMzM1MmUyNmFhMzkwMTE0Y2YyNDNhN2QwZThhNjM4OTkwNjE0ZWI2MDg0ZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYTQzZTI1NzVjYTYyNjQxNmFjNjJhNTE1YTJmYTg2M2NhZDcxNjhjMzBhMGM3OTI4ZTM3YWMzM2Y1YjMwYmMifQ"
         },
         {
-          "resource": "repo://src/lib/guides/page.ts#L401-L430",
+          "resource": "repo://src/lib/guides/page.ts#L405-L434",
           "version": "repo-lines-v1:sha256:117fbe0feac41e74534825c3b22fa6258ad33257885407a9c547ebd3e0a8597f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yjc5MDAzM2U4ZDgxZjNjMDVjMjRkZmJkNjY3ZDYyZDliY2Q4ODQ4YzhkOWM4ZjRlZTQwM2RjMTdmYzIzYTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlYTFkNGYwZWU4NWIxMDA3MWZlNTg3ZjNkNmEzOGQwNTA0ZmNlOTEzYTY3MWNiOThkOGFhYmUzZDllNDYwNWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxMzZlOGEyMjAxMDFkZDVjMGI2ZWM5Yzc4ZGM2ZjkyNDNlNTkwMjE1ZjM4NzhhZDFhOGIyMTljYzc0NTc4NjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwYjA0OTYwNzM5NjA5N2VkMjViYWIxNjlkY2UzMzM4NzI4Yzc5ZDNiZjdkZjE4NTYyODkyZGUzOWQyNzYwMTAifQ"
         }
       ]
@@ -85,8 +85,8 @@
           "version": "repo-lines-v1:sha256:4b7186808c2fd1ba7bb80a47e47131bee5cbbc9ea5521ada4a943de840d5be25:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0N2Y0MDA1ZGJjYzY0YmFkZTRmOTI1YmQ4MmM5Y2M0NGExYTk5MTFmMGIxZThiYWFlYzExOTRjMTM4YjE0OTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/guides/reward-typos.ts#L1-L180",
-          "version": "repo-lines-v1:sha256:4bc6add0e1671de40c8dc0d52fa109bd817f0f62540e70aeedf9c25c75abc26c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlOGFmZDIwZmYyMDcxMTU2ODZkODgxOGQzMzFmMjM2ZTFjOWE5NmQwNTU4ZmNkZDY1ZGI4MzJhNzk4MjI0NWJiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzNmI1NGRhYjg3Yzg1YjQ5ZDNiMzhmMDFkZmQ0OGE4ZjM1YWM0Y2I1NjVkNTIwNzU3NTY0MWY5ZDU3YzA3ZDVkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2RkNzZmMDhiMDg1YjZjMDVlOTVjNjIyZDJmN2QwNDdjOTg2Nzk1MGQ1MGFlYzkzMjVjODg1MTllNjQ1YjhiIn0"
+          "resource": "repo://src/lib/guides/reward-typos.ts#L1-L163",
+          "version": "repo-lines-v1:sha256:9356df3cb5fec06647e4c8916d6001be37046f1228233c481c5faf133a5178f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlOGFmZDIwZmYyMDcxMTU2ODZkODgxOGQzMzFmMjM2ZTFjOWE5NmQwNTU4ZmNkZDY1ZGI4MzJhNzk4MjI0NWJiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzNmI1NGRhYjg3Yzg1YjQ5ZDNiMzhmMDFkZmQ0OGE4ZjM1YWM0Y2I1NjVkNTIwNzU3NTY0MWY5ZDU3YzA3ZDVkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2RkNzZmMDhiMDg1YjZjMDVlOTVjNjIyZDJmN2QwNDdjOTg2Nzk1MGQ1MGFlYzkzMjVjODg1MTllNjQ1YjhiIn0"
         },
         {
           "resource": "repo://tests/integration/fix-reward-typos.test.ts#L1-L95",
@@ -133,10 +133,34 @@
           "version": "repo-lines-v1:sha256:98a5fa98326f159b616ddd6dd80af405ff08ae186462d8429d59caa3bd925ff9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkNjQ1NDFmMGIzMzgwNGNkM2I4NmUyMzUyMGE1MjE2OTE5NWFmOWVjZjEyODJjNDY1MGRhN2ZmYTRkNGQzOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4MjRkZDcwNmU3ZjYzOWEwMGY3MzRkOTcxZmY2NzYwN2I2ZDg2OWE1ZGI2MmMzZWVjNzdjMGMzZTEyMjFiZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4YmQzM2Y0MTFiOWNiZjBhOWQzZGE3MzVmN2ZhZDdiZTljY2ZjNTczOWMwZGUxN2FjYTk1ODFlZjQ3MjkzYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2YzkzNzFjZGU3Njk4Y2Q1N2ViMGY1MzIyNjBhN2NjMTFhYmQ1MjYxN2FjZGNkZmE4NWY3YjY3M2ZmZDhhNGYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_3f9051b9dcb4461ca82f29d994954b79",
+      "statement": "Torre's per-tier rewards text is read from lines starting «Si eres nivel X a Y:» or «De nivel X a Y:», with the figures after the colon or on the lines below, accepting a figure repeated with the same value.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/reward-text.ts#L174-L215",
+          "version": "repo-lines-v1:sha256:982a1d83edb4412a8e03dcdd03c442c1c39681b565dbc48bcb40956ddd752122:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiZTI5ZDczNDA2MjNlNDQ5ZjBjYjg3OGY2OWYyOTY0MWFiNGYzNjRlMTAzZjFhMjM0YTdmYjkwYjc1YzViMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhYTBiZjk0YjE0MmU4NmYyOGVmOWQ1MWNkYTM5MzU2YzA3MDEyODAzNWY0ZjBlYjQyMzRmNWIzZWViMjM1N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2NDBlMTQyNjQyMTkyMzQxYjVhZDFhNWJhZTlhMGFlOWMzNGQ5M2MxODFlYThkYzhkM2U2NDRhZGYzNzQ2OGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_42ad8663e41a424c884f8bdc6e569261",
+      "statement": "The reward typo check uses the shared editDistance, an optimal string alignment distance with transpositions of neighbouring letters, which the legacy link typo report also uses.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/reward-typos.ts#L11-L11",
+          "version": "repo-lines-v1:sha256:e22f890b778433017ff493f8a51a60108dab566e614b49afffb609eecd6b541f:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTIyZjg5MGI3Nzg0MzMwMTdmZjQ5M2Y4YTUxYTYwMTA4ZGFiNTY2ZTYxNGI0OWFmZmZiNjA5ZWVjZDZiNTQxZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTIyZjg5MGI3Nzg0MzMwMTdmZjQ5M2Y4YTUxYTYwMTA4ZGFiNTY2ZTYxNGI0OWFmZmZiNjA5ZWVjZDZiNTQxZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTU3MzdlYjZhOGMxZjZhMjMxY2Q5ZGQ4ZDkyNzFiYjlkYjExODRlNmM0Zjc1YTg5NjY0ZTg5OTg3ZDE4ZWMxOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDZhMWY5MjdlMDFkYjhlYmM0YWE3ZmFiZmQ0ZDVkZDczY2ExNDdlMjJmYjI1YThiNGM2NjYwM2M3M2JmZTg2ZCJ9"
+        },
+        {
+          "resource": "repo://src/lib/text/edit-distance.ts#L1-L20",
+          "version": "repo-lines-v1:sha256:f7ea44059368ae650441d85396ee6aed262b57e67205bdd8212fcaea7de76741:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViZjZlMmYyNGJkOWJhMGYzYmE5YThiNmJkNmMxMDRiYTU2ZDA2ZGIxMWU3ZTQxNGMxZmJhODVjZmM2ZTNjM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

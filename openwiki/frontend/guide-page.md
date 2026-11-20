@@ -48,10 +48,10 @@ sources:
     resource: repo://tests/unit/guide-step-nav.test.ts
   - id: openwiki-source-bf9fb1ff7357ca38b1ad1283
     resource: repo://tests/unit/revalidate-guides.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Public quest guide page
@@ -123,7 +123,7 @@ The frontend layout reads the mode cookie, so every guide page is rendered per r
 `guideContent(guide)` splits `body` into `{ intro, steps, outro }`:
 
 - Blocks before the first step are the introduction; blocks after the last step are the closing. A loose block between two steps joins the end of the previous step, so the reading order never changes. A guide without step blocks is all introduction: the page never splits prose into steps itself.
-- Each step keeps its own blocks, including fight blocks with their monsters' images, and its coordinates only when both X and Y are set. Steps have no title (see [Guide body blocks](../cms/blocks.md#step)).
+- Each step keeps its own blocks, including fight blocks with their monsters' images and tables (`tableView`, dropped when they have no columns or no rows, see [Guide body blocks](../cms/blocks.md#table)), and its coordinates only when both X and Y are set. Steps have no title (see [Guide body blocks](../cms/blocks.md#step)).
 - An image without a file is skipped; images with Payload's generated sizes get `srcset` (see [Media storage](../media/storage.md)). A video without a title gets one built from the guide's title (`guideStrings.page.videoTitle`).
 - The first image in document order, whether an image block or an image uploaded inside a text or callout, inside a step or not, gets `priority`: no lazy loading and `fetchPriority="high"`, because it is the LCP candidate. Only that one. A caller can turn this off with `{ priority: false }`, as the Dofus guide page does for its step-by-step body, which sits below its header (see [Dofus guide page](../dofus-guides/dofus-guide-page.md)).
 
@@ -145,7 +145,9 @@ The "Pasos" side list and its current-step tracking were removed with the v5 sin
 
 ### Metadata
 
-`generateMetadata` uses `guideSeo`: the guide's `seo.metaTitle` and `seo.metaDescription`, or, when empty, the same templates the autofill uses (title, level and XP). It sets the canonical URL to `/<slug>` and Open Graph (`article`, site name, `es_ES`). A preview adds `robots: noindex, nofollow`.
+`generateMetadata` uses `guideSeo`: the guide's `seo.metaTitle` and `seo.metaDescription`, or, when empty, the same templates the autofill uses (title, level and XP). It sets the canonical URL to `/<slug>` and Open Graph (`article`, site name, `es_ES`) with the guide's own share card, `/<slug>/og`, drawn with its title over its zone background, and a `summary_large_image` Twitter card. A preview adds `robots: noindex, nofollow`. The page also renders an Article JSON-LD with the card, the guide's creation date and its content date (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)).
+
+Before rendering, the route passes the loaded guide through `withSiteLinks`, so Torre's links to his own site become relative where this site serves the path and otherwise point at his Squarespace page. `QuestHeader` gets `updated={contentDate(guide).modified}` and shows «Actualizado el …» under the subtitle.
 
 ## Draft preview
 

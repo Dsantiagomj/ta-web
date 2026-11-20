@@ -38,6 +38,8 @@ sources:
     resource: repo://src/endpoints/checklist-poster-progress.ts
   - id: openwiki-source-e6259e232b376ac021274244
     resource: repo://src/endpoints/health.ts
+  - id: openwiki-source-def7d1eb211fec2407ad644c
+    resource: repo://src/endpoints/search-index.ts
   - id: openwiki-source-273f067cfdf4642d554d72d2
     resource: repo://src/endpoints/zone-background.ts
   - id: openwiki-source-2dcb4ef15a24888e2bf6e8b3
@@ -50,10 +52,12 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+  - id: openwiki-source-486ad82a8c55c43af9a04fc7
+    resource: repo://tests/unit/next-compression.test.ts
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Request pipeline
@@ -74,6 +78,8 @@ request
        │    ├─ guias-dofus                Dofus guides index
        │    ├─ checklists                 checklists index
        │    ├─ sistema                    component catalog (not in production)
+       │    ├─ buscar                     /buscar, search results without JavaScript
+       │    ├─ og                         /og, the brand share card (and /[slug]/og per page)
        │    ├─ error.tsx                  error page inside the site shell
        │    └─ vista-previa               draft preview on/off
        └─ src/app/(payload)/…             Payload, generated files
@@ -104,7 +110,7 @@ It never asks for credentials and never queries the database.
 
 The App Router tree has two route groups, each with its own root layout.
 
-**`src/app/(frontend)/`** is the public site. Its layout reads the mode cookie (`ta-mode`) and the theme cookie (`ta-theme`), resolves both on the server (`resolveMode`, and `resolveTheme` with `premium: false`, since there are no members yet: a free theme from the cookie, otherwise `amakna`), renders `<html lang="es" data-theme data-mode>` and injects the pre-paint mode script. Its `generateViewport` resolves the same cookies and returns the theme-color of the header bar (`themeViewport`), so a phone browser's bar matches the header; see [Theme and mode](../frontend/theme-and-mode.md). In draft mode it renders `PreviewBar` above the header. It wraps every page in the site header and footer, puts the floating Ko-fi button (`KofiFloat`) right before the footer, adds the ambience particles (`Ambience`) after the footer, and loads in parallel, from `src/app/(frontend)/site-data.ts`, the header's guide counts (`loadSiteCounts`, `unstable_cache` under the `guide-pages` tag), the Dofus of the menu and search (`loadDofusNav`, under the `dofus-guides` tag, from the `dofus-guides` collection), the checklists of the menu (`loadChecklistNav`, mapped from `loadChecklists` under the `checklists` tag), the standalone pages for the footer's legal links (`loadPageNav`, under the `pages` tag), «Ajustes del sitio» (`loadSiteSettings`, under the `site-copy` tag) for the footer, the social links and the site-wide metadata, «Navegación» (`loadNavigation`, under the `site-copy` and `dofus-guides` tags) for the menu sections and the featured Dofus eggs, and the published class and dungeon pages (`loadSectionNav`, under the `section-pages` tag), whose menu lists only give the header its class and dungeon counts for now. Its `generateMetadata` builds `metadataBase` from `SITE_URL` and the site name, description and share image from those settings (see [Site settings and index texts](../cms/site-copy.md) and [Class and dungeon pages](../pages/class-and-dungeon-pages.md)); see [Site header, footer and search](../frontend/site-shell-and-search.md). Because it reads a cookie, every page renders per request; what is cached is the data.
+**`src/app/(frontend)/`** is the public site. Its layout reads the mode cookie (`ta-mode`) and the theme cookie (`ta-theme`), resolves both on the server (`resolveMode`, and `resolveTheme` with `premium: false`, since there are no members yet: a free theme from the cookie, otherwise `amakna`), renders `<html lang="es" data-theme data-mode>` and injects the pre-paint mode script, plus the inline Umami tracker when `umamiConfig(process.env)` returns a configuration (see [Analytics with Umami](../operations/analytics.md)). Its `generateViewport` resolves the same cookies and returns the theme-color of the header bar (`themeViewport`), so a phone browser's bar matches the header; see [Theme and mode](../frontend/theme-and-mode.md). In draft mode it renders `PreviewBar` above the header. It wraps every page in the site header and footer, puts the floating Ko-fi button (`KofiFloat`) right before the footer, adds the ambience particles (`Ambience`) after the footer, and loads in parallel, from `src/app/(frontend)/site-data.ts`, the header's guide counts (`loadSiteCounts`, `unstable_cache` under the `guide-pages` tag), the Dofus of the menu and search (`loadDofusNav`, under the `dofus-guides` tag, from the `dofus-guides` collection), the checklists of the menu (`loadChecklistNav`, mapped from `loadChecklists` under the `checklists` tag), the standalone pages for the footer's legal links (`loadPageNav`, under the `pages` tag), «Ajustes del sitio» (`loadSiteSettings`, under the `site-copy` tag) for the footer, the social links and the site-wide metadata, «Navegación» (`loadNavigation`, under the `site-copy` and `dofus-guides` tags) for the menu sections and the featured Dofus eggs, and the published class and dungeon pages (`loadSectionNav`, under the `section-pages` tag), whose menu lists only give the header its class and dungeon counts for now. Its `generateMetadata` builds `metadataBase` from `SITE_URL` and the site name, description and share image from those settings (see [Site settings and index texts](../cms/site-copy.md) and [Class and dungeon pages](../pages/class-and-dungeon-pages.md)); see [Site header, footer and search](../frontend/site-shell-and-search.md). Because it reads a cookie, every page renders per request; what is cached is the data.
 
 The group holds:
 
@@ -113,11 +119,13 @@ The group holds:
 - the [metalogros index](../achievements/metalogros-index.md) at `/metalogros`;
 - the [Dofus guides index](../dofus-guides/dofus-guides-index.md) at `/guias-dofus`;
 - the [checklists index](../checklists/checklists-index.md) at `/checklists`;
+- `/buscar`, the search results page that works without JavaScript (see [Site header, footer and search](../frontend/site-shell-and-search.md));
+- `/og` and `/[slug]/og`, the route handlers that draw the share cards (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md));
 - the `/vista-previa` routes that turn Next's draft mode on and off for editors;
 - the `/sistema` component catalog outside production;
 - `error.tsx`, a client error boundary that renders `ErrorView` (`src/app/(frontend)/ErrorView.tsx`) inside the header and footer: the page title, a sentence, a «retry» button that calls `reset` and a full-load link to the home page, styled like the 404. It has no state or effects, because Next loads it on every page. There is no `global-error.tsx`: it pushed the guide pages past their 150 KB JavaScript budget (see [Performance budgets](../testing/performance-budgets.md)).
 
-Top-level routes win over `/[slug]`, so their segments (`admin`, `api`, `sistema`, `vista-previa`, `metalogros`, `guias-dofus`, `checklists`) are listed in `RESERVED_SLUGS` in `src/lib/guides/slug.ts`. The panel rejects them as slugs and the page returns 404 before querying. A new top-level route adds its segment there.
+Top-level routes win over `/[slug]`, so their segments (`admin`, `api`, `sistema`, `vista-previa`, `metalogros`, `guias-dofus`, `checklists`, `buscar`, `og`) are listed in `RESERVED_SLUGS` in `src/lib/guides/slug.ts`. The panel rejects them as slugs and the page returns 404 before querying. A new top-level route adds its segment there.
 
 AGENTS.md defines the conventions: server components by default, data fetched on the server through Payload's local API, and client islands only where interaction requires them.
 
@@ -144,9 +152,11 @@ Endpoints listed in the Payload config's `endpoints` array are mounted under `/a
 A collection can mount its own endpoints under its slug. The `subareas` collection mounts `POST /api/subareas/:id/zone-background` (`src/endpoints/zone-background.ts`), the panel's «Traer fondo de DofusDB» button, admins only; see [Zone background](../frontend/zone-background.md). The `checklists` collection mounts two:
 
 - `GET /api/checklists/:slug/details` (`src/endpoints/checklist-details.ts`): the quest givers, coordinates and objectives the checklist island loads after the page paints. See [Checklist page](../checklists/checklist-page.md).
-- `GET /api/checklists/poster-progress` (`src/endpoints/checklist-poster-progress.ts`): what the progress engine of each poster on `/checklists` needs, for every published checklist. It reads as a visitor through `unstable_cache` under the `checklists` tag, gzips the JSON when the browser accepts it (Next does not compress Payload's API), and lets the browser keep it for five minutes. The index island requests it only when the browser has saved progress. See [Checklists index](../checklists/checklists-index.md).
+- `GET /api/checklists/poster-progress` (`src/endpoints/checklist-poster-progress.ts`): what the progress engine of each poster on `/checklists` needs, for every published checklist. It reads as a visitor through `unstable_cache` under the `checklists` tag, returns plain JSON and lets the browser keep it for five minutes. The index island requests it only when the browser has saved progress. See [Checklists index](../checklists/checklists-index.md).
 
 New endpoints belong in `src/endpoints/` and get added to the config's array or to their collection.
+
+The JSON endpoints (the search index and both checklist endpoints) return plain `Response.json` and let Next compress them like any response. Up to Next 16.4.5 route handler headers were stored as arrays and Next's `compression` middleware skipped them, so these endpoints gzipped their own bodies; 16.4.6 fixed it, the hand-made gzip is gone, and a `Content-Encoding` set by the handler would now be dropped. `tests/unit/next-compression.test.ts` runs Next's own compression and `sendResponse` against a route handler response and fails if a future Next version stops compressing it.
 
 ## 5. Error capture
 

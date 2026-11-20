@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:557fe9374e6ba24abe890005029e9456491dc7e733570c5ff514d7ee4f78942f",
+  "claims": [
+    {
+      "id": "claim_9e98be3531c84f3ba746d0774548afa1",
+      "statement": "A page's share card is 1200 by 630 in Amakna dark colors with the page kind, the title and the lockup; quest guides and achievement pages put their zone landscape under a 74 percent veil, Dofus guides their egg, and the title takes the largest of 88, 76, 66 and 56 px that fits three lines.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/seo-data.ts#L18-L125",
+          "version": "repo-lines-v1:sha256:f5efe623056e2c538bc810e7dcaf3b8b20770cfad534129462d30674337ed020:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyZGM4OTBlYzE5ZWExYjg0ZTQwODNjMDUzMmM5NzhkZTlmZWZlNjdkM2NiYmQ4ZTYyYmRmZmU0MDk2NDE1NjA2IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2NDI1MjU3MmI0MmZiOWJjMGY4OGVhYmE4ZWYxZGE4ODFjNDkzNTBlODAzZmVhYmRmMDhkYzQxNDQ3NTk4Y2U4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://src/lib/seo/share-card.ts#L1-L60",
+          "version": "repo-lines-v1:sha256:e17915fad3aac236d9169358ee73ba4a7b230df5df794c948994629ceb540710:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmMjA5MWY0ZDhmYzQ4MGJlNmYwZTU2OWUyOGFmNGQwNGUwZTMwNmY5ZTNlMGQyOTkzMWJkNGE3NDZkODQ0ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNDk4ZDI3OWU5ZjMxNmJkMTQ2MTU4ZmNlMWQ1ZGMyOGEzODZkYmY0M2MyNzg1ZmIxZTRiZWVmYmM2ZWUyZDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4MmQ5OGM2MWY5ZDdlZmE5ZWUwZWNiYjc1MDgwMDk0OGU5ZDBjMzI5MTYxMzE0OTFkYjYxNmUxYWY2MzY4NDcifQ"
+        },
+        {
+          "resource": "repo://tests/unit/share-card.test.ts#L30-L164",
+          "version": "repo-lines-v1:sha256:362b15deea2ea3286082cfb24a63dc9f91d6b392a0568e96675c31f2a74bfaf3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2NmMwMDgzNzMyNjU0YzE1YjU2NmY5ODc1Mzk4Mzk0ZGY4MDkwMTMzZDIwYzU5YjNjYThkNmY5NmQyYmNkYTgyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1ZDVmZjQyNmNhMGJjZmQzYTE0NDI1YzAzY2VlZDExZWRhYTY4MWE0MGJkMGZlZjBhNmFiMGM4YjcxZTkxZmIyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_79ad5b46dfbe46258a2deed99ad794a4",
+      "statement": "renderShareCard draws the card on the server with next/og and Rowdies and Lexend TTF files, as a JPEG under 200 KB with a landscape and as a palette PNG otherwise, and readShareArt gives the plain card when the art file is missing or takes more than 5 seconds.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/seo/share-card-art.ts#L1-L29",
+          "version": "repo-lines-v1:sha256:861b3c0d8a3045c4547b077b3faf5ad1bb345ced71ce017909bb88933da91d90:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkMGU4NTZkNjRkYjNjODZmYTUyNDUxYmYzNGI5N2I4NjQ1ODFkNTljMWE1MDM4YTExMWIzNmFmZGU5MjM4M2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/seo/share-card-image.tsx#L1-L31",
+          "version": "repo-lines-v1:sha256:333731e6075ef33efcc2986475bf25b198baf982882303b360df1aed9fd1c9d6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlMDA4NjlmN2MxY2YzMzI4OWUyNGZjYzNiNTk1M2EwYmE4NDg3MTQxYTIwOWU3ZmY1MzEzOGMzZTUxZGU2MzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwZDg0NzQxOTI0MDVmYzE4ZjkyNTE4ODg3NzE1M2E4NmYyZGQyM2Y4MTE4YTRhZmY4OTZmYjg0ZTU1MjZjNzIifQ"
+        },
+        {
+          "resource": "repo://src/lib/seo/share-card-image.tsx#L229-L270",
+          "version": "repo-lines-v1:sha256:553257d6bb571677d4c4000a391a19b57ac5387f8ec16d4fbfde3308a2ae38e6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5ODYwYzI4ZmUzOWNhYTczY2JiOTM0YzcwNTFhYTZlMWQ0OGYzZTkxZmRhYzdhODQ1YWM4MWQxMTgwYTUzY2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/share-card-image.test.ts#L43-L106",
+          "version": "repo-lines-v1:sha256:2efae5fa1a62e16f7ae152cc2d937cdaf278e6a8dc529de5bf75541a6d55a793:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0ZGVkODI0YTUwN2Q5MmE1MGYwZGY4YzQwOTA5MDFlNTFmMmQxM2I4MzNlNjI0MWU4YjM3NWQ5NDAyODAzODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQyN2ZlZWIxYmI1ZDc0MDE2YjJlYzA3MDVmOTJlYTIzODU0NjY4ZGY0M2ZkYWRjZjgxMDliMmVmOTllZmU3NGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2499e47deb0647d2a91b20a1258cfa88",
+      "statement": "/<slug>/og is force-static with a 600-second revalidate, builds no card at build time, answers 404 for a slug without a page and never sees drafts, while /og is the brand card drawn without reading the database.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/og/route.ts#L1-L27",
+          "version": "repo-lines-v1:sha256:3042968941a727d7c5e1e5f8cccff3c95ad99a2a988fe79c80dedf0d63d480d6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlYzI2OWQzMjE1YWU1MDYyOTdkNmE5NDhlYjYwYmVmZWY3YjZlOTlkYTBmOTRjNmZmMjg2ZGUwMTFjOWY1NjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/og/route.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:5b841a26abc752d29554fee7f81c107e563d0e21acbfc8b6b7df11e497af4348:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkZjRmNzQxMDJlYTI3Njg3YTkyYzEzMDk2NjliZjZiMDA0YjIzYTRmZTg5ZTQ2MGE0MjM5NTljOWYwZjY3MDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b7f5ead41adb45819f9f2f02909533b3",
+      "statement": "A page's og:image is /<slug>/og with a ?v= hash of the card's kind, title, art and content date, so services that cache images by URL fetch a new card when it changes; the home page and indexes use Torre's settings image or the brand card.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/seo/share-card.ts#L70-L124",
+          "version": "repo-lines-v1:sha256:97cfd9b9465db5180ad6439f647e57aeee8073e81df91f94524b8835a863b4f7:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1M2Y2ZjJiZWEyNGYwNzg1ZjQ4M2EyZTRkNmZiMDQyMjMyMDJlNzU1YTU0NDU0MDBjNmQyOTMyNzUxMWU0YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlNjkzYWIyOWQ1Y2EyYTNlZjkxOWYwNzVlYWZlMTQ2MmM3NTZlNTc0OGY2NWUxMDIwYjY0NzM5NWIyOGVjYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/site-copy/metadata.ts#L1-L51",
+          "version": "repo-lines-v1:sha256:61e5f634a7304daf1f05d7327f0de1930e541b748f2625b9e65247ccf342b825:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_96ce3353b3b44907ab6e0755277e87df",
+      "statement": "articleJsonLd builds a schema.org Article in Spanish with the headline cut to 110 characters, absolute URLs, the share card as image, the publication and content dates when known, Torre as author with his social links and the site as publisher with its 512 px logo; websiteJsonLd gives the home page a WebSite with a SearchAction on /buscar?q=.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/seo/json-ld.ts#L1-L94",
+          "version": "repo-lines-v1:sha256:567b8935c4479b325f2ef3d4f3ecc624bd9c1972b1a5ca940566834a06252fd6:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NGIxMjI1Y2M1MTQzNTUyMWJiMGU2NGFiYTk1OTRlM2IyYjg3MjViMjRkMDcyNmE3MDI5MzZiMGQzMzNlM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/json-ld.test.ts#L25-L121",
+          "version": "repo-lines-v1:sha256:992f79a8e0db0c895e0edb8b7143e0b72d9133bfe1a16f805704cf0fa7e9feb1:eyJzZWxlY3RlZExpbmVDb3VudCI6OTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1MTVhNmRmMGE3NThiMDcyYWU1YzMyZjYyNTNhZTUyY2NmNWEzYjRmMGRjNzcyYzAwM2IzNDBhOWI1ODNiOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxNWQ5NDg0MmYwNmE0MzViNjM2Y2JjNzRhMjQzM2NmNWQ3N2M1ZDJiNzI1ZjEwMmI2NmM1NTJkMWRhMzk1N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_73f5d75c3b9c4e6f8ec581b7938ee36a",
+      "statement": "JsonLd renders structured data in a script of type application/ld+json with every < escaped, so no text can close the tag.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/JsonLd.tsx#L1-L8",
+          "version": "repo-lines-v1:sha256:c88958bef160e4f3257fead7fe7a3efd4af58b7539f8c75a78aa5f157e2d4672:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzFmNzBiZmQ5NDU2YWIxZjA0YjhkOWM3YTI3MTliZGM2NDAwOWM1NGQwNDljZTdiODBmYmViMTY4YjU3ZTllMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://src/lib/seo/json-ld.ts#L88-L94",
+          "version": "repo-lines-v1:sha256:86c10d8e006ac3557febb5872fcd02b8645e00a17deddaf66488ad632778a1ae:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQ0NzQ5OTkzY2EzMjAzNTRkNTIyYzUwNmZiZGM4Mjg5ZmQyMDdmNmE5MGE3ZGNkZjU4MWM1MGY2NDc5ZmEwZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_06ebe89025984cdeba810cc6934a9ce6",
+      "statement": "trackContentDate moves contentUpdatedAt only when a panel user publishes a change to what the page shows or publishes it for the first time; drafts and saves without a user keep the published date, and editorialFingerprint ignores dates, status, importSnapshot, slug and SEO.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/content-date.ts#L1-L77",
+          "version": "repo-lines-v1:sha256:f2a2deb87d6d165a13ff35bc5d66e6b8b518ef5f7ba071a52e1734c202b70159:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2NWVhODE5OWM1NjUxN2RlMzUwYzc5ZjJkYTVlOGVmZDJiMzVkZWE2MDhkMDM2ZmJlMWMyNTBlYTQzMmM4YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/content-date/rule.ts#L1-L102",
+          "version": "repo-lines-v1:sha256:2fe36c86d762df63b76b0dc10faff4a2f4b184403d005c1a46908974e2b6d57e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1MTU4MTRmYWNiYjgwMWM3OTI0MDg1N2Y2MTU4Yjk2ZjM5YmQxMTE5NDMwY2ZjZDVlY2Y0YThlNDA5YWViZjE0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://tests/integration/content-date.test.ts#L44-L242",
+          "version": "repo-lines-v1:sha256:71acda6a58af027c8ffd12efe57957bad3bf35a8d9fd14d88813c8194d77538f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTk5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzYmI4NTU3NjAxODg2NTYzNjRkMTBiYTQzYTY2MTdjZDQ4NjM3NTRhNTk0YmQxNWNjZjUxYTc2NTEzYWUxYzBkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkM2IxZDI5NTUwNjU0M2FjZmQ2MjVlNDM2YzhmZGJjY2Q3ZWU4ZWY4MWJkMGVmZTIxODJkYzI3NDliOTA2NThmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://tests/unit/content-date.test.ts#L77-L210",
+          "version": "repo-lines-v1:sha256:de2b45c1e275e318620736285063bf16e1993fdda3b92facb08f061f27458ed5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmYWYwYjY1NGU5ZTM0ZGZjYTY0MjNiYjBkNzFlYmY4OTk0ZDNmNWZhOThjNWY2YWQ2Y2IyOWRmZDU5MmFjNGU3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJjMjZlYjdhODkzNzk4ZGRhMmNjNzk1MTg3MjIzMmNhZTQxYmEyZTcyYjc3NzlmOWU5NWQwNmY4OTMxMWVlM2Y3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_9ba99d1a08e64868ad2397f85cc974fa",
+      "statement": "contentDate gives a page's published date as its creation date and its modified date as the content date, or the creation date without one, moving publication back when the content date is earlier; formatContentDate writes the Spanish date and the YYYY-MM-DD day in Madrid time.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/content-date/format.ts#L1-L58",
+          "version": "repo-lines-v1:sha256:b48caa2bdd68d140765c6af257f03f646e6c6e3255b16e686d119de736826625:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzY2MwNDRlZmEwMmJlOGVmZmQ3MjgxNWEyMTdmZGM5NzE5NDkyNjRjNmEwMjhjMGU5YzE4ZDE2ODZkNTVhM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/content-date.test.ts#L13-L60",
+          "version": "repo-lines-v1:sha256:b519814b5b5e7177fe9237ad2a5626778d2c24578716d9eb310ae1d7bf2b0990:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjYWZjYjBhZTg5OWJlYzVlOWM2YjEzMWZjZDc3YTUwNTAyZTllOGU1ZjgwYzU3N2E5MTVmOThjMzhkYTU0ZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNjOGMzNzBlNmIxMzUxY2JmZjgyMDBjYTczZGFhOTIyNzAzMDczNDYxYmMwMTViNjFmNmNmZDYyYzQ0ZmQwMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzOTNkM2Q4NTdiODE3ZGYyNzJjZGFlMDFjNWZiYmNlYmYxNzhlMWRjODJiYWRlNTQ0YWQxMTRjZGJmNmZlMDYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-20T11:20:16.585Z"
+  }
+}

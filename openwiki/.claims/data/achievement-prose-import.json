@@ -1,14 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:86497e6e0b16f98c66db950fd462a01df6695127d382c11433afd9049bbbbe79",
+  "pageVersion": "sha256:bf3893ecf8b671930fad4fdea03359c3e5d6a0ef089f30603adb00e8854ae451",
   "claims": [
     {
       "id": "claim_f0acbfec8a2c4cceb4ff6f7cc8373108",
       "statement": "pnpm import:achievement-prose writes only the intro and outro of existing achievement pages from Torre's Squarespace pages, reading cached HTML with --from or downloading each page otherwise, dry-running without --apply and refusing remote or production databases without their flags.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/import-achievement-prose.ts#L1-L60",
-          "version": "repo-lines-v1:sha256:39daa66b05d16c33b8ee575ef04a8e8be6b9950041227893243a6afa4f2bd749:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlOGUyYWJkMDQ0YjFkODFhM2RiNmM4MWE4NjFhYzgzMmY3ZGJlOWUwYzNkMDQ5YzM4Mzg3MTMyY2UyOTk2NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjMjdmZDIwMDU5YTM1YjJmNTVjZTE5Y2YwZjRiYTA0MDJhYWIzNWYxMWE3MTIxNzI2NmNjY2RiMjA3MTM3YjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjMWQ5MDQwOWRjZGE3NDU0NDRmMjA3YjdkMWE1NTkyMWFmYTYwMmJiN2E1MTc3ZmVkMTIzYjdkOGI3NWIxMzMifQ"
+          "resource": "repo://scripts/import/achievements/squarespace-source.ts#L16-L38",
+          "version": "repo-lines-v1:sha256:b1c6e57b0e995177f02ca3378afe12f64a6ec3f3182e81d41ca4526e5a982415:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzYmYwNGZhZGIzZGE1NWQ4MTZlYjM1ZTM2YzAyODcwYTNjYmRkMDIxMzAyYzhhYWViMzQ1ZTAwZDZmNTFlNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1ZDBhNzdlN2JhZmM4MGQzMWUwMTdiMjQ0ZGU1ZDJiYjY1NTZjNDgwZGNjOTVlMjk2MGMyNjhlZDBhOGZjZTYifQ"
+        },
+        {
+          "resource": "repo://scripts/import/import-achievement-prose.ts#L1-L86",
+          "version": "repo-lines-v1:sha256:8411a53724a6a9d67a6476edec11d9e041e7922cff724d0c2057fdec08b3b328:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlOGUyYWJkMDQ0YjFkODFhM2RiNmM4MWE4NjFhYzgzMmY3ZGJlOWUwYzNkMDQ5YzM4Mzg3MTMyY2UyOTk2NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -17,12 +21,12 @@
       "statement": "The prose extractor treats exact template labels (Necesitarás, Recompensas, Prerrequisitos, Misiones del logro), ignoring accents, case and colon, and the lists that follow them as template, keeping everything else as prose.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/achievements/prose.ts#L1-L80",
-          "version": "repo-lines-v1:sha256:a6aee1e70e598f2aefc66d120efe2a3145fd5dac7a8d378a510bbc8a59e2d97f:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiOTdhOTAzZmRmOTY3MjgzNjBhODlmOTYwNGUxNjlmYjJhNTAyZGJlYmUxOTI5NmExNDhkZTJlMmIxZGJjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzODYyNGMxZTY0ZGI0OWNmMTM1MTU5Nzc5OGJiY2VjMmU3MTlmYzBmZmI1ZGFiY2RkNGI1NjMzODdhYWVlMTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1MGFjMTBhNGRiMDliNzBjM2Q3MjI4NzlkNmRmYzA0M2M2OTIyNDhlZDFkMjdlYjAwMGViYWRhYmUwYmVhMzQifQ"
+          "resource": "repo://scripts/import/achievements/prose.ts#L1-L89",
+          "version": "repo-lines-v1:sha256:07aa32c49f9aae3abfe065b3b8ee7d07ca151abe6ba5a01fbbc5807e781b2a0a:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiOTdhOTAzZmRmOTY3MjgzNjBhODlmOTYwNGUxNjlmYjJhNTAyZGJlYmUxOTI5NmExNDhkZTJlMmIxZGJjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzODYyNGMxZTY0ZGI0OWNmMTM1MTU5Nzc5OGJiY2VjMmU3MTlmYzBmZmI1ZGFiY2RkNGI1NjMzODdhYWVlMTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1MGFjMTBhNGRiMDliNzBjM2Q3MjI4NzlkNmRmYzA0M2M2OTIyNDhlZDFkMjdlYjAwMGViYWRhYmUwYmVhMzQifQ"
         },
         {
-          "resource": "repo://scripts/import/achievements/prose.ts#L112-L140",
-          "version": "repo-lines-v1:sha256:637c31196399236d2fc31983b4559c2d4f4cec9785611fa4c36c2b779c7a0abc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmYzFjZmFiYmI3MDk1MWIzNzI1ZjM3ZmNhNGM1Y2Q5OTk5ZjFmY2QwNmExODcwMWE4ZDAwNDMzMzdmNzU1ODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3Mjk4NmNiMWU4NzYzZmE1MDFhNjQ2OWVjM2ZhYWE2NmJkYzdhMDAxYTFlN2Q5MmQ5OTg4YmQ5ZWNjOGU3ZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0NDNiYTU1Nzc5ZTViMzE2OTk3YjkzYWM4ZjhjYjE4OWYyMWQ0ZjM5NzYzYTY5MTMxYjQ5ZjhkNzRhNjNmOTEifQ"
+          "resource": "repo://scripts/import/achievements/prose.ts#L121-L190",
+          "version": "repo-lines-v1:sha256:fc9ccb87548468a197c01cbe1754584d7a8833d30ee28ff5e56b819a7205f2ab:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3Mjk4NmNiMWU4NzYzZmE1MDFhNjQ2OWVjM2ZhYWE2NmJkYzdhMDAxYTFlN2Q5MmQ5OTg4YmQ5ZWNjOGU3ZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyYWI2YjM0Zjg1NWI2YzcyMzE0YTE3ZDAxMmRjZjJiZTFkZThmMmZiODgxNzUxYjBkNDMxYjI1ZWVlMThiOTEifQ"
         }
       ]
     },
@@ -31,8 +35,8 @@
       "statement": "Each parsed Squarespace document is released after reading because happy-dom retains about 8 MB per page.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/achievements/read-pages.ts#L1-L24",
-          "version": "repo-lines-v1:sha256:8a0fc62bdf493f02543cdad5a21e7d9ffefd2cf8dfcd855d080a8676828fe156:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2YjA5YjlmMDMwMzk3NGFlZWZkNWJhYTA2NGFmODZjNWVjZTA1OWY3YWE0NWU3NWVkMDdmYmEyNTA1YmMyMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/import/achievements/read-pages.ts#L1-L35",
+          "version": "repo-lines-v1:sha256:dad3a7c939c574a1072de794c02306f81ab9584c36093c5919c81b3d5b1409b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2YjA5YjlmMDMwMzk3NGFlZWZkNWJhYTA2NGFmODZjNWVjZTA1OWY3YWE0NWU3NWVkMDdmYmEyNTA1YmMyMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/unit/import-achievement-pages.test.ts#L5-L8",
@@ -127,10 +131,52 @@
           "version": "repo-lines-v1:sha256:aac1c0088ef720cf7ea820e72351e2b8414da58e1ed0c4511890f281d49064b4:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDEwNDdhZDhkNzY5MjI2OWUxOTU5NDgyNmZhMGYzYTgxNjYxMjdiNTg0YzFhODczNGE2OWJiYTJjZTEyNWNmNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWM2NDVlMjBkZTkwNTM1MTdjNTFkY2U5YjdkNzMzNzQ0MzFhMzJiODIwZTNkOGNhMmNmMzUxYjdkN2NlZTNkOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4MzUzYjlmNGNjZmYwNTEwZTk3NGYxNzJhNTQzMTg5M2Q5MTZhNmIzNzcyZWUyZjBjN2VkOThjZjJiY2M4ZiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_218fab0ce2564f03a0586d932e78706a",
+      "statement": "For a page without a DofusDB achievement the extractor appends Torre's Prerrequisitos, Necesitarás and Recompensas labels and lists to the intro, and for a page that shows no quests it keeps his quest lists as prose, treating only the first list after a template label as template.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/prose.ts#L150-L229",
+          "version": "repo-lines-v1:sha256:e3c4aaebda8842386926e7c4a67d0e91618e28a5bf2c0efba69cb7181217094a:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhZTc4NzY2OGVkYjBmOGU2N2Q1NzFmODAwMzdlZDBlN2U2YWM2MTY2YmIyZTYyMWQ2ZDliYmE1OGY3MDA1Y2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MTg5ZmViZjY3OTc1NjJhNGIxNzA3MDhkZTcxMzUyZTgyZjcyOTQyNmUzMTQ4ZTJjZjhkZDI2ZGUzZGUwNzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-achievement-prose.test.ts#L195-L260",
+          "version": "repo-lines-v1:sha256:c366fa01c28a94a44ea6f950550d1e109d3ffa77c5ffd5b95f9c7d779129e858:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNWRiNTIwZjJlM2FhY2YxZDhjODFhNTA3NzhhMWU2NWU2M2MxMjM5YjE4MTNhMjI3NDlkNTVmNzZkODFiNTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0NzVlOTRhOTA0YWM0OWIzMTU0ZDQ2NzJhNjZlODYyOWI4NmRhYzc0ZTNlMjkzN2JlNjkyN2FlM2RhMTFjNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmMWMwMjMyMjg4NjRjNTlkMjhlZWQxZWE3Yjg3ZTc0ODZiNjc2YjdlNmJhZmY3NWRmMWQwNTZiOTU0NDhjMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwODRkYmI5Zjk4NmQwNjQ1MzBiMzA5MGM0YmNkNTFlNWJiNzNiNzg4ZGI4ZjRmNTA4YmQxNGFmNWE2MTI3OWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0841a7e29be9420e9d55074e5f5f7e7a",
+      "statement": "pnpm achievements:alineamiento reads the links under the Alineamiento heading of Torre's /logros index and matches each DofusDB achievement of category 43 to the link with the same folded name, each achievement at most once.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/alignment.ts#L1-L117",
+          "version": "repo-lines-v1:sha256:1e8a223cf7317d4bc5a8eef98948cfb37d3f3808b8dadc10d88158393899cc7b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhOTg4ZDI1YzM5NGMzZTcyMWYyYjk3NmIyYTMwY2ZjNGM0OTE0YTU2ZjRhOWYwNWRiNGUxYWJlYTZiYWI2ZTJlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://tests/unit/import-alignment-achievements.test.ts#L50-L103",
+          "version": "repo-lines-v1:sha256:08de92a9e9d5fbed9ac8710d4e8e5e9e467678b0a6f6aa445ff027795dd2e282:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmZTBlYWMyNGNmMTA4Y2IzZDRmNDBkZWQ4YThkMzgxMDg2ZDBkODljNmNjMzNiNDE5ZWZkNzdmY2Q2YmE1NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkMTY5NTJhZDI5Yzg4OTM5ZjRlNmNiZjg0Y2NiMDFlY2VjNzZlY2ZjNzliMWFmNzM1NDg1YzVjNmNkYTZjMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7e9e760df3124377a7f07db68a6a2c14",
+      "statement": "loadAlignmentPages creates a missing Alineamiento achievement page with Torre's slug in the preparing state, skips achievements that already have a page (drafts included) and slugs already taken in the root slug space, never changes an existing page, and writes only with apply.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/load-alignment.ts#L1-L131",
+          "version": "repo-lines-v1:sha256:b05b5bbb0ed8e3db7882281af309c14218aa8a54f29b5c7bdb878a941065c9fe:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5N2ViOGE0NjIxOTY0NDc4ZWU4NzY1ZjJiZGIzMDJjMjFmYTczMDQ4ZDQyMDNhY2JmMDc2ZDc5ZmRkNDZmZjkyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://scripts/import/import-alignment-achievements.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:b32ed1ce9868bd2f69dfd001447023ecfc8b831409a76be2a7da8bfec52de7eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMmU1MzY1YTFmZjYwNDI4YzllY2ZmZDk0MDZjOTFmYTdiZTc0ZWI2MzM4ZjNjMWU5MmE5ODEyMDVjMTQzM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTc0Nzc0MzAzYjI5ODBmMWM4NWVkMmY4NjkxZWI1YTM2YmVjYzM2ZGM4YzQ5MDIxZTJlNmJmN2I4M2U4OWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNTgyOGQ1ZGY4OGE4MDRmOGFhYjg3MTk0YWJjNzQ3NTllMDZmNWFlYjY4YWZkZWM2MTM2NWJhMzkwNTQ2OTIifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:09e33712755b3e046ebd7d21cc9c3b4385ef8efaa70b2d64358e62d897635549",
+  "pageVersion": "sha256:8be46110adbea72759124b3eab3ef6d90c2b7dc5f27f3e0a88e1752ef7e74206",
   "claims": [
     {
       "id": "claim_2d93ccec07cb4611835a5c6ca78e0fdc",
@@ -79,7 +79,7 @@
       "statement": "readSiteSettings and readIndexTexts read the globals as a visitor, and the frontend caches both reads under the site-copy tag with a 600-second revalidate.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L79-L92",
+          "resource": "repo://src/app/(frontend)/site-data.ts#L84-L97",
           "version": "repo-lines-v1:sha256:ed99fafe26bfdb58a9105398d7c2eeefa18697b9872a490804a83cb4edd04156:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjOTc4OTFmNTFiZjU5MjQ1NDAzMTYxNDE4ZGIzZDgyODU4YTVkNWJkNGQ4NTQ3OGU1NjU1MmJjNDVlM2UzOGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxYWZiYzg4OWNkMTIyZjA5NmNkMTYxNzE5YzIxODRhMzQ4OTk0ODg2YTk1MTcyOGM3ZjE5OWU4ZjBkZDY4MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkZTM3ZjAzZDM3MWRlNjM0ZWNhYTA3YTMxNjEyYjViYWYwMzkxNWY5ZWRmMjRjOTZiMGNhNWUyMDliNDM5MGMifQ"
         },
         {
@@ -94,11 +94,11 @@
     },
     {
       "id": "claim_6b1af306a25b4cdda14b8967a9395ae9",
-      "statement": "openGraphDefaults gives every page the site name, es_ES locale and the share image, siteMetadata builds the layout's title and description from the settings, and indexMetadata builds an index's title, description, canonical path and Open Graph from its SEO texts.",
+      "statement": "openGraphDefaults gives every page the site name and es_ES locale, siteMetadata builds the layout's title, description, Open Graph and Twitter card from the settings, and indexMetadata builds an index's title, description, canonical path and Open Graph from its SEO texts; the home page and indexes share Torre's settings image or, without one, the brand card.",
       "evidence": [
         {
-          "resource": "repo://src/lib/site-copy/metadata.ts#L1-L38",
-          "version": "repo-lines-v1:sha256:6a03dddf63895081fba7ee5263626e740e37819a7869e00f2b730dc46b1c0864:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/site-copy/metadata.ts#L1-L51",
+          "version": "repo-lines-v1:sha256:61e5f634a7304daf1f05d7327f0de1930e541b748f2625b9e65247ccf342b825:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -203,8 +203,8 @@
       "statement": "readNavigation reads the navigation global as a visitor with draft false, populating the featured guides' name, egg and item, and loadNavigation caches it under the site-copy and dofus-guides tags.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L94-L101",
-          "version": "repo-lines-v1:sha256:f07b6526c11575f3a725026fb7385cb0c82d2ada4a6eef55e0f9450f8f38d8fc:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQyMDU4NGMwNTI0MGI5MDUxZDRiYzAwNmY5YjhhYmEzZjI2ZDgyZjUxZjUyMTllNGFkYTBjYWJlODVlMTMzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWZiM2Q4ZWNkYTMzNDU1MDAzMzRiOTFhMmEyOGU3ZDI2MzQwMjFmMmIzYTA0N2ZlODlkZjNhNzBlOTJkYTQ2ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://src/app/(frontend)/site-data.ts#L99-L106",
+          "version": "repo-lines-v1:sha256:f07b6526c11575f3a725026fb7385cb0c82d2ada4a6eef55e0f9450f8f38d8fc:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQyMDU4NGMwNTI0MGI5MDUxZDRiYzAwNmY5YjhhYmEzZjI2ZDgyZjUxZjUyMTllNGFkYTBjYWJlODVlMTMzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWZiM2Q4ZWNkYTMzNDU1MDAzMzRiOTFhMmEyOGU3ZDI2MzQwMjFmMmIzYTA0N2ZlODlkZjNhNzBlOTJkYTQ2ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWExNTRmYjVjY2UyNzE0ZjU0NTNmNTBlMjQ4NzEzZjI1NDc2YjQ5MGFmMjg3NTFlOWIwM2E5MGYyYTUyNWE3OCJ9"
         },
         {
           "resource": "repo://src/lib/site-copy/queries.ts#L23-L40",
@@ -237,6 +237,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

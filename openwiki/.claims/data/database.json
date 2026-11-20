@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:80d7890d0dcbe0e862ac1cc6109134891451060958d9362b691ab0e78ae610b0",
+  "pageVersion": "sha256:cac099f4e210115fbdcc2c13a784b186cc3c28320759d8ebb5c4676c1cd68c31",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
       "statement": "The running app always connects with DATABASE_URL; DATABASE_URL_DIRECT is used only when DATABASE_CONNECTION is direct, which pnpm migrate sets.",
       "evidence": [
         {
-          "resource": "repo://package.json#L26-L26",
-          "version": "repo-lines-v1:sha256:7bd538d206ebc8bf337a53b84d047dee8eb8c4a20de36f4f46581fc885b27cff:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY0NmFjOWM0ODEzYTA0ZThkNGY2ODc5M2I2YTg2ZmFiOTNiMTU3ZTcyZjE2YzRjOTdhMDU0ZTllNjI2ZGJmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQxZjI2ZGI3MjIxNzBkMmNiYzc4N2ZlMDk0ZGE2MWFkMzc4MjYyNjdkOTdmODhmMWVmMmI1MDNhYTBkZWJkZiJ9"
+          "resource": "repo://package.json#L57-L57",
+          "version": "repo-lines-v1:sha256:7bd538d206ebc8bf337a53b84d047dee8eb8c4a20de36f4f46581fc885b27cff:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM2MDJlZGIwM2VjYWEzZDk2YmQ5NDBiOTQxNjQwY2IxZDcwZDQ1MDhiNzQ1NGVjYjI3MjA2N2NhYjkyMzA5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQxZjI2ZGI3MjIxNzBkMmNiYzc4N2ZlMDk0ZGE2MWFkMzc4MjYyNjdkOTdmODhmMWVmMmI1MDNhYTBkZWJkZiJ9"
         },
         {
           "resource": "repo://src/lib/db/database-url.ts#L7-L23",
@@ -16,7 +16,7 @@
         },
         {
           "resource": "repo://tests/unit/database-url.test.ts#L77-L100",
-          "version": "repo-lines-v1:sha256:edfbc921546e676a1d6ca41df97e6f46527479632e6ad326b147567faa250b62:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkMDk0OTRiMjc3ZDlhYzZjZjkwMzI0ZjlhNDVjZGM5NGIxMGIyYWM1YzA1MDJlYzgwOGUwZjY3ODAzZmJjYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmNmU2ZDdjOTE2MmVkNWZlNGFjZTQ0ZTQ2MWQwZjIwODIwN2MxMTQ5ZjkyMGQ5MTlkZDcxMzdmZjMxNDE2MmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViMzk4NWNhYTYzMjI3MzIzZjkwODg0MjM5MzdmYjY5YWJhMTQ3OTk0M2ZlZTI3MTZlMmUxNjE5NmYxMjE1NWQifQ"
+          "version": "repo-lines-v1:sha256:8e0a7e9e18907895ffaa62d0da253bf1d0ff043416f2427dade4a53d0fde6bb1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZjI5OGY3MDU5Y2JjYjYxMWU2ZjNmNmI0ZWRlZjY4YzQyMGRmZDhkZmRhYzdjM2ZjZjRlMjg1MjliOTZmNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjYjQ0MGVmYjljMGYwNTVjMjY4NWViZjM4ODhmMmNiNTE3YzUxMjk5ODIxZmZjNWM1NmFkNjdjNzkyNGFkYjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkMTBhMWIxOWZhNjM3YzdhNDIxZjZjN2I0YjRjNTY4NjcwOGZiZThiOWI5MzMzZDA5OGViMDNhOTBjMjVlYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzMjNhNWY5MTU2NTBmMTkxNWIwZDAxZTU2ZTEyNTVhMzMyYjc5ZTE3ODRlMTM4MmM5MWQxMTYzNTI3M2Y5ODcifQ"
         }
       ]
     },
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are fifty migrations today, from 20261103_030359_initial to 20261117_005146_zone_backgrounds, including those for quest stages, checklists, subareas, dungeons, panel roles, standalone pages, Torre's corrections, structured guide rewards, slug redirects, the game data refresh log, the site copy globals, the navigation global, the class and dungeon pages and the zone backgrounds, registered in src/migrations/index.ts.",
+      "statement": "There are fifty-three migrations today, from 20261103_030359_initial to 20261118_201912_achievement_objectives, including those for quest stages, checklists, subareas, dungeons, panel roles, standalone pages, Torre's corrections, structured guide rewards, slug redirects, the game data refresh log, the site copy globals, the navigation global, the class and dungeon pages, the zone backgrounds, the content date, the table block and the achievement objectives, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L303",
-          "version": "repo-lines-v1:sha256:f880e8659698f4abf85ff49ab3eaa236f9e3ac2de9b93822e48862fd06d0b915:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/migrations/index.ts#L1-L321",
+          "version": "repo-lines-v1:sha256:47dfa3cc82a41ee2e8955f410663b8fe33f846e994b4b0ef0bd59e4c5327216a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down, which reverts the last batch (every migration in the test database, newest first), and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the output names the latest migration in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L303",
-          "version": "repo-lines-v1:sha256:f880e8659698f4abf85ff49ab3eaa236f9e3ac2de9b93822e48862fd06d0b915:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/migrations/index.ts#L1-L321",
+          "version": "repo-lines-v1:sha256:47dfa3cc82a41ee2e8955f410663b8fe33f846e994b4b0ef0bd59e4c5327216a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L9-L74",
@@ -157,8 +157,8 @@
       "statement": "The migrations test uses the Payload CLI because Payload imports migrations with Node rather than Vitest, and avoids migrate:refresh because in Payload 3.92 it rolls back oldest first and fails.",
       "evidence": [
         {
-          "resource": "repo://package.json#L45-L45",
-          "version": "repo-lines-v1:sha256:0f8974c4247608bda11da3912f7a99dea72a30687f17cc434b0b9bf2d5c9b8df:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGY4OTc0YzQyNDc2MDhiZGExMWRhMzkxMmY3YTk5ZGVhNzJhMzA2ODdmMTdjYzQzNGIwYjliZjJkNWM5YjhkZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGY4OTc0YzQyNDc2MDhiZGExMWRhMzkxMmY3YTk5ZGVhNzJhMzA2ODdmMTdjYzQzNGIwYjliZjJkNWM5YjhkZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODFlMTk0ODE1MTAwZjUzNjk5NDgzNDRkMWQwMzc2MGNkYTVlMGVkOGJjZGI2YzhkM2NiMzllZGM4MDkxYWUzNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI1MTIzNzNkOTUwYTU2Mjc5MjllYTBjNjA5MWIzZjg3NmM4NWZlM2FkZWQ3MjMyZTVjYjNiZDNkNzM4NWM2ZSJ9"
+          "resource": "repo://package.json#L59-L59",
+          "version": "repo-lines-v1:sha256:8ad0faab37daf1817fd88e8fc588da0577fcd9e0bf6d497fe1225b6b9d426cc7:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGFkMGZhYWIzN2RhZjE4MTdmZDg4ZThmYzU4OGRhMDU3N2ZjZDllMGJmNmQ0OTdmZTEyMjViNmI5ZDQyNmNjNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGFkMGZhYWIzN2RhZjE4MTdmZDg4ZThmYzU4OGRhMDU3N2ZjZDllMGJmNmQ0OTdmZTEyMjViNmI5ZDQyNmNjNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmRlM2Q4YWU0MTZlNTkxNmJlMjM0NDhmN2Y5YTE0YTdmMWE1MTY4NjhjMmVlYTc4YjhiZDJhMWQ4ZmY4Zjg4YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDAwNjMwNjY4ZTBjOTllZjljNmIyODhiNDMzZDUxYmEzNzM1ODc1ZGFhNTkyN2I0NjdlM2IxMmIzYzYzZGFiOCJ9"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L23-L28",
@@ -365,8 +365,8 @@
       "statement": "isLocalDatabaseUrl accepts only localhost, 127.0.0.1 and [::1] hosts, and pnpm seed:e2e exits with an error when the resolved database URL is not local.",
       "evidence": [
         {
-          "resource": "repo://scripts/seed-e2e.ts#L11-L15",
-          "version": "repo-lines-v1:sha256:af7e9be669fc18406cd50ba56ed38073368cb5bd118b0477f537acbe62d9bb85:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzlkZjhjMzRjYmZkOTFmYzBjMDIxMTdiZTc5MGI0NmFjNzJhYTI5OWEwZTlkNTVkZWZkMDExNWNhYWZjYmU1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjYyNTczOTMwOGNkMmM2YjNlMmE5NzU3YjU0MmRkOWVhZGFjZmVmY2RlOWI1NmZhYTNkYWZhZmM0ZWZhYmMwNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI4Yjk3MWZkMzNlMjVmZTZlZjE1M2Q0ZjI4NjA0MDBjMTVmN2RjZDlmMWE1MTBlZWY5NjU0ZjJjODhkY2U4NiJ9"
+          "resource": "repo://scripts/seed-e2e.ts#L13-L17",
+          "version": "repo-lines-v1:sha256:a1446268a4372e501c258694de4692218c94c156ed3b1e1f861ff80cc7858714:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjE0NWMwZjZhOTk2NDhiNDJlNzY2ODAxZGU1MDYxZjliMTdiNTkyOGUzNmU0YjQ5NmVhODMxMDFmNjUwZTgyOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODVmOWRkNTg0OWU1MWU1NmIzOTkxNzg0ODQxODNiYjUxMDQ0Yzc1NDk2ODEwNjU3YzA5ZmZmYmUzZTcwNzYyYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTdmMzE3NGVkOGM4OTcwNTJkZDZmZTgzZTM5ZWE2YjVlMDdjNWNjZmJmZDNjM2MzOGE2OGNiNmNhYTNjZThhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGNjNTAzNzAxZTFkYmFiMWVmZmE3YTVhYjJiMDkxNDVkOGJiYjE3ODRkMWRlMTAyZThjYjhjYjYxZjViMTc5OSJ9"
         },
         {
           "resource": "repo://src/lib/db/database-url.ts#L42-L54",
@@ -529,8 +529,8 @@
       "statement": "The quest guide reward level item table is named qg_reward_level_items through dbName because the default names of its version tables would exceed Postgres's 63-character limit.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L290-L298",
-          "version": "repo-lines-v1:sha256:436deec35ba2dd4e552a6660a11ad0ff55f7139e0b6f7443e0942f459dbff054:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWY4YTE4YThmYmUyMjIzN2UxODU4ZGRlY2I4Nzc3MjY1ZjBhODBjOWE3ZGJhNjhjZjljZDU2MzAyNmQwYzY5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjE4OTA3Yzc3MTM2ZjNlZjJmMmIwZjIxOTVjMzQ5YmRiNzAzZDQ5ZTE2YmM0MDZmOGVkMjZmZGRiYjU4MTRiMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTU2MWEyZmE5NmY5MzY4Njk0ZDYxNTcxYzg1ZGViNmFhNTExMWYwZDA2MzNhYThjNWIwYTc1ODFhMTM3NWNmOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjI2ZjM5NWI3NzU0MTBjN2UwOGRjMTA2YzQzNmJiYzc3MmFjN2NhMDhjOGZjYjg5MDM4YTE1NDBmNmIzMGYzYiJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L292-L300",
+          "version": "repo-lines-v1:sha256:0cd3dcfaa6cd89635cf627106158a6a79a2aa88219f861fbfc10a6fe75f33f96:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzExZTFlZDgwZDJhMjU0NmQwODlhNjZiMjY0MTVkMGEyYzVlOWNiYjkwODY2ZmVlZmEzMmQ1Y2ZlOWM2NTc5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTM1NDUzYTRmN2UwOTQ3NDE3ZmY0YTBjZDMxMGEyMTM4MDM5ZDVjMGFlOGUzZTNmZjQxNjNjYzUxMmZiNzdmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2JhNTVjMjAxZTc2OTg5YTgxMzZiZGNlZWRmMDgxY2RiNmVhYjFmNDQ5MWQyMGZjMmFlMTZjMTYyMWM4OTFmOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjVjNGU3MGZkNDgzNmMyYjFhNWZlOGNhZDQ3ZGQzMzUzNDAyNjhjMjRiNjFjZTdhNmYyZDI5OTdjNTk4OThiYSJ9"
         },
         {
           "resource": "repo://src/migrations/20261115_234449_quest_guide_reward_levels.ts#L1-L67",
@@ -575,10 +575,40 @@
           "version": "repo-lines-v1:sha256:a88c6055676a63a493012d12c67a8c912b4e39f2d866f072732ef22e12804794:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NWQxYTdmNDMwNmVmNTVlMDVjZjAyMzBlNjQwZjVjZTFlN2MzYTU3MDMwMzBmMjQ1YjE3M2U4ZmE3ODc3NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_686c185674a6407db98a1582f7f1711c",
+      "statement": "The content_updated_at migration adds content_updated_at to quest guides, achievement pages, Dofus guides, checklists and pages and their version tables, and backfills each published document with the date of its latest published version, or its own updated_at, copying it to its versions.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261118_173121_content_updated_at.ts#L1-L66",
+          "version": "repo-lines-v1:sha256:fa26187fbdbae16b0e2ce544182afed78094107c41e904444e5fb3b8123d3157:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NWQxYTdmNDMwNmVmNTVlMDVjZjAyMzBlNjQwZjVjZTFlN2MzYTU3MDMwMzBmMjQ1YjE3M2U4ZmE3ODc3NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4e3e9889f77845cb83d8772e134e0dc8",
+      "statement": "The achievement_objectives migration creates achievements_objectives with a locales table for the objective names and adds a description column to achievements_locales; its down drops them.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261118_201912_achievement_objectives.ts#L1-L32",
+          "version": "repo-lines-v1:sha256:e1bf9aeb4a5a4d24fa91d36f67bfceaaa0044b136ca5c02f8fe00a4844b2c93a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NWQxYTdmNDMwNmVmNTVlMDVjZjAyMzBlNjQwZjVjZTFlN2MzYTU3MDMwMzBmMjQ1YjE3M2U4ZmE3ODc3NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d65617e3b4444b3d9d3a5c6a60efb52e",
+      "statement": "The table_block migration creates the table block tables (the block, its columns, rows and row cells, each with locales) for quest guides, Dofus guides, pages and the other collections offering the block, with version twins.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261118_183424_table_block.ts#L1-L240",
+          "version": "repo-lines-v1:sha256:9cab149043a0282329b0d7da62afef02dd2e177a1491259df59f008c8635a660:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2NTVkMWE3ZjQzMDZlZjU1ZTA1Y2YwMjMwZTY0MGY1Y2UxZTdjM2E1NzAzMDMwZjI0NWIxNzNlOGZhNzg3NzUyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyNjU1ZTQ4ZTgxOTRlYzEzN2MyMTkzMzI5OGE2ZjdkMWFlNGI2NTc5MDUzMjNmZjhhYzUyMDQ0Y2FlOTQwMjljIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0ZTdiMDAwYjljYjAzZmEwNjQyZmMwYmVjM2JhN2YxMjg0MTJlYjVkOWUxMjZiNGE0NmE2ZTYwNjgwYTliOTFjIn0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

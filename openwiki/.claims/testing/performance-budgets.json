@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ef58097208210beba78dac77e97ff47328b8e1952dca842d39de8bdb6107e6c7",
+  "pageVersion": "sha256:ed2e8a8c3644345d037c1887727290c576b2298053b5572f69d94d6fd67ba5a3",
   "claims": [
     {
       "id": "claim_685bcfe3a19741d7a516302d001cb6fe",
-      "statement": "lighthouserc.cjs measures the home page, the seeded quest guide, the seeded achievement page, /metalogros, /guias-dofus, /checklists, the seeded Dofus guide and the seeded checklist on http://localhost:3110, three runs per page with real DevTools throttling.",
+      "statement": "lighthouserc.cjs measures the home page, the seeded quest guide, the seeded achievement page, /metalogros, /guias-dofus, /checklists, the seeded Dofus guide and the seeded checklist on localhost port 3110 or the port LHCI_PORT names, three runs per page with real DevTools throttling.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L1-L78",
-          "version": "repo-lines-v1:sha256:32516af8ee58c98b75dddd0fe1c8a11db06aec3eac2da3f4a9efa4291524f60d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkYTI5NTk1MjM3MTQzMTQ1MmExZTA3ODVjYjUxOWE4MWM4NjcwMGI0MzRhYmMzYzExYTViMGUzZmYxYjNhYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1ZDBmZjEzYWEyZGYyZmJjYzJlMGRiNTkwNjQ1NjY0NTc4ZDNiNDNhMGEwMTY2MTYzNzY0N2E5NTc1MDNhYjUifQ"
+          "resource": "repo://lighthouserc.cjs#L1-L88",
+          "version": "repo-lines-v1:sha256:c304153aff9ed50566e69f0e856722ee33e94bb76c9565af8136fb0ceac65893:eyJzZWxlY3RlZExpbmVDb3VudCI6ODgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkYTI5NTk1MjM3MTQzMTQ1MmExZTA3ODVjYjUxOWE4MWM4NjcwMGI0MzRhYmMzYzExYTViMGUzZmYxYjNhYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1ZDBmZjEzYWEyZGYyZmJjYzJlMGRiNTkwNjQ1NjY0NTc4ZDNiNDNhMGEwMTY2MTYzNzY0N2E5NTc1MDNhYjUifQ"
         },
         {
           "resource": "repo://tests/unit/lighthouse-ci.test.ts#L32-L74",
@@ -21,7 +21,7 @@
       "statement": "LCP fails when the best of the three runs exceeds 2500 ms and only warns when the median does.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L79-L123",
+          "resource": "repo://lighthouserc.cjs#L89-L133",
           "version": "repo-lines-v1:sha256:1f923c5ea615f3ed8239eb63ab7c8c2e27e6b78bc80c5c3b5d4cf4a8a57c94f4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjI2YjVlZmRmMGU0ODQ1NWYzYzgyMGMyNDY0N2JkYzk1YmIxY2Y5OTA5MDcwOTliYmRkNmY0MTc1ZmU4Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5NDE5MTE5Nzk5YTUwNDVmOWY5OTkxY2YxZjkxMGE0OGZjYmNlNDU4MmRlMDE3NmM4MzJhNjRhYmM3ZmYzNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MDU3OTM4NDY2M2ZiMzZhZWNiMjYwNTE5M2YyYzMyNzJkMTcxNTUyNjcyY2UzYjQ1MDViMmQxZTAzOGM4ZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxMjI2ZjdmN2YxN2FhNzNjMzQzMGZiYjVjNDgyOTQwMzFiMGRiMzliZjAzZDhmOTEwYjE2NzU2ZGZiMjhiNzIifQ"
         },
         {
@@ -35,7 +35,7 @@
       "statement": "CLS over 0.1, script transfer size over 150000 bytes on non-checklist pages or 180000 bytes on checklist pages, and unsized images fail on the median of the runs, image-delivery-insight below 1 only warns, and the performance score is not asserted.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L79-L123",
+          "resource": "repo://lighthouserc.cjs#L89-L133",
           "version": "repo-lines-v1:sha256:1f923c5ea615f3ed8239eb63ab7c8c2e27e6b78bc80c5c3b5d4cf4a8a57c94f4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjI2YjVlZmRmMGU0ODQ1NWYzYzgyMGMyNDY0N2JkYzk1YmIxY2Y5OTA5MDcwOTliYmRkNmY0MTc1ZmU4Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5NDE5MTE5Nzk5YTUwNDVmOWY5OTkxY2YxZjkxMGE0OGZjYmNlNDU4MmRlMDE3NmM4MzJhNjRhYmM3ZmYzNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MDU3OTM4NDY2M2ZiMzZhZWNiMjYwNTE5M2YyYzMyNzJkMTcxNTUyNjcyY2UzYjQ1MDViMmQxZTAzOGM4ZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxMjI2ZjdmN2YxN2FhNzNjMzQzMGZiYjVjNDgyOTQwMzFiMGRiMzliZjAzZDhmOTEwYjE2NzU2ZGZiMjhiNzIifQ"
         },
         {
@@ -49,7 +49,7 @@
       "statement": "Lighthouse CI writes reports only to .lighthouseci/reports on disk and never uploads to temporary public storage.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L125-L129",
+          "resource": "repo://lighthouserc.cjs#L135-L139",
           "version": "repo-lines-v1:sha256:1cc16c2c208eefae4e9e00a24f65866d546a13c75cb4e6645c8d4e89bcd25c48:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2JjZWFiYjBiZjg1ZTg1ZDdhNjQ1MDk2N2RlYjAxOGEwNDk5YTYwMDMyOGZmOTViYmI0NzMxNGE4YzY0MDdjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWQ2NmNkYTRlNjI1Yzg0ZGRlOGM0MWVlN2VlZGU1NTNlYTJkMjBlODZiZWZkODhmZjM1MTY1NTNhYTczOWI2ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODBlZDRkYWQyMWU1ZTFjOGZkZjcyNmM0MzA0OGQ2YWRkNzkzN2E2NzllZjU1MzIyNDk4NWM4ODg0NTVlMmY0NyJ9"
         },
         {
@@ -101,22 +101,22 @@
       "statement": "lhciEnv points DATABASE_URL and DATABASE_URL_DIRECT at the same database, supplies a dummy PAYLOAD_SECRET when unset, blanks APP_ENV so the public site is measured, and blanks every S3 variable and MEDIA_BASE_URL.",
       "evidence": [
         {
-          "resource": "repo://scripts/lhci-env.ts#L10-L29",
-          "version": "repo-lines-v1:sha256:312385d01cdd1237af6af3177bc6565b4eb2bb61e539e320a26e1d49982a9818:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZWI1Yzc3ZjllZmZkNWM5NzFjMmY0ZmVjNDUxNTQ4OGU5YjVhNmI4ZmZjOTQ1MjY4ZGEzNjcyMzk3OGZhMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/lhci-env.ts#L11-L37",
+          "version": "repo-lines-v1:sha256:1ca651c99deda344c66ab43e0ed05cbccbdb271eee2c50026379bb1814bd1f92:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZWI1Yzc3ZjllZmZkNWM5NzFjMmY0ZmVjNDUxNTQ4OGU5YjVhNmI4ZmZjOTQ1MjY4ZGEzNjcyMzk3OGZhMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L142-L172",
-          "version": "repo-lines-v1:sha256:41001ee0806b61c228803d75d1031553a4e1c7b78e7926b9d2863cadaba4a3d4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0NjZiZTJkYTQ0MjVmNzZjYjU2ZmQyMGY3YWEwZTRjZGI0OGQ4OGU5ZDViOGVkMmY2Y2U2MzViOTRiZDQ5OTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkZjJkOTMwNjY2Y2MxYWI2MjZiMmVlYmQyZTZkMGRmYzlhMmQ0NTJmMmMwMGZmM2E4ZjM3MzE0MDZmODY0NDMifQ"
+          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L142-L190",
+          "version": "repo-lines-v1:sha256:6bab79cd8dd9afaba84343f27937a77847b54eaa7cbe4954e1356e337ae0c494:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0NjZiZTJkYTQ0MjVmNzZjYjU2ZmQyMGY3YWEwZTRjZGI0OGQ4OGU5ZDViOGVkMmY2Y2U2MzViOTRiZDQ5OTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ5NTI0NTU4ODFkMGM2MzNiNWEzZjM3M2I5YzJhYmMzZTFhMGVmYjQwY2RjNDcyNTdiZjcyZWVlMTFmNzQ4ZGIifQ"
         }
       ]
     },
     {
       "id": "claim_3831a34cbf2e4a17ad90b75d5bf8a187",
-      "statement": "CI runs pnpm test:lhci in its own two-part Lighthouse job, each part with LHCI_SHARD, an empty Postgres service and the restored .next cache, and uploads each part's reports and assertion results as an artifact.",
+      "statement": "CI runs pnpm test:lhci in its own four-part Lighthouse job, each part with LHCI_SHARD, an empty Postgres service and the restored .next cache, and uploads each part's reports and assertion results as an artifact.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L200-L257",
-          "version": "repo-lines-v1:sha256:f54a051056eb331690ffe18fef0476179d77dff91eb74e7c7af3de252b61de90:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4MTY4OTY2ZDE1NjA3ODk1ZDcyYjFjYmFlN2FkZGI1ODYyNTE5NDdlNmI4MWJhZWE3M2JkOGUzYzgzNGI3MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MTA0NGFlYWUyOThlN2ZhNzNmODJjOTBiYjQzODg2MjI2ODg1Y2Q0OTg0YTAwOWZkN2I2YmE5ZDk5NDk4YmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5NDE4NzgzNDZmMDY3MzZjZDI3NTBjMjkyYWNkOWVjODQ1N2RlOTg0NzllYzg2MzhlZjRhYmE5NGY0NjI2ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyMzEyNGEyYWEyOTQxMDA1YWMzMTBmMTllMDhhMmFhNTZkMGRlMDBlNjcwOGIyMzkzYWJjMzJiZmY5ZjEzMmYifQ"
+          "resource": "repo://.github/workflows/ci.yml#L226-L284",
+          "version": "repo-lines-v1:sha256:2bde9a203baf0444dbd1b440a7213b67f2e768e8de07af5530b1c4e986c6aef1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MTA0NGFlYWUyOThlN2ZhNzNmODJjOTBiYjQzODg2MjI2ODg1Y2Q0OTg0YTAwOWZkN2I2YmE5ZDk5NDk4YmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0YjllNjQ2ZjIxZjM4MjIzODkwNWRlMzQ4NjNkZWY0YTY5ZjhjZWM3OTQ0ZWRkNjJmNDhmMWM3ZWIyZjVjYWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyMzEyNGEyYWEyOTQxMDA1YWMzMTBmMTllMDhhMmFhNTZkMGRlMDBlNjcwOGIyMzkzYWJjMzJiZmY5ZjEzMmYifQ"
         }
       ]
     },
@@ -153,8 +153,16 @@
       "statement": "The guide page and the home page sit close to the 150 KB script budget, so both searches load their code and index with import() on first use and keep shared modules out of the islands.",
       "evidence": [
         {
-          "resource": "repo://AGENTS.md#L184-L184",
-          "version": "repo-lines-v1:sha256:87dd59d6c970b571d4592b862760f208d7b64691169fad67533620ade6d5d322:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODdkZDU5ZDZjOTcwYjU3MWQ0NTkyYjg2Mjc2MGYyMDhkN2I2NDY5MTE2OWZhZDY3NTMzNjIwYWRlNmQ1ZDMyMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODdkZDU5ZDZjOTcwYjU3MWQ0NTkyYjg2Mjc2MGYyMDhkN2I2NDY5MTE2OWZhZDY3NTMzNjIwYWRlNmQ1ZDMyMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDdhZWVmYmE3ODRlNTU1ODBiYjAyMGE4OGM2NDliMjA0NDExYTA5ZGU0OTgwZjJhNTljMGI2OWQxNzI0MmIzMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWEwYzhiOTZjMDc5ZDdkNjRmMDIzNGUzNDQxYzRiZjMwMjNhMzA4MjkzYzZlYjY4OWIwYmRjYzVjNmNmMDBjNiJ9"
+          "resource": "repo://src/components/home/HeroSearch.tsx#L23-L31",
+          "version": "repo-lines-v1:sha256:cf99bb19de16a7b54633910a70ab0ba730c01253ff6051820a2ecda497cd7319:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWVmOGM5YzQwNmQ2OThhZmVhYWVmZTc0MWU1MDQ2ZGEwM2E3N2M1ODE2ZDkxZjg4OTUyZmM4OTU1Yzc3YTRlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWE2YTBmZjU2ZmJhMjcxZDBjMzFjYWY4OTVmOTliZDI2Zjg3YzFjMTVjYmVjMWI0ZjZiNTk3ZTNkZmQyY2U5NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDc1NDY0OWFmMTk0MWVmMDQxYTViODFjMTY0N2NhNDEwMjhmMmZiYTgzZTZlYzg1ZmVmMDNhNTQ1MTVlZjBhMSJ9"
+        },
+        {
+          "resource": "repo://src/components/site/HeaderIsland.tsx#L74-L185",
+          "version": "repo-lines-v1:sha256:d5bd6e75edf6052bbe7af08c29d9a488b302f0f30167903aa812d92700c08565:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4YzI0MzFlMWExYWUwYTQ0OGFmYzA3OGU4MjZiN2Y3Yjg4YmQyOTczZDZjZDc2OTIxY2E3MjQ4MzNkYzkxZWNkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5YjYyZjYwZDg1OTBhNTc5Y2Y0NmY4ZDY3Mzc4YzRjNTcyYjk2MmNlY2NkYjkwYzdhNWY3YjQyYjk2MDc4MmE0IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkMDViMTU3ZGUwNmJjNGIzNDMzYjZiNjU2ZmQ0MGFjYjY0MmFjOGUyMzhjYzU4YzliNTJjN2IyMGVkYTUwODFkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIyZmI1ODhjMDNlYWZhNmI5MDVkZjYwMmUyYmY3ODExNTJiNzg2ZjAwN2Y1MDEzNTVjODEzODYxNDYwOWI2NjhjIn0"
+        },
+        {
+          "resource": "repo://tests/unit/site-search.test.ts#L390-L408",
+          "version": "repo-lines-v1:sha256:8727e8235c14843d308430edab6bc23ba5a9b27c9a73e87ddeb745e3fe15b564:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhOGQ1ODI1NTgyNTE1OTZhMDFmMWEwOGE0MmI2Y2IyNWE5NjkwNjY2MzY5MmUyYjJmY2RmNjM5OGJlYmQ4NjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkZGYwYjdlNTZlNjNlYTkwNjgwNWNiN2YwZTc5ZDEwODIxOWQ2YWRhMmUzOWY1YjQ0ZTExNjAyNzcxMTI4ZDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiNjAwMmZkN2E5MDFhNDg0NDg0ZmZhNTM4ZmUxYzIzNWQ3ZWY1NTMxN2Q4YTRkYzE3MWVjODFkODY0NDAxZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5NjI0NjZhNWNiOTU1Zjg3MWU1ZTY2NDk1Zjg5MmZmYzljMzYyNDk1ZmY5ZDc2OWJkOTA3ZjkzYzEzYjhhYTAifQ"
         }
       ]
     },
@@ -163,8 +171,8 @@
       "statement": "The Dofus guide styles live in achievement.css and the /guias-dofus index imports only dofus-index.css, keeping the number of render-blocking stylesheets low on /<slug> and the index.",
       "evidence": [
         {
-          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L1-L23",
-          "version": "repo-lines-v1:sha256:61cd87cbfa89498d452ed7fa893baf94ff1072a59c1674481f8e7f7a10f64a65:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Mjc1MmFmMDFlNmU2OGFjOTE5MGEzNTg5ZDRjOTk0ZDlkM2FjODVlZGZhMGIxMjY4ZDhlNmZlZDFhNzNjNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiODg0NWIxOTRkMWI0MWMxMGM3YzMyOTI5NzA4NGQ0OWYzZTMxNzZmYWEwNzRkZjc2YzcxMzYwNGYyNGY0NjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MDQ0NzA4NDU4ZGI2YWFjNjU2MWVmYmJjYWMxMjBmZjVlNThkZDk2YTFiNzkxY2I3NmMyN2VlZGY1NTU1YzYifQ"
+          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L2-L26",
+          "version": "repo-lines-v1:sha256:586aaf921b93a51312752575fa27a20692e54ba67baa1c9fa4a821e74b5bd555:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Mjc1MmFmMDFlNmU2OGFjOTE5MGEzNTg5ZDRjOTk0ZDlkM2FjODVlZGZhMGIxMjY4ZDhlNmZlZDFhNzNjNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3NmQ5OWRkNjc1ODg5Y2EwZWNlYzE2YWJjNjY1ZTdkZDJkYzUyY2RlZjgyNzk0NTNhNzNmYTZhMTA4MzcwYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmMjEzY2I2N2VkMmY4NWYyZDBkN2JkM2Y0M2ZjYjM0Y2NhYjc0ZWNjMmI0MWQyNjYxMjlhOWZiZGQ2NGVhZGYifQ"
         },
         {
           "resource": "repo://src/components/dofus/DofusIndex.tsx#L1-L13",
@@ -177,11 +185,11 @@
       "statement": "pagesForShard splits the page list into contiguous parts whose sizes differ by at most one, larger parts first, measures every page without LHCI_SHARD, and throws on a malformed value or more parts than pages.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L25-L55",
-          "version": "repo-lines-v1:sha256:df52f098323ee71dffc24a17fe030ea239a120d4a962761b327a8d8fa713a2f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjNjljMjBlOGQ4NDViOWZjZDc3ZDBjNTRjNzhhNDdlZTg0NjVhY2U2OTQxYjU2OTg1NmNhOTQyNDY2MzAzODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhOWIwMWU2ZTI1Mzk2MzA1MjljOGEzOGI5MzFjOWQ4ZTM1NmJkMDdhMmMxOWM3YTIyZTkyYzBlOGJlYTk0NTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmODBhNmMzODVhNTAwYjkzNDdmNjgyYWZhOWE0YjljYzI5ZTFmZTM3ZjAyOTFlODJhNjFjZmJlYzE3ODhjZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3YjEwYzNjYWEzNTY4N2JiZmRmYTFlMTZmNDFmOGY0YTU2NmU3ZTE2ZWI0M2I2NTRmMDU2NTRkMTlmZDU3ZWMifQ"
+          "resource": "repo://lighthouserc.cjs#L34-L65",
+          "version": "repo-lines-v1:sha256:8147425a6c6ca4abe0b6f4d823678504678c8adcca0d157dd55fc218b3cfd0ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjNjljMjBlOGQ4NDViOWZjZDc3ZDBjNTRjNzhhNDdlZTg0NjVhY2U2OTQxYjU2OTg1NmNhOTQyNDY2MzAzODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhOWIwMWU2ZTI1Mzk2MzA1MjljOGEzOGI5MzFjOWQ4ZTM1NmJkMDdhMmMxOWM3YTIyZTkyYzBlOGJlYTk0NTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmODBhNmMzODVhNTAwYjkzNDdmNjgyYWZhOWE0YjljYzI5ZTFmZTM3ZjAyOTFlODJhNjFjZmJlYzE3ODhjZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3YjEwYzNjYWEzNTY4N2JiZmRmYTFlMTZmNDFmOGY0YTU2NmU3ZTE2ZWI0M2I2NTRmMDU2NTRkMTlmZDU3ZWMifQ"
         },
         {
-          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L174-L219",
+          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L210-L255",
           "version": "repo-lines-v1:sha256:fdc07a481af0213aaa51804b4f2a810a25a5d13d239440e6db689f6fc9affb7a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4MTZhYTQ5MDZmYTRiZDM4NDkwYTk1YmRjNmI2MWM3NDY3OWY2ZGRkOTI1YzYwNWM5MmRmODJhZWUyYjI5MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
@@ -191,8 +199,8 @@
       "statement": "lhciEnv sets NEXT_PUBLIC_SITE_URL to the measured app's origin because next start requires a public origin in production.",
       "evidence": [
         {
-          "resource": "repo://scripts/lhci-env.ts#L10-L29",
-          "version": "repo-lines-v1:sha256:312385d01cdd1237af6af3177bc6565b4eb2bb61e539e320a26e1d49982a9818:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZWI1Yzc3ZjllZmZkNWM5NzFjMmY0ZmVjNDUxNTQ4OGU5YjVhNmI4ZmZjOTQ1MjY4ZGEzNjcyMzk3OGZhMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/lhci-env.ts#L11-L37",
+          "version": "repo-lines-v1:sha256:1ca651c99deda344c66ab43e0ed05cbccbdb271eee2c50026379bb1814bd1f92:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZWI1Yzc3ZjllZmZkNWM5NzFjMmY0ZmVjNDUxNTQ4OGU5YjVhNmI4ZmZjOTQ1MjY4ZGEzNjcyMzk3OGZhMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://scripts/lhci.ts#L25-L25",
@@ -223,8 +231,8 @@
       "statement": "The footer face's shadow is a gradient rather than a CSS filter so the lazy footer image is not the phone LCP on /checklists, which the checklists index E2E spec checks.",
       "evidence": [
         {
-          "resource": "repo://src/components/site/site.css#L1336-L1345",
-          "version": "repo-lines-v1:sha256:0e3ecf6dfc4fe942f834eee30a938c6269795ef12b9138d7c93b363aa4bcaa7d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjODkzOTM3ZTg4M2IxYzcxZjZiODMwM2NlMTg2OWY2NzQxNjMzYjYyYWRiZDY5ODU1N2RiNTNjMGU5Yzk4YTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjM2UwYzk5MjVlYjQ2NWJjNTkyNDI4ZmI3YzZjZjhhYTE3ZGZhZTM1N2ZiYzA5NTQ2N2U0MDE1ZDlmYjUzMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2MmM0MGY4OTQwY2UyOWQ1OGEwZTcxNzdhMWQ3ZGY5YjJiNzE1YTg4YTk3OWI1ZmIyY2MxOTEzNjBhZjFkNWEifQ"
+          "resource": "repo://src/components/site/site.css#L1341-L1350",
+          "version": "repo-lines-v1:sha256:e6641f255633f255bfc221d3f15bb4fafd62cfd773cbfc13573078ff18378d23:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmZDRiNGYzZGFlNDFjNzI4ZTgzNDMwNTczMDhiODk3MDgzM2MxNWVhOWU1NTUzZjkwOWFlYzFiNWE5Njg4MjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyYmI0NjRjYWMyY2ZmNjBjMDBlYTBmMThkMTM4ZjkxNzU4ZDFlY2U5NTU5YmI2ODY0NTBlZWVmNGU2ZmNmOTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4ODM5NTkxZGRlNzVlNzEwMjc4OTVmMGMxNGZjZmYxNzQ3Zjk2NDg5YmU4N2UyNzE3ZWVhYzgwZWZlYzBjMDIifQ"
         },
         {
           "resource": "repo://tests/e2e/checklists-index.spec.ts#L181-L214",
@@ -259,10 +267,30 @@
           "version": "repo-lines-v1:sha256:fba9baed1939fe35f362eb89d8919b2210460511e81eb2761186f54dac3ab887:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwMGM1YzhhZmYxNTRmMGM5ZGEwN2JjNTE5OWVmOTE2NjMwMTAzODk5Njg3ZDAwYmVkOWI5N2ViMThmN2U5NzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_63f044de59594640a7c770d81d76defe",
+      "statement": "Every page in lighthouserc.cjs may link at most three stylesheets, because the two preloaded fonts and the LCP image already take three of Chrome's six HTTP/1.1 connections.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/hojas-de-estilo.spec.ts#L1-L24",
+          "version": "repo-lines-v1:sha256:2866a9608708c182a589a271f1e6aab73ba2f1c7856f172bab2df548c6fa3091:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZWZhNTUwYTQ1YjA2NTU3Y2U2MWRjZGY5ZTZkZmQ4ZWExZjA1OGFiMTA2ZTg5MWMwODFhODc5N2ZmMWE0MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e470b6c5d82948ed929cb338ca701a9e",
+      "statement": "lhciEnv also sets MEDIA_STATIC_DIR to the database's test folder, TWITCH_LIVE_URL to off and blanks both Umami variables, so measurements never reach the network or count a visit.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/lhci-env.ts#L23-L36",
+          "version": "repo-lines-v1:sha256:4774189196339193ddc3152932bf005f0325016e1359b78227a96453f119e12d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzMDk5ZWZmNTUyN2I2YjRjZGRkNzA5MGQ3ZmYyMTE5NTJiYTIxZjU0Mjg5YjViMDEyNWY1NThlNGY3Zjg2OTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4YWRjNmU1Njk3YjQ1NzYzNmMzMjIyNmJmZGVkM2VhMTM1YzZjYjE2YzRhNzI0ZjNhZjA5ZThkYjdmZTMzMzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

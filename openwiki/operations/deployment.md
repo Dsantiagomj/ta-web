@@ -20,15 +20,17 @@ sources:
     resource: repo://tests/e2e/smoke.spec.ts
   - id: openwiki-source-6d7290acd85912e8a5ebb6cc
     resource: repo://tests/unit/railway-config.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+  - id: openwiki-source-08e650b22bfa14056549a098
+    resource: repo://tests/unit/release-workflow.test.ts
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Deployment and releases
 
-The app runs as one long-lived Node container per environment on Railway: service `web`, environments `dev` and `production`. `dev` also has a `game-data` cron service that refreshes the DofusDB data once a week. The same build serves both; behavior that differs (the dev `noindex` header, robots, the `/sistema` catalog, the Sentry environment) is read from the environment at runtime.
+The app runs as one long-lived Node container per environment on Railway: service `web`, environments `dev` and `production`. Both also have a `game-data` cron service that refreshes the DofusDB data once a week. The same build serves both; behavior that differs (the dev `noindex` header, robots, the `/sistema` catalog, the Sentry environment) is read from the environment at runtime.
 
 ```
 PR ──▶ CI (Pruebas required) ──▶ merge to main
@@ -37,7 +39,7 @@ PR ──▶ CI (Pruebas required) ──▶ merge to main
                                    │      └─▶ deployment_status ─▶ "Smoke de dev" workflow
                                    │
                                    └─▶ "Release" workflow (manual, owner only)
-                                          tag vX.Y.Z ─▶ approve ─▶ railway up ─▶ verify commit ─▶ smoke prod
+                                          tag vX.Y.Z ─▶ approve ─▶ railway up ─▶ verify commit ─▶ game-data up ─▶ smoke prod
 ```
 
 ## Service definition: `.railway/railway.ts`
@@ -56,23 +58,23 @@ The service is described as code with `railway/iac`. Railway does not read this 
 
 The function throws for any environment other than `dev` or `production` rather than guessing. Secrets use `preserve()`, which keeps the value stored in Railway and never writes one; `config apply` deletes undeclared variables, so declare a new variable here before creating it. See [Environment configuration](../architecture/configuration.md).
 
-### The weekly game data task (dev only)
+### The weekly game data task
 
-In `dev` the file also declares the `game-data` service, and the project lists it only there (`resources: dev ? [web, gameData] : [web]`):
+In both environments the file also declares the `game-data` service (`resources: [web, gameData]`):
 
 | Setting | Value |
 |---|---|
-| Source | GitHub `main` with `checkSuites: false`, like the web |
+| Source | In `dev`, GitHub `main` with `checkSuites: false`, like the web. In `production`, none: the release workflow deploys it with the web |
 | Build | Railpack with `RAILPACK_NODE_VERSION=24.22.2`; the build command only echoes, because `payload run` transpiles the script and the Next build is not needed |
 | Start | `pnpm data:refresh --schedule` |
 | Cron | `0 6 * * 3`: Wednesdays at 06:00 UTC, after Ankama's usual Tuesday patch |
 | Restart policy | `NEVER`: a failed run is not retried; it stays in «Refrescos de datos» until next week or the panel's «Traer ahora» |
 | Replicas | 1, in the same region |
-| Variables | References to the web's (`web.env.DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, the `S3_*` set, `MEDIA_BASE_URL`, `SENTRY_DSN`) plus `APP_ENV=dev`, so no secret has to be created by hand |
+| Variables | References to the web's (`web.env.DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, the `S3_*` set, `MEDIA_BASE_URL`, `SENTRY_DSN`), plus `APP_ENV=dev` in `dev` and, in `production`, `GIT_COMMIT_SHA` as a reference to the web's so the task's Sentry errors carry the release commit; no secret has to be created by hand |
 
-Railway starts the container at the scheduled time, runs the command and stops it, so it costs nothing between runs and Neon can sleep; once a week because each run wakes Neon for a few minutes. It never migrates: the web's pre-deploy migration owns the schema. Production has no such task yet, because it has no GitHub source; it needs a step in the release workflow first. The refresh it runs, its run log and its lock against a concurrent panel run are in [DofusDB game data refresh](../data/dofusdb-refresh.md).
+Railway starts the container at the scheduled time, runs the command and stops it, so it costs nothing between runs and Neon can sleep; once a week because each run wakes Neon for a few minutes. It never migrates: the web's pre-deploy migration owns the schema. Production got the service on 2026-11-18, created once by hand with `railway config apply` with the owner's one-time yes; from then on each release deploys it. The refresh it runs, its run log and its lock against a concurrent panel run are in [DofusDB game data refresh](../data/dofusdb-refresh.md).
 
-`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub `main` with `checkSuites: false`, `APP_ENV=dev` and no basic-auth variables, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, unknown environments rejected, and the dev `game-data` task (its weekly cron and command, no retry, deploying `main` without the Next build, the web's secrets by reference) with no such task in production.
+`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub `main` with `checkSuites: false`, `APP_ENV=dev` and no basic-auth variables, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, unknown environments rejected, and the `game-data` task in both environments (its weekly cron and command, no retry, no Next build, the web's secrets by reference; in dev deploying `main` and marked dev, in production without a GitHub source and with the web's commit for Sentry).
 
 ### What protects a deploy
 
@@ -112,6 +114,9 @@ Railway reports each deploy as a GitHub deployment, and `.github/workflows/deplo
 4. Sets `GIT_COMMIT_SHA` and `APP_VERSION` (the tag's version, without the `v`) on the production service with `--skip-deploys`. `railway up` uploads files without git metadata, so Railway would not inject `RAILWAY_GIT_COMMIT_SHA`, and `package.json` is not bumped per release, so `/api/health` takes the version from `APP_VERSION`.
 5. Runs `railway up` without `--detach`, so the job waits for pre-deploy migrations and the health check and fails if they fail.
 6. Polls `PROD_URL/api/health` until it reports the tagged commit (up to 5 minutes).
+7. Runs `railway up --service game-data` for the same tag, without `--detach`, with a 15-minute limit. It goes after the web because the web's pre-deploy already migrated the database to this commit's schema; deploying a cron only builds the image, and the task runs on Wednesday, not now.
+
+Before setting the variables (step 4) the job also checks that the `game-data` service exists in production with `railway service list`, so a missing service stops the release before it touches the web rather than halfway through. The job's time limit is 40 minutes. `tests/unit/release-workflow.test.ts` checks that the workflow targets both services in `production`, deploys `game-data` from the same tag only after production serves the commit, checks the service first, and stays behind the `production` environment and the owner check.
 
 **Job `smoke`** calls the reusable smoke workflow against `PROD_URL`.
 

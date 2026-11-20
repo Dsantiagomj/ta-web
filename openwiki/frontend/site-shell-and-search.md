@@ -4,6 +4,8 @@ title: Site header, footer and search
 description: The header and footer every public page renders, what they link (the app's own pages and the legacy Squarespace site), the header client island with its menu panels, phone sheet and search dialog, the shared search engine for quests, achievements, metalogros and menu entries, and the /api/search/guides index that both searches load on first use.
 tags: [frontend, layout, navigation, search, islands, performance]
 sources:
+  - id: openwiki-source-803782f80e96170da42df0a4
+    resource: repo://src/app/(frontend)/buscar/page.tsx
   - id: openwiki-source-7a2845694b67f1018000b585
     resource: repo://src/app/(frontend)/layout.tsx
   - id: openwiki-source-e662deaf5fc4b6bc8b7128a5
@@ -14,12 +16,18 @@ sources:
     resource: repo://src/components/site/Kofi.tsx
   - id: openwiki-source-39afe86b52965c905da37bef
     resource: repo://src/components/site/nav.ts
+  - id: openwiki-source-ed6f2837045a2d9739d3eb8d
+    resource: repo://src/components/site/NewTab.tsx
+  - id: openwiki-source-e952915f4bac344af2529a33
+    resource: repo://src/components/site/search-page.ts
   - id: openwiki-source-35e0edba1c840a0b44fa75b7
     resource: repo://src/components/site/search-query.ts
   - id: openwiki-source-f374fdb676d18bc70e50086f
     resource: repo://src/components/site/search-result-strings.ts
   - id: openwiki-source-66bf87151b29d7c77f7b681f
     resource: repo://src/components/site/search.ts
+  - id: openwiki-source-44f4951c750c542dfe5f6fb6
+    resource: repo://src/components/site/SearchPage.tsx
   - id: openwiki-source-2527b990816180ac80987e20
     resource: repo://src/components/site/site.css
   - id: openwiki-source-4bd6fa799b0febbb9c8f133d
@@ -34,12 +42,16 @@ sources:
     resource: repo://src/lib/checklists/list.ts
   - id: openwiki-source-423248a3a9612f01d4a80a72
     resource: repo://src/lib/dofus-guides/nav.ts
+  - id: openwiki-source-5b1eb6bf9683fe15e163ade6
+    resource: repo://src/lib/search/cached-index.ts
   - id: openwiki-source-6f1014e367f65576c0cc5a42
     resource: repo://src/lib/search/guide-index.ts
   - id: openwiki-source-74617dd61aed35536e30e4de
     resource: repo://src/lib/search/read-index.ts
   - id: openwiki-source-cb3dbcfdf661be407e9f170b
     resource: repo://src/lib/site-copy/defaults.ts
+  - id: openwiki-source-62dc5b50379820e3ad89ab28
+    resource: repo://src/lib/site/external.ts
   - id: openwiki-source-fb8279296835a1a58ec3f427
     resource: repo://src/lib/site/legacy.ts
   - id: openwiki-source-427eacf7850519fc2b6f8403
@@ -54,16 +66,20 @@ sources:
     resource: repo://tests/integration/guide-search-index.test.ts
   - id: openwiki-source-9178b049d09c8cfe168c4db4
     resource: repo://tests/integration/site-search-content.test.ts
+  - id: openwiki-source-d7fc5bb3aea27bbbbf82cf35
+    resource: repo://tests/unit/external-links.test.tsx
   - id: openwiki-source-a647d56d0524407fbeb77bd2
     resource: repo://tests/unit/search-index-endpoint.test.ts
+  - id: openwiki-source-3a7ddecf759a660746d6b2b7
+    resource: repo://tests/unit/search-page.test.tsx
   - id: openwiki-source-bcfda738f2b44be0563b6b07
     resource: repo://tests/unit/site-search.test.ts
   - id: openwiki-source-252aed3da80ab24fac288bb7
     resource: repo://tests/unit/site-shell.test.tsx
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Site header, footer and search
@@ -127,8 +143,21 @@ The dialog finds what the menu links (`searchIndex(dofus, checklists, pages, sec
 
 `readSearchIndex` reads as an anonymous visitor (`overrideAccess: false`, no user, `draft: false`). The guide rows come from `quest-guides`; a published guide with unpublished changes contributes its published version. The achievement and metalogro rows come from `achievementSearchRows`, which builds the [metalogros index](../achievements/metalogros-index.md) view and drops every row it marks off, so the search shows exactly what `/metalogros` opens: an achievement «En preparación» has no page and is not searchable. `achievements`, `metalogros` and `content` are optional in the type, so an older cached response without them still works. Guide rows show the quest's name and level with Torre's correction (`corrected`). The endpoint reads with `req.payload`, not `req`, so the index never takes the requester's permissions.
 
-- **Cache.** The read is cached with `unstable_cache` under the `guide-pages`, `achievement-pages`, `dofus-guides`, `checklists` and `pages` tags, so anything published from the panel in those collections appears on the next request. The response carries `Cache-Control: public, max-age=300, stale-while-revalidate=3600`.
-- **Compression.** Next compresses pages but not Payload's API responses, so the endpoint gzips the JSON itself when `Accept-Encoding` allows it (a `gzip;q=0` refusal is honored), sends `Vary: Accept-Encoding`, and keeps the last compressed buffer until the JSON changes.
+- **Cache.** `cachedSearchIndex` (`src/lib/search/cached-index.ts`) caches the read with `unstable_cache` under the `guide-pages`, `achievement-pages`, `dofus-guides`, `checklists` and `pages` tags, so anything published from the panel in those collections appears on the next request. The endpoint and `/buscar` share it, always reading with `payload` and never with the requester's permissions. The response carries `Cache-Control: public, max-age=300, stale-while-revalidate=3600`.
+- **Compression.** The endpoint returns plain `Response.json` and Next compresses it, adding `Vary: Accept-Encoding`. Up to Next 16.4.5 route handler headers were stored as arrays and Next skipped compressing them, so the endpoint gzipped its own JSON; since 16.4.6 Next does it and a `Content-Encoding` set by the handler would be dropped (see [Request pipeline](../architecture/request-pipeline.md)).
+
+### `/buscar`: results without JavaScript
+
+The home search form posts to `/buscar` (`src/app/(frontend)/buscar/page.tsx`), so a reader whose island has not loaded still gets results. The page is a server component that ships no JavaScript of its own:
+
+- `searchPageQuery` takes the first `q`, trims it and caps it at 100 characters (`MAX_QUERY_LENGTH`).
+- With no text it asks what to search; with one letter it asks for another (`queryKind`, the same rule as the islands). Only when there is something to search does it read the index, through the same `cachedSearchIndex` as the endpoint (`needsIndex`).
+- `searchPageView` ranks with the home search's `heroResults` over `siteEntries`, so the groups, their order and the status line are the home search's; `SearchPage` renders a form that posts back to `/buscar` with the text, the status in a `role="status"` line, and the results with the header dialog's rows (`SearchList`), matches marked.
+- Its field's id is `buscar-pagina`, not `buscar-q`, which belongs to the header dialog's field on every page. The page is `noindex, follow`: each `?q=` would be a page of its own with no content. `buscar` is a reserved slug.
+
+### Links to other sites
+
+Every link to another site (Discord, Twitch, YouTube, Ko-fi, Kick) opens in a new tab with `rel="noopener"` and a visually hidden «(se abre en otra pestaña)» at the end of its text: the header, the footer, the home page's live strip and author section, and links Torre writes in rich text or in a Dofus guide. `isExternalHref` (`src/lib/site/external.ts`) decides it: an `http` or `https` URL whose host is not Torre's domain or one of its subdomains, so this site's paths, its anchors, his Squarespace site and `mailto:` or `tel:` links stay in the same tab. `NEW_TAB`, `NewTabNote` and `SiteOrWebLink` (`src/components/site/NewTab.tsx`) apply it; `SiteOrWebLink` is for a link whose destination is not known in advance. The embedded YouTube player is not a link and stays out of the rule.
 
 ### The engine
 
@@ -151,7 +180,9 @@ The guide page sits close to its 150 KB budget (149,716 bytes of script on 2026-
 ## Tests
 
 - `tests/unit/site-search.test.ts`: guide, achievement and metalogro entries and their second lines, rejecting a malformed index or row, an index without achievements still valid, folding, all words in any order, ranking and ties, the 50 and 20 limits, the one-letter hint, groups ordered by best match with quests, achievements, metalogros and the menu on ties, the home search without the menu, highlighting, one index request shared by both searches and a retry after failure, the status line with achievements and metalogros and its "más de 50" per group, and that the search arrives by `import()` and shares no string or icon modules with the island.
-- `tests/unit/search-index-endpoint.test.ts`: gzip when accepted, plain JSON otherwise, public cacheable headers.
+- `tests/unit/search-index-endpoint.test.ts`: the index as plain JSON, not compressed by hand, and public cacheable headers.
+- `tests/unit/search-page.test.tsx`: `/buscar`'s query (the first `q`, trimmed and capped), the empty and one-letter states, the home search's groups and order, the no-results line, the form that posts back with the text and the marked results.
+- `tests/unit/external-links.test.tsx`: every link to another site in the header, the footer and the home sections opens in a new tab with its note, and `isExternalHref`.
 - `tests/integration/achievement-page-queries.test.ts` (`readSearchIndex`): published achievements with their metalogro and quest count, and the metalogros that open, alongside the guides.
 - `tests/integration/guide-search-index.test.ts`: published guides with achievement and level, the level Torre corrected on the quest or wrote on the guide winning; never a draft or unpublished guide; the published version of a guide with pending changes; each guide once, sorted by title.
 - `tests/integration/site-search-content.test.ts`: the `content` rows: a published Dofus guide with the egg Torre corrected, no Dofus guide in preparation, checklists as the menu links them, and only the published standalone pages that open here.
