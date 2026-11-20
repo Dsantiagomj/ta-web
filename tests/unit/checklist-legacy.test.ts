@@ -132,7 +132,7 @@ describe('migrateLegacy con una partida al día', () => {
     // Una de las de Hielos que aquí lleva un paso hecho sale hecha por lo de aquí, no por Hielos
     const state = questState(p, model, index(2), 1532)
     expect(state.done).toBe(true)
-    expect(state.lock).not.toEqual({ checklist: 'Dofus de los Hielos' })
+    expect(state.elsewhere).toBeUndefined()
   })
 
   it('global:*: una misión que esta checklist no lleva no se trae: sin sus objetivos no se sabe si está terminada', () => {

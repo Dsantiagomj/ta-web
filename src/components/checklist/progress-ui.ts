@@ -100,13 +100,13 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   function lockText(state: QuestState): string {
     const lock = state.lock
     if (lock && 'step' in lock) return s.lockedStep(lock.step)
-    if (lock && 'checklist' in lock) return s.lockedChecklist(lock.checklist)
     if (lock && 'need' in lock) return s.lockedNeed(nameOf(lock.need))
     if (lock && 'alone' in lock) {
       const name = nameOf(lock.alone)
       return s.lockedAlone(name === String(lock.alone) ? null : name)
     }
     if (lock && 'any' in lock) return s.lockedAny
+    if (state.elsewhere !== undefined) return s.doneElsewhere(state.elsewhere)
     if (state.wait) return s.waiting(state.wait.map(nameOf))
     return ''
   }
