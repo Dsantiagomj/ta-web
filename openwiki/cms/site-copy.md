@@ -50,10 +50,10 @@ sources:
     resource: repo://tests/unit/site-copy-seed.test.ts
   - id: openwiki-source-a725082c4dfc2b9a4d985fd5
     resource: repo://tests/unit/site-copy.test.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Site settings, index texts and navigation
@@ -74,7 +74,7 @@ Every text field comes from `copyField(name, label, default)`: a localized `text
 
 «Ajustes del sitio» has three unnamed tabs:
 
-- **General**: `name`, `description` and `ogImage`, an upload to Media used as the share image of every page.
+- **General**: `name`, `description` and `ogImage`, an upload to Media used as the share image of the home page and the indexes; when it is empty they use the brand card `/og`.
 - **Pie**: the `footer` group with the bio, the live, Discord and Ko-fi titles and texts, and the disclaimer.
 - **Redes**: the `socials` group with one group per network (`twitch`, `kick`, `youtube`, `discord`, `kofi`), each with a `url` and, where the default has one, a `handle`. The `url` is validated by `validateLinkUrl` (`src/lib/site-copy/link.ts`): empty is fine, otherwise it must be a complete `http://` or `https://` address. The panel field is `LinkUrlField`, which shows that message under the field before saving (see [Panel dashboard and editing aids](panel-editing-aids.md)).
 
@@ -102,8 +102,8 @@ So clearing a field in the panel brings back the built-in text rather than an em
 
 ## Where the site uses them
 
-- The frontend layout's `generateMetadata` returns `metadataBase` plus `siteMetadata(settings)`: title, description and Open Graph with the site name, `es_ES` and the share image (`src/lib/site-copy/metadata.ts`). The layout passes `settings.socials` to the header and the whole settings object to the footer (see [Site shell and search](../frontend/site-shell-and-search.md)).
-- Every `/<slug>` page spreads `openGraphDefaults(settings)` into its Open Graph data, so guides, achievement pages, Dofus guides, standalone pages and checklists share the site name and image.
+- The frontend layout's `generateMetadata` returns `metadataBase` plus `siteMetadata(settings)`: title, description, Open Graph with the site name and `es_ES`, and a `summary_large_image` Twitter card. Their image is Torre's `ogImage` when he uploaded one and otherwise the brand card `/og` (`siteShareImage`, see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)); `indexMetadata` gives the three indexes the same image (`src/lib/site-copy/metadata.ts`). The layout passes `settings.socials` to the header and the whole settings object to the footer (see [Site shell and search](../frontend/site-shell-and-search.md)).
+- Every `/<slug>` page spreads `openGraphDefaults(settings)` into its Open Graph data, so guides, achievement pages, Dofus guides, standalone pages and checklists share the site name and locale. Their image is their own card (`/<slug>/og`), never the settings image.
 - The three indexes build their metadata with `indexMetadata(path, texts.<index>.seo, settings)`: title, description, canonical path and Open Graph. Their components take the index texts as a prop and fall back to `indexTextDefaults` when rendered without them (in tests and the component catalog). See [Metalogros index](../achievements/metalogros-index.md), [Dofus guides index](../dofus-guides/dofus-guides-index.md) and [Checklists index](../checklists/checklists-index.md).
 - The home page reads `texts.home` for its hero, areas, tour, checklists and author sections.
 

@@ -6,8 +6,8 @@ tags: [dofusdb, game-data, quests, items, monsters, rewards, payload, scripts, c
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
-  - id: openwiki-source-8037e2358a2c4f9b2c722a11
-    resource: repo://AGENTS.md
+  - id: openwiki-source-d60a6f0f1e9b6eab797ff859
+    resource: repo://.railway/railway.ts
   - id: openwiki-source-2615540ec7553288b52f775d
     resource: repo://docs/legacy/infra.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
@@ -24,6 +24,10 @@ sources:
     resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
+  - id: openwiki-source-4563c6781f32461806ff9616
+    resource: repo://src/collections/SubAreas.ts
+  - id: openwiki-source-c59753480751a9469ce8e192
+    resource: repo://src/collections/torre-correction.ts
   - id: openwiki-source-8db870ce022f19bcd8eefdc9
     resource: repo://src/lib/achievements/dungeon-report-lines.ts
   - id: openwiki-source-d44cdac9cd2322900519745e
@@ -40,6 +44,8 @@ sources:
     resource: repo://src/lib/dofusdb/fetch-quest-data.ts
   - id: openwiki-source-35adf9ddd0461732aa114ae7
     resource: repo://src/lib/dofusdb/game-images.ts
+  - id: openwiki-source-849ba98bed9aabb2bf862269
+    resource: repo://src/lib/dofusdb/map-achievement.ts
   - id: openwiki-source-1addf1a05f8d53fe7dea95d6
     resource: repo://src/lib/dofusdb/map-items-monsters.ts
   - id: openwiki-source-593d2c966d67e453d0429c23
@@ -108,10 +114,10 @@ sources:
     resource: repo://tests/unit/refresh-game-data-summary.test.ts
   - id: openwiki-source-88f72b375a7085219ea4b361
     resource: repo://tests/unit/refresh-row-failures.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # DofusDB game data refresh
@@ -125,7 +131,7 @@ Three things start a refresh, and all of them go through `startGameDataRefresh` 
 | Trigger | How | Where it runs |
 |---|---|---|
 | `script` | `pnpm data:refresh` by hand (`pnpm data:quests` is an alias) | wherever the command runs |
-| `schedule` | the weekly Railway cron task, `pnpm data:refresh --schedule` (see [Deployment](../operations/deployment.md)) | its own `game-data` container in dev |
+| `schedule` | the weekly Railway cron task (Wednesdays at 06:00 UTC, no automatic retry), `pnpm data:refresh --schedule` (see [Deployment](../operations/deployment.md)) | its own `game-data` container, in dev and in production |
 | `panel` | «Traer ahora» above the «Refrescos de datos» list, admins only (`POST /api/game-data/refresh`) | the web server process |
 
 ## Pipeline
@@ -151,7 +157,8 @@ pnpm data:refresh [--schedule]        POST /api/game-data/refresh (admin)
        │    (each step: mapWithConcurrency; each row: rowGuard)
        ├─ refreshSubAreas(payload, …)                    src/lib/dofusdb/refresh-subareas.ts
        ├─ refreshAchievements(payload, …)                src/lib/dofusdb/refresh-achievements.ts
-       │    categories (all), then achievements under Misiones and Eventos, icons → media
+       │    categories (all), then achievements under Misiones and Eventos
+       │    (with their description and every objective name), icons → media
        ├─ refreshNpcs(payload, data.npcs)                src/lib/dofusdb/refresh-npcs.ts
        │    per NPC: renders (right, left) → media, then create/update by dofusId
        ├─ ensureAchievementPages(payload)                src/lib/achievements/ensure-pages.ts
@@ -413,7 +420,7 @@ Above the «Refrescos de datos» list, `GameDataRefresh` shows how the last refr
 
 ### Never against production without the owner's yes
 
-The script writes to whatever database `DATABASE_URL` names, with no confirmation prompt. The infrastructure access rules (docs/legacy/infra.md, section 8) give agents full access to dev and read access to prod: prod writes, database changes included, go through `release.yml` or need Daniel's explicit yes for that one action. Do not point `DATABASE_URL` at the Neon `main` branch and run `pnpm data:refresh` without that yes. Run it locally, or against the Neon `dev` branch. The weekly task exists only in dev for now.
+The script writes to whatever database `DATABASE_URL` names, with no confirmation prompt. The infrastructure access rules (docs/legacy/infra.md, section 8) give agents full access to dev and read access to prod: prod writes, database changes included, go through `release.yml` or need Daniel's explicit yes for that one action. Do not point `DATABASE_URL` at the Neon `main` branch and run `pnpm data:refresh` without that yes. Run it locally, or against the Neon `dev` branch. The weekly `game-data` task runs in both environments: production got it on 2026-11-18 with a one-time yes, and each release deploys it with the web (see [Deployment](../operations/deployment.md)).
 
 ## Tests
 
@@ -433,7 +440,7 @@ The script writes to whatever database `DATABASE_URL` names, with no confirmatio
 | `tests/unit/dofusdb-quest-stages.test.ts` | Stages and objectives in DofusDB order, the objective kinds and the parameters each names, 0 as none, the reordered Silvestre stages, and the NPCs objectives name |
 | `tests/integration/refresh-subareas.test.ts` | Sub-areas saved with their area name, an idempotent rerun, and changes applied |
 | `tests/integration/dungeon-report.test.ts` | The dungeon rows of published pages classified as each page shows them: with their boss, picked by hand, or generic |
-| `tests/unit/dofusdb-map-achievement.test.ts` | Objective quests and alternatives, no quests from other objectives, the experience figures of Torre's pages, rewards for level 200 only, one row per quest objective in game order, alternatives counted as one quest, `countsFor` through another achievement, and category mapping |
+| `tests/unit/dofusdb-map-achievement.test.ts` | Objective quests and alternatives, no quests from other objectives, the description and every objective name (an «Alineamiento» achievement keeps «Rango 3», «Nivel 130»), the experience figures of Torre's pages, rewards for level 200 only, one row per quest objective in game order, alternatives counted as one quest, `countsFor` through another achievement, and category mapping |
 | `tests/integration/refresh-achievements.test.ts` | Every category and the achievements under Misiones and Eventos are saved; quests, category, items, icon and `countsFor` are linked; a missing quest is skipped and counted; a rerun changes and downloads nothing; DofusDB changes are applied |
 | `tests/unit/dofusdb-game-images.test.ts` | The 128 px PNG URL per kind and one key per image |
 | `tests/integration/refresh-game-images.test.ts` | Each icon is imported once with its key and the name as `alt`, and linked; a rerun downloads nothing; a file already in `media` is reused; a DofusDB failure links nothing and is retried; `gameImageTargets` collects quest, achievement and achievement page items and a metalogro's monster |

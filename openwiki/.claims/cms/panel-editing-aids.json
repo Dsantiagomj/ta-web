@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:09835a7dd1cc7886447ae83194f3fc8b81bfd2934499564b9d4740966e08bfd3",
+  "pageVersion": "sha256:0786a7f705ccc4156f001b3df081283c20100e9b4ec7172fa2407c6be00fc77c",
   "claims": [
     {
       "id": "claim_a4fe83c8b9444aa4a544cc932d96d44d",
@@ -103,8 +103,8 @@
       "statement": "Row labels name a checklist step by its first segment's text or its zone, a segment by its text and kind, and other rows by a text or relationship field.",
       "evidence": [
         {
-          "resource": "repo://src/lib/admin/row-labels.ts#L1-L45",
-          "version": "repo-lines-v1:sha256:47ba6981bd48ba10c77295ec1aefb7c7c68e5f6d3c7885a816abd2c9c2026343:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0MjA2Mjk5YzczZjRiZWU5NzQwMWVjNWQwOTFkZjZmNmUzNzRlYjBjMjNlMjA3NjVkZjBkZjE2ZGI4YzUxN2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3MDY4NDk0NWIwYjYwMjczY2M3OTA1ZGE1MjdhNjc0MTc3MDA5NDc2MDcxMDllYmUzZTFkN2MwZjM2OWQ2MzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2ODQyZTc0ODI1OWM5MzYzMzA3YmUzZjhlNjA1MjI1NjczYjgxNGQyNTU0ZWU4YWZkOTdhNmE1YmM2OGU1ZTMifQ"
+          "resource": "repo://src/lib/admin/row-labels.ts#L1-L55",
+          "version": "repo-lines-v1:sha256:091aa2bd03a9f607ea7740b3f3df477410c8112d4f9d9babdf9b514cfcf9e0c9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0MjA2Mjk5YzczZjRiZWU5NzQwMWVjNWQwOTFkZjZmNmUzNzRlYjBjMjNlMjA3NjVkZjBkZjE2ZGI4YzUxN2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3MDY4NDk0NWIwYjYwMjczY2M3OTA1ZGE1MjdhNjc0MTc3MDA5NDc2MDcxMDllYmUzZTFkN2MwZjM2OWQ2MzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2ODQyZTc0ODI1OWM5MzYzMzA3YmUzZjhlNjA1MjI1NjczYjgxNGQyNTU0ZWU4YWZkOTdhNmE1YmM2OGU1ZTMifQ"
         }
       ]
     },
@@ -145,8 +145,8 @@
       "statement": "ColorField is the validated text field that checks the color in the browser and shows its message under the field, and ColorSwatch writes the picked color into the same field once on release.",
       "evidence": [
         {
-          "resource": "repo://src/collections/DofusGuides.ts#L325-L332",
-          "version": "repo-lines-v1:sha256:0125319af130b93a8e3e0008100258735d829811b3f8dc2fff09e367134f40c9:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjZkYmJjZmNhNTI2Mjg0MjE1NTI3N2I2MmJhOTJhNDE3MmE4YjFjNjY1NjY1NTBlZjQzOWFiYTU5MzUwOTk5ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWZmNDNkOGYxZGE3MDFkZTYzZWFhYjhiZGExZWY3MGUzMzdhZWNhODRiOTBjM2RhMDY4OWU5NjU0YjBhMjdjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTRmMDZiYThlYWQ2MmIyZDFhZWZkYmFiZDQ5YjI0YzhjMWZlNjE1NDhiNmFlNzI2MGZmMjYzMmZlYmUwOGZkZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjU1NGE4NDQxMDdkZGJkY2M4YzAxNGQ3ZjgzZDhhN2QxMDI3NTNiZWU3OGY1YzU2YTY2NzQ0ODNhY2I1MTlmZSJ9"
+          "resource": "repo://src/collections/DofusGuides.ts#L327-L334",
+          "version": "repo-lines-v1:sha256:0009328c8989bac7712c66760776e317edaf728133d5a1c572eabd5c410667cb:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTQ5YjIwNTZmZWM0ODVkZGYyZmVjYjMzYjg0ZGI5ZDE0NTNmZmJjNjY2ZDhmMWVkMTNjYmU2NjdlMzZiZjM2NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTI2ZDQ1NDkyNmYxYmU0MzgwODJiZGYyMTMzMGU3NzVjNzJiMDlkMmYxZWJiNTAwZmM2MzNkNTdkZDA3MjUzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmQ0YWUyNTk4ZDg1NjE3ODNhZjcxZDMwY2Y3ZDU2N2IzOTlhNTMwOGZiN2RiMDkzOGJlMzFlYTcxMWVlZWJkMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2QyNzJmYTMzMDg3NDVmZjk4ZmZmMzMyY2QxMjQ0NTQ2YzBlOGMyNTgwZmVkYzJkOTUzYjY0M2NjOGIwMjFhMCJ9"
         },
         {
           "resource": "repo://src/components/admin/ColorField.tsx#L1-L56",
@@ -219,10 +219,38 @@
           "version": "repo-lines-v1:sha256:7017519f4f413000fccf4fdf2c88167bcf7cfcd72ce580f903ff2cecf9923590:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiNmQ1ZGQ3ZTZmYzdkYmY4NTFjYTczYzBlNjg1NzNkYjkzNzY3ZDQ5ZTlhMjQ1NjZiNjllNzIwN2MzZGMzYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmMGZiODAyYWM2YmJlODExOTA3NzZkMjFmMTVhMDkxY2YyMjQzYTA1NDM1MDEwMzc3OTA1YjU2ZDNlNTkwMjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhNzVlNjVjOTVkZjVmZTk2NDM2MjBmYzYyM2IyMjA0YzU3OGJhOWRhMWRjYWI3MDUwZDk1ZTdjZDY5NDcwYTQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_eae6e5712a22424586b106084a70c18d",
+      "statement": "A table row's panel label joins the text of its first non-empty cells with a middle dot, falling back to the row number.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/RowLabels.tsx#L42-L46",
+          "version": "repo-lines-v1:sha256:0e72e4e5cb74114e471fac3141e2c312577c1ca03ba28ee058fb263175ce3ae3:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGY2OTBlOWY2MzgyOWMzMTk4ZjlkMGZkZTJkNjNjOWIwNGJkOWNiMjE1ZjNiYWZkZDQxYTk0Mzg3OTZlMmFhNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDc4MmFjNzhhMTE3Mzg2OGE5Y2I5ZWIwM2VlOWE1M2Q3M2NhNzc0OGUzNTlhNzFhYzAyMTRhNjI4ZGU1OGFhZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjI3MmVkMDA3MDRmNTQxMTkzMzZhZWMyOTJkNmU1ZDlmMDQ0YmM4M2ZlOTQ3NzA2ZDc1YTIwNjY1N2U5OWJjYiJ9"
+        },
+        {
+          "resource": "repo://src/lib/admin/row-labels.ts#L38-L46",
+          "version": "repo-lines-v1:sha256:85ec5dbc6d508ad646284ecdb5bd2b1766925553508c18652cf6dd750f938bdd:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWMxZDg5ZTJiOGRmYTNiZWFhYTVlNGEyY2ZmZjAxNGQ5MjJkMTk1OTJhMzIwMGU4ZDNmNzdmM2E3NDE4ZWY3OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGUzYjQ3MzNkNTc0MTAwODhiZmUyYzU1N2Q0ZmQ4MTdmNDkwZTUxN2E4MmE4Mzk1ZTVkN2EzYjJkZDNjMzFmYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9dd776d4b6ed4a56be74e012f281c8ec",
+      "statement": "The table block's paste box is an unstored UI field: it parses the pasted spreadsheet text and replaces the block's columns and rows in the unsaved form, announcing when the text is empty or holds only headers.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/TableBlock.ts#L34-L39",
+          "version": "repo-lines-v1:sha256:9931c2e7621c5ab2e07a67de99ac9f2192cf5656d8c12bc4ff70cf3406997fa7:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJhNTNjYWEzODI4N2Q2YjEyNTc4ZDdmMzQ1NWU1OWI2MmFlNDJlYTllMDI2MjAyYmNjYmZkNzA3NWIxMWVhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2NmZWNiMmU4YTM5NjAzOWVkMjRhMjAyODhkZTJiYjMyZWE3MWQ1ODg1YzNmYTU1MWVkY2QwZjFjYjMzM2FiYiJ9"
+        },
+        {
+          "resource": "repo://src/components/admin/TablePaste.tsx#L13-L45",
+          "version": "repo-lines-v1:sha256:83472bf8291d7567451a5976cede9b1c55319a1c5597aaa430ecf5b9e27a80bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlMTMwN2U2YThkZDJhNzhjYTQ5YTFhM2ViNzRhZTAyMzNlYTc3ODY2ZWQzNWYwZmE5ZjExZmZmNjhkNjdjYzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczOWUzYjYwMDQ1NmZmNzIyZjNjMWFmZjg5ODg2OWY5NDUwMTQ2NjZjYWVhY2ZjN2RhYTMyOTQ5YTdjNDFmYzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhY2FmOTUxNzhiYjgzZGIzMzljNWJhZTc5NDgyMDEzZjM3MjhkZGI4MjRlZjg0ODNjNzE1OTM1NzQ4ZjhlNGYifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

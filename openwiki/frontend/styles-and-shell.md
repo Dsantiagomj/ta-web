@@ -66,10 +66,10 @@ sources:
     resource: repo://tests/unit/theme-css.test.ts
   - id: openwiki-source-a6bbe9fe2145f44825758407
     resource: repo://tests/unit/view-transition.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Styles, tokens and site shell
@@ -90,7 +90,7 @@ Inline styles only pass data: a `style={…}` sets custom properties that carry 
 
 ## Stylesheets per page
 
-A page loads at most four stylesheets. Each one blocks the first paint, and over HTTP/1.1 Chrome opens six connections per origin, two of which go to the preloaded font and the first content image, so a fifth stylesheet waits for a free connection; on the `/<slug>` pages, whose LCP is text, that pushed the LCP past the 2.5 s budget. Shared rules therefore join an existing stylesheet instead of adding one: the breadcrumb's styles live in `game.css`, which the guide, achievement and Dofus guide pages already load. `tests/e2e/hojas-de-estilo.spec.ts` requests every page in `lighthouserc.cjs` and fails when its HTML links more than four stylesheets, so a page added to Lighthouse CI is checked too (see [Performance budgets](../testing/performance-budgets.md)).
+A page loads at most three stylesheets. Each one blocks the first paint, and over HTTP/1.1 Chrome opens six connections per origin; the two preloaded fonts (Montserrat and Rowdies) and the LCP image take three. With a fourth stylesheet the home page's LCP image waited for a free connection, about 450 ms on the slow 4G of `pnpm test:lhci`, and its LCP sat at the edge of the 2.5 s budget. Shared rules therefore join an existing stylesheet instead of adding one: `ui.css` (callouts, checkbox, progress bar, hit target, fullscreen viewer) is imported by `site.css`, which every page loads, rather than by each UI component, and the breadcrumb's styles live in `game.css`, which the guide, achievement and Dofus guide pages already load. `tests/e2e/hojas-de-estilo.spec.ts` requests every page in `lighthouserc.cjs` and fails when its HTML links more than three stylesheets, so a page added to Lighthouse CI is checked too (see [Performance budgets](../testing/performance-budgets.md)).
 
 ## Token layers in theme.css
 
@@ -109,7 +109,7 @@ A CSS variable that points at another variable is resolved where it is declared 
 
 ## Fonts
 
-`src/styles/fonts.ts` loads four families through `next/font/google` (DESIGN.md, Typography; option D of the color design): Montserrat for body text, Rowdies for page titles, Lexend for the interface and Lilita One for accent figures in the catalog. Next downloads them at build time and serves them from the site with adjusted fallback metrics, so the swap does not shift layout.
+`src/styles/fonts.ts` loads four families through `next/font/local` (DESIGN.md, Typography; option D of the color design): Montserrat for body text, Rowdies for page titles, Lexend for the interface and Lilita One for accent figures in the catalog. The files live in the repo, in `src/styles/fonts/` with their OFL licenses and a README: the same latin-subset woff2 files Google served, so the build never reaches the network (with `next/font/google` every build downloaded them, and a Google outage broke the build). Each family keeps Google's latin `unicode-range`, so a character from another alphabet still uses the fallback. Turbopack names each family after its constant («Montserrat», «LilitaOne»), which the E2E tests read.
 
 | Family | Weights | Preloaded | Used for |
 |---|---|---|---|
@@ -118,9 +118,9 @@ A CSS variable that points at another variable is resolved where it is declared 
 | Lexend | 500, 600, 700 | no | The interface: menu, buttons, card names and part headings. Variable, one file for the three weights; short texts that the adjusted fallback paints almost the same meanwhile |
 | Lilita One | 400 | no | Accent figures in the catalog |
 
-Montserrat is a variable font: Google serves one latin file (about 35 KB) with every weight, so the five weights the text uses come from it. Montserrat and Rowdies are the only preloads. A guide's first screen already uses almost all of them. Being one family with all its weights, the browser never synthesizes a bold; `tests/e2e/fonts.spec.ts` checks that on the page. Lexend and Lilita One load on demand (`preload: false`) and paint with their adjusted fallbacks meanwhile. The four variables go on `<html>` through `fontVariables`. AGENTS.md forbids adding another preloaded instance. `tests/unit/fonts.test.ts` pins the families, weights and preload choice.
+Montserrat is a variable font: one latin file (about 35 KB) with every weight, so the five weights the text uses come from it. Montserrat and Rowdies are the only preloads. A guide's first screen already uses almost all of them. Being one family with all its weights, the browser never synthesizes a bold; `tests/e2e/fonts.spec.ts` checks that on the page. Lexend and Lilita One load on demand (`preload: false`) and paint with their adjusted fallbacks meanwhile. The four variables go on `<html>` through `fontVariables`. AGENTS.md forbids adding another preloaded instance. `tests/unit/fonts.test.ts` pins the families, weights, files and preload choice.
 
-`next/font`'s generated fallback faces ("Montserrat Fallback", "Lilita One Fallback") are built on `local(Arial)`. Linux and Android ship no Arial, so there the text painted in the wider system sans until the web font arrived, and the line changes shifted the page (CLS 0.19 on the guide in CI with the previous fonts). `src/styles/fonts-fallback.css` adds "Montserrat Fallback Linux", "Lilita One Fallback Linux", "Rowdies Fallback Linux" and "Lexend Fallback Linux" with the same size and ascent/descent overrides over fonts with Arial's metrics (Liberation Sans, Arimo) and, on Android, Roboto. The values are copied from the CSS `next/font` compiles; changing a family means copying them again. Lexend gets two more sets of faces, «Lexend Fallback» over `local('Arial Bold')` and its Linux twin, at weights 600 and 700: without them, and without synthesized bold, its 600 and 700 headings painted in Arial regular, 3 percent narrower than Lexend 700, and when Lexend arrived «Misiones generales e historias» went to two lines and shifted `/metalogros` (CLS 0.12 in Lighthouse CI). Their `size-adjust` is Lexend's width over Arial Bold's for the interface texts.
+`next/font/local` would compute its own fallback metrics from each file (Montserrat's `size-adjust` would be 110.19 % instead of 112.83 %), so `adjustFontFallback` is off and each family names «<Family> Fallback» as its fallback. `src/styles/fonts-fallback.css` declares those faces over `local('Arial')` with the values `next/font/google` used to generate (from `calculateSizeAdjustValues` in Next's font utils, which `tests/unit/fonts.test.ts` compares), so the font swap moves the content exactly as before. Linux and Android ship no Arial, so there the text painted in the wider system sans until the web font arrived, and the line changes shifted the page (CLS 0.19 on the guide in CI with the previous fonts). `src/styles/fonts-fallback.css` adds "Montserrat Fallback Linux", "Lilita One Fallback Linux", "Rowdies Fallback Linux" and "Lexend Fallback Linux" with the same size and ascent/descent overrides over fonts with Arial's metrics (Liberation Sans, Arimo) and, on Android, Roboto. The values are copied from the CSS `next/font` compiles; changing a family means copying them again. Lexend gets two more sets of faces, «Lexend Fallback» over `local('Arial Bold')` and its Linux twin, at weights 600 and 700: without them, and without synthesized bold, its 600 and 700 headings painted in Arial regular, 3 percent narrower than Lexend 700, and when Lexend arrived «Misiones generales e historias» went to two lines and shifted `/metalogros` (CLS 0.12 in Lighthouse CI). Their `size-adjust` is Lexend's width over Arial Bold's for the interface texts.
 
 These choices serve the LCP and CLS budgets in [Performance budgets](../testing/performance-budgets.md).
 

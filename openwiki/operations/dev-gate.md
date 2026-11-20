@@ -17,16 +17,18 @@ sources:
     resource: repo://src/lib/dev-gate/robots.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
+  - id: openwiki-source-92d3ab1ac58352db5a7208ba
+    resource: repo://tests/e2e-dev-gate/analitica.spec.ts
   - id: openwiki-source-7d797ca6d3fc3312d9b9d118
     resource: repo://tests/e2e-dev-gate/gate.spec.ts
   - id: openwiki-source-cd6d0cbf6430870fd37a8762
     resource: repo://tests/unit/dev-gate.test.ts
   - id: openwiki-source-299f708a96902b808ff05ee6
     resource: repo://tests/unit/robots.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 
@@ -58,9 +60,9 @@ With no basic auth in front, the panel relies on Payload's login. The `users` co
 ## Tests
 
 - `tests/unit/dev-gate.test.ts` covers `isDevEnvironment` (`APP_ENV`, Railway's variable, spaces and case, non-dev values) and the proxy: in dev it passes without asking for credentials and adds `noindex`, outside dev it leaves the response alone, and the module no longer exports a basic-auth gate.
-- `pnpm test:e2e:dev-gate` (`playwright.dev-gate.config.ts`) builds and starts the app the E2E way with `APP_ENV=dev` on `E2E_DEV_GATE_PORT` (3101); `E2E_SKIP_BUILD=1` reuses the `pnpm test:e2e` build because the proxy reads the environment at start. `tests/e2e-dev-gate/gate.spec.ts` checks that the home page and a seeded guide load with no credentials and with `noindex`; that `/admin` asks for Payload's own login; that Next's static files and API responses (`/api/ready`, which reports the database as `ok`, and `/api/users`) carry `noindex` and never a `WWW-Authenticate` challenge; and that `robots.txt` disallows everything.
+- `pnpm test:e2e:dev-gate` (`playwright.dev-gate.config.ts`) builds and starts the app the E2E way with `APP_ENV=dev` on `E2E_DEV_GATE_PORT` (3101); `E2E_SKIP_BUILD=1` reuses the `pnpm test:e2e` build because the proxy reads the environment at start. `tests/e2e-dev-gate/gate.spec.ts` checks that the home page and a seeded guide load with no credentials and with `noindex`; that `/admin` asks for Payload's own login; that Next's static files and API responses (`/api/ready`, which reports the database as `ok`, and `/api/users`) carry `noindex` and never a `WWW-Authenticate` challenge; and that `robots.txt` disallows everything. The server also gets both `UMAMI_*` variables, and `tests/e2e-dev-gate/analitica.spec.ts` checks that dev still renders no tracker and sends no visit (see [Analytics with Umami](analytics.md)).
 - `tests/unit/robots.test.ts` covers `robotsFor` in and out of dev, including the sitemap pointer, which in production needs `NEXT_PUBLIC_SITE_URL`: without it `robotsFor` throws rather than announce localhost.
-- `tests/unit/railway-config.test.ts` checks that `dev` sets `APP_ENV=dev` and declares no basic-auth variables.
+- `tests/unit/railway-config.test.ts` checks that `dev` sets `APP_ENV=dev` and declares no basic-auth variables and no Umami variables.
 
 ## Related pages
 

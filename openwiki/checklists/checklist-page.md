@@ -50,10 +50,10 @@ sources:
     resource: repo://src/lib/site/legacy.ts
   - id: openwiki-source-8728a958dd5a79ae9c3ca846
     resource: repo://src/styles/theme.css
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Checklist page
@@ -86,7 +86,7 @@ Game records go through `shown` (`src/lib/checklists/relations.ts`): Torre's cor
 
 `checklistView` turns the data into what `ChecklistView` (`src/app/(frontend)/[slug]/ChecklistView.tsx`) renders. Everything is rendered on the server and readable without JavaScript, one part after another:
 
-- the breadcrumb and `ChecklistHeader`, with the Dofus egg and its color (`eggStyle` passes the color as a CSS custom property). The color is the Dofus guide's, or, for a checklist without one (the rush), its card's `color`;
+- the breadcrumb and `ChecklistHeader`, with the «Actualizado el» date under the description (`UpdatedDate`, from `contentDate(checklist).modified`) and the Dofus egg and its color (`eggStyle` passes the color as a CSS custom property). The color is the Dofus guide's, or, for a checklist without one (the rush), its card's `color`;
 - the ambience particles behind the page (`Ambience`, with `checklistAmbience(checklist.ambience)`), rendered inside the page so they inherit the egg color; `theme` leaves the site's own (see [Styles and layout shell](../frontend/styles-and-shell.md));
 - a window (`ck-win`) with the progress strip and three tabs: «Diario» (the step list and the open step; on phones the step opens in a sheet), «Prerrequisitos» (when there are groups, callouts or items) and «Objetos» (the totals, only when some row counts);
 - the step sheet and progress dialogs, used by the island.
@@ -145,11 +145,11 @@ What the page does not put in its HTML (who gives each quest and where, each obj
 - A visitor reads the published checklist through `unstable_cache` with the `checklists` tag, and the response carries `Cache-Control: public, max-age=300, stale-while-revalidate=3600`.
 - A panel user with Next's draft mode reads the latest draft, sent as `private, no-store`.
 - No checklist answers 404.
-- The endpoint gzips the JSON itself when the browser accepts it, because Next does not compress Payload's API responses.
+- The endpoint returns plain JSON; Next compresses it like any response (see [Request pipeline](../architecture/request-pipeline.md)).
 
 ## The island
 
-`ChecklistIsland` (`src/components/checklist/ChecklistIsland.tsx`) is a client component that renders nothing. Its only work is to load `checklist-ui.ts` with `import()` and call `startChecklist`, which syncs with the server HTML, `<dialog>`, `matchMedia` and the details API and returns its cleanup. It turns the tab links into ARIA tabs, keeps one step open (the one in `#paso-N`, or the first on wide screens), filters steps by search text, and moves between steps. Once per page, after paint, it fetches the details and paints, through `fillDetails`, the quest givers, coordinate chips (copied by the guides' `PageEnhancements` island) and subareas; on failure it shows a message in its status region. The effect restarts only for another checklist or a new version, so a live preview refresh that brings the same data does not reset it. Its strings live in `island-strings.ts`, so it never pulls in the panel strings.
+`ChecklistIsland` (`src/components/checklist/ChecklistIsland.tsx`) is a client component that renders nothing. Its only work is to load `checklist-ui.ts` with `import()` and call `startChecklist`, which syncs with the server HTML, `<dialog>`, `matchMedia` and the details API and returns its cleanup. It turns the tab links into ARIA tabs, keeps one step open (the one in `#paso-N`, or the first on wide screens), filters steps by search text, and moves between steps. Text typed into the search before the island arrived, or restored by the browser on back navigation, fired no `input` event, so `startChecklist` filters once at start when the field already holds text. Once per page, after paint, it fetches the details and paints, through `fillDetails`, the quest givers, coordinate chips (copied by the guides' `PageEnhancements` island) and subareas; on failure it shows a message in its status region. The effect restarts only for another checklist or a new version, so a live preview refresh that brings the same data does not reset it. Its strings live in `island-strings.ts`, so it never pulls in the panel strings.
 
 The `/<slug>` route ships this island to quest guides, achievement pages and Dofus guides too, which sit close to their 150 KB JavaScript budget. So the island itself holds only the `import()` of `checklist-ui.ts`, and `checklist-ui.ts` in turn loads the progress UI (`progress-ui.ts`, with its strings in `progress-strings.ts`) with `import()`; both run only on a checklist page. See [Checklist progress engine](progress.md). Lighthouse CI gives checklist pages 180 KB of JavaScript instead of 150 KB (see [Performance budgets](../testing/performance-budgets.md)).
 

@@ -5,7 +5,7 @@ description: The four achievement collections (DofusDB achievements and categori
 tags: [achievements, payload, collections, dofusdb, autofill, slugs]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 sources:
   - id: openwiki-source-b086b6b1802f507b0e5a4c8f
     resource: repo://scripts/dungeon-notes.ts
@@ -23,6 +23,8 @@ sources:
     resource: repo://src/collections/AchievementPages.ts
   - id: openwiki-source-d501a03fabe41a0218c5f842
     resource: repo://src/collections/Achievements.ts
+  - id: openwiki-source-b5ebd1b0d78d15bedec5d16c
+    resource: repo://src/collections/content-date.ts
   - id: openwiki-source-eec436a9dcb7734a62bf153f
     resource: repo://src/collections/editorial-access.ts
   - id: openwiki-source-a93f1ff2ed8916a30885274d
@@ -65,7 +67,9 @@ sources:
     resource: repo://tests/integration/legacy-slugs.test.ts
   - id: openwiki-source-69a5fa7edb72294e823509c1
     resource: repo://tests/unit/achievement-dofusdb-values.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+  - id: openwiki-source-cbf5c4f18a579bd2ca1d824f
+    resource: repo://tests/unit/dofusdb-map-achievement.test.ts
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 ---
 
 # Achievement data model
@@ -84,6 +88,7 @@ Each editorial document links one game record and copies what its page shows. An
 `achievement-categories` (`src/collections/AchievementCategories.ts`) holds every DofusDB achievement category with its name, order and parent category. `achievements` (`src/collections/Achievements.ts`) holds the achievements of the categories under DofusDB's Misiones (8) and Eventos (9) roots:
 
 - `quests`: one row per objective, in order. A row with several quests is a set of alternatives (the class quest: you do the one for your class).
+- `description` and `objectives` (2026-11-18): the achievement's in-game description and every objective name in order, including the ones that are not quests («Alineamiento 10», «Nivel 30»). An achievement page with no quest rows shows them instead of quest cards (see [Achievement page](achievement-page.md)).
 - `rewards`: experience, kamas and items, computed for a level 200 character, as on Torre's pages.
 - `countsFor`: the game achievements that require this one, directly or through another.
 - `icon`: an upload to Media.
@@ -96,7 +101,7 @@ Each editorial document links one game record and copies what its page shows. An
 
 ## Editorial collections
 
-`achievement-pages` (`src/collections/AchievementPages.ts`) is one page per achievement, rendered at `/<slug>` (see [Achievement page](achievement-page.md)). It links one DofusDB achievement (`achievement`, optional and unique) and carries `name`, `slug` (labelled «Dirección en la web»), `state`, `group` (its metalogro), `order` in that metalogro, `quests`, `prerequisites`, `points`, `rewards`, optional `intro` and `outro` rich text, and an optional `background` («Fondo de la página», an upload in the sidebar, shared with quest guides through `pageBackgroundField` in `src/collections/zone-background-field.ts`) that replaces the zone landscape behind the page (see [Zone background](../frontend/zone-background.md)). It has live preview and preview URLs through the same `/vista-previa` route as guides.
+`achievement-pages` (`src/collections/AchievementPages.ts`) is one page per achievement, rendered at `/<slug>` (see [Achievement page](achievement-page.md)). It links one DofusDB achievement (`achievement`, optional and unique) and carries `name`, `slug` (labelled «Dirección en la web»), `state`, `group` (its metalogro), `order` in that metalogro, `quests`, `prerequisites`, `points`, `rewards`, optional `intro` and `outro` rich text, and an optional `background` («Fondo de la página», an upload in the sidebar, shared with quest guides through `pageBackgroundField` in `src/collections/zone-background-field.ts`) that replaces the zone landscape behind the page (see [Zone background](../frontend/zone-background.md)). It has live preview and preview URLs through the same `/vista-previa` route as guides. A hidden `contentUpdatedAt` date, set by the `trackContentDate` hook when a panel user publishes a content change, feeds the page's «Actualizado el» line and its JSON-LD (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)).
 
 The link is optional because DofusDB lacks some achievements Torre documents (the Krosmoz metalogro): such a page is written by hand with its name. Two pages cannot link the same achievement, but several can link none.
 
@@ -178,7 +183,7 @@ Torre's existing pages and states come from his site through a separate import (
 ## Tests
 
 - `tests/unit/achievement-dofusdb-values.test.ts`: `groupSection`, `fillFromValues` and the note text.
-- `tests/unit/dofusdb-map-achievement.test.ts`: objectives, rewards and `countsFor`.
+- `tests/unit/dofusdb-map-achievement.test.ts`: quest objectives, the description and every objective name, rewards and `countsFor`.
 - `tests/unit/dofusdb-values-endpoint.test.ts`: the endpoint's status codes.
 - `tests/unit/achievement-editorial-collections.test.ts` and `tests/unit/achievement-game-collections.test.ts`: collection config.
 - `tests/integration/achievement-pages.test.ts`: values from the database, sections at any depth, `ensureAchievementPages` (including idempotence), Torre's edits surviving, a cleared field staying empty, a cleared name coming back, a new link filling, and the shared slug rules.

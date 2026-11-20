@@ -1,7 +1,7 @@
 ---
 type: feature
 title: Home page
-description: The home page at / - its sections, the counts it shares with the header, the simulated live state, the hero quest search island that loads its engine and index on first focus, the static art pipeline, and how it stays inside its JavaScript and render-blocking CSS budget.
+description: The home page at / - its sections, the counts it shares with the header, Torre's Twitch live state from his worker, the hero quest search island that loads its engine and index on first focus, the static art pipeline, and how it stays inside its JavaScript and render-blocking CSS budget.
 tags: [frontend, home, search, islands, performance, images]
 sources:
   - id: openwiki-source-08041eccd454d12ff003046d
@@ -42,15 +42,17 @@ sources:
     resource: repo://tests/unit/home-hero.test.tsx
   - id: openwiki-source-f5bb52b30eff93118a46d132
     resource: repo://tests/unit/home-sections.test.tsx
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+  - id: openwiki-source-a2796d58a6f59336ef40d234
+    resource: repo://tests/unit/site-live.test.ts
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Home page
 
-`src/app/(frontend)/page.tsx` renders the home page (DESIGN.md, Layout: Home). It is a server component; its only client island is the hero's quest search. Its styles are in `src/components/home/home.css`. Its `metadata` sets the canonical URL to `/`, without the query (`?directo=…`); the title and description come from the layout, which takes them from «Ajustes del sitio». The page reads the «Portada e índices» texts, «Ajustes del sitio» and «Navegación» on the server alongside its data and passes each section its texts (`home.*`) and Torre's links (`socials`): the hero, the areas, the tour, the checklists section and the author section show what Torre wrote in the panel, falling back to `indexTextDefaults.home` and `siteSettingsDefaults` when rendered without them, and the areas get the sections of «Navegación» (see [Site settings, index texts and navigation](../cms/site-copy.md)). This adds no JavaScript.
+`src/app/(frontend)/page.tsx` renders the home page (DESIGN.md, Layout: Home). It is a server component; its only client island is the hero's quest search. Its styles are in `src/components/home/home.css`. Its `metadata` sets the canonical URL to `/`, without the query (`?directo=…`); the title and description come from the layout, which takes them from «Ajustes del sitio». The page reads the «Portada e índices» texts, «Ajustes del sitio» and «Navegación» on the server alongside its data and passes each section its texts (`home.*`) and Torre's links (`socials`): the hero, the areas, the tour, the checklists section and the author section show what Torre wrote in the panel, falling back to `indexTextDefaults.home` and `siteSettingsDefaults` when rendered without them, and the areas get the sections of «Navegación» (see [Site settings, index texts and navigation](../cms/site-copy.md)). This adds no JavaScript. It also renders the site's `WebSite` JSON-LD with a `SearchAction` that points search engines at `/buscar?q=` (`websiteJsonLd`, see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)).
 
 ## Sections
 
@@ -69,11 +71,11 @@ In order:
 
 - **Counts.** `loadSiteCounts()` (`src/app/(frontend)/site-data.ts`) is the same cached read the header uses, so the two never disagree. `countSiteGuides` (`src/lib/site/counts.ts`) counts, as a visitor (`overrideAccess: false`), published quest guides and achievement pages that are published and in state `published`, the same ones the metalogros index links. The read is cached with the `guide-pages` tag and the guide pages' 600-second `revalidate`.
 - **Checklists.** `loadChecklistNav()` (`site-data.ts`) turns the cached checklists read (`loadChecklists`) into menu items with `checklistNavItems`, the same list the header menu and footer use (see [Checklist data](../checklists/checklist-data.md)).
-- **Live state.** `LiveStrip` and `Author` link Torre's Twitch and other channels from «Ajustes del sitio». `liveState` (`src/lib/site/live.ts`) does not read Twitch yet, so Torre is never live. In development or the dev environment, `?directo=1` simulates it to see the page in that state; in production it does nothing.
+- **Live state.** `LiveStrip` and `Author` link Torre's Twitch and other channels from «Ajustes del sitio», each opening in a new tab with the screen reader note. Whether he is live comes from Torre's own Cloudflare Worker, which asks Twitch and answers `{"live":false,"channel":…}` with a 120-second cache (`TWITCH_LIVE_URL` in `src/lib/site/live.ts`). `fetchLiveState` asks it with a 2-second timeout and never throws: a network error, a non-2xx answer, broken JSON or a timeout count as not live, and only `live: true` counts as live, with the stream title when the worker sends a non-empty one. `loadLiveState` (`src/app/(frontend)/site-data.ts`) caches the answer with `unstable_cache` for 60 seconds, so a stream that starts shows within about three minutes. The `TWITCH_LIVE_URL` variable changes the worker's address and `off` never asks, which the E2E and Lighthouse servers set (see [Environment configuration](../architecture/configuration.md)). `liveState` returns what the cached read gives; in development or the dev environment `?directo=1` simulates a live stream without asking, and in production it does nothing.
 
 ## Hero search
 
-The hero's form is server-rendered by `Hero`: `role="search"`, its label and help text, and `action` pointing at the legacy site's search (`legacyHref('search')`). Without JavaScript, submitting goes to the search on torrentearcano.com.
+The hero's form is server-rendered by `Hero`: `role="search"`, its label and help text, and `action="/buscar"`. Without JavaScript, submitting goes to this site's results page (see [Site header, footer and search](site-shell-and-search.md)).
 
 `HeroSearch` (`src/components/home/HeroSearch.tsx`) is the client island: the field (placeholder "Misión, logro o Dofus") of a WAI-ARIA combobox with a listbox whose results float under it, so opening it, typing or loading never moves the page. The results panel (`.cbx`) drops in and out like a menu (DESIGN.md, Motion): it fades and slides 6 px with a slight scale, entering with `@starting-style` and leaving through a `display` transition with `allow-discrete`. Below 1024px the open panel covers half the page, so a flat veil of `--color-bg` at 88 percent (`.ask__field::before`, fixed, without pointer events) covers the page under the field while the panel is open. «Buscar» is the filled primary button: `--color-btn` with `--color-btn-ink`, Lexend bold in capitals, 3rem high.
 
@@ -82,7 +84,6 @@ The hero's form is server-rendered by `Hero`: `role="search"`, its label and hel
 - **Groups.** The listbox is named "Resultados". With one group the options are listed directly; with more than one, `HeroOptions` (`HeroResults.tsx`) wraps each in a `role="group"` labelled by its title (Misiones, Logros, Metalogros, Guías de Dofus, Checklists, Páginas), the ARIA APG grouped-options pattern. Option ids run on across groups, so the arrow keys walk every option in the order shown. Groups go from best match to worst, quests first on a tie.
 - **Keyboard.** The arrows move the active option; Enter opens it, and Enter with nothing chosen opens the first result. Enter while a new list is still loading opens the first result for what was typed, not one from the old list. A typed query waits 90 ms before it is ranked; an arrow pressed in that window ranks it at once (`arrowItems`) and moves into the new list, so the keystroke is never lost. Esc closes, a second Esc clears, and a click outside closes. With Ctrl, Cmd or the middle button a result opens in a new tab.
 - **Errors.** If the index fails to load, the panel says so and the next focus retries.
-- **Header button.** While the field is visible, the header's search button steps aside (`html.hs-on`).
 - **Mobile.** The field rises under the header and the panel fits in what is visible above the keyboard.
 
 `hero-search-strings.ts` (the field and option ids) is small on purpose and rides with the island; the result strings stay in the lazy chunk.
@@ -108,6 +109,6 @@ Lighthouse CI measures `/`; see [Performance budgets](../testing/performance-bud
 
 - `tests/unit/home-hero.test.tsx`: the hero (the name one word per line) and its search island markup, and `HeroOptions` with one group (no titles) and several (titled groups, option ids continuing across them).
 - `tests/unit/home-sections.test.tsx`: the other sections, including the Classes and Dungeons cards rendered without a link and with «Próximamente», the cards following a «Navegación» with a hidden section and an unticked «Próximamente», and the checklists in the collection's order, keyed by slug, without figures, with the legacy note or no link when in preparation.
-- `tests/unit/site-live.test.ts`: `liveState`.
+- `tests/unit/site-live.test.ts`: the worker's answer (not live, live with or without a title, a non-boolean `live`), the read (non-2xx, broken JSON, a network error, a timeout, no URL with `off`), the worker URL, and `liveState` (`?directo=1` only outside production).
 - `tests/integration/site-counts.test.ts`: the counts as a visitor.
 - `tests/e2e/inicio.spec.ts`: the hero; no index request on load, only on focus; one letter versus two; no layout shift; arrows and Enter, including a key pressed while a new list arrives; «Buscar» as the filled, capitalized 3rem button; the veil under the field while the panel is open; the whole placeholder fitting at 1024px; Esc and outside clicks; a click opening a quest; the load error and retry; published achievements found in their own titled group, a preparing one not found, and the arrows crossing from one group to the next; the header button stepping aside; axe (WCAG 2.2 AA) in every search state; Torre not moving on focus; the field and panel on mobile; no horizontal overflow; the missions card matching the header count; each card one link going where the menu goes, and the Classes and Dungeons cards showing «Próximamente» with no link; the guide tour framing; the menu's checklists from their collection, without figures, and never a single one alone on the last row; the painted hero already in place on first paint; the author; the compact footer; every image loading; axe on the whole page in both modes; the 2 × 2 cards on mobile.

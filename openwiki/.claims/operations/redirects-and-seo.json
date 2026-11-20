@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7c6f92e0cb0c7180afab66da44dbf9e928a7dfae16ab84ff022e627cc7661363",
+  "pageVersion": "sha256:a7b05662edfc59a2b0984104c5eedd7b066b45d1ec90f784afbe6f99a7f98db1",
   "claims": [
     {
       "id": "claim_71d31459773d4adb9c99087735a1162c",
@@ -76,7 +76,7 @@
         },
         {
           "resource": "repo://tests/unit/legacy-redirects-proxy.test.ts#L20-L82",
-          "version": "repo-lines-v1:sha256:b650ede8d2992516f95542d33a12cacd86c1df748e57af9ae87e16163254b981:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0Mjg3YTRmYTgyZDQ4MGJlMGQ4MDMyMGFiY2Q4YmVkNjk1ZDhiMmViZDlkMjFmZjRjZTMzZjQ2NWQyNDMxNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwZTg1MWM3ODQ5Yjc5ODEzZGM2ZDFmZDJhZDQyMzRjZGU0MGE2OTZlYTgyODM4NDA3YjNiMmUwYjdkYmY5NzkifQ"
+          "version": "repo-lines-v1:sha256:72e836e29185f88b2c3305d40e8af10bdbc24a38a57043fae6430e5aa90363a3:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0Mjg3YTRmYTgyZDQ4MGJlMGQ4MDMyMGFiY2Q4YmVkNjk1ZDhiMmViZDlkMjFmZjRjZTMzZjQ2NWQyNDMxNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwZTg1MWM3ODQ5Yjc5ODEzZGM2ZDFmZDJhZDQyMzRjZGU0MGE2OTZlYTgyODM4NDA3YjNiMmUwYjdkYmY5NzkifQ"
         }
       ]
     },
@@ -100,21 +100,21 @@
       "evidence": [
         {
           "resource": "repo://src/lib/redirects/legacy-urls.json",
-          "version": "repo-file-v1:sha256:fc13396eec76db3c6f7ac384470f927e8911fa67865712067d06fdcb1d208e16"
+          "version": "repo-file-v1:sha256:e21a3ac51df8ad64df47031e6cc8440e483d8a75c9adbd436821e73ab4c3fbc3"
         },
         {
-          "resource": "repo://tests/unit/redirect-table.test.ts#L153-L219",
-          "version": "repo-lines-v1:sha256:df71a2bc4457f11866f61b0fd09df0c8eb9a4a84e78e64337715dd69db341c82:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwNzNmMmRkYWM2NjFlOWQyYzUwN2M1YWMxNjk0MGEwMDY0MzYwNTgyNTNkY2QwZGU5ZTkyNTRhNjQyZjAyNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjODllYWYwZmZhOTc1ZDhlNzk2NTAzMGY3YmJkOWVmOGI5NzA3ZTY1MDdiZmVmMjQ5NjU5MjMyYTYxYmE2Y2YifQ"
+          "resource": "repo://tests/unit/redirect-table.test.ts#L154-L252",
+          "version": "repo-lines-v1:sha256:44a64d9db276cbc9c3140b64db7f8c11e7e2e59301b4be4cc0d276c7ecea38d7:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiNWEwYWFjMTQ2Y2FjZDM5YTM4YzM5MTIzMWEzNzA0YWRiNTY4MGYzNGNlZjkwYWE5YzJkZWQ5N2VlYjA5MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiMmNkNjNjODZjNWZiZjZjMjU4N2U4NGIyNTM4ZDEzMDQ1NWRmOGE1YjFjMDk4MmRiMGIxZWM0YzliMGYxOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjODllYWYwZmZhOTc1ZDhlNzk2NTAzMGY3YmJkOWVmOGI5NzA3ZTY1MDdiZmVmMjQ5NjU5MjMyYTYxYmE2Y2YifQ"
         }
       ]
     },
     {
       "id": "claim_f80da97f63764a1f97cb2e5e39492784",
-      "statement": "Pages still live on Squarespace, such as classes, dungeons, legal pages, /subscribe, /metalogro-krosmoz and /checklist-silvestre, are not in the redirect table.",
+      "statement": "Pages still live on Squarespace, such as classes, dungeons, legal pages, /metalogro-krosmoz and the checklists not yet ported, are not in the redirect table.",
       "evidence": [
         {
-          "resource": "repo://tests/unit/redirect-table.test.ts#L220-L234",
-          "version": "repo-lines-v1:sha256:2a056648b1eaa7a42f95bfe7b7d9dd5e8721b56a4365be250b9cd0c6f13aafa5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYWJiM2M4YWFkMzhhNDQwYzRhMzNmOGMzM2ZlMDZlZTU2MjFlYWM1NTY2NWRhNDc1MWEwMWM4NDZkOTRlN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjNzQ2MzY5MDEwYWEzZDU1YmE1YzJkMTAyNmRhMzAzODcyYTE3NjQ0NTk1NDgwYmI2MmFlMTJkNzc4YTEzNTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/redirect-table.test.ts#L253-L271",
+          "version": "repo-lines-v1:sha256:73e8e438e565edf20363b09aaac8075c71ca2e6c8642102534cf47fa943855a3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYWJiM2M4YWFkMzhhNDQwYzRhMzNmOGMzM2ZlMDZlZTU2MjFlYWM1NTY2NWRhNDc1MWEwMWM4NDZkOTRlN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjNzQ2MzY5MDEwYWEzZDU1YmE1YzJkMTAyNmRhMzAzODcyYTE3NjQ0NTk1NDgwYmI2MmFlMTJkNzc4YTEzNTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -142,19 +142,19 @@
     },
     {
       "id": "claim_c1f37e4a9a9e4ec09c0792f0f2da5315",
-      "statement": "pnpm redirects:stubs reads the public REST API of a deployed site, dev by default or --from an origin, maps each of the 166 empty Squarespace stubs to an achievement page, pending, gone, ambiguous or skipped outcome, and rewrites only the stubs section unless --dry-run is passed.",
+      "statement": "pnpm redirects:stubs reads the public REST API of a deployed site, dev by default or --from an origin, maps each crawled empty Squarespace stub Torre has not filled to an achievement page, pending, gone, ambiguous or skipped outcome, and rewrites only the stubs section unless --dry-run is passed.",
       "evidence": [
         {
           "resource": "repo://scripts/redirects/build-stub-redirects.ts#L1-L106",
           "version": "repo-lines-v1:sha256:1389a2d0d0b69f8a7d8cb7508fb5bf3ca60a30f4d20721e41220bab6ca12c3c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyMDZhNzk0ZTA5YjIyMGIzMjhkYzc4NTQwOTU5NDFlYTU0MDhkODg3ZjEyNzdkMDdmMDg5M2Y1YzQ3NGJhN2IxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://scripts/redirects/stub-map.ts#L1-L38",
-          "version": "repo-lines-v1:sha256:7e67fa3039d1178688edf1990dc1364d1e44f41a2d8521bc73d51c23371bf9fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDQ5MGM1ZTIyNjIxOGMxYWIyMGQ4NTBlZmUzZTJkYjFhYjE3MzZiYTE5MDczODgyNTk5YmMzOTYwN2VhZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlNDBkMGE2NWE5ZjI4ZTc2NzNjYjg4NWU4NjZiNjMyYWVhZGM3ZjNjNGY0MDNmZjAyYjEzMmQ3Y2M5MTgwMzIifQ"
+          "resource": "repo://scripts/redirects/stub-map.ts#L1-L40",
+          "version": "repo-lines-v1:sha256:7408bfb4a490b7738ab60fd8f4287d1c39783de0f80328843624ee7f7c604a66:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDQ5MGM1ZTIyNjIxOGMxYWIyMGQ4NTBlZmUzZTJkYjFhYjE3MzZiYTE5MDczODgyNTk5YmMzOTYwN2VhZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YjU0ZTA1YWUwMzlkMThlY2E5ZDk4MTM3MzQ2ZDczZjRhYzI1N2YxYjBiYjQyYzIyNWYzYmFhYWJkODNkNGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU5NDU0MjllMzhkZWQ0NGI5NGNiNjk4MTE4YTkwYmFiMmM0MGVlZjFjOWZhNzY2MGYwMjgzOGM5YzIyZWJmZTEifQ"
         },
         {
-          "resource": "repo://scripts/redirects/stubs.ts#L1-L10",
-          "version": "repo-lines-v1:sha256:fbdec8ed040a46c4b7d38294df1cb11a60ada3f47bb4d88f81869b7da0f2c610:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyNWU1NjBmY2UxY2MyMTdkOTZiNTZiNTljNjc3OTQ3YWEwZGE1OGEwNTM1Yzk4ZGZiOTJkMDhkYzBjNjVmMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExNWM2ZDlkMGY4YTJhMzY5NzBhZGY5NmY2NWI1MjY3ZDhlODZjOThjNTc3NTNjNWJjNjBlZDZlNDNlMDNlOTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2ZjRiNGQ3YzlmNDUzZWQ3MjY0MjY2OTY3NDA5NDI5MjUzNTk5NGQwMTUyNGYxNWQ2YzgzMGJmZTg1NzE3OWYifQ"
+          "resource": "repo://scripts/redirects/stubs.ts#L1-L11",
+          "version": "repo-lines-v1:sha256:80f6dc37a8df43f163b39b911497a2a78a7e122c241e7bfdb7518ecd1f0550e0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3Yzk4OTdmYmJkMDRkNzU4MjEyOWM4NWU0MTJkZGJjZjFiNzQ2MDZhNmE1OGIwNTQ2NDFmZmYxOTU1N2RhNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljOTYwYmE3YWZlZDYxNTk5MjgzZWI0YWNiNTA2MGJhMWQ1ZDhjODhiMzA1MTdhYjYyMDhmMTRlMmMyMzhjNTUifQ"
         }
       ]
     },
@@ -163,12 +163,12 @@
       "statement": "A stub whose achievement page is in preparation gets no row and answers 404, a stub with no page to wait for gets 410, a name matching several achievements is left out for STUB_OVERRIDES, and --cutover makes the stub redirects 301.",
       "evidence": [
         {
-          "resource": "repo://scripts/redirects/stub-map.ts#L91-L182",
-          "version": "repo-lines-v1:sha256:52e8922d655a3139123e8628c82fa1380752defce969348806eff3e07ed992e4:eyJzZWxlY3RlZExpbmVDb3VudCI6OTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMTA4NDExZTBkODk2MjUyOTU1MjRjNjE1MjUxZjI1YjcyNzYxZjdjOWRkYWY2YzY3OGEwNDA1MjY4NjgxMTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwZWE3NTk5OTBmODVmNjQ3OWFmNjkyOTQ2YjNhODc1YzdjMjBiOTgzZWE1NTRmOGE2YmMyMjRkZGIwYWMyYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljYzJiYzNiYzVhNjZhODkzNDI0YWU0YWFkYTY2NzNkMjMyNjgxMDdlZTdkNmJhZTFkMTAwMGRhNjAwYzIxYzgifQ"
+          "resource": "repo://scripts/redirects/stub-map.ts#L94-L185",
+          "version": "repo-lines-v1:sha256:314183f250deae2ae9f725cb479d27ff5fb12f82ffbc6d17d5626d45835ce16e:eyJzZWxlY3RlZExpbmVDb3VudCI6OTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMTA4NDExZTBkODk2MjUyOTU1MjRjNjE1MjUxZjI1YjcyNzYxZjdjOWRkYWY2YzY3OGEwNDA1MjY4NjgxMTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0OGM0ZDY4M2IyMGYyZGQzYjQzNzQzMjBkZGQ5ZDUxY2EyYWM5NjhlNTlmOWM5ZjBhMzk5YzRiMTc1MmE0NGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwZWE3NTk5OTBmODVmNjQ3OWFmNjkyOTQ2YjNhODc1YzdjMjBiOTgzZWE1NTRmOGE2YmMyMjRkZGIwYWMyYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxMTZkY2VjMzU1OTkyMDA1NzI2MDM3OTVjZjU4YmZlMjdiZGVjMWUyNDVkNmZlOGExMzVmYjhjYjI5NDA5ZDYifQ"
         },
         {
-          "resource": "repo://tests/unit/stub-redirects.test.ts#L85-L245",
-          "version": "repo-lines-v1:sha256:45f7105a6a6e72c167641a4f68874e350eb601c3cbea435924303c1658130dd3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhOGM3OWM5NmFkNDY1NDQxNTNkZTMxMDhmYzFkYWVkYmVhNDczMGQ2NGQ0ZDJlMTFlZjQxMjRhZGFiZTkzOTExIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmMTgzNWJkOThkM2IwNTU1OWEwZmQxNGIyNzYzMzcyYjk5ZThiY2E5ODEzMjk0MjE5ZjI1NjFmNWFmZDUzNGNlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/unit/stub-redirects.test.ts#L114-L284",
+          "version": "repo-lines-v1:sha256:917ad0d6c7caeb2c40d5d3a4352b6e2ce7ccd8232df189049ac9361d38b3afd5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhOGM3OWM5NmFkNDY1NDQxNTNkZTMxMDhmYzFkYWVkYmVhNDczMGQ2NGQ0ZDJlMTFlZjQxMjRhZGFiZTkzOTExIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmMTgzNWJkOThkM2IwNTU1OWEwZmQxNGIyNzYzMzcyYjk5ZThiY2E5ODEzMjk0MjE5ZjI1NjFmNWFmZDUzNGNlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0N2E2OWY2MGMwNjQ0OWEyZTk3OTcwZjY3MGE0ZmUxZTExOTFlNDc3M2Y0M2JjYzI0MTFjZDRkNzNmNjllYzdkIn0"
         }
       ]
     },
@@ -182,7 +182,7 @@
         },
         {
           "resource": "repo://tests/unit/sitemap.test.ts#L46-L152",
-          "version": "repo-lines-v1:sha256:37054a04c387db3bacf9e78587cf06c46b09fc728cd098c6c6916805b501bf4b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzMTUwY2M4Nzc4MmE4NzU1OWM4ZjJmMWE4MTA1ZmIxNTdhYWQ2MjNiZjVjYjYyMjE5NTk2ODBkMzAxMGI1N2RkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3MTQxY2UzNWE1MzVmZWJjYmU0NTY5Mzg2NjliNzU2Yzc3OTI0MzBiYTg4Nzg0YzVmYTZiMTI2OGZmODcyYTM5In0"
+          "version": "repo-lines-v1:sha256:33b2b207244895c0698d1ec5d6aa86cddd4e59a5d049fa782a9ad8c6e73c5424:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzMTUwY2M4Nzc4MmE4NzU1OWM4ZjJmMWE4MTA1ZmIxNTdhYWQ2MjNiZjVjYjYyMjE5NTk2ODBkMzAxMGI1N2RkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3MTQxY2UzNWE1MzVmZWJjYmU0NTY5Mzg2NjliNzU2Yzc3OTI0MzBiYTg4Nzg0YzVmYTZiMTI2OGZmODcyYTM5In0"
         }
       ]
     },
@@ -195,8 +195,8 @@
           "version": "repo-lines-v1:sha256:8d02452d66e42fe9cb4f7555e1f7944f93bf17661c5290f86b776032f8f3d8ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyMDVmNDc5ZTJhMDU5Mjg2MzgxNDI3ZmQ1MzZiNTI0MDYwNzUwNWIwYzAxYTI4ODc3YTg2ZDcyNjk5MWQwZGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhYTM4MzMyM2ZmNmZmZTkxNTA1MDE5OTAwNjRhN2YwZGRjMjZlZjNiYjE0MzMwZjMwMzllMGM4ZmUxZTdmZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0OGI1NDM3NzE3ZTE3ZTU5NWIyZjJlYThkNzE1ZDRhYjhmMGRiM2Q4NDE3OTNjMDA2NDI5ODQ1NjNhYTRmMTYifQ"
         },
         {
-          "resource": "repo://tests/unit/sitemap.test.ts#L83-L164",
-          "version": "repo-lines-v1:sha256:ebbff316ac80ef7001457118041b3cc01f0dd30fee7ad9bcbcd9362685092f47:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5Y2QwMjZjNTIyMThiYmMyZmMxNjlmZTY4ZDQ1Y2JiNjBjYzViN2I4MDEzZTQxZGZiMzQyMmExYmY3ZGM3YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4YmNhODM3Yjg5NmJhMDIxZmY1MjkxMzMxNTNkYjZhYzU0MjU0MGMxYTNlN2JhZDRmNWU3M2Y4YWNkNTJkNzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/sitemap.test.ts#L84-L164",
+          "version": "repo-lines-v1:sha256:6390eb5714728eefb02813b835f5a2435705dc2f440d917722ec4ab5a739aaff:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjNWM0NzZiY2U3NDY0NjE0MDE5YTFlZTEwNmM2NDNiZjViOTdhODM3NjVhMDFiYmYzMjQzYzdhZGZkZWU2YWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjYjZmNGZmMWNmODBiZjhiYjAwMTBmN2QzYWU2Y2ZjODc1YjU0M2QxZjBmYTRjOWZmYzhhNGMyMTJkZGE5ZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -237,8 +237,8 @@
       "statement": "The redirects E2E spec checks a hub's 301, a metalogro's panel, a published stub's 307, the 410 page, 410 and 404 stubs, the sitemap without drafts, panel or API, robots.txt pointing at the sitemap, the home canonical URL and a changed slug's 308 to its new page.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/redirecciones.spec.ts#L21-L108",
-          "version": "repo-lines-v1:sha256:b17a204f8b0bd3e3b446f9ce521072fb9f7237978daac21f01f3dc5aa268895c:eyJzZWxlY3RlZExpbmVDb3VudCI6ODgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjY2M4NWZjMjAxZDJjMWJkNGZiOWJjZWRhN2RjNjZkYmM1NWI2MzgyNTdjOTU5ZjdmMjcxYTA2MGJlOGY2ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/e2e/redirecciones.spec.ts#L38-L121",
+          "version": "repo-lines-v1:sha256:e64acdbf40ac1b783dc09e30c3a7af51c14c3a9b01fb16df81ef43c450b27ba4:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyODY0OTNiZGE3Y2E4OTNlMjMzMzliN2ZlZWUyZTJhMTM2Yjk4Mzk3MTFiYjYwMDU2ODgxOGMwNGY4OTZiOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0YTViZWM5NmY1ODEwMWIzMzU5ZDMzNTBjMzQ0NzIzNzkzNzhkNGFlNzA1ZjIzMWQzMDlkZGY0NmQyNGIxYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwNzdiMzJlNGYzZWYyNDg2NmJkNzc0NDcyMDEzMjJjMTE5M2JlOWIxM2MyMWMwMGViODUxYjQ0MDgwOTk2MTQifQ"
         }
       ]
     },
@@ -313,10 +313,70 @@
           "version": "repo-lines-v1:sha256:4be3495f9e1f4f9c6a8c0941453ab1f36f017fae3fa869f11247a6d83b5f80d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1N2YzMzFmMGFhNTk4YmNiNzQzOWFiZDg1ZmM0YTQ3NDExNTNjZDYzMjg4NDIwMzhjNjRlOWU5ZTc4ZGU0M2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyZjljNjVhOTM3OTJkNTIwNzE3OTRmYmE0MmM1NmNiNDZiODA1YWE0YmQzZmFmOTBlOTdiY2M3MTQwNjU2NzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNjYzZlMTE2ZGRjNDk5OTQyMmQ3ODE0ZDBiYTIyMTdmYjVjOGRmNzlhMzljYWJhZDcxMzI0NDdkNTllM2QyMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExMWNiMmQ3ZGU5YThhMjI0OTdlMmM2YzJkMjk1N2E3YzIxN2Y4ZGVlNTA5ZjJkMzM2ZTlkNDYwYWEzMGZkNjAifQ"
         }
       ]
+    },
+    {
+      "id": "claim_990c874229da424f8a89d1f19a8943ea",
+      "statement": "The hubs section sends the old -datos checklist data pages to their checklist and answers 410 for test copies, /cart and /subscribe, and the metalogros section sends /metalogro-misiones-principales to the world quests anchor.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/redirects/legacy-urls.json",
+          "version": "repo-file-v1:sha256:e21a3ac51df8ad64df47031e6cc8440e483d8a75c9adbd436821e73ab4c3fbc3"
+        },
+        {
+          "resource": "repo://tests/unit/redirect-table.test.ts#L164-L214",
+          "version": "repo-lines-v1:sha256:0b1bd8f68b1dba5f7748f3717064b0b8a2e4f82af4b81320460242b060fd9fde:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0YzIxYjJiZjgwZTczMTNiYjA2MTU3MjIxODQwYzcwMDk4YWQ0YTMxMWY1N2M5NzkwNTcwOTQyZTNkZDRhNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4ZmIxZDgxZDJmZGZjMjNiNWE4NmRjNjU3NTJjZGNhODJlMjMxNGQ4M2I1NTBiZGY4Y2MyMzliZGEyMTQ3YWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9ad5c5fda1214c51801226a95cae81ff",
+      "statement": "Stubs Torre filled with quest guides after the crawl are listed in FILLED_STUBS and left out of the stubs section, so their guide answers; a stub that names a quest no ta-web achievement asks for gets 410 with its own reason.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/redirects/stub-map.ts#L96-L160",
+          "version": "repo-lines-v1:sha256:40630e072aa8bf2b649d855ae630af280f680a08b5446280e8288dadc002325e:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZTM1YmIyZmMzNDkyMmI4ZjQ2OGI5YWM1ZWU1YTRkZjFlN2Y0ZmY1MzM1NDZiZWQ4N2VkNzNkY2FkMWI3OTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDJiNWMwZjUwMzUyYjJhM2FmMzljNTI3MzBkNmFkMGQzOTZjNDI3YzA0ODZiMjYxMmE3MzRkN2YyMTQyNzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxYWVmMDBmOThkYjBhMDliODU5MDk1OTIyYTA5OTBjZmFiYTk5NDcyMDM1MzZiNWZkMzViOGExZWVlNDYzMTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjNjU1ZTc2MjlmNTQ5YzdkYTIxZGE4ZWM3ZWNiMjA1OWFiZjA2MDM4MGM3ODE4ZTI4M2ExNmI0MjI3NzIzMjkifQ"
+        },
+        {
+          "resource": "repo://scripts/redirects/stubs.ts#L204-L292",
+          "version": "repo-lines-v1:sha256:5ebd51c38e203569272875a8b14462b6ed9a86fa02e4799c1e6fc3eb4919078d:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhY2U0YTBhYjllZDVhZDA2MTZmYzA4ODY1YjEzZDIzYjBmZTJjN2Q1MWVjMDYyNzY2OTNjYjk0YzkxOTBmMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJlOGM5NmFhMGMzODVjM2U5MmIzMWNhZjBlNWY0NWMzZGQ2OTU1NmJkZjUyNmU0YzkwMDlhMzZjZTkzYTk1OTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/redirect-table.test.ts#L230-L242",
+          "version": "repo-lines-v1:sha256:50af99a6706c9dffa29e15fb7df26967a70a491d517f9fdc7ab8be85c02a5c37:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiOGYxMDU5Y2M3OTY4M2UzOGM0MzkxZDExYWYxMjc5MzYwZjViYjUyZDkyOWUyNzkwNjJiN2NmNmVlZTVmZjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4ZGFmMTNkYWVkOWEzYTk1ZTIxOGEyMDIzYTcxYmFkYjFiZWQwMjk3ZTFiMTZiZTYyOGMyNGQwNTdjZjhmNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhNDZkNTZiODBiM2JiZTA0NjQ3NDEwOGI5NjZhNWE5ZWNhZmE1NDY4OGFiZjJkYmJkMjM3Nzg1ZTNmZmRiZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_906ea57c34f14d0b9ec95efdba19cd41",
+      "statement": "siteLinkHref makes a link to Torre's own site relative when this site serves the path (an own route, a non-410 legacy row or a live slug), and otherwise points it at Squarespace, leaving links to other sites alone.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/site/site-links.ts#L24-L70",
+          "version": "repo-lines-v1:sha256:3b02b91400ba9982a2a41694a6598ec9098d89052bf15cb297250f121b22f5f1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3NjFmOWMyODQ1OWRkMDgzODNkMTAxMDk4OWUxNzdkNTQ4OWZiMTMyMDBmNDg2YzFkMDhlM2M5YjIyNzdjZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzODkxNjVkYTQzMWY1NTgzZDViNzRmNDJjZTcwOWQ4NzQ0Yjc1MzYxYmUwNTRkOGIwMmQ1MTYzNzZjOGU4NDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c668b5d1a9e9495195efcbf57a1ed0b7",
+      "statement": "readLiveSlugs reads as an anonymous visitor the published quest guides, the achievement pages, Dofus guides, standalone pages and checklists in the published state and the changed slugs, cached under every page tag, and withSiteLinks rewrites every Lexical link or autolink URL in loaded data without touching the cached original.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/site-data.ts#L118-L141",
+          "version": "repo-lines-v1:sha256:8d65a695d5c9cccbcf22d9bd4f365efee40b8c4f480a816d990d8719b551b758:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlNDdkNWFmNjI5ZjM3NjAyYTU2NGExMWRhZjEyY2IyMGYwMmIyYmVlZDQ4NDgyYzU1MDdjMWRkMzRlYzY3NjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2MDBiNjExMmMzMTE5MzYwNTRjODNlMWM4ODEyMjg3MTc1NmViMDRmMWM2ZjM5OGI0ZjM5NzE3ZTYzMTYzMTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/site/live-slugs.ts#L1-L38",
+          "version": "repo-lines-v1:sha256:d81ca7be2a83ca32f4def5c89d138bb9c5b9e7292b9301d4520e50a70003d0f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/site/site-links.ts#L93-L129",
+          "version": "repo-lines-v1:sha256:216373c6fd826ee91f2b6a5ad4a7fcbfa33dea858647bb816ca1aea8e282f7d7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljNDU4ODlkNDI1ZjI1MWYxN2M1MDZlN2Y5NmE0MGE0NjJiNTAwMDIzMTk5YmM2M2FjYjBiZTIyODQyMDQ5NmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

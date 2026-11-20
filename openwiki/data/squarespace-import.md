@@ -20,6 +20,10 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-9f5c4ea9e246f4ab67e69333
     resource: repo://scripts/backfill-guides.ts
+  - id: openwiki-source-98e4c9799b74da3399687075
+    resource: repo://scripts/backfill-summary-text.ts
+  - id: openwiki-source-e8ccf27695970f2ee79f56c6
+    resource: repo://scripts/import/backfill-summary-text.ts
   - id: openwiki-source-9e87f9929ce6181cecc80fe9
     resource: repo://scripts/import/import-guides.ts
   - id: openwiki-source-3fc9f0484081f9ab441d6219
@@ -66,12 +70,14 @@ sources:
     resource: repo://tests/unit/import-quest-matches.test.ts
   - id: openwiki-source-7c48f921336671c0ca29e644
     resource: repo://tests/unit/import-rich-text.test.ts
+  - id: openwiki-source-f39b548012a372e01fa85311
+    resource: repo://tests/unit/import-summary-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Squarespace import
@@ -118,7 +124,7 @@ The `guide` has `title`, `slug`, `originalUrl` (`https://www.torrentearcano.com/
 
 Rules, in the order the converter applies them to each text element:
 
-1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` followed by a colon (accents and case ignored) opens that field. The colon is required: "Necesitarás hablar con…" is prose. In the cached pages, all 2469 real labels have the colon and the 11 colonless lines are prose. Labels are checked first, so a label that arrives as an H1 or H2 still opens its field. Text after the label and the following elements of the same text block go into it, one line each, headings included (`<p>Prerrequisitos:</p><h2>Nivel mínimo 70</h2>` fills the prerequisites); a list gives one line per item. The field values are those lines joined with newlines. `Necesitarás` text goes to `summary.needs.notes`, not to the item list, which DofusDB fills when the guide is loaded (see below). A label with no text after it and no following lines leaves its field empty, which counts as a missing block. These lines never reach the body.
+1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` followed by a colon (accents and case ignored) opens that field. The colon is required: "Necesitarás hablar con…" is prose. In the cached pages, all 2469 real labels have the colon and the 11 colonless lines are prose. Labels are checked first, so a label that arrives as an H1 or H2 still opens its field. Torre also writes «Prerequisitos:» (25 guides) and «Prrerequisitos:» (one), and both count as the Prerrequisitos label (`SUMMARY_PATTERNS`). Text after the label and the following elements of the same text block go into it, one line each, headings included (`<p>Prerrequisitos:</p><h2>Nivel mínimo 70</h2>` fills the prerequisites); a list gives one line per item, in page order. Each item gives only its own text and a sub-list gives the lines of its own items below it, so «Si eres nivel 1 a 109:» comes first and its rewards follow one per line, and an item that holds only a sub-list gives no empty line. The field values are those lines joined with newlines. `Necesitarás` text goes to `summary.needs.notes`, not to the item list, which DofusDB fills when the guide is loaded (see below). A label with no text after it and no following lines leaves its field empty, which counts as a missing block. These lines never reach the body.
 2. **Title heading.** Only an H1 or H2 that is the very first element of the page, with no text element or other block before it, is dropped as the title heading. Every later heading is body content. The dropped heading is compared with the page title ignoring accents, case, punctuation and a leading number such as "29. ". When the page has a title and the two differ, an oddity keeps the heading's full text for review, because the heading is sometimes the fuller name. Measured over the 1272 cached quest pages, the first H2 matched the title in 1029, matched once a leading number was removed in 194, and differed in 48, for example "Coleccionista de publicidad impresa en apuros" against the title "Coleccionista de publicidad".
 3. **Closing sentence.** A paragraph starting with "Aquí termina la misión" (also "¡Y aquí se termina la misión…") marks where the steps end. The paragraph stays whole, as Torre wrote it, at the start of the closing; a paragraph with only that sentence stays too. Earlier versions of the importer cut the sentence; `pnpm guides:backfill` puts it back in guides imported then (see [Bringing imported guides up to date](#bringing-imported-guides-up-to-date)).
 4. **Start line.** The first paragraph starting with "Habla con X [x,y]" or "La misión empieza hablando con X [x,y]" fills `summary.startNpc` (without a leading el/la/los/las), `startX` and `startY`. "Habla con" counts only when its sentence says "para empezar", because the phrase appears in the middle of many guides. When the sentence says nothing more than that ("…para empezar la misión."), only that sentence leaves the body and the rest of the paragraph stays. When it carries more (when or where to go), the whole paragraph stays in the body. The trimming walks text nodes, so bold and links in the rest of the paragraph survive.
@@ -163,7 +169,7 @@ The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy
 
 ## Loading into Payload
 
-`loadQuestGuides(payload, guides, { fetchImage, log })` saves converted guides. It is a trusted server job, so every local API call passes `overrideAccess: true`. The image download is injected (`fetchImage`), which lets the integration test run without network.
+`loadQuestGuides(payload, guides, { fetchImage, log })` saves converted guides. It is a trusted server job, so every local API call passes `overrideAccess: true`. The image download is injected (`fetchImage`), which lets the integration test run without network. Turning a converted guide into what is saved (the linked quest, the body in Lexical with its Media IDs, the fight blocks and the summary filled from the quest) lives in `createGuideBuilder`, which the delta import also uses, with a media lookup that never uploads, to compare before it writes (see [Inventory and delta import](delta-import.md)).
 
 - **Quest.** A guide links a single quest. The loader looks up every DofusDB ID of the batch in `quests` once, at `depth: 1` so item and prerequisite names come populated for the summary fill. When a guide names exactly one DofusDB ID (repeats count once), it links that quest's Payload ID; an ID missing from `quests` becomes the oddity "Misión de DofusDB … sin importar en quests", so run `pnpm data:refresh` first. When a guide names several IDs, it links none rather than pick one at random, and records the oddity "Varias misiones de DofusDB (a, b): sin enlazar, elige una en el panel" so Torre chooses. No guide in the Squarespace inventory matches more than one quest, so this is a safeguard. See [DofusDB game data refresh](dofusdb-refresh.md).
 - **Images.** Each image block becomes a `media` record keyed by its original URL. The loader first checks a per-run map, then searches `media` by `originalUrl`, and downloads and creates the record only when neither has it. A re-run or a second guide using the same image reuses the record. New records get the block's alt text and the `originalUrl`. An image that fails to download is dropped from the body and noted ("Imagen sin importar: …"); the guide still loads.
@@ -217,7 +223,16 @@ The command writes to whatever database `DATABASE_URL` names, with no confirmati
 
 Both walk guides by their latest version. A guide whose latest version is published is saved published; one whose latest version is a draft is saved as a draft and left for Torre to publish. Without `--apply` the script only counts. It prints what it restored or converted and what it left alone (no closing on the page, no cached page, unmatched monster names). Re-running it changes nothing already done, and retries monster images that failed even when nothing is left to convert.
 
-Like `pnpm import:achievements`, it checks `databaseScriptRefusal` before starting Payload: a remote database needs `--remote` and production needs `--production` (see [Importing Torre's achievement pages](achievements-import.md#database-guard)).
+### `pnpm guides:summary-text`
+
+`pnpm guides:summary-text <inventory dir> [--apply] [--remote] [--production]` (`scripts/backfill-summary-text.ts`, logic in `scripts/import/backfill-summary-text.ts`) brings the summary text of guides imported before the 2026-11-18 importer fix up to what the import writes now, reading each guide's cached page found by its `originalUrl`:
+
+1. **Sub-lists.** A list item with a sub-list used to give its text glued to the sub-list's and then the sub-list again («Si eres nivel 1 a 109: 664 793 XP.7 020 kamas.…» followed by the same lines). Now it gives its own line and the sub-list's below. This touches Prerrequisitos, the Necesitarás notes and Recompensas.
+2. **«Prerequisitos:».** The label was not recognised, so the guide had no Prerrequisitos and the label with its list stayed in the body. Now Prerrequisitos is filled and the block with the label and its list leaves the body, from a step or the intro, when Prerrequisitos says the same and the block is still as the import wrote it.
+
+It follows the import's `importSnapshot` rule. A guide with no snapshot changes a field only while it is empty or exactly what the old importer wrote from that page (`isOldListRendering`); any other text stays and is listed. It never changes the reward fields: a rewards text whose reading would change is left and listed (`sameReading`). A hand-picked dungeon whose note no longer matches is removed. It prints each guide it changes, a rerun changes nothing, and without `--apply` it only reports.
+
+Like `pnpm import:achievements`, both scripts check `databaseScriptRefusal` before starting Payload: a remote database needs `--remote` and production needs `--production` (see [Importing Torre's achievement pages](achievements-import.md#database-guard)).
 
 ## Demo guides
 

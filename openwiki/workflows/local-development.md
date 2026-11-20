@@ -22,6 +22,8 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-9f5c4ea9e246f4ab67e69333
     resource: repo://scripts/backfill-guides.ts
+  - id: openwiki-source-98e4c9799b74da3399687075
+    resource: repo://scripts/backfill-summary-text.ts
   - id: openwiki-source-df920c845ac739b66691fa24
     resource: repo://scripts/build-block-thumbnails.ts
   - id: openwiki-source-71c840280649a7620f8e010f
@@ -34,6 +36,8 @@ sources:
     resource: repo://scripts/import/import-achievement-prose.ts
   - id: openwiki-source-97e144348afe72981f00c973
     resource: repo://scripts/import/import-achievements.ts
+  - id: openwiki-source-64606d35f696cb9a48dee37d
+    resource: repo://scripts/import/import-alignment-achievements.ts
   - id: openwiki-source-36d8bf7e37d841ba67a15d0b
     resource: repo://scripts/import/import-checklist-cards.ts
   - id: openwiki-source-5e5a9deaf2d00890b3600afb
@@ -46,6 +50,8 @@ sources:
     resource: repo://scripts/import/import-pages.ts
   - id: openwiki-source-53ddc95dcdb8a37d238a41f3
     resource: repo://scripts/import/import-section-pages.ts
+  - id: openwiki-source-1a0a7b490170f9adbc7441c8
+    resource: repo://scripts/import/refresh-golden.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
     resource: repo://scripts/lhci.ts
   - id: openwiki-source-52bd7f492006181f268b8ce3
@@ -70,10 +76,10 @@ sources:
     resource: repo://src/lib/site-copy/seed.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Local development
@@ -98,7 +104,9 @@ pnpm dev              # terminal 2: http://localhost:3000, panel at /admin
 
 With `DATABASE_URL` empty, the app connects to the `ta_web` database of `pnpm db:dev`. Setting `DATABASE_URL` (for example to a Neon branch) always wins, and `pnpm db:dev` prints a warning when it is set. On an empty database, `/admin` asks you to create the first panel user.
 
-Uploads go to `./media` unless the four required `S3_*` variables are set. Setting only some of them stops the app at startup. See [Media storage](../media/storage.md).
+Uploads go to `./media` unless the four required `S3_*` variables are set. Setting only some of them stops the app at startup. `MEDIA_STATIC_DIR` picks another folder; you never need to set it, because the E2E and Lighthouse CI servers already use `media/test/<database>`, one folder per test database. See [Media storage](../media/storage.md).
+
+The other optional variables in `.env.example` can stay empty locally: `TWITCH_LIVE_URL` (`off` never asks Torre's worker whether he is live), `UMAMI_HOST` and `UMAMI_WEBSITE_ID` (analytics, production only; see [Analytics with Umami](../operations/analytics.md)).
 
 ## Schema changes
 
@@ -120,9 +128,9 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm dev`, `pnpm build`, `pnpm start` | Next.js. All set `NODE_OPTIONS=--no-deprecation`; `build` also raises the heap to 8000 MB |
 | `pnpm lint`, `pnpm format`, `pnpm format:check` | ESLint and Prettier |
 | `pnpm typecheck` | `next typegen`, then `tsc --noEmit` |
-| `pnpm test`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm test:e2e:dev-gate`, `pnpm test:smoke` | The test suites; see [Test suites](../testing/test-suites.md) |
-| `pnpm seed:e2e` | Seeds the E2E test guides, the test achievement page and metalogros, the test Dofus guides with the index intro, the test checklists and extra `/checklists` index entries, the test standalone pages, a slug redirect, and the panel users (`tests/e2e/seed/`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
-| `pnpm test:lhci` | Lighthouse CI against the `DESIGN.md` budgets on the production path (port 3110, its own `ta_web_lhci` database); needs Playwright's Chromium (`pnpm exec playwright install chromium`) or `CHROME_PATH`. See [Performance budgets](../testing/performance-budgets.md) |
+| `pnpm test`, `pnpm test:integration`, `pnpm test:import`, `pnpm test:e2e`, `pnpm test:e2e:dev-gate`, `pnpm test:smoke` | The test suites; see [Test suites](../testing/test-suites.md). `pnpm test:e2e` also starts a second server with Umami pointed at a fake host on `E2E_ANALYTICS_PORT` (default `E2E_PORT` + 2) |
+| `pnpm seed:e2e` | Seeds the E2E test guides, the test achievement page and metalogros (with two Alineamiento achievements without quests), the test Dofus guides with the index intro, the test checklists and extra `/checklists` index entries, the test standalone pages (one with a long table), a slug redirect, and the panel users (`tests/e2e/seed/`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
+| `pnpm test:lhci` | Lighthouse CI against the `DESIGN.md` budgets on the production path (port 3110, or the one `LHCI_PORT` names so two checkouts can measure at once; its own `ta_web_lhci` database); needs Playwright's Chromium (`pnpm exec playwright install chromium`) or `CHROME_PATH`. See [Performance budgets](../testing/performance-budgets.md) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log; Ctrl+C stops it |
 | `pnpm migrate` | Applies pending migrations, using `DATABASE_URL_DIRECT` when set, else `DATABASE_URL` |
 | `pnpm data:refresh [--schedule]` (old name `pnpm data:quests`) | Downloads every quest from the public DofusDB API (about 2,000), the whole monster catalog (about 5,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Then it saves every achievement category and the achievements under Misiones and Eventos with their icons, saves the quest-giving NPCs to `npcs` with their renders (the first run takes a while: two images per NPC), creates the missing metalogros and achievement pages «En preparación», saves the sub-areas with their areas and the dungeons with their bosses, and imports the images of the items and monsters some page shows, dungeon bosses included, into `media`. Monsters also get their grade levels, boss and archmonster flags and subarea, and dungeons their level, for the souls checklist. At the end it prints the dungeon report: how each dungeon note of the published achievement pages matched (by name, by boss, picked in the panel or not at all) and which rows still carry the generic icon. The quest download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. It never touches Torre's corrections, leaves a row in the panel's «Refrescos de datos», does nothing when another refresh is running, ends with one line per collection, and exits 1 if the refresh failed or a row could not be saved. The weekly Railway cron passes `--schedule`. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
@@ -140,6 +148,12 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm seed:site-copy [--apply] [--remote] [--production]` | Writes the built-in site copy into every empty field of «Ajustes del sitio», «Portada e índices» and «Navegación» (and, with none chosen, the three default featured Dofus), never a field with a value. Dry run without `--apply`. See [Site settings, index texts and navigation](../cms/site-copy.md) |
 | `pnpm panel:block-thumbs [--url <origin>]` | Captures each frame of the «Bloques del panel» group of `/sistema` in Arcano dark as a 480 × 320 WebP in `public/img/panel/bloques`, the thumbnails of the panel's block picker. Needs `pnpm dev` running. See [Guide body blocks](../cms/blocks.md) |
 | `pnpm redirects:stubs [--from <origin>] [--dry-run] [--cutover]` | Rewrites the `stubs` section of the legacy redirect table from a deployed site's public API (dev by default). See [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md#the-stubs-section) |
+| `pnpm achievements:alineamiento [--from <dir>] [--apply] [--remote] [--production]` | Creates the Alineamiento achievement pages, which DofusDB gives without quests so the refresh never creates them, «En preparación» with Torre's slug and his prose. Run after `pnpm data:refresh`; dry run without `--apply`. See [Achievement prose import](../data/achievement-prose-import.md) |
+| `pnpm import:inventory --to <dir> [--previous <dir>] [--delay <ms>] [--refresh] [--compare-only]` | Downloads a new copy of Torre's Squarespace site, one page at a time, and reports what changed against the previous inventory. Resumable; exits 1 while any page failed. See [Inventory and delta import](../data/delta-import.md) |
+| `pnpm import:delta --from <dir> --previous <dir> [--apply] [--remote] [--production]` | Brings the changes between two inventories into ta-web (new quest guides, updated imported guides, achievement prose) without undoing Torre's panel edits, and reports metalogro differences. Dry run without `--apply`. See [Inventory and delta import](../data/delta-import.md#pnpm-importdelta) |
+| `pnpm import:golden-refresh` | Downloads the thirty golden pages of `pnpm test:import` again and prints how their converted output changed; writes only the saved pages. Run before a delta import, then review and accept with `pnpm test:import -u`. See [Import golden tests](../testing/import-golden.md) |
+| `pnpm links:legacy [--remote] [--production]`, `pnpm urls:map [--write] [--sitemap <url or file>] [--remote] [--production]` | Read-only cutover reports: every link the site would still render to Squarespace, and what this site will answer on every old Squarespace URL (`--write` rewrites `docs/research/url-map.md`). See [Legacy link reports and URL map](../operations/legacy-links.md) |
+| `pnpm guides:summary-text <dir> [--apply] [--remote] [--production]` | Rewrites the summary text (Prerrequisitos, Necesitarás, Recompensas) of guides imported before two importer fixes, only where a field still holds what the last import wrote. Dry run without `--apply`. See [Squarespace import](../data/squarespace-import.md) |
 | `pnpm guides:backfill <dir> [--apply] [--remote] [--production]` | Brings guides imported before two importer changes up to date: restores the closing sentence from the cached Squarespace page and turns monster lists into fight blocks. Dry run without `--apply`; run after `pnpm data:quests`. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date) |
 | `pnpm media:sizes [--remote] [--production]` | Generates the missing AVIF/WebP sizes of `media` files uploaded before Payload generated them; safe to rerun. Against a non-local database it needs `--remote`, in production `--production`. See [Media storage](../media/storage.md#backfilling-missing-sizes-pnpm-mediasizes) |
 | `pnpm zones:backgrounds [--apply] [--remote] [--production]` | Fetches from DofusDB the zone background of every subarea that published quest guides and achievement pages use and that has none yet; without `--apply` it only lists them. Run it after the `zone_backgrounds` migration and a `pnpm data:refresh`. Against a non-local database it needs `--remote`, in production `--production`. See [Zone background](../frontend/zone-background.md#pnpm-zonesbackgrounds) |
@@ -173,14 +187,14 @@ Every response then carries `X-Robots-Tag: noindex, nofollow` and `robots.txt` d
 ## Resetting local data
 
 - **Whole cluster**: stop `pnpm db:dev` and delete `.postgres/`. The next `pnpm db:dev` runs `initdb` again and creates an empty `ta_web`; `pnpm dev` pushes the schema, or run `pnpm migrate`.
-- **Test databases** (`ta_web_e2e`, `ta_web_integration`, `ta_web_lhci`) are dropped and recreated by their suites on every run and never touch `ta_web`.
+- **Test databases** (`ta_web_e2e`, `ta_web_integration`, `ta_web_lhci`) are dropped and recreated by their suites on every run and never touch `ta_web`. The E2E and Lighthouse servers keep their uploads in `media/test/<database>`, and the seed empties that folder when its database has no media rows.
 - **Old database name**: the database used to be called `torrente_arcano`. `pnpm db:dev` creates an empty `ta_web` when it is missing. To keep the old data, with `pnpm db:dev` running and the app stopped, drop the empty `ta_web` and rename the old one into its place (the README has the exact `psql` commands). Only do it when `ta_web` is the empty database just created.
 
 If `pnpm db:dev` fails to start after a hard shutdown, a stale `.postgres/data/postmaster.pid` is the usual cause; delete it when no other Postgres is running.
 
 ## Before committing
 
-The pre-commit hook formats, lints and runs the AI review on staged files (with Sonnet 5.5, `claude-sonnet-5-5`, unless `GGA_CLAUDE_MODEL` says otherwise); the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit and integration tests locally; run E2E and the dev environment suite once, right before opening the PR. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
+The pre-commit hook formats, lints and runs the AI review on staged files (with Sonnet 5.5, `claude-sonnet-5-5`, unless `GGA_CLAUDE_MODEL` says otherwise); the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit, integration and import tests locally. Locally, E2E runs only the specs that cover what changed, once before opening the PR and again after a fix that touches them, never the full suite; the dev environment suite runs only when the change touches the dev gate. CI runs every suite on every push to a PR that changes the site. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
 
 Feature branches do not touch `openwiki/`. A scheduled task outside the repo refreshes the wiki once a day and opens its own docs PR (AGENTS.md, Wiki).
 

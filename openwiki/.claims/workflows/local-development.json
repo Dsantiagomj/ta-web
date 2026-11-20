@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:db184ff08092f0283d0263d178d90b07ca5dc5f54ac64a8b875bf856a255e9b3",
+  "pageVersion": "sha256:a859866c249edecbd06298b1e21c8749896b37025d1834b8ee1b029fadedd412",
   "claims": [
     {
       "id": "claim_b918f6d1cc124cf385437a508e649e6b",
@@ -44,11 +44,11 @@
     },
     {
       "id": "claim_8571efb5af9941e49928afd36ba57734",
-      "statement": "The package scripts define dev, build, start, lint, format, typecheck, the test suites including test:lhci, review:release, seed:e2e, db:dev, data:refresh with data:quests as its alias, data:dungeon-notes, the import scripts (guides, Dofus guides, checklists, checklist cards, achievements, achievement prose, pages, section pages), fix:achievements, the guides:* maintenance scripts, seed:site-copy, panel:block-thumbs, media:sizes, zones:backgrounds, migrate, migrate:create, payload, generate:types, generate:importmap and redirects:stubs, with build raising the Node heap to 8000 MB.",
+      "statement": "The package scripts define dev, build, start, lint, format, typecheck, the test suites including test:lhci and test:import, review:release, seed:e2e, db:dev, data:refresh with data:quests as its alias, data:dungeon-notes, links:legacy, urls:map, the import scripts (guides, Dofus guides, checklists, checklist cards, achievements, achievement prose, Alineamiento achievements, pages, section pages, inventory, delta, golden refresh), fix:achievements, the guides:* maintenance scripts including guides:summary-text, seed:site-copy, panel:block-thumbs, media:sizes, zones:backgrounds, migrate, migrate:create, payload, generate:types, generate:importmap and redirects:stubs, with build raising the Node heap to 8000 MB.",
       "evidence": [
         {
-          "resource": "repo://package.json#L12-L57",
-          "version": "repo-lines-v1:sha256:2a71950bb71597726fcdd95b63d52e21f32017ebe171ef20f69de7adb6b00465:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzhmMDQyOWU5N2Y0ODI2MWJjZjM1NmYzOWIyZjJlNDVmMWFhZjA2NGY3Yjg2MTQ0YjcxZjE3ODU0NjE4OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViNDQwZDkzMjUxZDhlNzY0Y2IzNjMzMjFhNjY2YjljNjgxNjM3YjNhMWY4ZWVkMDJlNDc3OTE3NTFhMDI2YTMifQ"
+          "resource": "repo://package.json#L12-L64",
+          "version": "repo-lines-v1:sha256:475ad97c3271a0c176d76e3876f84415d0c2bb08236bd9898367fa6eb47c50ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzhmMDQyOWU5N2Y0ODI2MWJjZjM1NmYzOWIyZjJlNDVmMWFhZjA2NGY3Yjg2MTQ0YjcxZjE3ODU0NjE4OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
         }
       ]
     },
@@ -97,22 +97,12 @@
       ]
     },
     {
-      "id": "claim_9177ec214a914cef8f3a20ec1546fe3d",
-      "statement": "Before each push, lint, the format check, types, unit and integration tests run locally; E2E and the dev gate suite run once, right before opening the PR.",
-      "evidence": [
-        {
-          "resource": "repo://AGENTS.md#L16-L16",
-          "version": "repo-lines-v1:sha256:f7700073ba160df78ec0da02f5a4370f7692cb32c5d507fe8e4d4a7e1631a8ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc3MDAwNzNiYTE2MGRmNzhlYzBkYTAyZjVhNDM3MGY3NjkyY2IzMmM1ZDUwN2ZlOGU0ZDRhN2UxNjMxYThlZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc3MDAwNzNiYTE2MGRmNzhlYzBkYTAyZjVhNDM3MGY3NjkyY2IzMmM1ZDUwN2ZlOGU0ZDRhN2UxNjMxYThlZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDdmYzk5ZDE3M2ZjNzI2ZTUzZjM5M2E3ZWM1OTI1OTQ3ZjZhYjFhZTI5OTdmMzA4MGYzYmYwYTkzOWE0MGI3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTE4Nzc1MTQ1Yjg0MTY3ZjZhMDQ2ZDA4ZTBmOTFjZmE5YTg4YzMwNjMxMGRkYmI2YzU0ZmFkNzE2MGU4YzVhMyJ9"
-        }
-      ]
-    },
-    {
       "id": "claim_b8702869046c423b8eb53d75a11a8860",
       "statement": "pnpm import:guides imports Squarespace quest pages from the migration inventory into quest-guides as drafts with their images in media, defaulting to the five demo guides and writing to the DATABASE_URL database or the pnpm db:dev one when it is empty.",
       "evidence": [
         {
-          "resource": "repo://package.json#L32-L32",
-          "version": "repo-lines-v1:sha256:7516318a60774b7a868197396113d9a520e40590575c41694798f4d6dc317b38:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzUxNjMxOGE2MDc3NGI3YTg2ODE5NzM5NjExM2Q5YTUyMGU0MDU5MDU3NWM0MTY5NDc5OGY0ZDZkYzMxN2IzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzUxNjMxOGE2MDc3NGI3YTg2ODE5NzM5NjExM2Q5YTUyMGU0MDU5MDU3NWM0MTY5NDc5OGY0ZDZkYzMxN2IzOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTM3MGI0NzM0MjlmNDkwNzUxNDc3ZDgzNmMwNGE2ZjVhY2U4ZDhiNGZlMzYxMjA4ODljYmJmMWJiMTE5MmJlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2M0ZTU5ZjdjYzk4M2I3NzEwZDViMzZkZDVkNDc0YTc1NGE1YTc5MzBhODFhZDkwYTkzMGE0ZTRiMDdjZThhNiJ9"
+          "resource": "repo://package.json#L34-L34",
+          "version": "repo-lines-v1:sha256:7516318a60774b7a868197396113d9a520e40590575c41694798f4d6dc317b38:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzUxNjMxOGE2MDc3NGI3YTg2ODE5NzM5NjExM2Q5YTUyMGU0MDU5MDU3NWM0MTY5NDc5OGY0ZDZkYzMxN2IzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzUxNjMxOGE2MDc3NGI3YTg2ODE5NzM5NjExM2Q5YTUyMGU0MDU5MDU3NWM0MTY5NDc5OGY0ZDZkYzMxN2IzOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZThiNzkyYmI0MmFmZjdkZDAxNjZiZTdlMGJjYWU5N2JmZTg3Nzk1MWI1N2Q4MjJjYTY0ZDIwNzAwNjUyNWNhYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2M0ZTU5ZjdjYzk4M2I3NzEwZDViMzZkZDVkNDc0YTc1NGE1YTc5MzBhODFhZDkwYTkzMGE0ZTRiMDdjZThhNiJ9"
         },
         {
           "resource": "repo://scripts/import/import-guides.ts#L1-L6",
@@ -156,19 +146,19 @@
     },
     {
       "id": "claim_8f7a2cdf3e8a434aa1cf9cce20130dc5",
-      "statement": "pnpm test:lhci runs scripts/lhci.ts, which measures the production build on port 3110 with its own ta_web_lhci database and needs Playwright's Chromium unless CHROME_PATH names another browser.",
+      "statement": "pnpm test:lhci runs scripts/lhci.ts, which measures the production build on port 3110, or the port LHCI_PORT names, with its own ta_web_lhci database and needs Playwright's Chromium unless CHROME_PATH names another browser.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L5-L5",
-          "version": "repo-lines-v1:sha256:a133ad54e18442d61a3c987c2ca9534e463988cdacd6b46ec1855a0792c9dddb:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTEzM2FkNTRlMTg0NDJkNjFhM2M5ODdjMmNhOTUzNGU0NjM5ODhjZGFjZDZiNDZlYzE4NTVhMDc5MmM5ZGRkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTEzM2FkNTRlMTg0NDJkNjFhM2M5ODdjMmNhOTUzNGU0NjM5ODhjZGFjZDZiNDZlYzE4NTVhMDc5MmM5ZGRkYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWFlNjk5MTBhNTI3YWQ0NzQ4N2I4YTA5OTE5NTg2YzM3YzI1NWI5NjQ0YzgxZmI3YTBkMDMyMGYxNzFlOTFiMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmMzNWU2OTc1NjMyNTA0NmVlNWQyNDAyMWMyYzY4NDg4OWM0OWQzNTk3ZWE0NWRjYjlkODE5MzQ3Y2Y5NTFlYSJ9"
+          "resource": "repo://lighthouserc.cjs#L5-L14",
+          "version": "repo-lines-v1:sha256:bba0a43e16004143175597175246ddf5823d3a128268f0c5f6b09194a5fea17e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiYjQ3MTY2NWU5OWRhNDViYTkxMjg2MzRjYTAxOTk5MzhjYzI3OGEwYTA1OGEwMGZhOTc5ODIzOGY0NWNjMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5YjU3MTY4MWU0NDM5NzhhMGEyYjdmNWZkNzQ0Njg2MGRmYzA4YTA5N2I3YjY5MjU0MjkzYTcxNDAxZTEwOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhZTY5OTEwYTUyN2FkNDc0ODdiOGEwOTkxOTU4NmMzN2MyNTViOTY0NGM4MWZiN2EwZDAzMjBmMTcxZTkxYjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3MGZkMDY1MDliMGY3YmUxY2U5MTNlODY3YmJmNWNiZmI5NWY2MTY4NWMyNGQ2YTEzMWY3MzEyMzQ0NWFjYWIifQ"
         },
         {
           "resource": "repo://package.json#L25-L25",
-          "version": "repo-lines-v1:sha256:41337da7426b3eaa72b362d2fc78be0ce7f2f53ca45b798ce3c8bf5b96f5375b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0OTAwOTA3ZTczZjIzOGQ2ZGFlMzgzMTRlMGFhMDFkYzNlOWNlYjQ2YTlkMGY0ZTI4MmFlNzU1NTg4ZTUzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDE4NTZjMTcwNWJlZDliOGVlZGFmZGY5MjhlZWIwZmI0NDQwNGU3OWRkNjhiNzI1MmE2ZTFlYWRkN2Y1YTUxNSJ9"
+          "version": "repo-lines-v1:sha256:41337da7426b3eaa72b362d2fc78be0ce7f2f53ca45b798ce3c8bf5b96f5375b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0OTAwOTA3ZTczZjIzOGQ2ZGFlMzgzMTRlMGFhMDFkYzNlOWNlYjQ2YTlkMGY0ZTI4MmFlNzU1NTg4ZTUzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGQ5MDRlZTg3ZmU2ZTk1ODQ5M2RhZjVkNzg0YjYxNTQ3NjcyNmE1NGExZjk5ZGZlNjRhOGI2MjliOWUxM2I1NiJ9"
         },
         {
           "resource": "repo://scripts/lhci.ts#L62-L76",
-          "version": "repo-lines-v1:sha256:431f672df46500019697d596881b26b4ea3bcec74d86589558098c7a003e6924:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNTNiYTM1MDk2Njc2YzUyNDBjYzA4NDQ4M2ZlMDM1NjE3Zjk0ZjA5MGMyYTA5YTI4NjdjMDQwYWEzNjE5ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0OWY1YTFlNzJkMzA2ZmEzMzY5ZWNhZTlmY2FiNmJmMGEzNjk1YTIzZDhhYjFlNGQyZjcwNThmNGE5OGE1MzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlNzgwMTE0YTA2Nzc4ZDgzZWM2ZjNiY2JjZGY3OTFjY2ZlZmQ5NDcwZmQwOTQ4Nzg0MzIwNmU4NDE3MWY2MzQifQ"
+          "version": "repo-lines-v1:sha256:dc1289e714d2eb84de7add8eb60cc7ef8a1acb16d4b838e0b83283990f78482f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZDQ5ZDllMzc4MDlmNGIyN2VmMjc0Njk1ODk3MzE4NzYxYzViODkwODY3YmJlYmY3NTQ1ZWIxMDI3ZWRmZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkMjdmZjBlYWEzNDNiNzkxNzMwN2E5MDBlZWI2MTkxMDQ3MDc5YTgyZmZlY2I5YzdiNDZjNzg0YjIwZDc2M2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1ZGUyZjAyMzgzMDcwY2FlMzI5ZGYwNDQxZTU1YmE4NjY0Y2JhM2NiYzg3NGYzNGYxZGMxNmUxZDg4NDYzMmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExMTExNjI1NDdmMjE5NjQxZDIyZDQ4MmEyZTI0ZTc0ODU1NmU0NjE2YjM4ZWY2NDI1NDhkMzg4MGU1ODNiNDkifQ"
         }
       ]
     },
@@ -192,10 +182,10 @@
       "evidence": [
         {
           "resource": "repo://AGENTS.md#L18-L18",
-          "version": "repo-lines-v1:sha256:01cee89c1c1b2c5187b8cc911555d7b46d7967744403f553e2f6f3a48166be67:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFjZWU4OWMxYzFiMmM1MTg3YjhjYzkxMTU1NWQ3YjQ2ZDc5Njc3NDQ0MDNmNTUzZTJmNmYzYTQ4MTY2YmU2NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFjZWU4OWMxYzFiMmM1MTg3YjhjYzkxMTU1NWQ3YjQ2ZDc5Njc3NDQ0MDNmNTUzZTJmNmYzYTQ4MTY2YmU2NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjI4OTQ0Mjc3YjMwOTdlN2FkMDVlZGEwYTFmZTliZGUxNWQ5ZTZmNjBmNTE5MWQ5YjY4MGI5ZjA2ZDZmMzA5MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGUwYWE4ZmRlNzM2OTJlYzkzMGI3ZmI4YTVlYzg4YjE2NzY2M2U2ZjJiYmQ5MjJiOTg4MDNhNWMwN2I5ZmNhZCJ9"
+          "version": "repo-lines-v1:sha256:01cee89c1c1b2c5187b8cc911555d7b46d7967744403f553e2f6f3a48166be67:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFjZWU4OWMxYzFiMmM1MTg3YjhjYzkxMTU1NWQ3YjQ2ZDc5Njc3NDQ0MDNmNTUzZTJmNmYzYTQ4MTY2YmU2NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFjZWU4OWMxYzFiMmM1MTg3YjhjYzkxMTU1NWQ3YjQ2ZDc5Njc3NDQ0MDNmNTUzZTJmNmYzYTQ4MTY2YmU2NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWY4ODc0MDI2YjBhOGJiNDgxYWU2NDk3ZjhkZDY3NzBlY2QxYzQ2YWZmMTUxMGNjNTcxZDRmNTA0MTI4OWU5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGUwYWE4ZmRlNzM2OTJlYzkzMGI3ZmI4YTVlYzg4YjE2NzY2M2U2ZjJiYmQ5MjJiOTg4MDNhNWMwN2I5ZmNhZCJ9"
         },
         {
-          "resource": "repo://AGENTS.md#L235-L236",
+          "resource": "repo://AGENTS.md#L294-L295",
           "version": "repo-lines-v1:sha256:0688727ad8d564089f76076610e56e14cb35faffbcd0e1a98e12db8b890b6069:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdjYzc2M2NkZDEzMzEwYzVjMmQ5MGNmMzQzOWI1YzBlNmQyMGMzMDAzNWVlZDc1ZjExZDBiYjc3Yjg1YjI0YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDMxOTg5MDExY2EzZDU2NDc0ZjdlZTQ0N2FjMjI5ZDAzOWQxMGI5MTc2MTk1Njg5YTMyNWUwNzEwNDhiNzY2OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzVmYjU4NjE0ZTkzOWY3YzYwYTlhMGYxNzA5OGJiZGUxNzM0NjQxMGQxN2U4YjcwZWU5N2I3NzY4NzRiMTFiNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGY0NDlmODExMzUzY2YxYjk0Mjk4MzJlOTIyZDlhNGZkYTA4ODg0N2VhNDhjNzhkN2EyYmM4NzMzZWY5MWQzNyJ9"
         }
       ]
@@ -205,8 +195,8 @@
       "statement": "pnpm media:sizes regenerates missing media sizes and takes --remote and --production flags passed through to the script.",
       "evidence": [
         {
-          "resource": "repo://package.json#L48-L48",
-          "version": "repo-lines-v1:sha256:a190c5a8c97660309b192adbbe882b861dee8ddbd08d5efb78a9e0b50b606fcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5MGM1YThjOTc2NjAzMDliMTkyYWRiYmU4ODJiODYxZGVlOGRkYmQwOGQ1ZWZiNzhhOWUwYjUwYjYwNmZjYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5MGM1YThjOTc2NjAzMDliMTkyYWRiYmU4ODJiODYxZGVlOGRkYmQwOGQ1ZWZiNzhhOWUwYjUwYjYwNmZjYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2E1MWRmNzhlN2FjMWVhOGYxMzQ2ZWZkMjI1YmE4YTcwYjk0ZjY5ZDAyNGYyM2ZlNGQ5ZWEzZGZmOGIzNGFkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3MjkxNGYxYjQ1ZjcxOWMzZmExNGVjOTQ0NTI2YjI1N2Q5OGMxNmQ3MjYyMWIwMzY5NTU2ZWJlNzU4YTU4NSJ9"
+          "resource": "repo://package.json#L55-L55",
+          "version": "repo-lines-v1:sha256:a190c5a8c97660309b192adbbe882b861dee8ddbd08d5efb78a9e0b50b606fcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5MGM1YThjOTc2NjAzMDliMTkyYWRiYmU4ODJiODYxZGVlOGRkYmQwOGQ1ZWZiNzhhOWUwYjUwYjYwNmZjYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5MGM1YThjOTc2NjAzMDliMTkyYWRiYmU4ODJiODYxZGVlOGRkYmQwOGQ1ZWZiNzhhOWUwYjUwYjYwNmZjYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGUzYzFiN2U5NmRkOGExZjI5NzA2NzRjYjcwNzQ4NjliNTdiYWI4ZDdiMTkyZjY0MjBmMzc3NGJmYWMyNmMwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmRlM2Q4YWU0MTZlNTkxNmJlMjM0NDhmN2Y5YTE0YTdmMWE1MTY4NjhjMmVlYTc4YjhiZDJhMWQ4ZmY4Zjg4YiJ9"
         },
         {
           "resource": "repo://scripts/media-sizes.ts#L1-L19",
@@ -243,8 +233,8 @@
       "statement": "pnpm import:achievements, pnpm fix:achievements and pnpm guides:backfill are payload run scripts that pass their flags through and only count or report without --apply.",
       "evidence": [
         {
-          "resource": "repo://package.json#L36-L41",
-          "version": "repo-lines-v1:sha256:18d543b942eaa112dfe1a4510e966cc63309ae0f673547d786221920f617b9b5:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA0ODc3MDU5ZDBjYWQ3NTYzNzk3NDdlYTU2MmU0YzIwZTQ3YjlmOGNjODI2YTc3MzBkZTgzNjQxYjczMjdlYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmM1ZTk2ZDM1NWUwMGU0ZDdmYThiYzFhOTI3NDc2MDVhNGU4MTE1OTRlMDllOTY4MTU2NTEwNzEzYzM0OTE3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2M0ZTU5ZjdjYzk4M2I3NzEwZDViMzZkZDVkNDc0YTc1NGE1YTc5MzBhODFhZDkwYTkzMGE0ZTRiMDdjZThhNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmZjNmN2E1YzRjM2U2NzczZDhmNzA5Mzc2M2E3MmQyYTRjYjZkYzhmMDgyOGFhYzgyYWRkYTE5ZDRjMTE5NCJ9"
+          "resource": "repo://package.json#L38-L47",
+          "version": "repo-lines-v1:sha256:23a17fae017b846bb1891f14c50cc5980038e5201c5f1c73aa9a82519de4e856:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNDg3NzA1OWQwY2FkNzU2Mzc5NzQ3ZWE1NjJlNGMyMGU0N2I5ZjhjYzgyNmE3NzMwZGU4MzY0MWI3MzI3ZWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjNWU5NmQzNTVlMDBlNGQ3ZmE4YmMxYTkyNzQ3NjA1YTRlODExNTk0ZTA5ZTk2ODE1NjUxMDcxM2MzNDkxNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjNGU1OWY3Y2M5ODNiNzcxMGQ1YjM2ZGQ1ZDQ3NGE3NTRhNWE3OTMwYTgxYWQ5MGE5MzBhNGU0YjA3Y2U4YTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFlZmYzZjdhNWM0YzNlNjc3M2Q4ZjcwOTM3NjNhNzJkMmE0Y2I2ZGM4ZjA4MjhhYWM4MmFkZGExOWQ0YzExOTQifQ"
         },
         {
           "resource": "repo://scripts/backfill-guides.ts#L8-L12",
@@ -265,8 +255,8 @@
       "statement": "pnpm import:dofus-guides is a payload run script that passes its flags through, only counts without --apply, and reads local HTML files with --from.",
       "evidence": [
         {
-          "resource": "repo://package.json#L33-L33",
-          "version": "repo-lines-v1:sha256:cd6dd651045b58bac56c5ffd886feed870c6822f6be248c5bcd51352b2fb259c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGE0MGEwMTIyY2EyNmI1MjA0OTUzNDEyMmMwY2E0NjU2ZTFiYjgxMDliYWE5MWYyYTYzNjc4OTkwOWU2YzBhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTA0ZDc3Mzc1MmY2NzI3YTE2ZmVkNTAwMGY1NTBjYWMyODQwZGRjNjczNmU4MDg5OWQ2MGRjMDNmYTY2M2YzOCJ9"
+          "resource": "repo://package.json#L35-L35",
+          "version": "repo-lines-v1:sha256:cd6dd651045b58bac56c5ffd886feed870c6822f6be248c5bcd51352b2fb259c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmExNzUzYTcyYTJlZjhhZDdhNzg2OTZjODI1MTk1YzJjYWNkMWY1ZmY0ZmVlYmQxMjIyZDBhY2Y1ODYxOGY2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTA0ZDc3Mzc1MmY2NzI3YTE2ZmVkNTAwMGY1NTBjYWMyODQwZGRjNjczNmU4MDg5OWQ2MGRjMDNmYTY2M2YzOCJ9"
         },
         {
           "resource": "repo://scripts/import/import-dofus-guides.ts#L1-L8",
@@ -279,12 +269,12 @@
       "statement": "pnpm import:checklists, pnpm import:checklist-cards and pnpm import:achievement-prose are payload run scripts that pass their flags through and only count without --apply, and pnpm redirects:stubs rewrites the stubs section of the legacy redirect table.",
       "evidence": [
         {
-          "resource": "repo://package.json#L34-L56",
-          "version": "repo-lines-v1:sha256:24917d71d1d7aa15531b07c746db08f8f218926dbb2864df4e86382484820a3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZjI4ODViYmYxZGJiOTI4YWZiOTIwNzU2YTc2M2NmODgyYjc4ZDUyZmQ2Y2I0MTAyNDUwMmUyNGZhMDNlNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNWE2MWNlYjRiZThiYzI3YWZlODE4NjYyYTUwYjFhNTQwZDVlN2Q0NjY1ZmRkNTUwNDUzMGQwNWQyNzM4YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
+          "resource": "repo://package.json#L36-L64",
+          "version": "repo-lines-v1:sha256:34f8947ec37c1cea061952be4ee7d2b75a6885dbc97a993f6ac9b78c4f9fb601:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZjI4ODViYmYxZGJiOTI4YWZiOTIwNzU2YTc2M2NmODgyYjc4ZDUyZmQ2Y2I0MTAyNDUwMmUyNGZhMDNlNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwNWQwNjA0NDAzNjNlMjYzODUzM2Q5YzY4YWZlYzdkNmMxNzU1ZWQ1YmViODZlN2NkNjVlMDY0Y2UzYTY0MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
         },
         {
           "resource": "repo://scripts/import/import-achievement-prose.ts#L1-L10",
-          "version": "repo-lines-v1:sha256:da3aba7fe0c4ad23ce506b7197854f6d2379a5472c4db2a110c886821a733137:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlOGUyYWJkMDQ0YjFkODFhM2RiNmM4MWE4NjFhYzgzMmY3ZGJlOWUwYzNkMDQ5YzM4Mzg3MTMyY2UyOTk2NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTc0Nzc0MzAzYjI5ODBmMWM4NWVkMmY4NjkxZWI1YTM2YmVjYzM2ZGM4YzQ5MDIxZTJlNmJmN2I4M2U4OWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjNDBlNjQ0YWEwMGVmOGFhYmNkNTY5ZGM5NmNhNTM5OGQ3MWVhZjI5Y2NmY2MwYjRkN2FmZGEwZmUxY2I2YjAifQ"
+          "version": "repo-lines-v1:sha256:da3aba7fe0c4ad23ce506b7197854f6d2379a5472c4db2a110c886821a733137:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlOGUyYWJkMDQ0YjFkODFhM2RiNmM4MWE4NjFhYzgzMmY3ZGJlOWUwYzNkMDQ5YzM4Mzg3MTMyY2UyOTk2NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTc0Nzc0MzAzYjI5ODBmMWM4NWVkMmY4NjkxZWI1YTM2YmVjYzM2ZGM4YzQ5MDIxZTJlNmJmN2I4M2U4OWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNTgyOGQ1ZGY4OGE4MDRmOGFhYjg3MTk0YWJjNzQ3NTllMDZmNWFlYjY4YWZkZWM2MTM2NWJhMzkwNTQ2OTIifQ"
         },
         {
           "resource": "repo://scripts/import/import-checklist-cards.ts#L1-L8",
@@ -333,8 +323,8 @@
       "statement": "pnpm import:pages brings Torre's loose Squarespace pages into pages, reading saved HTML with --from and only counting without --apply.",
       "evidence": [
         {
-          "resource": "repo://package.json#L39-L39",
-          "version": "repo-lines-v1:sha256:f0e43a35957f6c824ada2d198226166e692faa21024df04836f8a35ce1cf909d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODc3OGI1ZTc2N2JkMjE3OGVmODhjNTk1NGYyNmQyYjI1ZDI0ZDBhZTBkMWE5ZWFiZWFiMWQzZTc5NjFiMzVkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTA3MzZkMWE3Y2FlNDIxYTVmNGY4ZGY4OTAwODQ5Y2M4MjE1ODQ1OGQ0YmVlZTA3MGQ4M2FiZjkzZWMxOWY2MiJ9"
+          "resource": "repo://package.json#L42-L42",
+          "version": "repo-lines-v1:sha256:f0e43a35957f6c824ada2d198226166e692faa21024df04836f8a35ce1cf909d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzU2YjJhM2UzMDBiMTFlMmViOTM0NDRiZDk0M2E1YjhmZGIyMzA5NDg0YTNhZTZlOWEzM2E1NmFkYjJiODNjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDRhN2U0NzMxNmExMTQwMjcyMTk0Y2Q2ZWRhYzFkZTE5ZTQ3MWM1ZmNhOTg3ZjYxNmY1OWZlNDJjOGI5MmVkNSJ9"
         },
         {
           "resource": "repo://scripts/import/import-pages.ts#L1-L10",
@@ -347,8 +337,8 @@
       "statement": "pnpm seed:site-copy writes the built-in text only into empty fields of «Ajustes del sitio», «Portada e índices» and «Navegación», so a rerun changes nothing, and lists what it would do without --apply.",
       "evidence": [
         {
-          "resource": "repo://package.json#L46-L46",
-          "version": "repo-lines-v1:sha256:ef93d10c95fa08e2ec379726567c033c208a7bc87b92b9a38637aaea30193cd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY5M2QxMGM5NWZhMDhlMmVjMzc5NzI2NTY3YzAzM2MyMDhhN2JjODdiOTJiOWEzODYzN2FhZWEzMDE5M2NkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY5M2QxMGM5NWZhMDhlMmVjMzc5NzI2NTY3YzAzM2MyMDhhN2JjODdiOTJiOWEzODYzN2FhZWEzMDE5M2NkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmYxNzYzNjlkYjMzZTQxOTBkOGI4MDFmMjE0M2JjODE1N2IwMDFiYzdjZWIyNDZjYzQ1ZjdjYjkxMGNiNWYzYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWZmOThhNGFmNGRjMTFkYWYyZTA2MmYxYWQ3YTc0ZWRkMDUxYjg2NzBjYzFmOTc2ZWUzOTU5MmE4OTIyN2M1YyJ9"
+          "resource": "repo://package.json#L53-L53",
+          "version": "repo-lines-v1:sha256:ef93d10c95fa08e2ec379726567c033c208a7bc87b92b9a38637aaea30193cd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY5M2QxMGM5NWZhMDhlMmVjMzc5NzI2NTY3YzAzM2MyMDhhN2JjODdiOTJiOWEzODYzN2FhZWEzMDE5M2NkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY5M2QxMGM5NWZhMDhlMmVjMzc5NzI2NTY3YzAzM2MyMDhhN2JjODdiOTJiOWEzODYzN2FhZWEzMDE5M2NkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjU4ZjE1ODEyOWUyYjhkZGFjNTNiNDJjZDlhMjYyZmI1OGU3NjVmYjI4ZThmNDBhNGIxOTY5NTRjYjRjMGNmYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM2MDJlZGIwM2VjYWEzZDk2YmQ5NDBiOTQxNjQwY2IxZDcwZDQ1MDhiNzQ1NGVjYjI3MjA2N2NhYjkyMzA5YiJ9"
         },
         {
           "resource": "repo://scripts/seed-site-copy.ts#L1-L8",
@@ -365,8 +355,8 @@
       "statement": "pnpm panel:block-thumbs captures each frame of the «Bloques del panel» group of /sistema in Arcano dark as a 480 by 320 WebP in public/img/panel/bloques and needs the app running.",
       "evidence": [
         {
-          "resource": "repo://package.json#L47-L47",
-          "version": "repo-lines-v1:sha256:3b3d11bb8c065c4dd06086089b16e231211b05c3c8af61403dc3152cf00ccb5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzZDExYmI4YzA2NWM0ZGQwNjA4NjA4OWIxNmUyMzEyMTFiMDVjM2M4YWY2MTQwM2RjMzE1MmNmMDBjY2I1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzZDExYmI4YzA2NWM0ZGQwNjA4NjA4OWIxNmUyMzEyMTFiMDVjM2M4YWY2MTQwM2RjMzE1MmNmMDBjY2I1YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2E2NjljYWQyN2I2M2ZhNmIwYTNlZTNiNjllN2YyNmMzZGY4NGM1Y2Q1NDlmMzQxNTlmMTk3M2QwYjViMmQ0MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTYzYjg1MjI1ZTQxZjZiMjBiNTdkYTQzNGRiYzFiMzI5NTJlNzgyOTc1OTc2ZmM3MzgwZTM1ZTM5NjkwMzhkMSJ9"
+          "resource": "repo://package.json#L54-L54",
+          "version": "repo-lines-v1:sha256:3b3d11bb8c065c4dd06086089b16e231211b05c3c8af61403dc3152cf00ccb5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzZDExYmI4YzA2NWM0ZGQwNjA4NjA4OWIxNmUyMzEyMTFiMDVjM2M4YWY2MTQwM2RjMzE1MmNmMDBjY2I1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzZDExYmI4YzA2NWM0ZGQwNjA4NjA4OWIxNmUyMzEyMTFiMDVjM2M4YWY2MTQwM2RjMzE1MmNmMDBjY2I1YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmJjM2E3N2ZjZGMyMzliODZjYjU2YzgwOTUxODA5NmYwODY3NjJmMTBiZTgxODRkZDY3YTBjNmM5OGU5ODcyYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmQ5NWVlNDY5YjE2Njk2NTViN2JjNjIxOTkwNTlmM2JmYTc5ZTY0OGJmZjdlZWM2MWI1YmZkMWZkZjQ2Y2M3OSJ9"
         },
         {
           "resource": "repo://scripts/build-block-thumbnails.ts#L1-L4",
@@ -379,8 +369,8 @@
       "statement": "The guides:rewards, guides:rewards-dofusdb, guides:reward-typos and guides:shown-items scripts are payload run maintenance scripts for quest guides that pass their flags through.",
       "evidence": [
         {
-          "resource": "repo://package.json#L42-L45",
-          "version": "repo-lines-v1:sha256:9892b8ddce3ae4e9cc755bfc621d1fdf0b355b922bb6cad814daae38ab4cd6e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWI5ODViYzk4NWVkNmU3YjY3YTM3ZjRlNzlmZTMyYjIxY2Q4YWY4YmY1MGQxMGYwYjQ4NTViNDIwYTJkYzBiNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGZiOTQxOTI1YjBhZTc3ZDc5MDY3YTAxNDRkY2UyYzM3YTk0ZjE4ZjEyMmU2NWJjNDgxMGU3Njg4NzhhYjJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGJkZTY1NmJjYmU4MGI4YThkZWQ0NTM2OTQ3MDk4NjA3MTJhMjgzNGYzZGE4ZGQxMmMzMzdlZTAxOGQyMzUzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODIxOTFlY2FhZDNhNDc3Mjk1NGVhMTUwZWJmMGVhMTMzYzFmZDViODQyYjc1MzZiNzU3YzA3YzQzOGZiYzgyYyJ9"
+          "resource": "repo://package.json#L48-L51",
+          "version": "repo-lines-v1:sha256:9892b8ddce3ae4e9cc755bfc621d1fdf0b355b922bb6cad814daae38ab4cd6e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWI5ODViYzk4NWVkNmU3YjY3YTM3ZjRlNzlmZTMyYjIxY2Q4YWY4YmY1MGQxMGYwYjQ4NTViNDIwYTJkYzBiNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGZiOTQxOTI1YjBhZTc3ZDc5MDY3YTAxNDRkY2UyYzM3YTk0ZjE4ZjEyMmU2NWJjNDgxMGU3Njg4NzhhYjJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmQ1YTc5MGJiNDJlMjZmY2FiMzBiNDEzZWZkZWE3ODc4ZDQ2YzBmNzljOGNjNjY0NWJhNTExMDQ2Yjk0NGFlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGUzYzFiN2U5NmRkOGExZjI5NzA2NzRjYjcwNzQ4NjliNTdiYWI4ZDdiMTkyZjY0MjBmMzc3NGJmYWMyNmMwMSJ9"
         }
       ]
     },
@@ -389,8 +379,8 @@
       "statement": "pnpm import:section-pages is a payload run script that passes its flags through, reads saved HTML with --from and only counts without --apply.",
       "evidence": [
         {
-          "resource": "repo://package.json#L40-L40",
-          "version": "repo-lines-v1:sha256:785cb2105a5339ce273e41f28a639f2ef3bb0689a4822f825821e0ba1c450ec5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJmMjc0YWRkZjc4NmQ1YjM2ZDgwY2ZkODE0Y2Q0YzA0MjhiYzVjYTBjMGY5ZGZhZTVlNDEyYjE2MWJhZTAxNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTA3MzZkMWE3Y2FlNDIxYTVmNGY4ZGY4OTAwODQ5Y2M4MjE1ODQ1OGQ0YmVlZTA3MGQ4M2FiZjkzZWMxOWY2MiJ9"
+          "resource": "repo://package.json#L43-L43",
+          "version": "repo-lines-v1:sha256:785cb2105a5339ce273e41f28a639f2ef3bb0689a4822f825821e0ba1c450ec5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTg2ZjYzNDE1OWViM2RlMmFjYThjY2FiMjE4M2ZkMjZiY2E5OTNhOGZkMTAzNTIwMmYwOTVhMzYyMzJhZGE1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGExYmNmNjk3NTcwYTgxNzU4Y2Q3NWQ0NDZiYzY0YmE5ZGZkNzcxMzhiODg1MTM3Y2ExODU4NjI1MWM5NDNiZCJ9"
         },
         {
           "resource": "repo://scripts/import/import-section-pages.ts#L1-L10",
@@ -403,7 +393,7 @@
       "statement": "pnpm zones:backgrounds is a payload run script that lists the subareas published pages use without a background and fills them with --apply, refusing a remote database without --remote and production without --production.",
       "evidence": [
         {
-          "resource": "repo://package.json#L49-L49",
+          "resource": "repo://package.json#L56-L56",
           "version": "repo-lines-v1:sha256:91a7df78dc05e8aee5b45728c695f66f4e04b5da4d940c04ef41af39245d2a55:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTFhN2RmNzhkYzA1ZThhZWU1YjQ1NzI4YzY5NWY2NmY0ZTA0YjVkYTRkOTQwYzA0ZWY0MWFmMzkyNDVkMmE1NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTFhN2RmNzhkYzA1ZThhZWU1YjQ1NzI4YzY5NWY2NmY0ZTA0YjVkYTRkOTQwYzA0ZWY0MWFmMzkyNDVkMmE1NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODIxOTFlY2FhZDNhNDc3Mjk1NGVhMTUwZWJmMGVhMTMzYzFmZDViODQyYjc1MzZiNzU3YzA3YzQzOGZiYzgyYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3MjkxNGYxYjQ1ZjcxOWMzZmExNGVjOTQ0NTI2YjI1N2Q5OGMxNmQ3MjYyMWIwMzY5NTU2ZWJlNzU4YTU4NSJ9"
         },
         {
@@ -411,10 +401,102 @@
           "version": "repo-lines-v1:sha256:7bde310a4f7ae02710b69581851449a50a32507f40a96fb38a5bb0f1a638b6d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1OTI3ZGRlNDE5MzEyYzg5MzFmNGRlZTA1Mjg1YWRiZTdlZWRlODkzZTM5ODc0OTUyN2IyNDQxNmU4MzMzZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_835199066e1c44deaa10ba031bc10ef2",
+      "statement": "MEDIA_STATIC_DIR picks another upload folder than ./media without R2, and the E2E and Lighthouse CI servers use media/test/<database>, one folder per test database.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L34-L37",
+          "version": "repo-lines-v1:sha256:5ea14db3390213c2ae7725df87f0907b3875b193670bee66a660839bac40c6c8:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFmMzIzYWNlZGVlMTY3MDg3ZWM0NGZkMTc1ZDYwMWM0NDZmZTQ4MjA4Y2EzZTg5NDI1OWE2NmE3NWMzOTNjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTI5NDQ5MDcyOWNlNjgyMGEyN2U3YTkyYjdkMjdiZTZlZmI1NTcwMzM0OGE4YmJiNDUyMjBiYTZmYzg4OTU5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjMzYWFjZTRkNzUzYTkzZjcwNzgzYjA3YzU2ZDA1MDhmZTBiZTRlYzhmZWUyYzk2NmI0NzZjZDVlODBiN2QzYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTUwMjRlYjgzZjlhYTljOWVjYjJlOTZkYjhhMTc5MTM0NGVlZTA0ZmNjM2U0NzhjNzEwMzI2OGM2NGNmMGY1MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_72224febe88f447983d736f710f287e3",
+      "statement": ".env.example documents TWITCH_LIVE_URL, where off never asks the live worker, and UMAMI_HOST with UMAMI_WEBSITE_ID, which turn analytics on only together and never in the dev environment.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L39-L55",
+          "version": "repo-lines-v1:sha256:968762fc4ed0210b17b3847edb2d27d07c1cec14fb8ac423d5207b5a3bfffd0f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmM2FlZTBiMzI4NTRhOGJlYzE2NGM5NGE3NGI1MDM0ZmFmZGQxYjJiMGU2YWUxNmU3OGM3Y2QyZjVhNDQ5YTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwNjQ2YzkxODM5M2E3MmFlMTA5OTllNTQ4NjhmYjZkY2FiOTFmNDMyOGQxNWFhOTIxYjIyODczM2VjYWNmN2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwMzVhNTIwMmIxYTViZGIwZjY2ODIyZDgxYmIwZWUyNDliMjA0ZjVkMTJhMTQ5OTkzYTFkOWI5ZjAzZGM5MzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhmMzYzNTczYTRmZmM2OTVkOGMwYzRhNjllYzBhZDk0Mzg2MTllZWFjNmM2ZjVjZmYzMWRlNGY3MDlkOTAyNmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e053f3a2c5e3494b82a3c05fedb107df",
+      "statement": "LHCI_PORT, read only from the process environment, changes the port pnpm test:lhci measures from the default 3110.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L76-L77",
+          "version": "repo-lines-v1:sha256:f9047bcc9f910b2ef6edecee3cacf12a69f23f6d5b4b65a60ced5d060a45a11a:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTI3ZDA5NWFkYzdhMjM2NGYxZGUwYzliMjk1NjU0NWU3Nzk0YjRkYmI3NTc5NWFmMGI3MDgzM2U5MTA5YTk4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDM2MGNlMzhhNWY0MDY2YTJjM2U2MmNjYjYyMDQ0MTMyMmUwNzIyYzIxZWVjYjc0ZGE4NDVjOGE5ZTUxM2M2NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWY2OTUzOTliYzk2NjI0NDI5YTdlNDY3MGM2NTAwMmRkZDU2YTEwZWQ5OGYyZDVjNmRhMzFkYWQ5NDRkYTM4NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2Y3NjU0NGFlYjk0YjUxY2M5ZDIxYWJlYTEyY2ZjMjk5ZWMzN2ExOGU4OTY0YmM4YjY1Njg3YTUzMzlkZjIxMyJ9"
+        },
+        {
+          "resource": "repo://lighthouserc.cjs#L5-L14",
+          "version": "repo-lines-v1:sha256:bba0a43e16004143175597175246ddf5823d3a128268f0c5f6b09194a5fea17e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiYjQ3MTY2NWU5OWRhNDViYTkxMjg2MzRjYTAxOTk5MzhjYzI3OGEwYTA1OGEwMGZhOTc5ODIzOGY0NWNjMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5YjU3MTY4MWU0NDM5NzhhMGEyYjdmNWZkNzQ0Njg2MGRmYzA4YTA5N2I3YjY5MjU0MjkzYTcxNDAxZTEwOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhZTY5OTEwYTUyN2FkNDc0ODdiOGEwOTkxOTU4NmMzN2MyNTViOTY0NGM4MWZiN2EwZDAzMjBmMTcxZTkxYjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3MGZkMDY1MDliMGY3YmUxY2U5MTNlODY3YmJmNWNiZmI5NWY2MTY4NWMyNGQ2YTEzMWY3MzEyMzQ0NWFjYWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3eee7990c4f549b7a47f30bfd8ca36d0",
+      "statement": "pnpm achievements:alineamiento creates the missing Alineamiento achievement pages «En preparación» with Torre's slug and prose after pnpm data:refresh, only counting without --apply.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L41-L41",
+          "version": "repo-lines-v1:sha256:df0f65c528c79e586912bc0d889edbf94523f4716eda9a8016f67373b175f966:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGYwZjY1YzUyOGM3OWU1ODY5MTJiYzBkODg5ZWRiZjk0NTIzZjQ3MTZlZGE5YTgwMTZmNjczNzNiMTc1Zjk2NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGYwZjY1YzUyOGM3OWU1ODY5MTJiYzBkODg5ZWRiZjk0NTIzZjQ3MTZlZGE5YTgwMTZmNjczNzNiMTc1Zjk2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODc3OGI1ZTc2N2JkMjE3OGVmODhjNTk1NGYyNmQyYjI1ZDI0ZDBhZTBkMWE5ZWFiZWFiMWQzZTc5NjFiMzVkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI1ZWVkYmU2NzQ4ZDcyNDBiZWY4NzQ5MjcyYzdiYjMwZTQ4MmVlZmU5YmVmNzQ0YzY5MTg1YmQ4YTVmNGUxZiJ9"
+        },
+        {
+          "resource": "repo://scripts/import/import-alignment-achievements.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:b32ed1ce9868bd2f69dfd001447023ecfc8b831409a76be2a7da8bfec52de7eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhMmU1MzY1YTFmZjYwNDI4YzllY2ZmZDk0MDZjOTFmYTdiZTc0ZWI2MzM4ZjNjMWU5MmE5ODEyMDVjMTQzM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTc0Nzc0MzAzYjI5ODBmMWM4NWVkMmY4NjkxZWI1YTM2YmVjYzM2ZGM4YzQ5MDIxZTJlNmJmN2I4M2U4OWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNTgyOGQ1ZGY4OGE4MDRmOGFhYjg3MTk0YWJjNzQ3NTllMDZmNWFlYjY4YWZkZWM2MTM2NWJhMzkwNTQ2OTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1f10eada2bea450f8d27406e3331b6ca",
+      "statement": "pnpm import:inventory, pnpm import:delta and pnpm import:golden-refresh are the delta import commands, and import:golden-refresh writes to no database and uploads nothing.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L41-L46",
+          "version": "repo-lines-v1:sha256:b4530356cf869fd6c46c26f4692b4af85d2810d162cc4f11fd02eab424cfc679:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGYwZjY1YzUyOGM3OWU1ODY5MTJiYzBkODg5ZWRiZjk0NTIzZjQ3MTZlZGE5YTgwMTZmNjczNzNiMTc1Zjk2NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2MxZjE2NjBjMDdlNzk3NjA3MjQxZjdmNzU5YjMxNjAxNGVlODhjYTRmNTA4ODFkOTgyNWRhODIyMzY1NDNjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODc3OGI1ZTc2N2JkMjE3OGVmODhjNTk1NGYyNmQyYjI1ZDI0ZDBhZTBkMWE5ZWFiZWFiMWQzZTc5NjFiMzVkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTA3MzZkMWE3Y2FlNDIxYTVmNGY4ZGY4OTAwODQ5Y2M4MjE1ODQ1OGQ0YmVlZTA3MGQ4M2FiZjkzZWMxOWY2MiJ9"
+        },
+        {
+          "resource": "repo://scripts/import/refresh-golden.ts#L1-L8",
+          "version": "repo-lines-v1:sha256:11f200cb49113aa3639fdded18832cf551af566222bedb3936d372bb50c5fc5b:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTk4OGZiYjg5ODIzOWRkNTE0Y2Q2NjZiNjk4MGY2OTk4YTk5NmMxNGRmODc4NjRkODZhNWFlOTlmNGJiMjcwYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDkzNjExNWExZTNkNDRjMWEwYzZkNTA5ODdiM2JkZTMwOGEyYzVlMWE1OWEzNzA0YWMxYzM4OGQ0YjNjNGU4ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTEwZGU2MTI5NDY0N2RmYzM2Mzk5YjBiZGEzMjEyYTNkMzRjMzRhZjE1YjkyZDZkYWFmZWY5ZjdjODY2YjhjMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_481d64fad20e4c27abdec829e26c89af",
+      "statement": "pnpm guides:summary-text rewrites the summary text of imported guides from the saved inventory pages, changing a field only while it holds what the last import wrote, and only lists changes without --apply.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/backfill-summary-text.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:9745e41dabe8074f5be9a5040f1d021e7abe8aa77203ce9c048bdf7d7b3cfe07:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhNjZkMDIyOGM5MDdkYTE1ZTZhZWY0YWQzYzdjNDk5OTcxZjEwMWI2OGZhYTEyODczYmNlMWRlMmUzNWM0Y2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwYTVmZDE0OTAzNGJlMmE3NmUzYmUwNDU0OTE2Y2ZiMDQ4NmJlZGEzMjQ1YmMxNWQxMDE1MGNlMDRjMDNjZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjNDBlNjQ0YWEwMGVmOGFhYmNkNTY5ZGM5NmNhNTM5OGQ3MWVhZjI5Y2NmY2MwYjRkN2FmZGEwZmUxY2I2YjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_77f9afdfb2ec484a922ce0e773acdca9",
+      "statement": "pnpm links:legacy and pnpm urls:map are payload run scripts that pass their flags through.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L32-L33",
+          "version": "repo-lines-v1:sha256:31c9bff2f209fcc1314cb0b6aa079e6f9210f4bd2a230725c71c10f4819cd5c1:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2NkYWZmYTllYTQ1Yzk1YzZiZDkyMjQyZTRkMzVhNjIzY2JlNGM5YjY2YzQ2NzczNGJmMTAwMDE0YmM2YzU2MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzJiZTZiMzJmMzE1OTNhNmVmNTZhZDBjNDg1OGMyNmE3OTZjMmQ1MWFmYTA2MjBkNzQ3ODliMDQ0YmQ1ZDA5NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTM3MGI0NzM0MjlmNDkwNzUxNDc3ZDgzNmMwNGE2ZjVhY2U4ZDhiNGZlMzYxMjA4ODljYmJmMWJiMTE5MmJlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDIyN2I2NWM3ODAwZjYxOGEwYTFmMmQzNTI0MmE0Y2RiY2I2YTg0OWM0ZTk1YTRhNjAwYzRmOTU2MDA2MmY5OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_64b9f8f559164b71aec7376f0e9c6ade",
+      "statement": ".env.example lists E2E_ANALYTICS_PORT, the port of the second pnpm test:e2e server with Umami on, defaulting to E2E_PORT + 2.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L57-L68",
+          "version": "repo-lines-v1:sha256:0808fda5989b32b122745236b11049d4edb4fc6b31497fd2dd535e616f02c018:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzOTg1OWYxNzE4MjI4NTZiNGRlN2IxMDUzOGM1ZTE4MWE5MjFiN2YxODAyYjcyODRjOTBiN2U0Mzk5Zjg1NjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzZDkyOTQ2YmU4ZjE4YTAyNzk4YzE5MjI4YzBhYmZmMjYyNjk5ZDM5YTU3YjU1Y2U3OGUzNjgzNzBiNTk5OTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2Y2RlNTAyMDIwODg4ZGNmZTdjNzFlYzJiMDAyZWM2MDU2ZTVjZTZmZGU1NjM3NDM3YWQ5NGE2YWE4NTllZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEyMDkzZWNmMjI2YWZmY2JmNTY2ZDM3MWMxZGQ5MzdiZjFlNmI5ZWJhZThlMzNjYWNlYzliMGEyMTc2YmY4NjkifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

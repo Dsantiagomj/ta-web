@@ -3,9 +3,6 @@ type: data model
 title: Torre corrections to DofusDB data
 description: The «Corrección de Torre» group on quests, items, monsters, dungeons, NPCs and achievements, which lets Torre override a name, level or image, or hide a record, without editing DofusDB's data; how writes are scoped so the panel edits only the correction and the refresh never does, and how every page applies it.
 tags: [game-data, dofusdb, corrections, payload, panel]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
 sources:
   - id: openwiki-source-153285322f1fa0bfb7572570
     resource: repo://src/collections/delete-guard.ts
@@ -28,6 +25,9 @@ sources:
   - id: openwiki-source-d3f66a8f47751d0e40ab872b
     resource: repo://tests/unit/torre-correction.test.ts
 generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Torre corrections to DofusDB data

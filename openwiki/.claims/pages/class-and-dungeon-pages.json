@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a835886a7919d5e62ef7f04ac992886348ca1006246de692fda588f016890360",
+  "pageVersion": "sha256:d3f0a3cc3c4dd6c791778b4e5ec89d8d5652eeebaec8e641893aa712d11bd645",
   "claims": [
     {
       "id": "claim_b4362eed31424aac9b09224480f137a4",
       "statement": "sectionPageCollection builds both class-pages and dungeon-pages with drafts and up to 50 versions, published-only reads for visitors, create and update for panel accounts, delete through adminOrNotImported('importSnapshot'), rejectSharedSlug, the slug move hooks and section-pages cache expiry after a change or delete.",
       "evidence": [
         {
-          "resource": "repo://src/collections/section-pages.ts#L54-L116",
-          "version": "repo-lines-v1:sha256:4d8f7063309a5d0598e307ab83611cc64b9bfb196c3b3a65a29d2f9cb2fe2331:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxOTgzMjFlM2RjM2Q3ZWM4ZjBlNTRhMzVkZTY0MTZjZjE1ZThmYjQ1OWMzMmI3MjkzZjNiNzI2MmMwNWMwM2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkZWZmMTFkMjFmZGQyZTU5NGJmYTNkNzQ2ODkyZGYwODhlYjM0Y2MzMTc3N2U3NzdlNmY0MzhmNjI0OTNhZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2OWVlYzUwYjUwOTRjZmNjNGY2OWMwOGZmOGUwYWExZjI3YjEzODRiOGNmMTQwODcxYWUwZWRhZDBjZmE2NGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1ZmJhMDA4YzUyYjZiOTJmYmI0ZDkyYjYyNTBjMzJkOTNjYzExZGRjMjJmZGZmZGU1Mjk5NzM1Yzk0MDFhNjMifQ"
+          "resource": "repo://src/collections/section-pages.ts#L55-L125",
+          "version": "repo-lines-v1:sha256:821f1231ac72c2c25ed508557ad9722429d28ab954f4758985a29345d3ed348b:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxOTgzMjFlM2RjM2Q3ZWM4ZjBlNTRhMzVkZTY0MTZjZjE1ZThmYjQ1OWMzMmI3MjkzZjNiNzI2MmMwNWMwM2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkZWZmMTFkMjFmZGQyZTU5NGJmYTNkNzQ2ODkyZGYwODhlYjM0Y2MzMTc3N2U3NzdlNmY0MzhmNjI0OTNhZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2OWVlYzUwYjUwOTRjZmNjNGY2OWMwOGZmOGUwYWExZjI3YjEzODRiOGNmMTQwODcxYWUwZWRhZDBjZmE2NGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1ZmJhMDA4YzUyYjZiOTJmYmI0ZDkyYjYyNTBjMzJkOTNjYzExZGRjMjJmZGZmZGU1Mjk5NzM1Yzk0MDFhNjMifQ"
         },
         {
           "resource": "repo://tests/unit/section-pages-collections.test.ts#L43-L79",
@@ -21,11 +21,11 @@
       "statement": "A class or dungeon page cannot be set to Publicada because its public page does not exist yet, and its Squarespace link field shows only while it is En preparación.",
       "evidence": [
         {
-          "resource": "repo://src/collections/section-pages.ts#L133-L152",
+          "resource": "repo://src/collections/section-pages.ts#L142-L161",
           "version": "repo-lines-v1:sha256:ca7f900956f4c7af5a1f16fd8c233b4c26e52e78e923be7568f11561ee222f94:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxMmI5OGEzYjgwMmRmODRiNDY0MTcxODNhZTc1NTkyMjgwYTYxMWZjY2ZmMTUyYjA1NmQ3ZmYxZGQwODkxMmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwYmJlMmVkMDE0Yzg3MDJhYzljNjRiNzg2NDllMzM0YjdmOGVhNmM4MDFkZjEzMzc1ZWU1MTY3YTk2OWNjMDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkYjBjYzhiOTNmNDgwOWRhYTViNjQ3NDA0Mzg2NmU5OWFiNzIwZWQwZGFkMDUzZTI2YTBlNjIyYmRmNTEwNTIifQ"
         },
         {
-          "resource": "repo://src/collections/section-pages.ts#L47-L52",
+          "resource": "repo://src/collections/section-pages.ts#L48-L53",
           "version": "repo-lines-v1:sha256:fcc6d3bd665d9c9a579e15c8d8d5cad2b0f20452a770257166fd2de411205984:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjI3YmQ4MGVlZmE5NWU2YTM0MzU1M2Y3OTEwNzYwZTJmMmQzNmQ4MTcyNThjYWYyM2JkZjVkMTRjODFjZTNhMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDAyMGQ4YzdhNjY5NzRjYTFhNDg4YTBlYTk2ZTg5NTFjNzU2NWQ1ODA2NmRjZjRhZmU4OGMzMzMzODczMDk1ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjdmMDVhMjRjNmIxZTYzZTI4OWMxODMzNzU0MTI0MTcwZWI0YjM1ZmZmYzAzYjRhZDYyYjYwNzAxNDE0MGRiMSJ9"
         },
         {
@@ -39,12 +39,12 @@
       "statement": "Each class or dungeon page decides whether it appears in the menu (inMenu, ticked by default) and with which name (menuName), uses the quest guide body blocks and an SEO group, and keeps a hidden importSnapshot that a duplicate clears.",
       "evidence": [
         {
-          "resource": "repo://src/collections/section-pages.ts#L153-L178",
+          "resource": "repo://src/collections/section-pages.ts#L162-L187",
           "version": "repo-lines-v1:sha256:4df9f313a51c4aebd4c5a8a670180d4eab457b7ec15f4b2c962fd295fef2a17d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NWI4YzViZjg2Mzc0MzY3MWRlZjNmNjMwZWIyMzJkNTlhN2E2MzRhMDcwZmM0MzZlZWMzN2E4Njc0ZTZjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlMzMzYTcxOGRlZjU3NzRjZTU1MDY1MDc1MDZiZmEzN2E4MmVlOTM2Mzk5NDM4ZWE2ZGM5MjI5YmUzOWJhNjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1NTFlOTI1ODI0MTk3OWZmN2FhMjQ5ZDgyMDI5YzI2NDU5NGQ1ODRmMjNkOTQyZmI3Mjk4Njc2ZDk0YjI4MDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmNzM5YTA2YzFjYmIxMjQ0ZTMzNjNkMzhiY2Y5ZmE1MGNlODRmZWQzOTljMjE5M2EzYzdmMDhkNTk5MThiMmEifQ"
         },
         {
-          "resource": "repo://src/collections/section-pages.ts#L56-L91",
-          "version": "repo-lines-v1:sha256:e5a3c543af3eda1ac2ee6c4fe915a3659cc0159cc08fee43d096878bd404db71:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNmJjNWMwNjIxYzIyZDI4NjdiOTU0ZDZhYTM3YTY3NTJlMTIzZDFjNTg5NzgxMGQyMzUwNjAyNDFmMjU4MzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NWZhMGYxMTE3YjVlYTQwNDM0MTQwZGRlMWEzNDBjNzIwZGRiZjMyNjIxMmUxOTE4MzhkNGIxNTZkMzE2YmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3ZjA1YTI0YzZiMWU2M2UyODljMTgzMzc1NDEyNDE3MGViNGIzNWZmZmMwM2I0YWQ2MmI2MDcwMTQxNDBkYjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3ZTY1MzFkNWRkNmMyNWFmNjk3MDM1ODVlZjNlNmE5OTU4YmNiNjBhY2U0YjkwYzAxNTE4NWY5OGYyMDAxNzUifQ"
+          "resource": "repo://src/collections/section-pages.ts#L57-L100",
+          "version": "repo-lines-v1:sha256:2e92aa7f38689d271f919c4ff9675f2707cbd932b2d1bbe8734c29fd0fb36d70:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNmJjNWMwNjIxYzIyZDI4NjdiOTU0ZDZhYTM3YTY3NTJlMTIzZDFjNTg5NzgxMGQyMzUwNjAyNDFmMjU4MzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NWZhMGYxMTE3YjVlYTQwNDM0MTQwZGRlMWEzNDBjNzIwZGRiZjMyNjIxMmUxOTE4MzhkNGIxNTZkMzE2YmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3ZjA1YTI0YzZiMWU2M2UyODljMTgzMzc1NDEyNDE3MGViNGIzNWZmZmMwM2I0YWQ2MmI2MDcwMTQxNDBkYjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3ZTY1MzFkNWRkNmMyNWFmNjk3MDM1ODVlZjNlNmE5OTU4YmNiNjBhY2U0YjkwYzAxNTE4NWY5OGYyMDAxNzUifQ"
         }
       ]
     },
@@ -61,7 +61,7 @@
           "version": "repo-lines-v1:sha256:990204dc9539e649d325c58243fc35dc712c96efffb566bcf0a2759ee42d35d7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiYzJjOGFlZDllY2RiNGRhMzZhOGFkNTBhMjJhNTI1NmIzMTVkNGYzZmUzYjg0YzFiMDExYThlMzg4MDFlNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhZjUyNDQ3YzliOWYyMGQxMDAxMThmOTYxMmQwOWFlMjljMGY5NjY3NWUxNzE5ZTMxZGE5YWJmYmM4NWEwNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tests/unit/section-pages-collections.test.ts#L170-L208",
+          "resource": "repo://tests/unit/section-pages-collections.test.ts#L171-L209",
           "version": "repo-lines-v1:sha256:ec08ac44bd67d003f10929342151e1635cb8eb12326c7dd84e7a48ee3de84245:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiYTM5NGUwZDVmNjE5NzZiY2Q4YTgyZDA3NTY0MzUwYmIwMmUxMmNhZmY2Zjc4MGNjOTYxNGJkNjk1YjZlNzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
@@ -85,7 +85,7 @@
       "statement": "readSectionNav reads only published class or dungeon pages as a visitor with the fields the menu needs, and loadSectionNav caches both reads under the section-pages tag with a 600-second revalidate.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L64-L77",
+          "resource": "repo://src/app/(frontend)/site-data.ts#L69-L82",
           "version": "repo-lines-v1:sha256:9bbc3bd1feb9c2703b980dfe6df4fe5f82fbe54050c0d1ee894255fd2712eeac:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4MTZlNWRmYWFhZDFkNGM0MjNiMGI1YjhjMzY5NjUwNDBkMTZjNDU3Yzc0Y2FiYmI4MzcwNmZhNzQ5ZmJkZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczZTgxNzcwMjU5NTQ4OGIxMTYzZTg3NmZjMWFjMTliNjI2YzYzNmNiOGY5ZmYxNmRhYjZhMTEyMjVkODk5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5ZGNiMWI3ZDkyMjZiZWMxMjczZWVjZjQwZDU2ZTZhNzY4Mjc2NjlmNzYxNWQwOTNiZDA2ZWJjMTVkYzI0ODgifQ"
         },
         {
@@ -107,8 +107,8 @@
       "statement": "pnpm import:section-pages reads each catalog page from Torre's site or from a --from folder, refuses remote or production databases without their flags, and without --apply only counts and reports.",
       "evidence": [
         {
-          "resource": "repo://package.json#L40-L40",
-          "version": "repo-lines-v1:sha256:785cb2105a5339ce273e41f28a639f2ef3bb0689a4822f825821e0ba1c450ec5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJmMjc0YWRkZjc4NmQ1YjM2ZDgwY2ZkODE0Y2Q0YzA0MjhiYzVjYTBjMGY5ZGZhZTVlNDEyYjE2MWJhZTAxNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTA3MzZkMWE3Y2FlNDIxYTVmNGY4ZGY4OTAwODQ5Y2M4MjE1ODQ1OGQ0YmVlZTA3MGQ4M2FiZjkzZWMxOWY2MiJ9"
+          "resource": "repo://package.json#L43-L43",
+          "version": "repo-lines-v1:sha256:785cb2105a5339ce273e41f28a639f2ef3bb0689a4822f825821e0ba1c450ec5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTg2ZjYzNDE1OWViM2RlMmFjYThjY2FiMjE4M2ZkMjZiY2E5OTNhOGZkMTAzNTIwMmYwOTVhMzYyMzJhZGE1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGExYmNmNjk3NTcwYTgxNzU4Y2Q3NWQ0NDZiYzY0YmE5ZGZkNzcxMzhiODg1MTM3Y2ExODU4NjI1MWM5NDNiZCJ9"
         },
         {
           "resource": "repo://scripts/import/import-section-pages.ts#L1-L118",
@@ -157,10 +157,20 @@
           "version": "repo-lines-v1:sha256:c882573859ac8d9fcd4c4047cdbe305f456563c38760d8238dfa1d634bccaa07:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NDgxZjRlNTFmYTA0MjNhZWY4ODMwMDIxY2QxZjBlNTFjZGMwMDAwODljOWJiMmI4OTgyMTQ4Mjc2YTVkNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwYTI2ZjEzZjc2ZmE1OTM5MzkzZjg2ZWYyMzNlZTA0OWM1OWFjNzQ2ZTAxNTAxOTFiZDU2YmJlZmFiZWJkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_8864a104899e45dc98a43e62ebe12baa",
+      "statement": "The class and dungeon page body offers the same blocks as quest guides, the table block included.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/section-pages.ts#L60-L75",
+          "version": "repo-lines-v1:sha256:1bb56c2d7e8a34d338d475cd8325cbab6ff53562c2fb0ecda6b6fc98ecbcec2e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NWI4YzViZjg2Mzc0MzY3MWRlZjNmNjMwZWIyMzJkNTlhN2E2MzRhMDcwZmM0MzZlZWMzN2E4Njc0ZTZjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5Njk4ZDA5MmMyOGVkM2ZhYTExNDU1MWUzZmIzMzU2Y2Q5ODAzYzllMWZiZWUxZWMwYWQ3YWE3YzQ5MzNjMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFlODE5OTRlMWQ2NWZlNTE0YjQ0ODI3NGI5NDMzNjZjNDFmZWFlOTQxNjU0YjQzMDEzYjQwZTc5MjE3NmU2MGYifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-17T11:00:20.552Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

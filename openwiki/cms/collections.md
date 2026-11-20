@@ -6,8 +6,6 @@ tags: [payload, collections, access-control, media, users, quest-guides, game-da
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
-  - id: openwiki-source-8037e2358a2c4f9b2c722a11
-    resource: repo://AGENTS.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-3fc9f0484081f9ab441d6219
@@ -18,6 +16,8 @@ sources:
     resource: repo://src/collections/Checklists.ts
   - id: openwiki-source-97b983a867f232780d665912
     resource: repo://src/collections/ClassPages.ts
+  - id: openwiki-source-b5ebd1b0d78d15bedec5d16c
+    resource: repo://src/collections/content-date.ts
   - id: openwiki-source-708be0163b21a8d064e79c3c
     resource: repo://src/collections/DofusGuides.ts
   - id: openwiki-source-456fa8d56bb86f8a4a80bff2
@@ -118,10 +118,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Collections and access
@@ -274,11 +274,12 @@ The fields. `quest`, `title` and `slug` sit above three unnamed tabs: «Contenid
 | `title` | text | Required, localized; validated by `validateGuideTitle` |
 | `slug` | text | «Dirección en la web». Required, unique and indexed, not localized (the URL is the same in every language); validated by `validateGuideSlug`; in the sidebar with the full address shown live (`slugAdmin`) |
 | `summary` | group | `prerequisites` (localized textarea), `needs` (group, below), the rewards (below), `startNpc` (localized text), `startX`, `startY` (numbers), and `zone` (localized text) and `level` (number), which override DofusDB's in the guide's subtitle, search and quest card when set |
-| `body` | blocks | Rich text, image, video, callout and step blocks; see [Guide body blocks](blocks.md) |
+| `body` | blocks | Rich text, image, video, callout, fight, table and step blocks; see [Guide body blocks](blocks.md) |
 | `seo` | group | `metaTitle` (localized text) and `metaDescription` (localized textarea, at most 160 characters) |
 | `originalUrl` | text | The guide's Squarespace URL, set by the import; read-only and hidden when empty; validated by `validateOptionalUrl`, the same validator `media` uses; in the sidebar. A duplicate drops it (`clearOnDuplicate`) |
 | `background` | upload to `media`, optional | «Fondo de la página», in the sidebar (`pageBackgroundField` in `src/collections/zone-background-field.ts`, shared with achievement pages). It replaces the zone background of the guide's subarea |
 | `importSnapshot` | json, hidden | What `pnpm import:guides` last wrote, field by field, so a rerun leaves alone what Torre changed. A duplicate drops it |
+| `contentUpdatedAt` | date, hidden | When a panel user last published a content change (`contentDateField` and the `trackContentDate` hook in `src/collections/content-date.ts`); the page's «Actualizado el» date and the JSON-LD `dateModified`. Scripts and imports never move it, and a duplicate starts without it. Achievement pages, Dofus guides, checklists and standalone pages carry the same field; see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md) |
 
 ### The summary and its needs list
 
@@ -304,7 +305,7 @@ The title and slug validators follow from that. `validateGuideTitle` accepts an 
 
 ### Filled by the Squarespace import
 
-`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quest` and `body` through the local API with `overrideAccess: true`, always as a draft, and records what it wrote in `importSnapshot`, so a rerun skips any field Torre changed since: it finds an existing guide by `slug`, drafts included, and never publishes. It links a quest only when the page names exactly one DofusDB ID; with several it links none and records an oddity so Torre picks one in the panel. The Squarespace "Necesitarás" text goes to `summary.needs.notes`. It sends every `summary` field, `null` for any the page no longer has, and then fills the empty ones from the linked quest exactly as the hook would, so a value removed from Squarespace is replaced by DofusDB's value, or cleared when DofusDB gives none, and a rerun compares equal and saves no new version. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left to the hook. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quest` and `body` through the local API with `overrideAccess: true`, always as a draft, and records what it wrote in `importSnapshot`, so a rerun skips any field Torre changed since: it finds an existing guide by `originalUrl` first and then by `slug`, drafts included, skips a hand-made guide that already uses the slug, and never publishes. It links a quest only when the page names exactly one DofusDB ID; with several it links none and records an oddity so Torre picks one in the panel. The Squarespace "Necesitarás" text goes to `summary.needs.notes`. It sends every `summary` field, `null` for any the page no longer has, and then fills the empty ones from the linked quest exactly as the hook would, so a value removed from Squarespace is replaced by DofusDB's value, or cleared when DofusDB gives none, and a rerun compares equal and saves no new version. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left to the hook. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 
 `validateSlug` accepts only plain ASCII: lowercase letters and digits in runs joined by single hyphens, with no hyphen at either end (`aprendizaje-escudero`, `dofus-ocre-2`). Accents, `ñ`, capitals, spaces, doubled or edge hyphens and empty values return a Spanish error, so a guide's URL never needs percent-encoding. It also rejects the reserved slugs in `src/lib/guides/slug.ts` (`admin`, `api`, `sistema`, `vista-previa`, `metalogros`): those top-level routes win over `/[slug]`, so a guide with one of them would never be reachable. Each new top-level route is added to that list.
 
@@ -342,7 +343,7 @@ The `dofus-guides-index` global (`src/globals/DofusGuidesIndex.ts`) has one loca
 
 ## Standalone pages
 
-`pages` (`src/collections/Pages.ts`) holds Torre's loose pages (emotes, how to reach a place, the legal texts) at `/<slug>`. It follows the editorial rules: drafts with up to 50 versions, `readPublishedOrAll`, create and update for panel users, delete through `adminOrNotImported('importSnapshot')`, live preview, `rejectSharedSlug('pages')`, the slug move hooks and `afterChange`/`afterDelete` hooks that expire the `pages` tag. Its fields are a title, slug, `state` with a `legacyHref`, an optional `parent` page, the same body blocks as quest guides, SEO and a hidden `importSnapshot`. See [Standalone pages](../pages/standalone-pages.md).
+`pages` (`src/collections/Pages.ts`) holds Torre's loose pages (emotes, how to reach a place, the legal texts) at `/<slug>`. It follows the editorial rules: drafts with up to 50 versions, `readPublishedOrAll`, create and update for panel users, delete through `adminOrNotImported('importSnapshot')`, live preview, `rejectSharedSlug('pages')`, the slug move hooks and `afterChange`/`afterDelete` hooks that expire the `pages` tag. Its fields are a title, slug, `state` with a `legacyHref`, an optional `parent` page, the same body blocks as quest guides, SEO, a hidden `importSnapshot` and the hidden `contentUpdatedAt`. See [Standalone pages](../pages/standalone-pages.md).
 
 ## Class and dungeon pages
 

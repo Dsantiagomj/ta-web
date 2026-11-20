@@ -10,8 +10,6 @@ sources:
     resource: repo://.gitignore
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
-  - id: openwiki-source-8037e2358a2c4f9b2c722a11
-    resource: repo://AGENTS.md
   - id: openwiki-source-c8e16e16c743abca9f070b43
     resource: repo://docs/legacy/security.md
   - id: openwiki-source-2fda883e9b76745f69f487f7
@@ -36,18 +34,26 @@ sources:
     resource: repo://src/components/dofus/DofusIndex.tsx
   - id: openwiki-source-abb20cd71cbe6f9faaed0ea7
     resource: repo://src/components/dofus/DofusIndexIsland.tsx
+  - id: openwiki-source-b2dcc3b69dbff1da922eb36e
+    resource: repo://src/components/home/HeroSearch.tsx
+  - id: openwiki-source-46dd74b36a0234facf9d5720
+    resource: repo://src/components/site/HeaderIsland.tsx
   - id: openwiki-source-2527b990816180ac80987e20
     resource: repo://src/components/site/site.css
   - id: openwiki-source-3bd66ce842612aa5530166a6
     resource: repo://tests/e2e/checklists-index.spec.ts
+  - id: openwiki-source-f2beaf80b1decf5de1f10e4c
+    resource: repo://tests/e2e/hojas-de-estilo.spec.ts
   - id: openwiki-source-349bba9237ee8f6bb526add4
     resource: repo://tests/unit/dofus-index-island.test.ts
   - id: openwiki-source-cf83a6bbb1b6a5159842a86a
     resource: repo://tests/unit/lighthouse-ci.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+  - id: openwiki-source-bcfda738f2b44be0563b6b07
+    resource: repo://tests/unit/site-search.test.ts
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Performance budgets (Lighthouse CI)
@@ -65,9 +71,9 @@ DESIGN.md sets the JavaScript limit for guide pages; every page measured is held
 
 ## The page list
 
-`lighthouserc.cjs` keeps one line per page in `PAGES`, measured against `http://localhost:3110`. Today it holds eight pages: the home page (`/`); a quest guide, `/seis-pies-bajo-tierra`, and an achievement page, `/la-ocasion-hace-al-ladron`, which `scripts/seed-e2e.ts` seeds from `tests/e2e/seed/`; the metalogros index, `/metalogros`; the Dofus guides index, `/guias-dofus`; the checklists index, `/checklists`; a Dofus guide, `/dofus-ocre`; and a checklist, `/checklist-nebuloso`, all seeded the same way.
+`lighthouserc.cjs` keeps one line per page in `PAGES`, measured against `http://localhost:3110`, or the port `LHCI_PORT` names, so two worktrees can measure at once (`baseUrlFor`, which throws on a value that is not a port). Today it holds eight pages: the home page (`/`); a quest guide, `/seis-pies-bajo-tierra`, and an achievement page, `/la-ocasion-hace-al-ladron`, which `scripts/seed-e2e.ts` seeds from `tests/e2e/seed/`; the metalogros index, `/metalogros`; the Dofus guides index, `/guias-dofus`; the checklists index, `/checklists`; a Dofus guide, `/dofus-ocre`; and a checklist, `/checklist-nebuloso`, all seeded the same way.
 
-CI splits the list into parts that run in parallel. `pagesForShard(pages, shard)` reads `LHCI_SHARD` as `part/total` (`1/2`): each part is a contiguous slice, the sizes differ by at most one page and the larger parts come first (four and four with eight pages), so no part is empty; more parts than pages, or a malformed value, throws. Without `LHCI_SHARD` every page is measured. The module exports `pages` and `pagesForShard` so the tests can check that the parts together cover every page once. The `/sistema` component catalog is deliberately not measured. See [Component catalog (/sistema)](../frontend/component-catalog.md).
+CI splits the list into parts that run in parallel. `pagesForShard(pages, shard)` reads `LHCI_SHARD` as `part/total` (`1/4`): each part is a contiguous slice, the sizes differ by at most one page and the larger parts come first (four and four with eight pages), so no part is empty; more parts than pages, or a malformed value, throws. Without `LHCI_SHARD` every page is measured. The module exports `pages` and `pagesForShard` so the tests can check that the parts together cover every page once. The `/sistema` component catalog is deliberately not measured. See [Component catalog (/sistema)](../frontend/component-catalog.md).
 
 ## Assertions
 
@@ -85,13 +91,13 @@ The best run absorbs the noise of measuring on localhost. A regression that make
 
 `scripts/lhci.ts` runs the app the same way the E2E suite does, on the production path, and then hands the URLs to `lhci autorun`:
 
-1. Loads `E2E_PORT`, `E2E_DEV_GATE_PORT` and `E2E_SKIP_BUILD` from `.env` with the E2E loader (`loadE2eEnvFromFile`); nothing else from `.env`.
-2. Builds the app environment with `lhciEnv` (`scripts/lhci-env.ts`): `NEXT_PUBLIC_SITE_URL` is the measured app's origin, because `next start` requires a public origin in production; both `DATABASE_URL` and `DATABASE_URL_DIRECT` point at the configured `DATABASE_URL` or, without one, at the `ta_web_lhci` database of the embedded Postgres; `PAYLOAD_SECRET` gets a dummy value when unset; `APP_ENV` is blank so it measures the production site, without the dev `noindex` header; every `S3_*` variable and `MEDIA_BASE_URL` are blank so uploads go to `./media` even if the shell has R2 credentials. Pointing the direct URL at the same database matters because `pnpm migrate` prefers it, and one inherited from the shell would migrate a real database.
-3. Fails early if the browser is missing (`CHROME_PATH`, or Playwright's Chromium from `chromium.executablePath()`) with a hint to run `pnpm exec playwright install chromium`, or if port 3110 is already taken, since Lighthouse would then measure another app.
+1. Loads `E2E_PORT`, `E2E_DEV_GATE_PORT`, `E2E_ANALYTICS_PORT` and `E2E_SKIP_BUILD` from `.env` with the E2E loader (`loadE2eEnvFromFile`); nothing else from `.env`.
+2. Builds the app environment with `lhciEnv` (`scripts/lhci-env.ts`): `NEXT_PUBLIC_SITE_URL` is the measured app's origin, because `next start` requires a public origin in production; both `DATABASE_URL` and `DATABASE_URL_DIRECT` point at the configured `DATABASE_URL` or, without one, at the `ta_web_lhci` database of the embedded Postgres; `PAYLOAD_SECRET` gets a dummy value when unset; `APP_ENV` is blank so it measures the production site, without the dev `noindex` header; every `S3_*` variable and `MEDIA_BASE_URL` are blank and `MEDIA_STATIC_DIR` is `media/test/<database>`, so uploads go to that database's own folder even if the shell has R2 credentials; `TWITCH_LIVE_URL` is `off`, so the measured home page never reaches the network or changes when Torre streams; and both `UMAMI_*` are blank, so Lighthouse never counts as a visit. Pointing the direct URL at the same database matters because `pnpm migrate` prefers it, and one inherited from the shell would migrate a real database.
+3. Fails early if the browser is missing (`CHROME_PATH`, or Playwright's Chromium from `chromium.executablePath()`) with a hint to run `pnpm exec playwright install chromium`, or if the app's port (3110 or `LHCI_PORT`) is already taken, since Lighthouse would then measure another app.
 4. Without `DATABASE_URL`, starts the embedded Postgres if it is not running (`ensureDevDatabase`) and drops and recreates `ta_web_lhci`. See [Database and migrations](../data/database.md).
 5. Runs `pnpm build` unless `E2E_SKIP_BUILD=1`, then `pnpm migrate`, then `pnpm seed:e2e` (the pages it measures, on the freshly migrated database), and empties Next's data cache so no guide cached by an earlier run is measured.
 6. Deletes `.lighthouseci/`, so the directory only holds this run's reports.
-7. Starts `pnpm start --port 3110` as a detached process group and polls the base URL every 500 ms for up to 120 seconds, failing at once if the process exits first.
+7. Starts `pnpm start` on that port as a detached process group and polls the base URL every 500 ms for up to 120 seconds, failing at once if the process exits first.
 8. Runs `pnpm exec lhci autorun` with `CHROME_PATH` set to the chosen browser, and exits with its status.
 
 Whatever happens, cleanup stops the whole `pnpm start` process group (pnpm launches `next` as a child) and the Postgres it started; a Postgres that was already running is left alone. Ctrl-C runs the same cleanup and exits with 130. Any setup error is printed and exits with status 1.
@@ -100,7 +106,7 @@ Reports go to `.lighthouseci/reports/` on disk only (`upload.target: 'filesystem
 
 ## In CI
 
-The budgets run in their own job, "Presupuestos (Lighthouse CI) 1/2" and "2/2" in `.github/workflows/ci.yml`, a two-part matrix (`fail-fast: false`) that runs in parallel with the E2E jobs when the change scope selects it. Each part sets `LHCI_SHARD`, gets an empty Postgres 17 service through `DATABASE_URL`, restores the `.next/cache` the Build job saved in an earlier run (with an exact hit, for a PR that does not touch `src/`, the build takes about 10 s), installs Chromium through the `.github/actions/chromium` composite action and runs `pnpm test:lhci`, which builds, migrates and seeds.
+The budgets run in their own job, "Presupuestos (Lighthouse CI) 1/4" to "4/4" in `.github/workflows/ci.yml`, a four-part matrix (`fail-fast: false`) that runs in parallel with the E2E jobs when the change scope selects it, without waiting for the install job. Each part sets `LHCI_SHARD`, gets an empty Postgres 17 service through `DATABASE_URL`, restores the `.next/cache` the Build job saved in an earlier run (with an exact hit, for a PR that does not touch `src/`, the build takes about 10 s), installs Chromium through the `.github/actions/chromium` composite action and runs `pnpm test:lhci`, which builds, migrates and seeds.
 
 The "Informes de Lighthouse" step runs unless the workflow was cancelled and uploads `.lighthouseci/reports/` and `.lighthouseci/assertion-results.json` as the `lighthouse-<part>` artifact, kept 7 days. See [CI and quality gates](../workflows/ci-and-quality-gates.md).
 
@@ -114,7 +120,7 @@ DESIGN.md names the mechanisms: server components, fonts through `next/font` wit
 - `Picture` always writes `width` and `height` and adds an AVIF source and `srcset` when the asset has them; the guide's first image is loaded with priority.
 - The guide and achievement pages ship one small client island (see [Design system components](../frontend/design-system-components.md)). The `/<slug>` route ships every island it imports to every page type it serves, so the checklist's and the preview's code reach quest guides, achievement pages and Dofus guides too. On 2026-11-17 those three passed 150 KB (151,335 bytes): `ChecklistIsland` now only loads `checklist-ui.ts` with `import()`, as the souls island does with `souls-ui.ts`, and `LivePreviewRefresh` loads Payload's `RefreshRouteOnSave` with `lazy` and `import()` only when it renders in draft mode, which brought them to 148,907 bytes; the checklist page takes one more request (162,046 of its 180,000). The header theme picker's logic (`picker-ui.ts`) also loads with `import()` on first use. There is no `src/app/global-error.tsx`: Next loads it on every page, and its 1.6 KB compressed pushed the same pages past the budget; `error.tsx` inside the site stays, and a failing root layout shows Next's own error page.
 - Both searches load their engine, results and the search index (guides, achievement pages, metalogros and the menu's Dofus guides, checklists and standalone pages) with `import()` on first use, never with the page. The guide page and the home page each sat at about 149,700 bytes of script on 2026-11-07, just under the 150,000-byte limit, so search and result code must stay out of the islands, and a module imported by both an island and a lazy chunk ships whole with the island (see [Site header, footer and search](../frontend/site-shell-and-search.md#keeping-it-out-of-the-initial-javascript)).
-- Render-blocking CSS is kept small: the home page avoids importing `game.css`, `Amount` styles live in `globals.css` rather than `ui.css`, and `/metalogros` imports only `metalogros.css`, because importing the guide and achievement stylesheets split them into more chunks and raised its LCP by about half a second. The Dofus guide styles live inside `achievement.css`, so `/<slug>` still loads four render-blocking stylesheets, and `/guias-dofus` loads only `dofus-index.css` (with its own copy of the «En preparación» pill) and three stylesheets in all; a separate `dofus.css` had pushed the guide pages past 2.5 s of LCP in CI. Every page may load at most four stylesheets, which `tests/e2e/hojas-de-estilo.spec.ts` checks on each page of `lighthouserc.cjs`; the breadcrumb's styles moved into `game.css` for that (see [Styles, tokens and site shell](../frontend/styles-and-shell.md#stylesheets-per-page)). On the index the first cards' eggs are the LCP and are not lazy-loaded (see [Home page](../frontend/home-page.md#budget) and [Metalogros index](../achievements/metalogros-index.md#server-html)).
+- Render-blocking CSS is kept small: the home page avoids importing `game.css`, `Amount` styles live in `globals.css` rather than `ui.css`, and `/metalogros` imports only `metalogros.css`, because importing the guide and achievement stylesheets split them into more chunks and raised its LCP by about half a second. The Dofus guide styles live inside `achievement.css`, and `/guias-dofus` loads only `dofus-index.css` (with its own copy of the «En preparación» pill); a separate `dofus.css` had pushed the guide pages past 2.5 s of LCP in CI. Every page may load at most three stylesheets, which `tests/e2e/hojas-de-estilo.spec.ts` checks on each page of `lighthouserc.cjs`: over HTTP/1.1 the two preloaded fonts and the LCP image already take three of Chrome's six connections, and a fourth stylesheet made the home page's LCP image wait about 450 ms. For that `ui.css` moved inside `site.css` and the breadcrumb's styles into `game.css` (see [Styles, tokens and site shell](../frontend/styles-and-shell.md#stylesheets-per-page)). On the index the first cards' eggs are the LCP and are not lazy-loaded (see [Home page](../frontend/home-page.md#budget) and [Metalogros index](../achievements/metalogros-index.md#server-html)).
 - `/guias-dofus` sat at about 145 KB of script on 2026-11-15, close to its 150 KB budget. Its island (`DofusIndexIsland`: search, filters and the cards' tilt toward the mouse) imports only `src/lib/dofus-guides/index-search.ts` (`matchesDofus`, dependency-free), its own strings in `src/components/dofus/index-island-strings.ts` and the shared `src/components/ui/tilt.ts`; it used to pull in the strings of every Dofus guide (panel ones included), the achievement and metalogros strings and Payload's image size config. `tests/unit/dofus-index-island.test.ts` walks the island's runtime import graph and fails if any of those come back (see [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md)).
 - `/checklists` keeps the progress engine out of the page: its posters island (which shares the tilt code in `src/components/ui/tilt.ts` with the Dofus index) loads the engine and requests the poster models only when the browser already has saved checklist progress, so a first visit downloads neither. The first two posters load their scene and egg with priority, because on a phone one of them is the LCP image (see [Checklists index](../checklists/checklists-index.md)).
 - On a short page such as `/checklists` the footer's lazy portrait of Torre once became the phone LCP: a CSS `filter` (its drop shadow) made Chrome count the image as a box larger than the posters. The shadow is now a gradient behind the image, and `tests/e2e/checklists-index.spec.ts` checks the footer face is not the LCP on the Lighthouse phone (see [Site header, footer and search](../frontend/site-shell-and-search.md#footer)).
@@ -131,7 +137,7 @@ DESIGN.md names the mechanisms: server components, fonts through `next/font` wit
 - the performance score is not asserted;
 - reports stay on disk and never use the temporary public storage;
 - `lhciEnv` uses its own embedded database without `DATABASE_URL`, points the direct URL at the same database, sets the public origin to the measured app, and starts without the dev mode and without R2;
-- `pagesForShard` measures every page without `LHCI_SHARD`, splits contiguous, even parts with the larger first, fails clearly with more parts than pages, and CI's two parts together cover the whole list.
+- `pagesForShard` measures every page without `LHCI_SHARD`, splits contiguous, even parts with the larger first, fails clearly with more parts than pages, and CI's four parts together cover the whole list.
 
 `tests/unit/dofus-index-island.test.ts` guards the `/guias-dofus` island's import graph, and `tests/e2e/hojas-de-estilo.spec.ts` the stylesheet count per page.
 

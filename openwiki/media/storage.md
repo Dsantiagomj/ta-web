@@ -16,6 +16,8 @@ sources:
     resource: repo://scripts/import/load-quest-guides.ts
   - id: openwiki-source-52bd7f492006181f268b8ce3
     resource: repo://scripts/media-sizes.ts
+  - id: openwiki-source-b8d2cb44b5c8224f8b87d0ce
+    resource: repo://scripts/seed-e2e.ts
   - id: openwiki-source-153285322f1fa0bfb7572570
     resource: repo://src/collections/delete-guard.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
@@ -30,6 +32,8 @@ sources:
     resource: repo://src/lib/media/regenerate.ts
   - id: openwiki-source-ea297fb6a1a94e91662773e5
     resource: repo://src/lib/media/sizes.ts
+  - id: openwiki-source-9271c629a90d2564fb99cc33
+    resource: repo://src/lib/media/static-dir.ts
   - id: openwiki-source-47a80445306e82d0ef444872
     resource: repo://src/lib/media/storage.ts
   - id: openwiki-source-0ea598c55dee67445d1c39bb
@@ -44,12 +48,14 @@ sources:
     resource: repo://tests/integration/media-sizes.test.ts
   - id: openwiki-source-35c9ea6f75f53bd3fad443d0
     resource: repo://tests/unit/media-regenerate.test.ts
+  - id: openwiki-source-f6a598d99014d83cbcbd1c18
+    resource: repo://tests/unit/media-static-dir.test.ts
   - id: openwiki-source-034e7fb4a132a9270c2ca2d0
     resource: repo://tests/unit/media-storage.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Media storage
@@ -71,7 +77,9 @@ Uploads to the `media` collection go to Cloudflare R2 when it is configured and 
 
 Blank values count as missing. The four required ones are all-or-nothing:
 
-- **None set** → `null`. The plugin is registered with `enabled: false` and Payload writes to `upload.staticDir` (`media`). This is the local and test default.
+- **None set** → `null`. The plugin is registered with `enabled: false` and Payload writes to `upload.staticDir`. This is the local and test default.
+
+`upload.staticDir` is `mediaStaticDir()` (`src/lib/media/static-dir.ts`): `./media`, or the folder `MEDIA_STATIC_DIR` names. The E2E and Lighthouse servers set it to `media/test/<database>` (`testMediaDir`), one folder per test database. With one shared `./media`, a database emptied and seeded again found the previous run's files, and Payload renamed every new upload («-1», «-2»…) until two uploads collided. Before uploading anything, `pnpm seed:e2e` empties the folder when the database has no `media` record yet (`staleTestMediaDir`): only a folder directly under `media/test/`, never `./media`, and never with R2 configured.
 - **All set** → the plugin uploads to the bucket.
 - **Some set** → it throws at startup: `Configuración de R2 incompleta, faltan: …`. A half-configured deploy fails loudly instead of quietly writing to the container's disk, which would lose files on the next deploy.
 

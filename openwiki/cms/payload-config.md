@@ -40,10 +40,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Payload CMS configuration
@@ -94,7 +94,7 @@ Payload writes several files that are committed and must not be edited by hand:
 | File | Regenerate with | Notes |
 |---|---|---|
 | `src/app/(payload)/**` (layout, admin page, API routes) | Payload's Next template | Each file starts with "THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD" |
-| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel components (`DofusDbNote` and `DofusDbFill`), the panel components of `src/components/admin/` (`SlugDescription`, the row labels, `LockedOnceSavedText`, `CopyValueDescription`, `PanelBrand`, `Dashboard`, `PanelGuide`, `PanelGuideNavLink`, `PublishStatus`, `StepOutline`, `StepRefField`, `StopObjectiveField`, `ColorField` and `ColorSwatch`, the validated text fields `VideoUrlField`, `OptionalVideoUrlField` and `LinkUrlField`, `GameDataRefresh`, `PanelA11y` and `ZoneBackgroundButton`, the button under a subarea's «Mapa del fondo»), the Lexical rich text components (field, cell, diff, the client feature toolbar entries and `BlocksFeatureClient` for the prose video block), `CollectionCards` and the S3 client upload handler |
+| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel components (`DofusDbNote` and `DofusDbFill`), the panel components of `src/components/admin/` (`SlugDescription`, the row labels, `LockedOnceSavedText`, `CopyValueDescription`, `PanelBrand`, `Dashboard`, `PanelGuide`, `PanelGuideNavLink`, `PublishStatus`, `StepOutline`, `StepRefField`, `StopObjectiveField`, `ColorField` and `ColorSwatch`, the validated text fields `VideoUrlField`, `OptionalVideoUrlField` and `LinkUrlField`, `GameDataRefresh`, `PanelA11y`, `ZoneBackgroundButton`, the button under a subarea's «Mapa del fondo», and `TablePaste`, the table block's paste box), the Lexical rich text components (field, cell, diff, the client feature toolbar entries and `BlocksFeatureClient` for the prose video block), `CollectionCards` and the S3 client upload handler |
 | `src/payload-types.ts` | `pnpm generate:types` | CI regenerates it and fails on any diff |
 | `src/migrations/*` | `pnpm migrate:create <name>` | Schema history; see the database page |
 
@@ -113,7 +113,7 @@ The project's own panel components live in `src/components/quest-guide-admin/`, 
 
 The quest guide components are client components (`'use client'`) that read the form through `@payloadcms/ui` hooks and load the linked quest from the REST API with the session cookie (`linked-quest.ts`). Their logic lives in the pure modules of `src/lib/guides/`, shared with the server hook. See [Writing a quest guide](guide-authoring.md).
 
-`.gga` excludes `payload-types.ts`, `importMap.js` and `src/migrations/*` from the AI review in the pre-commit hook.
+`.gga` excludes `payload-types.ts`, `importMap.js` and `src/migrations/*` from the AI review in the pre-commit hook, together with the other generated files (the lockfile, Next types, minified files, third-party skills and `docs/research/url-map.md`, which `pnpm urls:map` writes).
 
 ## Next.js integration
 

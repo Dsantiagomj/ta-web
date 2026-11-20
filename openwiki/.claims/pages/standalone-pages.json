@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d4685f12fca6b05193f2c02592516eb4bce8f5a9c30972205b7c5c9477e4919f",
+  "pageVersion": "sha256:7f5236a9d236af0329d70cf3c816dde9c98fcefb4a93e865bf3278e5f98741ce",
   "claims": [
     {
       "id": "claim_15a2bbeb947d4f7eb83b31e21c6da94c",
-      "statement": "The pages collection holds Torre's standalone pages with a required localized title, a unique validated slug, a state, a legacyHref shown only while the page is «En preparación», a parent page that cannot be itself, a body of rich text, image, video, callout, fight and step blocks, and SEO title and description of at most 160 characters.",
+      "statement": "The pages collection holds Torre's standalone pages with a required localized title, a unique validated slug, a state, a legacyHref shown only while the page is «En preparación», a parent page that cannot be itself, a body of rich text, image, video, callout, fight, table and step blocks, and SEO title and description of at most 160 characters.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Pages.ts#L58-L138",
-          "version": "repo-lines-v1:sha256:d54d1d868ae87bc28e4ff2b6f1c2ec1ffcda47a6231841800f2f0a77fc77d851:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NmUyODg5ZDc3NTRlOWVkZmQwN2U5NjY1MmE3MjRiMWQ2NjQ3NzcyNDM0MmZmN2MyOTgyOWIzYzkxNDk2OTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhMzM5ZDZmZTBmYThmMzJhNDE1YTljNGM3Njk2ZWZjYTZhZTk2ZjQwMWZiYmM5MWU4MzY3NGRlNmI4NmIyY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmMDU1MzY5NTgxYjdkN2VlMThmMzFhZWNkZjdlODA3YmY4OTM3Y2QxNzc1YmYxNDZlNDhlYWNiN2FiOTgzMjkifQ"
+          "resource": "repo://src/collections/Pages.ts#L60-L148",
+          "version": "repo-lines-v1:sha256:5121d68928fbffbf73d9a478b366411d1247b9c428206f12629c14558f693d36:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NmUyODg5ZDc3NTRlOWVkZmQwN2U5NjY1MmE3MjRiMWQ2NjQ3NzcyNDM0MmZmN2MyOTgyOWIzYzkxNDk2OTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhMzM5ZDZmZTBmYThmMzJhNDE1YTljNGM3Njk2ZWZjYTZhZTk2ZjQwMWZiYmM5MWU4MzY3NGRlNmI4NmIyY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmMDU1MzY5NTgxYjdkN2VlMThmMzFhZWNkZjdlODA3YmY4OTM3Y2QxNzc1YmYxNDZlNDhlYWNiN2FiOTgzMjkifQ"
         }
       ]
     },
@@ -17,7 +17,7 @@
       "statement": "Pages are readable by the public only once published, created and updated by panel accounts, deletable only by an administrator when imported, and keep drafts with up to 50 versions.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Pages.ts#L43-L50",
+          "resource": "repo://src/collections/Pages.ts#L45-L52",
           "version": "repo-lines-v1:sha256:be4145b3050dd210272a765bbfe5fd7a31c4832e0afd820779d00b32fe7199e4:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjBhZDVlYjI3MmMzOTg4ZjQzZWU1ODc1MWRmMTBjN2ZlMDFiMjRkOTkzZjc3NTIzYzdiMjU2MjgyZmViNTRiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzAxZGU3Njc0ODFmMmUyNGFkYzIxZjFiY2NmNjA2OTIzMGIxZmZiZDIzYjM1MjdkZGZiYzMwMWQ4YTljMDgzZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDM4Nzg2NGE5ZGQwMWYxMzhhYTdhZTc0Y2UyMWY1ZjM0YThmNTRjNzdjMmIxMTZjYjVhNWExMWZiMTNmYTI4OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTUwNmE2ZjcxZjNkNWNkMmFjZmI3YmJmMmI3MjUwM2JjODYxYmMyYzdlM2VkZWYzM2JhYjEyMTQ4ZjcxMGZjYSJ9"
         }
       ]
@@ -27,12 +27,12 @@
       "statement": "Saving a page rejects a slug another root collection uses, records a changed slug for redirects, and expires the pages cache tag.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Pages.ts#L51-L57",
-          "version": "repo-lines-v1:sha256:8cfe1e85e6e743573b4a2fe60a961842b8b6b1d89d61f913bdea77fd5919a019:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDhmYjhmN2YxOTczNWFmMjg4M2Y4MmI5YmNjMTJmY2MzYjg1NTkzYTIyOWE2NjZmNTlhOTliNzI0ZjliMWMzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDAxMDViMTBmYzAzNmQ1YWZjYzZjZWMzYmM2N2YzMjJmOTMxZDQ1YzdkZGY2NGMyZjZkMWJkZmZhYTE2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODgwYTdlN2M4NWQyNjQ0YzhlMzYyOGNiODNlOTZjMjYzZGQwMTgyOTQwYTgwM2E5ZDMxYzNiZDJhMmQ4YTI3MyJ9"
+          "resource": "repo://src/collections/Pages.ts#L53-L59",
+          "version": "repo-lines-v1:sha256:bc68e7bcc0e6c4cf134f12ced02bbe2ba8862f062f5724ac48ed2b7d5bd4c6b1:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDhmYjhmN2YxOTczNWFmMjg4M2Y4MmI5YmNjMTJmY2MzYjg1NTkzYTIyOWE2NjZmNTlhOTliNzI0ZjliMWMzNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2E0ZDAxMDViMTBmYzAzNmQ1YWZjYzZjZWMzYmM2N2YzMjJmOTMxZDQ1YzdkZGY2NGMyZjZkMWJkZmZhYTE2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODgwYTdlN2M4NWQyNjQ0YzhlMzYyOGNiODNlOTZjMjYzZGQwMTgyOTQwYTgwM2E5ZDMxYzNiZDJhMmQ4YTI3MyJ9"
         },
         {
           "resource": "repo://src/collections/revalidate-guides.ts#L137-L144",
-          "version": "repo-lines-v1:sha256:786aa0e1eeda98f7d5b49ce9b6b6835d6968200d0ab28419008f52b6538337ff:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjY3NjY0YmQ4NzY0NjE4ZmEzNjdjNjYxNTMyZjA5NjJlNjI3YzZhNDI5YjIzNWNmMjZiOGYzNmQzNDUyMzY3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjhlYjBkM2NjZDc1ZTRhMjYzNjRiNjQ3N2RiMDY1NTgxODlhZTkxYTgzYmUyMWY2YWM2YjFmYjg5YjkyODE0NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzNmYWU5YWNkZDY1ZDVkOTg4N2E3ZjRmOTMwMGI4MGQ3ZjM3NTlhZGZmMDhkYTIzMjQzMTQxNTMxZDUxZTZlMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+          "version": "repo-lines-v1:sha256:17b0c4485a7a4754bb9265c86ac3e434421ca122eb13fcfcf034ae4e6b2cbad2:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTU4OGI0NjA5NjY5NjRmNjY1YWRmNjJiOGFiNGQzNGE5NDZiMjAwODUwYmM2YzU4YTIzM2ZkYTJlMjk1MTBlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGY5YTJmYTJiZDdlN2UzNWQ4YWFiN2MyM2FiNDIyMzM4ZmEwOTU5NGU4MTExNzdlMGQ5NTdiZjRkNTg5YjcwZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWQxNzhkNWQxZmMzNTY0Y2E4MzBlZTg1ZmU1YjNmYjkxYTNjYmEyNjNkZjUxZTA4NzE5MzY3NzE3MGUzYzgzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjQyMjFlODA1MGNlYTAxMjU0NzY5Yzk0ZGMwNTE2MGNmYmE3MGMzMGI1ZTAzZDcxY2YxNzc5ZmJjOTJlMmY4OSJ9"
         }
       ]
     },
@@ -41,11 +41,11 @@
       "statement": "A published page or any page in preview renders; a page «En preparación» redirects to its legacyHref unless that link is missing, invalid or on this same site, in which case it is not found.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L131-L138",
-          "version": "repo-lines-v1:sha256:10c575055755d1f6e84de8d79965ca64f6528435844bb33782a4ab6cefae9b32:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzk2MTQ1MTA2YTQxMGRkOGMwOWRlYTg5MzNjZjAzZmI3MWU0YjdiZmJiMDdjNjIyOGE5MjJjOTY1OGFkNzRhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkzYjdiNTBhMmYyNGFmYzU4ODM4MDVkZjQxZjQzNDAzMWY4MzQ0NDMxOWYyNWU5YjVkZmNlODQ3ZmI1M2Y5ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI3MTU0NDdhOWVkNWMzYmYxNDUyNjUzODJlNTIzYTE3NjU0YzYyZGRkMjk3NGI2MGQxNGZjM2RkZDY4ZjMwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzdiMzI0ZDJkOWU1ZTlmYTQ1YTFhM2E4Y2U5OWM3MDMwM2UyMDdhZTlhY2IyMjcxMTk5ODJmYTkwZjdmZDUyMSJ9"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L131-L143",
+          "version": "repo-lines-v1:sha256:1d04d0181fc96ac63cdce9927b9f7ac50cd0139b4df07035e25de5f2612d555c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmYjc3NjhlMmY1NjhiNmIwODI3NTljZWZiMmI5MGMxZTUxYTQ0OTcxMWViZTg1YmFmMjQxNWI5NmEwYTcxZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkMGJkYjQ0MWM5ZDBkODA5NzU1NmNjZDA2MjJhZmQ2OGJjMDc2M2U3MmQ2YTE5OWQ4MjJmNTEwMzQ5YzRmMDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlZjZmZmFjNjYyNzJmZWQ1YjA0ZjJhNmFiOWVmMWNmZmEzMDJlMTJiMDRhNTk2NTMwODI0ZWM1ZThhNmU0NGQifQ"
         },
         {
-          "resource": "repo://src/lib/pages/page.ts#L29-L32",
+          "resource": "repo://src/lib/pages/page.ts#L32-L35",
           "version": "repo-lines-v1:sha256:e7cabd0e73ed9a92f96cbd1225ce416bc5902c6841577c5c2c45749a135265ae:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDNkY2ZmZTg3NzM0MzNhZmNlMGIxNWEzZTg4ZGQ5ZjQ0ZDQ4NTYzZGUyNzVmYTY3ZjZhNzllOTBiOTIyNjdjZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjM5NDYzODdlYzhkMWY3NTM1ODY1YTVhYTkyNzg3ZTdjNzBiM2EyOWM3MGRmYWVjZjVjZjJhN2VjYzUwYjE3NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDhmZWM5ZjJiZGM3MWRiZmIyM2QxYWE1NWM5NmQ5NTg3YmNkM2IxNTcyMjMxMGFiNjRjYmM0NjVlNzVlYTY0YyJ9"
         },
         {
@@ -83,8 +83,8 @@
       "statement": "SitePageView renders the breadcrumb, the title as h1 and the body through GuideSections in the quest guide column, with PageEnhancements as its only island outside preview.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SitePageView.tsx#L10-L36",
-          "version": "repo-lines-v1:sha256:4c511b6d7d5cf9df06d36ea1f2b20609e22fa01a9269c00c0d6cfb64ad7f536b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NWE3NTE2ODk4Y2U0NmViZDU3ODllMjA5MGExOTMwM2Q4NDBiNmFjNmNlY2IzZTQxNTZmNmZmMTkzYTUzODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SitePageView.tsx#L13-L40",
+          "version": "repo-lines-v1:sha256:73a7ef7837dc18444665dc970452304725328c526ce4fc58d40d8bc62d2cd82d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NWE3NTE2ODk4Y2U0NmViZDU3ODllMjA5MGExOTMwM2Q4NDBiNmFjNmNlY2IzZTQxNTZmNmZmMTkzYTUzODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -93,7 +93,7 @@
       "statement": "A page's metadata uses Torre's SEO title and description when written, otherwise the page title and the first body text clipped at a word to 160 characters, or the title when there is no text.",
       "evidence": [
         {
-          "resource": "repo://src/lib/pages/page.ts#L77-L86",
+          "resource": "repo://src/lib/pages/page.ts#L80-L89",
           "version": "repo-lines-v1:sha256:7c4204aae82068f36543e0e5342c308f8b9c377d5448c7b5a8fdc6856cd89cda:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlOGUxNmUwM2U3NzIxOWYxMDE2MTM3MzdjMTFiMmNlYTk0MDM0ZTE4MWRmYTYwMGE2NGY4ZTA1Y2MyMTBmZWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyOTY2N2UwNmY0MGEyNTk3ZWYxOGUwZTc1MTI0MjIxODQ5MTE1ZTViNzkyZmU4Y2FkYzQzNzBlODZhNGMzNDYifQ"
         }
       ]
@@ -103,7 +103,7 @@
       "statement": "The breadcrumb shows the home page, then the parent page only when it is populated and published, then the page itself.",
       "evidence": [
         {
-          "resource": "repo://src/lib/pages/page.ts#L88-L105",
+          "resource": "repo://src/lib/pages/page.ts#L91-L108",
           "version": "repo-lines-v1:sha256:e79cfa27cfc1797ac60a5dae766538a7b2420a9445eaed442d677193672259c0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzM2EzMWU0OGRhNDI5MmIyOWFhNWI3NTQ0YjRiNTYzNmZlM2QyZmIzNjQ2NzEzOGU1OTA0MzlkMzFkM2Y2ZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzZjNhYzkyZDJlYWVlYmExNGVkYmE1MWFjMjY1Nzg4MjAzYTExZjJjYzI1M2EyNjJjOTQzY2Q3MTI3MzcxNjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxNzFmZTVmYTFkMmQzNDc0ZWU3YWI4YTUyZGIwZGU1NzUyMmE4Yjg3OWQyMjYwMTI4N2ExMTNiNGY1MjM3MDUifQ"
         }
       ]
@@ -114,10 +114,10 @@
       "evidence": [
         {
           "resource": "repo://src/components/site/nav.ts#L193-L206",
-          "version": "repo-lines-v1:sha256:421148bf555018caa8fc23fe9daa72fdd7fffe1028c34951e067a99a939ac008:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxNjEwOWUxNWJjZDYzNTY0YjZjNjE0NzNmOTViZmUwYWI3MzhhMTQ3MjI1OTM2MjZlZTQ5NTNjNDA4NjQ0ZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmYzIyZWVhOTc4Yjk5NzVlMDQwNWM4NTJkMGIwOWIwY2RjZmFlNjJlYThhMGQwNDE4NzU2ODcyYTYxOGJiZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwMjU2MGNiNzA2NGNkODY2ZGIzYWE5NjBhMDBjNDk1MmI1MDVlZWNhNzQ4NjlmZjBiM2FhOTNkOWI0OWIxNGIifQ"
+          "version": "repo-lines-v1:sha256:9f7af2c2186d54b1600a8ba4b1cc8e996e92a4e7c0399d2a1d1c498132d758a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjNzUxMTUyYWJmMjAxNzQxZDRjYWE1ODkyZjk0MWM4YmMxZjE1MjAxNzI1MmI3ZGYwODFiMWVlNjAxNGQyOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2YWYyODM3ZWE4MDYwZDVlNmQ0ZDI5MGI4ZGNjZjE1Yjc3ODQyZmIxM2I4OTViODQ1ZWI5OTliY2JjOTAyYmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5NzVkODA0NTNhZWFkYWMxMWU1YjAzZTFlODliNzNiZTQ0NWNkZTU5ZDFmMDdhYzljNGFlYTQ1NjA1ZDM5YTcifQ"
         },
         {
-          "resource": "repo://src/lib/pages/page.ts#L107-L127",
+          "resource": "repo://src/lib/pages/page.ts#L110-L130",
           "version": "repo-lines-v1:sha256:f7d5be634ee441fd902cd9821ea1e01df7b021851449d33ea7c7b1a860e6a8b2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiMmI0MjM4NDlhMWI4MDZmYTdlYmM3YTEyNWJhZDY4MzE2NTVmNWFjNTA3YTZmYWVjNjcwMzdkZmFjN2UwOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
@@ -131,8 +131,8 @@
       "statement": "pnpm import:pages brings the catalog of Torre's loose Squarespace pages into pages, downloading them or reading saved HTML with --from, only counting without --apply and refusing a remote database without --remote and production without --production.",
       "evidence": [
         {
-          "resource": "repo://package.json#L39-L39",
-          "version": "repo-lines-v1:sha256:f0e43a35957f6c824ada2d198226166e692faa21024df04836f8a35ce1cf909d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODc3OGI1ZTc2N2JkMjE3OGVmODhjNTk1NGYyNmQyYjI1ZDI0ZDBhZTBkMWE5ZWFiZWFiMWQzZTc5NjFiMzVkYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTA3MzZkMWE3Y2FlNDIxYTVmNGY4ZGY4OTAwODQ5Y2M4MjE1ODQ1OGQ0YmVlZTA3MGQ4M2FiZjkzZWMxOWY2MiJ9"
+          "resource": "repo://package.json#L42-L42",
+          "version": "repo-lines-v1:sha256:f0e43a35957f6c824ada2d198226166e692faa21024df04836f8a35ce1cf909d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBlNDNhMzU5NTdmNmM4MjRhZGEyZDE5ODIyNjE2NmU2OTJmYWEyMTAyNGRmMDQ4MzZmOGEzNWNlMWNmOTA5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzU2YjJhM2UzMDBiMTFlMmViOTM0NDRiZDk0M2E1YjhmZGIyMzA5NDg0YTNhZTZlOWEzM2E1NmFkYjJiODNjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDRhN2U0NzMxNmExMTQwMjcyMTk0Y2Q2ZWRhYzFkZTE5ZTQ3MWM1ZmNhOTg3ZjYxNmY1OWZlNDJjOGI5MmVkNSJ9"
         },
         {
           "resource": "repo://scripts/import/import-pages.ts#L1-L10",
@@ -219,10 +219,28 @@
           "version": "repo-lines-v1:sha256:23ba53f04f8b7cfb5f0d1aba44c26f8ce3b884208df1794f2a9cf5e94e79f5d3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5OWI1NzRiMzI2YWVkNzA5ZmMyYzA3ZDNmZjg3NjA0NzkxZTFkMWE3N2NhYWQ0MWI4MWFlMzhlMWRjYzU0OGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlYmQxYjI2MDg3MjI5ZGVlMzM1MzIxMDA4ZjFhYmRjOWY1ZDIyM2QwZDVhNDAwY2M0OTZkZWQ2Mzk0M2Q2NzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_8008b6ab4fef46dd843ccf93fb18c0e0",
+      "statement": "SitePageView shows the «Actualizado el» date from the page's content date under its title, and pages carry the hidden contentUpdatedAt date.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SitePageView.tsx#L22-L28",
+          "version": "repo-lines-v1:sha256:8996d5e3549f029186532e1f5560fd53e029e71adc22b8b88525b6862687b1cd:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGZlOThiZjU3NjYwZjRlNThjYWI2ZDc2ODBkMzU0NjhjYWJhY2E5ZjM1MDUyMjQyODM5NTVmNDEwMjM0MzE1NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjNiNTE0ZjhiNTM2ZjMzNTgyOGEwMDQ5YzM3ODU0OWM5ZTAyYzFmNmMxMTQwMGQwMmYyN2E5Yjk4YjhlYjBmOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDg5M2M0OGZkOWUxMjRiZTEwNDExNTk4OWYxY2QyYzhiNjRiYjg4Y2YzNjNhYjlkYjA0MzZhOTU4MTQxMjg2MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODIzMmZkY2FiMDI4ZmJiNzE4MzY0MGVkYWZiMmI2NTUxNTEwYTYzMjk5MjE3YTNmNTg3M2YwYjZjYjk0NTBhYiJ9"
+        },
+        {
+          "resource": "repo://src/collections/Pages.ts#L158-L158",
+          "version": "repo-lines-v1:sha256:f4197f1e80470d740a6b5d436964f2341f422c666d2931848b664ce920f0ee99:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQxOTdmMWU4MDQ3MGQ3NDBhNmI1ZDQzNjk2NGYyMzQxZjQyMmM2NjZkMjkzMTg0OGI2NjRjZTkyMGYwZWU5OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQxOTdmMWU4MDQ3MGQ3NDBhNmI1ZDQzNjk2NGYyMzQxZjQyMmM2NjZkMjkzMTg0OGI2NjRjZTkyMGYwZWU5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjM5Nzg0YjMwOWJmOWE2Yzg2YjU2NzljY2NmMTAwMmVlM2I3N2ZhZTQzODQ1YTJiZDRlNTIyOTg2M2QyMGRkYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmQ4NjM2ZWQxZjY4YzhiYWRlZTI4YzAwZDYyYmIyN2IwZTM2ZTgyNDlkYzQ4MzdhZjY2ZjJhYjg1MThhNWU3ZCJ9"
+        },
+        {
+          "resource": "repo://src/collections/Pages.ts#L56-L56",
+          "version": "repo-lines-v1:sha256:f2979ab114cea9cfa4e22212f3bc34e2b9d290dd73d99c3e5979d2e6cccd2f13:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjI5NzlhYjExNGNlYTljZmE0ZTIyMjEyZjNiYzM0ZTJiOWQyOTBkZDczZDk5YzNlNTk3OWQyZTZjY2NkMmYxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjI5NzlhYjExNGNlYTljZmE0ZTIyMjEyZjNiYzM0ZTJiOWQyOTBkZDczZDk5YzNlNTk3OWQyZTZjY2NkMmYxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTUwNmE2ZjcxZjNkNWNkMmFjZmI3YmJmMmI3MjUwM2JjODYxYmMyYzdlM2VkZWYzM2JhYjEyMTQ4ZjcxMGZjYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGEzMzlkNmZlMGZhOGYzMmE0MTVhOWM0Yzc2OTZlZmNhNmFlOTZmNDAxZmJiYzkxZTgzNjc0ZGU2Yjg2YjJjYSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

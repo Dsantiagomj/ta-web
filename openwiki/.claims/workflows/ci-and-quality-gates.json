@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c976960ffa76e935e0b886c193a72fdd6b385268e60b59e6fdfc2e44c482b3fd",
+  "pageVersion": "sha256:b06fa56bb1acdfd29cb709df05d3d6af6a4cbf958e4b47b60d157869d41fedfc",
   "claims": [
     {
       "id": "claim_cb74801dca844af99590395d68fa512d",
@@ -24,11 +24,11 @@
     },
     {
       "id": "claim_0bb8ceb92f7a4ada9d202131e09404e3",
-      "statement": "gga reviews code, styles and Markdown against AGENTS.md with the Claude provider by default, excludes generated files and the third-party agent skills in .claude/skills/, and treats ambiguous verdicts as failures.",
+      "statement": "gga reviews code, styles and Markdown against AGENTS.md with the Claude provider by default, excludes generated files, the third-party agent skills in .claude/skills/ and docs/research/url-map.md, and treats ambiguous verdicts as failures.",
       "evidence": [
         {
-          "resource": "repo://.gga#L1-L25",
-          "version": "repo-lines-v1:sha256:659f9770501222bec12d3b8fc9958e9755d95f0005b979d5efddd13c99bb1ca9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmMTFkNDFjMThiMmVhYTZiZjBkMmE1YmM0OGE1Y2I5ODhkZjM1OTc1MDdlZTFlNWQ0NzBmY2U2YTFlZWU5YzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjE5ZmFmZDFhNDA0M2FmY2MyZWQzMzNiYzZhNDVkZDFmNjc0YjFjODUwODdlZTViNTA3MzRiNDg4MzVkZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://.gga#L1-L26",
+          "version": "repo-lines-v1:sha256:33ba0b85fd8be9aea7f741b1795d464e6180ced68d6907ee36eebbc1f4a6e71e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmMTFkNDFjMThiMmVhYTZiZjBkMmE1YmM0OGE1Y2I5ODhkZjM1OTc1MDdlZTFlNWQ0NzBmY2U2YTFlZWU5YzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjE5ZmFmZDFhNDA0M2FmY2MyZWQzMzNiYzZhNDVkZDFmNjc0YjFjODUwODdlZTViNTA3MzRiNDg4MzVkZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -68,11 +68,11 @@
     },
     {
       "id": "claim_f2ecd7617e864da78507931afeda79cf",
-      "statement": "CI runs a change-scope job, lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests, E2E plus the dev environment E2E, a two-part Lighthouse job and a dependency audit, each test job gated on the jobs the change scope selects.",
+      "statement": "CI runs a change-scope job, an install check, lint and format check, typecheck plus a stale Payload types check, unit tests, the import golden pages, build, integration tests in three parts, E2E in four parts with the dev environment E2E in the first, a four-part Lighthouse job and a dependency audit, each test job gated on the jobs the change scope selects.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L21-L285",
-          "version": "repo-lines-v1:sha256:9628d78cf7b61a28514968cee37e4964b955a0e7003b96af96155e03803f7bb5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjY1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlOWQ4MDE1NGVkNDJmYzVjNzc5YjEzMzE1NzhiNThiODljODAxZWFjZTc0ZjI0Y2Q0OGViNGEyMzU3OTQwYTk1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwZDhiOWY4MDAyNjQyMmNkNDNmNzU2YzljYWRhZGUzZGJjMzVkY2FkODFmNTk3YTI3OTdmYTZhZmU1MWIwZDQ5IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0OWUwYjFlM2Q0ZmQxMmE3N2U5NDM0YjlhODYzN2RiMDVlN2NkMDE3MzNiNGJkYWNhOTEyNzcwNzQ3ZTMyYzM4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3MDVlZmVhYWEwYWI2ZGVjOGNiOGQ5ZGJjMzc0NDViNjRjYTBmNjI3MmJkMmRmOWE5ZjVhYTEyYTlmMWUwZDgzIn0"
+          "resource": "repo://.github/workflows/ci.yml#L21-L312",
+          "version": "repo-lines-v1:sha256:ab8e70993ca630821395145f5f9a8d29586a85f6e7ee937256b43bc1e83134c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjkyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlOWQ4MDE1NGVkNDJmYzVjNzc5YjEzMzE1NzhiNThiODljODAxZWFjZTc0ZjI0Y2Q0OGViNGEyMzU3OTQwYTk1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwZDhiOWY4MDAyNjQyMmNkNDNmNzU2YzljYWRhZGUzZGJjMzVkY2FkODFmNTk3YTI3OTdmYTZhZmU1MWIwZDQ5IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0OWUwYjFlM2Q0ZmQxMmE3N2U5NDM0YjlhODYzN2RiMDVlN2NkMDE3MzNiNGJkYWNhOTEyNzcwNzQ3ZTMyYzM4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3MDVlZmVhYWEwYWI2ZGVjOGNiOGQ5ZGJjMzc0NDViNjRjYTBmNjI3MmJkMmRmOWE5ZjVhYTEyYTlmMWUwZDgzIn0"
         }
       ]
     },
@@ -81,8 +81,8 @@
       "statement": "The Pruebas job always runs, depends on every job, and fails when the change-scope job did not succeed, when any job failed or was cancelled, or when a job the change scope requested did not succeed.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L286-L318",
-          "version": "repo-lines-v1:sha256:84cdc197f1ebbfb8eaecf62ee6f6a5e0c198dff8724377ea5f7aaf6f1dcac538:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzMGNmZjYzMDg5ZjJjYjE2MzQ0ZTkwM2RkNmE2M2NlODQyODkzYmJmMzAwMTVmOTYxYmUxNGMxN2FlNmYwZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNzk1OTNjNjhmNGEwMzNiMDA2M2NlY2ZkMjZiY2UyMmVhMmYwNzE5ZWQ5NjZmYWU5OGUzNmQ2YTViZmEzNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhN2I4YzcxYWQzMDljMmFiMGE2NDNhZjJkNGE2YzdiMzUxOTcwYzQwYmM4ZmM4NjcxM2JmZTkxMmFiNTdjMzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://.github/workflows/ci.yml#L313-L346",
+          "version": "repo-lines-v1:sha256:00dee521a3bac827163db3fe99341d6de7e4a8cacb9d5bfdc52c711db01c623a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzMGNmZjYzMDg5ZjJjYjE2MzQ0ZTkwM2RkNmE2M2NlODQyODkzYmJmMzAwMTVmOTYxYmUxNGMxN2FlNmYwZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNzk1OTNjNjhmNGEwMzNiMDA2M2NlY2ZkMjZiY2UyMmVhMmYwNzE5ZWQ5NjZmYWU5OGUzNmQ2YTViZmEzNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhN2I4YzcxYWQzMDljMmFiMGE2NDNhZjJkNGE2YzdiMzUxOTcwYzQwYmM4ZmM4NjcxM2JmZTkxMmFiNTdjMzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -91,7 +91,7 @@
       "statement": "The audit job fails on critical production advisories and only warns on high ones, reading the lockfile without installing.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L261-L285",
+          "resource": "repo://.github/workflows/ci.yml#L288-L312",
           "version": "repo-lines-v1:sha256:82fa9f8908b95c6de98350434777cd1d2db743d227565cb002ba610989102278:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhZjgwMGE5NDY3ZDZmZTAxM2I3YjJlODk0YTZkYTkzZmJjYWMwYTNkYTdmMjMzYzExZDU5NDBiODMwNTEwYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkOGI5ZjgwMDI2NDIyY2Q0M2Y3NTZjOWNhZGFkZTNkYmMzNWRjYWQ4MWY1OTdhMjc5N2ZhNmFmZTUxYjBkNDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMyMzEyNGEyYWEyOTQxMDA1YWMzMTBmMTllMDhhMmFhNTZkMGRlMDBlNjcwOGIyMzkzYWJjMzJiZmY5ZjEzMmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcwNWVmZWFhYTBhYjZkZWM4Y2I4ZDlkYmMzNzQ0NWI2NGNhMGY2MjcyYmQyZGY5YTlmNWFhMTJhOWYxZTBkODMifQ"
         }
       ]
@@ -118,11 +118,11 @@
     },
     {
       "id": "claim_5881d6485a664dc0bbf24d5137353535",
-      "statement": "Prettier ignores all Markdown files, the generated openwiki/ directory and the saved Squarespace pages the import parsers read in tests/fixtures/squarespace/, tests/fixtures/dofus-guides/ and tests/fixtures/pages/.",
+      "statement": "Prettier ignores all Markdown files, the generated openwiki/ directory, the saved Squarespace pages the import parsers read in tests/fixtures/squarespace/, tests/fixtures/dofus-guides/, tests/fixtures/pages/, tests/fixtures/section-pages/ and tests/fixtures/import-golden/pages/, and the golden outputs in tests/fixtures/import-golden/expected/.",
       "evidence": [
         {
-          "resource": "repo://.prettierignore#L16-L25",
-          "version": "repo-lines-v1:sha256:44e21ded2cc99c2d05c76dfdb0e71a24e7542ddf66e058928c0e130de21a364a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5ODE5Y2Y3YjM3YTI1NThiNmFhZGQwZGE1ZjliZDBjNDFmOTk0OTYxYmY1ZjBhNDZmYzRkZThhMzQwMDI1ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczNTcyNDI5N2UyNjZkZTJmNGJkODQ4MGE3MzEyOGI5YTIyYTEzNWJlNWZkNjA0ZjM5NGM1OTI2ZGIyOTExMDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzYTRmOTcxNzNkNDc0OWY1ZDVmMDYxZTMyYmE2YjRjYjg4OGM1M2U3Yzc5ZTkyMDI3NTI4OTQ1M2I5NTAzNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYmNjMGZhYWE0YmE3OTZjYTJhYzc5ZGU3ZWI2MGI0MGVlMTZhMGI2ZDhmY2M3NDdhZDgwMWY4M2EzNTFhODUifQ"
+          "resource": "repo://.prettierignore#L16-L29",
+          "version": "repo-lines-v1:sha256:1c116216239d85b8c0f290e740dd5f924a38d896641eaecdfb3ff866d13211f2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5ODE5Y2Y3YjM3YTI1NThiNmFhZGQwZGE1ZjliZDBjNDFmOTk0OTYxYmY1ZjBhNDZmYzRkZThhMzQwMDI1ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljYzM1N2UxYjNjYzAzZjgxM2I5YTM0M2JmNmIwOWZiMTdiMGY5ODhhNzE2N2UxMzllMDY1OWY3Mzg1ZWM3ODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzYTRmOTcxNzNkNDc0OWY1ZDVmMDYxZTMyYmE2YjRjYjg4OGM1M2U3Yzc5ZTkyMDI3NTI4OTQ1M2I5NTAzNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYmNjMGZhYWE0YmE3OTZjYTJhYzc5ZGU3ZWI2MGI0MGVlMTZhMGI2ZDhmY2M3NDdhZDgwMWY4M2EzNTFhODUifQ"
         }
       ]
     },
@@ -145,8 +145,8 @@
           "version": "repo-lines-v1:sha256:681a2ab45df376853d35360d90c85e406f34334e52337ba22122c1d4482278cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjgxYTJhYjQ1ZGYzNzY4NTNkMzUzNjBkOTBjODVlNDA2ZjM0MzM0ZTUyMzM3YmEyMjEyMmMxZDQ0ODIyNzhjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjgxYTJhYjQ1ZGYzNzY4NTNkMzUzNjBkOTBjODVlNDA2ZjM0MzM0ZTUyMzM3YmEyMjEyMmMxZDQ0ODIyNzhjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTFjNGI0ZjhjYWRjZjM1MjM1MTY1MjExOWY4Mjk4ZmExZDBkNjRmOTQzOGUyMzFiOTJiYzA5MWFhMzkxMDkxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTBiZWJmYWRjYmJhNDA3OTBjZGYxMDgyMzVjY2IxY2IzYmE0ZDVhOTdkOWI5YmIxZjg4YzRkYTQ5NDhlZjJmMyJ9"
         },
         {
-          "resource": "repo://package.json#L72-L72",
-          "version": "repo-lines-v1:sha256:f76c7d72bbb6a2cc73b1d8c43f3eb767482679b7ad350f6079ad2dc3935f68c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWUxYTdlMWQ3OWE1ODkxYWJmNzllNDZkOTc1ZjkyNjkyMjViYzkyODFiNWRkMDRlMWY5NThkN2EwOWE4NjFjMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTQwMDM4ZGM4MzQ1NWM2ZGZjMTYzM2UxZDkwMTNjNDZmNzM1ZmRmNTA5MzU4MTMxODQ2OWI2MDEwMjMyMTNkMSJ9"
+          "resource": "repo://package.json#L95-L95",
+          "version": "repo-lines-v1:sha256:f76c7d72bbb6a2cc73b1d8c43f3eb767482679b7ad350f6079ad2dc3935f68c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmU0MWQyNTJjNmRjNjBhNTExYjYzNzc0ODkyNWU0MzdkZWRkYmU4NDc3OWY5OWRmMTcwMzExYzA1NTRhZjY0MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTY1ZDFmZDI2OWQwMjVmNDIzYmQyNDIxZTk2M2Q4YTVhNWFhOTRjZjIxNzFhOWUwZGUyNWNkZTQ0YzQ4M2Y3NSJ9"
         },
         {
           "resource": "repo://pnpm-workspace.yaml#L18-L19",
@@ -156,11 +156,11 @@
     },
     {
       "id": "claim_072dd2cc012d40d48c3b4102230cd346",
-      "statement": "The Lighthouse job runs pnpm test:lhci in two parts with LHCI_SHARD, each on its own empty Postgres and the restored .next cache, and uploads each part's reports and assertion results as an artifact for 7 days.",
+      "statement": "The Lighthouse job runs pnpm test:lhci in four parts with LHCI_SHARD, each on its own empty Postgres and the restored .next cache, and uploads each part's reports and assertion results as an artifact for 7 days.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L200-L259",
-          "version": "repo-lines-v1:sha256:df595e49e0f600f5f88fcd5816e34574248d3df55d0b09f3f8d97da61841742f:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4MTY4OTY2ZDE1NjA3ODk1ZDcyYjFjYmFlN2FkZGI1ODYyNTE5NDdlNmI4MWJhZWE3M2JkOGUzYzgzNGI3MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5NDE4NzgzNDZmMDY3MzZjZDI3NTBjMjkyYWNkOWVjODQ1N2RlOTg0NzllYzg2MzhlZjRhYmE5NGY0NjI2ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlODE1ZDcxMDllZWVlZDlhYTE1YzY3NTcyYTI4MWNlMWI3MDgwYzY3NThjZTM1ZGZhOTliMDhiMjhlYTIxMTkifQ"
+          "resource": "repo://.github/workflows/ci.yml#L227-L286",
+          "version": "repo-lines-v1:sha256:af53dea467388086751cf313d0bdd60633a6e99bc91d05a16ffb010a29eadce1:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4MTY4OTY2ZDE1NjA3ODk1ZDcyYjFjYmFlN2FkZGI1ODYyNTE5NDdlNmI4MWJhZWE3M2JkOGUzYzgzNGI3MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5NDE4NzgzNDZmMDY3MzZjZDI3NTBjMjkyYWNkOWVjODQ1N2RlOTg0NzllYzg2MzhlZjRhYmE5NGY0NjI2ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlODE1ZDcxMDllZWVlZDlhYTE1YzY3NTcyYTI4MWNlMWI3MDgwYzY3NThjZTM1ZGZhOTliMDhiMjhlYTIxMTkifQ"
         }
       ]
     },
@@ -197,8 +197,8 @@
           "version": "repo-lines-v1:sha256:b35cbc2bfb0d9185ae0520484417fee3c8cc93d4f6999cc905281816990f9bb0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmMDQwOTQwMjg4NDEwYTRjMDhkYWVlY2YyYWUwN2MyMzgzYTE4YjYyODJlZTZmOTA5ODc3YTZhOGQ4ZTdlN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhZjE3ZTg0ZTZjYWQ1MTc2YjA0MTdmNzA2MTYwOTVmMTgwMDIzMTg1NzIzNDYwYjY2NTU2M2ZkNzBmYWQxMDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://.github/workflows/ci.yml#L181-L183",
-          "version": "repo-lines-v1:sha256:5ab4d1798d1e8ffec1848e4d04ef3666f6aa612266d7e516edb67cef5bb62184:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM0MTgwZDBkZjQxNThiMjAzYThiODMzYzhhM2JlZmQ0ZWUxZWUzZjhhMTMwMDNkZTg3NGJkYWZjMDcxOGU1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzNiMGJkN2I2YjlkYWU5MTc5ZGU3MDQxNTdkNzRkNWJmYzA0MzAxZmVjOGNiMTBkMDBmNDRjZjJjZGNkNzFkOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjc5ZGYxZDFiOTIyZWI0NTU1MGUzOTgyYmVjYzc5YTA0MzNmYTQ3ZGZmZGQ5NzczMjA0NDZmMzk4NThhOWRhMyJ9"
+          "resource": "repo://.github/workflows/ci.yml#L207-L209",
+          "version": "repo-lines-v1:sha256:5ab4d1798d1e8ffec1848e4d04ef3666f6aa612266d7e516edb67cef5bb62184:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM0MTgwZDBkZjQxNThiMjAzYThiODMzYzhhM2JlZmQ0ZWUxZWUzZjhhMTMwMDNkZTg3NGJkYWZjMDcxOGU1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzNiMGJkN2I2YjlkYWU5MTc5ZGU3MDQxNTdkNzRkNWJmYzA0MzAxZmVjOGNiMTBkMDBmNDRjZjJjZGNkNzFkOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI0YWIzMzAzMzc4MWM1NzYyODM4YWE2NTI5ZGYxMTVkMjdjOTUyZDkxNTI1NzdkYTA5NDI5MzZlNjA2ZmExZiJ9"
         },
         {
           "resource": "repo://scripts/ci/playwright-chromium.sh#L1-L47",
@@ -208,15 +208,15 @@
     },
     {
       "id": "claim_2b2b9beef2934ad9b176f865256f5c9d",
-      "statement": "ci-scope.ts classifies changed files as docs, offline or full, with the highest scope winning and unknown files counting as full, and maps docs to install, lint and audit, offline to adding typecheck, unit and integration, and full to every job.",
+      "statement": "ci-scope.ts classifies changed files as docs, offline or full, with the highest scope winning and unknown files counting as full, and maps docs to install, lint and audit, offline to adding typecheck, unit, integration and import, and full to every job.",
       "evidence": [
         {
-          "resource": "repo://scripts/ci/ci-scope.ts#L1-L75",
-          "version": "repo-lines-v1:sha256:6ce7ab68785ceb8dcdf79746828f516416dee4741db5b0b0909549235ab3eb2f:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmMWE5YzFkNDAxNzY0NzAyYjY1MzgxOWVkNmUyZmI1NjQ5NDcwZGViYzc3MGIzMWU2MjY4MjljZDUzM2RmMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxNGFmZmQzM2U0OWY3NGQxNmM4NjY3MTIwZTk5ZGI0ZTA0NTkwOTIxZGNiYmI2OWI5ODZmNTMwZTYwN2JiNzUifQ"
+          "resource": "repo://scripts/ci/ci-scope.ts#L1-L74",
+          "version": "repo-lines-v1:sha256:84d6adab9cde8ff96b971c5e9d96d54b685ba4136472c1b539295e9cc2952400:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmMWE5YzFkNDAxNzY0NzAyYjY1MzgxOWVkNmUyZmI1NjQ5NDcwZGViYzc3MGIzMWU2MjY4MjljZDUzM2RmMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiNGNlOGIxNzAxODQ2MzU0NWQ3ZGNmMTliZjQxNzBmNDMxNGYxOTgzZTg0NzFiNWQ2Njg4YWI2MWE5N2VkMjkifQ"
         },
         {
-          "resource": "repo://tests/unit/ci-scope.test.ts#L1-L168",
-          "version": "repo-lines-v1:sha256:29614b0766908c36c355f7049b77e752347e332c8ef86eaa9ccd0345280f3978:eyJzZWxlY3RlZExpbmVDb3VudCI6MTY4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0ZjMxODcyZjI0N2IzZjg0MmY4MzhkN2VjZTVhMWRiYTJmMGNiZjk1NTBkMTgxNjA5MjJkODRkODVlYTRmZTljIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/unit/ci-scope.test.ts#L1-L176",
+          "version": "repo-lines-v1:sha256:48959aa71dc6396d4ecb0863f8310d4d18aa5107bc6ccd22c4fcf76eaa333c8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTc2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0ZjMxODcyZjI0N2IzZjg0MmY4MzhkN2VjZTVhMWRiYTJmMGNiZjk1NTBkMTgxNjA5MjJkODRkODVlYTRmZTljIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -226,10 +226,10 @@
       "evidence": [
         {
           "resource": "repo://.github/workflows/ci.yml#L21-L59",
-          "version": "repo-lines-v1:sha256:2f5f4598d5846ba001c847a2b8aaf3ce3577a4653c15158406dea8448cf0d9a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5ZTBiMWUzZDRmZDEyYTc3ZTk0MzRiOWE4NjM3ZGIwNWU3Y2QwMTczM2I0YmRhY2E5MTI3NzA3NDdlMzJjMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzZjBjZWZkOWIwYjBmZDdkYzNlNWEyNWM4Yjc2ZTA5ZWZmM2EyYzc2Yjc2YzZhMTY5MGEwZWUzNzk2NjNjNDkifQ"
+          "version": "repo-lines-v1:sha256:2f5f4598d5846ba001c847a2b8aaf3ce3577a4653c15158406dea8448cf0d9a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5ZTBiMWUzZDRmZDEyYTc3ZTk0MzRiOWE4NjM3ZGIwNWU3Y2QwMTczM2I0YmRhY2E5MTI3NzA3NDdlMzJjMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljMzAwZmIxMzdjMzY5ZWExNzQwZDQwZjFkNjA5YmQ0ZDIzMTM5NGNjMjBkM2ZiOTY3N2E5YTdkZGRhNThiOGMifQ"
         },
         {
-          "resource": "repo://scripts/ci/ci-scope.ts#L76-L89",
+          "resource": "repo://scripts/ci/ci-scope.ts#L79-L92",
           "version": "repo-lines-v1:sha256:08f3bd8ef1882315cfdcc98aaf7fa62457a5d65c439f35a655f1cd9de83815cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0YmI4NzBkODg2NmYyNjdiY2NhNjEyMDhmN2FhZDRhMzQyZTdhY2JmMjQxMjY4NGIxOGU0MzQ4NzdkNWVmMWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
@@ -250,17 +250,51 @@
     },
     {
       "id": "claim_65a97e5bb9d841ca8304b8cee6e0825c",
-      "statement": "The offline scope lists the refresh-game-data, guide reward, shown-items, seed-site-copy, dungeon-notes, payload-script, media-sizes and zone-backgrounds scripts with the other offline scripts.",
+      "statement": "The offline scope lists the refresh-game-data, guide reward, shown-items, summary-text, legacy-link report, URL map, seed-site-copy, dungeon-notes, payload-script, media-sizes and zone-backgrounds scripts with the other offline scripts.",
       "evidence": [
         {
-          "resource": "repo://scripts/ci/ci-scope.ts#L26-L40",
-          "version": "repo-lines-v1:sha256:f0eead5b971b80b54579dc267ed6ffba8625eed17c36a77f70940a9327a3dd83:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3ZjRlYTNkNzMwYjFkZGQ0OTg1NzAzMmU4YTJkYmJmYmZmYzE4MDMzMGVhYjExZmEzM2E2NmE2NTU1NjgyZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyMzE0YjVlM2RjOTg4ZTE0MWUwNDNlOTliNDA2MTZhZGMyMmRiMTA2MjM3N2FlMmNkMWNiODE2Mzg5YzIyNWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE0ODQ2ODJmMzg0YjA0YzgwYWNhNmYzN2ViYzBlZTIyMjM1NmJlYTRiYjAwMWZhZDYxMDFmZGQ0MTE3ZDBjNmYifQ"
+          "resource": "repo://scripts/ci/ci-scope.ts#L26-L42",
+          "version": "repo-lines-v1:sha256:41dfe0e22f409ec68965b76829c638681c736953f3e93039f6e000589908fc1c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmZmVlNTAzODM1NTA5YzY4M2UxMTIyOWUzZDhhZTE1NTQ2NjQ0NzMyN2Y4Mjg5OGQwNjlkNDA3YWQ2MjUzM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkxODcxYzE4NjBmZjZhZGQyMjRlMjI4ZDA5NjVhYWI5MTg5N2NjN2RkNDBhYWY0ZTFmNjBkY2E3MGVhNmE0NjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE0ODQ2ODJmMzg0YjA0YzgwYWNhNmYzN2ViYzBlZTIyMjM1NmJlYTRiYjAwMWZhZDYxMDFmZGQ0MTE3ZDBjNmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4a85580edc6247118728794a64f4d6a4",
+      "statement": "The install job only checks that pnpm install --frozen-lockfile passes and no job waits for it, because each job installs from the store cache in about 20 seconds.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L61-L69",
+          "version": "repo-lines-v1:sha256:8019cd7c6fa120bf2689f6827e4969ae1572b0afff0d2de7e282fae83d19263d:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzBjZDcwZGM1ODhjODEwNDk5OWZkMjlmZDI4OTY0ODIxYzA5MmE4MGI2YWI2Mjc4MTliMjYxNDRmN2U3NzhjMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzA3MTBlNjNjNDAwNGQxOTk1MDI0ZGM4NjZjYmVjMDE4Y2I2N2UxZGIxY2YwNmY3MzE2MDZkODk3YjQ3MjYwMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjdkZDYwMzA5NjFjNjZlZGE2ZDQ2MTkzMmI4YWY2MTI1NmFlMjgzZWI0M2VmNmI5OTJkNDVhZjg0NzkyYTBlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTMxMDJlYjExMGJiZjYzNmM4NmMyNTY0MmQwNjE3ZmEzOTQyOTA4Y2NmZDExNmUxODU0MGFlODc0NDVmYjAwYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_58fd5e3ca1834779b83366bf2083e0c6",
+      "statement": "The Importación job runs pnpm test:import when the change scope selects import.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L106-L115",
+          "version": "repo-lines-v1:sha256:1fb1f1be896a80fd6393e7eeea954b6868deb9bb7ba8abc99589b11813896aec:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MDc1ZTEwNTcyNzYwMTkzZTZiZTZlOWE3NzI3Y2VmZDZmYjExZDU5YWUxNzk3NjJlZDRiZjlkN2Y2MTg1MjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYzNlOWQ2NWUxMGVkOWE2OTY0ZTNkOWExMTM2YTYwMDY0ZjkwMTEyYWQzYzgxMDg2NmJlYzA1NDA2ODRiOTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1NDIwZTkzNjJmNjAwNDFmZDcwMmJmZmVkNzVhMzMwOTA5NWE2N2QyMjEwMDZkMzcwOWQ2MGJkYWFjYWRhN2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1MzU0MWUyOGUzMWE0NTJkZGQ0MjA3NmY5M2RmNGZlZjE0NDFlYWI3ODViYTM2NjcxZTc4OGE5NWQ3MGRmMGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c9d5c13c117d4cd490e329b0fbc1df85",
+      "statement": "Integration tests run in three parts with vitest --shard, each with its own Postgres service, and E2E runs in four parts with playwright --shard, the dev environment suite running only in the first part and each part uploading its Playwright report on failure.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L134-L166",
+          "version": "repo-lines-v1:sha256:463ef0fa1564ef79b29221c490c1b4e797a0e4021ec04ab0c4c0b492c9acc5e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0ZTNlY2ZlYjAzNGMzNmVkN2MxNTUxOTU3ZThhMDZiNWU2MjI2OTg5MWU4ZDAyYTVjZmQxNTZjMzA1ZGIwOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4OWE1MTNlNjIwZDkzOGRiOWM4YjQyNDcwNGJkMTVkMmUyYmJmMGJlOWMxODI5M2RkYzlhZDE2NzNmMzNmMTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4M2NlMTMxNmQxYTkxNmMwMGNiZDdmYTI3Zjk4Y2ZiZmExZjNiNWIyMmI0OWI0ZTYwNjFkYTZjMmE4ZGUzMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhYWZhM2RmOTg2MmRkMGNmMDY4MWViOWRhZjU1MDA0MzRmNTUzOTJlZGIyYTAwNzE2YzQ0NDNmNzU0Y2EwMGYifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/ci.yml#L168-L225",
+          "version": "repo-lines-v1:sha256:5f5893cc638b1b498ccafa57f6d608eb651b9887ffee1a7ad80157d8d8cd89c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxMmUwNzM1ZWNjOTk0NWEwODIwMWRhMDIxNjEyOGE3YTkwNGFkZWZlZDMxY2MxMmM1MzZhZTBlNGZiY2M4MzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzOGYwNWJkN2EyOWUwYjZmY2Q5MmU0MGUyZDk2NjRiMTJhMmUzNzJhMzY5MGFlNGFiZDEzNjUxNWZhYzlhMTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhZDBiMzRjZmFhOWM4ODQ2ZGY1NTFiNzNhNjY2ZjFhY2EzMzI4MWRkMTkzNjFkMTIxZDliMjg1YzE0YmVhYTgifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

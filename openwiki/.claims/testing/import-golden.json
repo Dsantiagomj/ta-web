@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:1c9f83a31ec08d21e24faecef7ed086634fc9e38ef88d59f1547d6049d8064f6",
+  "claims": [
+    {
+      "id": "claim_155971982b0a417ab27486a80dc80597",
+      "statement": "pnpm test:import runs Vitest with vitest.import.config.mts over tests/import, without a database or the network, and the golden test checks the 30-page catalog, that each page converts to its reviewed output, and that the prose reaches Lexical without losing text or links.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/golden/catalog.ts#L1-L76",
+          "version": "repo-lines-v1:sha256:5007315762b081eb295c965a513f9981fbb5fe5d8dd9f886efd1f03f9d6103ea:eyJzZWxlY3RlZExpbmVDb3VudCI6NzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MWVkZWE4YzY5OWVlOTYxNTgzZGYxZGM0NGQzZjg1NzZlNzYzOWE2MWU0ZmI4NWZjMTA3ODYxNjhjMGQ2MzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/import/golden-pages.test.ts#L68-L99",
+          "version": "repo-lines-v1:sha256:362d22b5b61e99b741db86a8148bde81c0d0559e8fc2615b398023aef5cd8683:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1MGMwMGNjMWI5ZmQ5NWUzOWZmODcxNGY4ZTRhYmNkM2M5NTJmOTRjODMyMjBmNGQ1NTEyMzg3MWZkZTViYjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM3ZDEzMWExZDQxYjk3NTVjODUzNTQ3NGZlZTM2N2IyNTBhNTM0MzEwNmRlZWI3M2FkMTUwNWM2YjljMzhiZWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://vitest.import.config.mts#L1-L13",
+          "version": "repo-lines-v1:sha256:a4122f38db45587396a5d98d9810ccf7d5b59d1d51f5dd5ed51d5669254bd218:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyYzBhYjY1OWZmNTYyNWVkOWExNGVlNTBjYzQyZjM4OWI5MTVmMDcyNTcyMDU0NmZlN2NkNTE1YmNkMTk3ZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_98e8448cd78a4b6cae7de187c1ad2726",
+      "statement": "trimSource keeps only the title, the SEO description, the collection title of the context JSON and every article of a Squarespace page, without attributes no converter reads.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/golden/trim-source.ts#L1-L43",
+          "version": "repo-lines-v1:sha256:c4a6ee50b3360a9849865f90c423e4075e5fa52829d7298dce054bdad6eda4b7:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1YmViNDVlMWVkZTVkNTY4YWNkZjgzMTExY2FlMzIyYWVhYjQ3NmRlNDljYjc2ZDY0MjJhYWQyNzkyYmQxMmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-golden-trim-source.test.ts#L28-L99",
+          "version": "repo-lines-v1:sha256:eb549a586d4093674994d791dacc33f7b16f6fa9d9064cb918026c32f4697e75:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4OWYyYWQyMjAyOTgyYWRhY2VkYmFiODUwNDIxMDY1YjQ2ZmViNTE3MGNjOTgwMTZjNmIzMjA3ZjI5MzVlOGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjYzMxMTUxNTU0YmI5M2ZlZWNiNzFkOWJhMTcwYTZhZjc5NDk3Njk3MmY3NGEwZDllMDJjZjFjZjBiZDVhZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_51ef0f3cad56437abfc8c31f72d283a0",
+      "statement": "stableJson writes converter output with keys sorted at every depth, arrays in order, undefined fields dropped and a final newline, rejecting values JSON cannot keep.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/golden/stable-json.ts#L1-L26",
+          "version": "repo-lines-v1:sha256:6c5b5bc7a8e26eb02be014184e0f7602ddf53dd40dfe1a4c2c5083db6b963bf9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMzNhMDEzMmE4ODNiNTMzNTFlNmI0YzJiM2M2NWRiMzFkZDA2ZGJiMDVhZWI1MjdiYTBhZDU3MzdkNDgzYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-golden-stable-json.test.ts#L10-L40",
+          "version": "repo-lines-v1:sha256:114a9234a85e4781779c9dc72d94cf24f90f7259a06f25ce1bdc3699cbf4b0f8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjYmM2OTRjZDYwOWYyNjc3MTJmMmU1NTFjNDZhMWRmZjQ5YjIxODU5MWY4NWMyNDllZDMwYWQ5MzJhOTgyNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2NzZhNWUwM2YwM2YzY2VlMTliM2FiZmU1N2U3NzgyNjQ5ZWJkMjMxMWE0MTIyYmY4MjQ1MDQ4MjJjY2FkMDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_583ced11980b40ba8891e7d7569f01d2",
+      "statement": "goldenOutput calls each page's converter as the import scripts do up to the Payload load, with no DofusDB match for quest guides, a DofusDB achievement unless marked noDofusDb, and no page counted as live on this site.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/golden/convert.ts#L1-L43",
+          "version": "repo-lines-v1:sha256:fa10f09c19f28ec098649082756ebc0db9c06e30d32576c14631bcefaf890b25:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0ZjcyNmFmOTdhNmVkZWEyN2FhNDg1MmY2NGMzZjUyNmRhZTQzYzA3ZTMyNmFiODdkMTYxYzRjNjNmM2RlZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_17c86cdf9e93455c80599d8810203cc6",
+      "statement": "pnpm import:golden-refresh downloads the golden pages one at a time with a pause, saves their trimmed source and prints a git-style line diff of the converter output against the reviewed one, writing only the pages folder; a page that fails, redirects or whose trim changes the output keeps its old copy and the script exits 1.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/golden/line-diff.ts#L1-L86",
+          "version": "repo-lines-v1:sha256:5491828e874b824ebd3f93fef9e4ac63d575a0456bd82e09fd8703f88ef25363:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjNWQxYzFhZWEzN2Y4ZGMxZmI0N2Y1NDVkZWQzZjVlNzAwZmRiNTVkNDE5MTc5MDE5NDllYjBhNjBlZDgwNDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/import/golden/refresh.ts#L1-L75",
+          "version": "repo-lines-v1:sha256:f59774edc0f893bedc13b89a6e07cc8ba7611f4d4e56087ddfc9a1a1bbd1398a:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyODhlYjMxZjU2YTkwNTE1MDZjZDVmMmE4NWM4NDA0ZGRlNTgyZDIzZGY2ZjAxNDM2ZWYxZTkzZTM2YmU5M2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/import/refresh-golden.ts#L1-L70",
+          "version": "repo-lines-v1:sha256:469a23f912ef2268c6eec88e29c978a1a7dcacefb79e3a6e4935bd7979acdbe0:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ODhmYmI4OTgyMzlkZDUxNGNkNjY2YjY5ODBmNjk5OGE5OTZjMTRkZjg3ODY0ZDg2YTVhZTk5ZjRiYjI3MGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-golden-line-diff.test.ts#L12-L55",
+          "version": "repo-lines-v1:sha256:55cd8eb239bce57f329fa0693aa52931baaf4af9d4bd47af530f24c1ddc4cd55:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMzZhZTk5OTNlNDE5ODQ0OTE2MTZkZTk3MDMyMDA0Mzg1NWY4NzI4ZmViMDJhNmZiMzM4MjdkOTFjMjUwNzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhYjQ5NGNmZmFhY2Q1ZmRkOGM1NTcyMzQ1NDE3ZTYwODkwOTcyOTk4OWYzNmFkMzBjMTgyNjI4NzMyNTNjNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-golden-refresh.test.ts#L58-L123",
+          "version": "repo-lines-v1:sha256:6753a00678492b177567598d6d4290ebe8cbd1331df20978d6cd6d2dd72e4234:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5M2Q1MjlkMmMwMDYzOGUxY2M1ZmEyZDA3MWU1ODljN2IyMmRmYzQ5MTU4NGI3NGJhYTJlZGVmM2M5ZWM1ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmNjFlY2Q5MDNjYzZlODdkOGYwMjVlNThjOGM2MTNmZDYwYjJmMTE1NjQ0ZDc1ZGRkZjEwODEyYjllYzg4YTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_59cb92fe7b5243bc8f498c5f62207a0c",
+      "statement": "CI runs pnpm test:import in its own Importación job.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L100-L120",
+          "version": "repo-lines-v1:sha256:d7ea0801aafa6ce68a0d02cb1ac46ebc16dbca467fc9c903fd6e774313b8b9fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzMzczMzRhZWMwZGNiMjRlNDBlM2MyMGRjMDlkNTlhZjY3NDNkMDI3ZGJmZjUwYzFhY2EwODk3NDcxMTc2NzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyM2U4N2RiNGU2OTQzZjg0MzdhYmZmOTEwYzgzZDQ2ZDAzYTEzNzg4MTNlMTM2MWNmOTc0YWNmNGQ3MWZmY2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0MWZhZDFhYzQwYzBkMWNkOTZkZTNmZDM4ZWNiZDljMDliNDZiYTE5OWQxYTJmNjU2MjE5MmU5MGRmNTM2NjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MmU3MjEwMDJmYWVlZGU5MDAyNDg1MTcyZDA3M2JiZWQ2ZWFiNmQ1YTRkZjYxMWNjM2Q2MzA1YmExNzkyM2EifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-20T11:20:16.585Z"
+  }
+}

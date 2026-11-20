@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b148b42a18701277a16619e00bd20db0e75a237a58dacaa214ace46b7a0d15c7",
+  "claims": [
+    {
+      "id": "claim_d09e1d7a85224f71ab290ba809d0d338",
+      "statement": "readSiteIndex reads, without writing, every published document of the collections with their own page at /<slug>, marking those in preparation, and the slugs Torre changed; both reports use it.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/legacy-links/site-index.ts#L1-L51",
+          "version": "repo-lines-v1:sha256:8bce2ac967c705d2a8f1b0e021bb364ce9dbcd3518e2c3f464f448014aecb536:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjNWJjMTEwMzYyNWM4ZjU5NTUxODI5N2JjNmZhY2MyMGM5OWQ5ZmI5NGVkNGVjMDM1ZDBjOTU0YTQ5ZDdiNDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_79060817854042b5a5af3dacccd784ee",
+      "statement": "pnpm urls:map reads Squarespace's sitemap or a saved copy and the database, never writes to the database, prints a Spanish summary and with --write rewrites docs/research/url-map.md in English.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/url-map.ts#L1-L85",
+          "version": "repo-lines-v1:sha256:0f8d9c5a52445eca965c10d2b3695a70750373d389da5a63eb79bb4e9822c0d0:eyJzZWxlY3RlZExpbmVDb3VudCI6ODUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZGY4N2EzMDA3MjVjYjFiYjMzYTI4YTI1NzcxM2JlYjRkYzMwY2VmY2I2ZmE1ODdmNjhmMDc3MzFhMWQxYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_07d0adbbf32948f39932ac961d67eb17",
+      "statement": "classifyOldUrl gives an old URL its fate in the order the site answers: a redirect table row (redirect or 410, with its section), the home page or an own route, a published document with the same slug (in preparation with its blocker), a slug Torre changed as a 308, the deferred classes, dungeons and tools, and otherwise missing with its blocker and note.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/legacy-links/url-map.ts#L58-L130",
+          "version": "repo-lines-v1:sha256:7db48d6d519151aef275526359f068b57adb601ee48c883534da7213c2e6fa29:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyMWExNjcxODBmMDU5MjRjZDNiMzgxMWFjNjZlNjk1MzlkMDY1ODc3ZWU1OTEyMDhhZTc3YzUwODIyMTNkZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwMjYwNGZmNWEyOGYyODlmZDk1ZDNkOTE3MjRiNmExNTQzYzVhYzExNDY3YjNjZWIxNjQ4OTQ3ZjJjMDMzMTEifQ"
+        },
+        {
+          "resource": "repo://tests/unit/url-map.test.ts#L19-L197",
+          "version": "repo-lines-v1:sha256:9d3d9533110c764e7ad48552652de9918d2c6edfffbf333d03638dec474d0530:eyJzZWxlY3RlZExpbmVDb3VudCI6MTc5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxNWZmOWI4NTdhZjgwYWQzNWU0YWYxNjg2NTNlNzU1YTM0OTYyM2M4MTQyZjM4N2EyOWIzMGZjZjVhMjZkMzVmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwYWFjYzcxMjg2NGYxNzczZjRlNTdkNjc4NzdlYTczNDFmMTY3MTIxYmZlYmMxMzJjYTBkMjgzNGMyZTFlNDZkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_75ca3802c1e743908bd376b49968447c",
+      "statement": "pnpm links:legacy is read-only and lists every link the site would render to Squarespace or to a path that answers 410, from code (menu sections, footer legal links), from Torre's content in published documents in the Publicada state, and from the legacyHref of what is in preparation.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/legacy-links/collect.ts#L1-L30",
+          "version": "repo-lines-v1:sha256:51d10064b8038624c9ba96d104be5abf7a19944d71bda8aac7f56e76be381499:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmZWIyMGM2YWFkZjViYzQ5OGM3NDZmMTBiNWQ0OTkxMWZkZWNlM2VkNGZlOTM5Y2I5ZTMyZDYzNzYyZDYzNTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MzdiMTg5MGNjZTA3MGYxZTEzMTQyOTQzZmQ5NDM5ZThiODZlZGE3ZDllOTNhZmQ0OWM2MDM4YjQ0M2Y4YzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZhN2Y1ZmY1NjQyZmVlZjk1NzIxNjU0YmZhNTc3NzMyM2YzYzg3ZTE3OWIyNGU2MDEwNWU3ODdkMDUxNzc1YWEifQ"
+        },
+        {
+          "resource": "repo://scripts/legacy-links/collect.ts#L92-L110",
+          "version": "repo-lines-v1:sha256:702eff20577d62a37188e2aab99a215b6216b08b562e51a4bb1067b7c3b26d22:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNTYzZGM2MjkxZGFiMWQ3YTNkZGRmMWYzZDFlMzExYjgxY2Q4YjMxMzliMTFhMGEzY2NjN2VjNjc3ZmY2YTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3YTI5ODhiYmQwZDA2NGRhOWJlY2IwNTE2MmZlY2FjOTU2MTFjMTY2NjI3ODQ4ZjAzZWQ0YmJlMzcxOGIwYjYifQ"
+        },
+        {
+          "resource": "repo://scripts/links-legacy.ts#L1-L35",
+          "version": "repo-lines-v1:sha256:a0299e831c65e5cfb75ab2b9578f52edb376d04952a0a55e7a7bd8ab9534b44e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjOWZkYWQ3MDI1ZDAwMjgwYWNhZmYyZDc2MGJjNWQ2MTk1YzA2MmYzY2Y1NzJjNjEwODgxMTBkY2U3MDRiYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a9b8d32f4fbb4b648788a23e8957520c",
+      "statement": "scanLinks walks a document by its collection's schema and takes the link and autolink nodes of every rich text and the url, link, href and legacyHref text fields, ignoring other URLs such as an imported guide's originalUrl.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/legacy-links/scan.ts#L1-L60",
+          "version": "repo-lines-v1:sha256:ae569a176d477e7eff88ce0e65bdc022834147c9d0e3ab0bd201fc7c3b75bb2d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ZThlN2VmYzlmYmJjMjRmNTBlNTNiMmVlZGE5ZTEwMjM2MjA3NDVlOTU4MTIyMTE4OWQwOTkyNzc2ZmY5N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5ZjZkYThmNzM1Mjc3Zjk2MjEwY2IzMGYxMDA5ZWJjZTU4Mzg0MDZiYzU5YTBkMGNlYzNlOGNmYTRiNzY2OTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3NWMxOWM4YjY0NDkwMzZkZmM5ZWE2MWI3NzVmMzc2YzlkYjUyZTI3Y2NhNTdkMzNiMmY2MjcwMGRiNzhiM2MifQ"
+        },
+        {
+          "resource": "repo://tests/unit/legacy-links.test.ts#L58-L90",
+          "version": "repo-lines-v1:sha256:6cadd30f8d2b1d0d817fb5d5549c1e80d98d9601bd22bb70c4f34932dadd1601:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlM2Q4NjMxNmEwZjI0MWY0MWQzODZmMDA1MTdhY2VlNDA3YmEzMGY2OTlhNTYwNjYxZWViYWNhYjA3NzZjOTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NmJlN2NiNTU4NjRiOGJkNzk5YWZjODkzNGQ1YWU0YzFkMjNjNDExZmIyYTgxMWFkYjE2ZmU4OTg5NDI4MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1MmI0MjIyMWZhNGJkY2YyMjJiMWRlMTg5N2I0YmQyNjQzMjE3ZDUxZDZkNjcxYTJkMGQ4YTlkNmExMWM4YTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMWIwNDQxYjQzODlmYjQzNjI2ZWE2NDU3ZmJmMThlMTkyYWMwMzY1MDQzNjZkMDhhYTJmYjEwYTI0NzVhZTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fecb1fa01d09459392b035cd43606bae",
+      "statement": "A link that already goes to this site is only counted; one to Squarespace or to a 410 path is listed with where it is, its source and what this site will answer there after the cutover.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/legacy-links/report.ts#L1-L60",
+          "version": "repo-lines-v1:sha256:2dd39f76f2247625991ce1461862e0195b06a37cd611f8b345d1867b113a181c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkMDBlOTU5NjIxY2MyOTEzMDUxZDA4NTU2YmNmMzFhZjZmZDVlMzdmOTRmNjdiNmQxNTU5Y2I3NWFhNTM1Y2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2MDEyMDgzYmY3NGQ4YjE4ODcyNzM2MzRhMjZkYzJhMjJhYjViMGMxZGUzN2IxYWQwODEzODEyZTIxMDExMmUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/legacy-links.test.ts#L91-L172",
+          "version": "repo-lines-v1:sha256:153f80cc3bc2e50d4e17e6ca65e76ce8fd5b4b0819493bde3680da349b8480f5:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyMTMxYmFiZTZmNmVlN2EzZGMwMjI4Y2JhMDk0MDU5NmYzMjNkNzNiNTM3YzFlYzFkNDE4NWI3YzZiMTkzNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiMTcxMTI5MTE1Y2UxNzBiOTU5MThmZjhmYTE4ZDMwYzVkYjk4ODAwOGVlNWVmYjhmN2QyZTM5ZDc5MzAzMWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1fcb1c7cc490494ea9986c600168cfec",
+      "statement": "typoTarget treats an undecided link's slug as a typo of a served page only with the same number of hyphen-separated words, at most one edit per five letters of the longer slug, and a single closest page, and the report then names the page it meant.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/legacy-links/typos.ts#L1-L45",
+          "version": "repo-lines-v1:sha256:4c18836e8998af0953d0b426b681c9b8ec2dc2693037cbc57a13c172e51fd732:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwZWNiZTRlZTI2MzM5YjkyNzQxMzhkMjNiN2VhZjRlZGZmZTg5NTNjZmYwODJiYjJlZDAxZjNhNGEyY2E1ZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/legacy-link-typos.test.ts#L19-L86",
+          "version": "repo-lines-v1:sha256:e7130053c0a9569418b66951873afb6c01d396e2e31af1392c9595b975b37738:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzYWE1YWYzMjMwODg1MzI3NTk2NmFhNTA0MjZkMDE5ZTc3MzM5NTI1ZTk0Yjc0OGVmN2U1NzFkNjdlYmY0OTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzNjJkMTNjYzAxYWZhYjIwMjVkYmI3OTMwNDBlOGU2NDViMTgxOWExNjI4YzhlZTg1NTYxMTZlYzc1MDM1MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_91a758153b1a401ead24efa2ab1f84f1",
+      "statement": "Both reports group what is left by blocker in the cutover order: deferred classes, dungeons and tools, backlog rows, Torre publishing what is in preparation, the delta import, stubs waiting for their achievement page, Torre's edits, typos and undecided, each with a Spanish and an English text.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/legacy-links/blockers.ts#L1-L110",
+          "version": "repo-lines-v1:sha256:e1c15f815fa6c9cc95960e065e5a0c3b43fc9eb1860f9124bd4be4b0de0fd021:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzNWEwNzQwODdmYWI5OTQ5NjBhZTM2ZGVlYTQwYjBkYzcxZWJhMzQyYjE5YmE3NTgxMTYyMzc2Y2E5OGEzZDMwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3MmYyYTQ2YzdlNmRlODZiOTRjZjVmYTY1Yzg4MGNjYmM3MTQ3NDlhZWY5ODI3NzVlOGI4ZTQwYjRiYWU2N2VhIn0"
+        },
+        {
+          "resource": "repo://tests/unit/legacy-blockers.test.ts#L12-L78",
+          "version": "repo-lines-v1:sha256:73accc3c7f48c6f750aae42e40999dc5dfdc7de52a52bf6bcb9d948e56ce2959:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllYmZiMzkxZjZlMjIwMDllMjEyNGI2Njc3N2MxMzdmYzRmM2YwZmRhMzk5Y2MwNDQ4YWFkNjgxZDZhMjRmMmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1MTgyOTE1ZTljMmY0MGVhMWVlYmViNjcwZDI5MTkzYzUwNThkMDZkYTQ0NGQ4NmZkOGE1YzBmYzViMTE4OWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_19331bbc47844786a3bbc2f1791a4680",
+      "statement": "The GGA review excludes docs/research/url-map.md, which pnpm urls:map writes.",
+      "evidence": [
+        {
+          "resource": "repo://.gga#L11-L17",
+          "version": "repo-lines-v1:sha256:9cd1511003a812df0e7335e3d26e04dcc33c69d657c7127ece63a9f9edb4ab92:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjM3ZWNhYmRhNzEzOTU1N2E1MDAwZGRlMjliZDFjYTlhNjU0ZWJhOTBhYTFhOWM4MjdlMGQwNTk3ZjRkY2M3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzk5Yzk1ZDI0OTlmNTk5MjYxNTJhN2E5MDAzMjZlYzc3OWY0Y2RiYTc1OTU1MjlkYWExMjdkZDhlYWFlMjIyZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDRhMzE1NTE2M2E2OWE5MDc1Zjk2NzE4NDc3MTEzMzU1NzY4NzI0NTBjOWQwZDUxMjYwOGU0ZDA0MmU0ZjQ0YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDQwYzM5YmM2ZDlhNDc4NmM1NmNmNzYxOTlmMzc3N2ZkYzRlOGVlN2JlMDA5NDg0ZWNkMjA0NGE4YzUzOTk2MCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-20T11:20:16.585Z"
+  }
+}

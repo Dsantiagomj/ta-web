@@ -12,6 +12,8 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
   - id: openwiki-source-14ca87abed0f0ffc69067570
     resource: repo://src/app/(frontend)/%5Bslug%5D/redirect-data.ts
+  - id: openwiki-source-c7403ffa805d074d48baea6e
+    resource: repo://src/app/(frontend)/%5Bslug%5D/seo-data.ts
   - id: openwiki-source-4f2e53306895c158accd92ec
     resource: repo://src/collections/revalidate-guides.ts
   - id: openwiki-source-10b98fc83fb5e49b777c3566
@@ -42,10 +44,12 @@ sources:
     resource: repo://src/lib/zones/background.ts
   - id: openwiki-source-1f65cb688406ef2eb6ebe494
     resource: repo://tests/e2e/logro.spec.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+  - id: openwiki-source-cc77052249edc8dcdc9064fb
+    resource: repo://tests/unit/achievement-page.test.ts
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Achievement page
@@ -63,7 +67,9 @@ An achievement page (`achievement-pages`, see [Achievement data model](achieveme
 5. Otherwise `loadChecklist(slug)`: if found, render the checklist (`SoulsView` for a souls checklist, `ChecklistView` otherwise) or redirect to its legacy page (see [Checklist page](../checklists/checklist-page.md) and [Souls checklist](../checklists/souls-checklist.md)).
 6. None of them: `redirectOrNotFound(slug)` (`redirect-data.ts`) answers a 308 to the page's new address when Torre changed its slug, and otherwise `notFound()` (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
 
-`generateMetadata` follows the same order through `slugSeo`. For an achievement the title and description come from `achievementPageStrings.seo` with the page name and its number of quests; the canonical URL is `/<slug>` and Open Graph uses type `article`, with the site name and share image from «Ajustes del sitio» (`openGraphDefaults`, see [Site settings and index texts](../cms/site-copy.md)). A preview sets `robots: { index: false, follow: false }`.
+Before rendering, the route passes the loaded data through `withSiteLinks` (`src/lib/site/site-links.ts`), so Torre's links to his own site become relative where this site serves the path (see [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md)). Each found page also renders `ArticleData`, the page's Article JSON-LD.
+
+`generateMetadata` and `ArticleData` follow the same order through `slugSeo` (`src/app/(frontend)/[slug]/seo-data.ts`). For an achievement the title and description come from `achievementPageStrings.seo` with the page name and its number of quests; the canonical URL is `/<slug>` and Open Graph uses type `article` with the site name from «Ajustes del sitio» (`openGraphDefaults`, see [Site settings and index texts](../cms/site-copy.md)). The share image is the page's own card, `/<slug>/og`, drawn with the achievement's name over its zone background, and Twitter gets `summary_large_image` (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)). A preview sets `robots: { index: false, follow: false }`.
 
 An achievement page in state `preparing` has no public page: the query filters it out for visitors, so the route returns 404.
 
@@ -141,11 +147,15 @@ A part that yields several dungeons is a doubt, and any doubt means the note doe
 
 ## Components
 
-`AchievementView` (`src/app/(frontend)/[slug]/AchievementView.tsx`) renders the breadcrumb, `AchievementHeader` (the achievement icon, title and "3 misiones - Niveles 15 a 25 - 10 puntos"), `AchievementSheet`, and a `logro__body` with Torre's `intro`, `AchievementQuests` (the numbered quest list), his `outro`, `AchievementCountsFor` ("Cuenta para") and `AchievementNav` (previous and next, labelled "Logros de <metalogro>"). There is no list of the metalogro's pages. When the page has a zone background, `ZoneBackground` renders first inside the page wrapper, before `<main>`. The `<main>` carries `pageSection('misiones')`, which marks «Misiones» as the current section in the header. The parts live in `src/components/achievement/AchievementParts.tsx` and their styles in `achievement.css`, which the Dofus guide page shares (`logro`, `logro__main`, `logro__prose`). The page's section color is `--color-sec-logros`.
+`AchievementView` (`src/app/(frontend)/[slug]/AchievementView.tsx`) renders the breadcrumb, `AchievementHeader` (the achievement icon, title, "3 misiones - Niveles 15 a 25 - 10 puntos" and the «Actualizado el» date from `contentDate(page).modified`), `AchievementSheet`, and a `logro__body` with Torre's `intro`, `AchievementQuests` (the numbered quest list, only when the page has quest rows) or `AchievementObjectives`, his `outro`, `AchievementCountsFor` ("Cuenta para") and `AchievementNav` (previous and next, labelled "Logros de <metalogro>"). There is no list of the metalogro's pages. When the page has a zone background, `ZoneBackground` renders first inside the page wrapper, before `<main>`. The `<main>` carries `pageSection('misiones')`, which marks «Misiones» as the current section in the header. The parts live in `src/components/achievement/AchievementParts.tsx` and their styles in `achievement.css`, which the Dofus guide page shares (`logro`, `logro__main`, `logro__prose`). The page's section color is `--color-sec-logros`.
+
+### An achievement without quests
+
+Some achievements ask for no quest: the «Alineamiento» ones ask for an alignment rank or a level. DofusDB gives them no quest rows, so `pnpm achievements:alineamiento` creates their pages (see [Achievement prose import](../data/achievement-prose-import.md)). For a page with no quest rows, `achievementPageView` returns `objectives`: the achievement's DofusDB `description` and its objective names in order, or null when DofusDB gives none. `AchievementObjectives` renders them in place of the quest list as a plain list with no numbers or links, because the objectives are met together, not in steps. The header meta drops «0 misiones» and says how many objectives there are («2 objetivos»), and the previous and next cards of such a page count objectives instead of quests (`GroupItem.objectives`).
 
 ### Hues
 
-Each list item takes one of the eight theme hues in order through `--v` (`--color-hue-1` to `--color-hue-8`, repeating every eight; the rules sit at the end of `achievement.css`): the quest rows (`.lq__item`), the «Necesitarás en total» rows, the «Cuenta para» achievements (`.metas`), the Dofus guide's quest lists and the previous and next cards. A quest's number sits in a filled diamond of its hue (`.lq__n::before`, rotated 45 degrees) with the number in `--color-on-hue`. The previous and next cards (`.lnav__card`) take a 2px border and an eyebrow in their hue; on hover the eyebrow turns to ink, because a deep light-mode hue drops under 4.5:1 on `--color-raised`. The sheet's part titles take the same hues as the guide header's parts (`game.css`): Prerrequisitos `--color-hue-5`, «Necesitarás en total» `--color-hue-1` and the rewards `--color-hue-2`. Checklists never use hues.
+Each list item takes one of the eight theme hues in order through `--v` (`--color-hue-1` to `--color-hue-8`, repeating every eight; the rules sit at the end of `achievement.css`): the quest rows (`.lq__item`), the objectives of an achievement without quests (`.lobj__item`), the «Necesitarás en total» rows, the «Cuenta para» achievements (`.metas`), the Dofus guide's quest lists and the previous and next cards. A quest's number sits in a filled diamond of its hue (`.lq__n::before`, rotated 45 degrees) with the number in `--color-on-hue`. The previous and next cards (`.lnav__card`) take a 2px border and an eyebrow in their hue; on hover the eyebrow turns to ink, because a deep light-mode hue drops under 4.5:1 on `--color-raised`. The sheet's part titles take the same hues as the guide header's parts (`game.css`): Prerrequisitos `--color-hue-5`, «Necesitarás en total» `--color-hue-1` and the rewards `--color-hue-2`. Checklists never use hues.
 
 The rules between the sheet's parts, under the header and along the quest list use `var(--zone-rule, var(--color-line))`, so over a zone background they stay at 3:1 against the landscape.
 

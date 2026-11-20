@@ -4,6 +4,8 @@ title: Panel dashboard and editing aids
 description: The panel features that help Torre work - the «Pendiente» dashboard that replaces Payload's collection grid, the panel guide at /admin/guia and a line per collection, the one-line «En la web» publish status, three live preview sizes, tabs on long forms, labelled rows, the checklist step outline and step and objective pickers, the color picker, and the accessibility names added to Payload's controls.
 tags: [payload, admin, panel, dashboard, accessibility, checklists]
 sources:
+  - id: openwiki-source-438bb70bf26a27989fd9c6f6
+    resource: repo://src/blocks/TableBlock.ts
   - id: openwiki-source-708be0163b21a8d064e79c3c
     resource: repo://src/collections/DofusGuides.ts
   - id: openwiki-source-233b23210c0976422cfcb8f0
@@ -20,12 +22,16 @@ sources:
     resource: repo://src/components/admin/PanelGuide.tsx
   - id: openwiki-source-990f1cd4ee63709cb8ffc39c
     resource: repo://src/components/admin/PublishStatus.tsx
+  - id: openwiki-source-40d43c16ac9634b348a445ee
+    resource: repo://src/components/admin/RowLabels.tsx
   - id: openwiki-source-c37365279b9dd8320b557c91
     resource: repo://src/components/admin/StepOutline.tsx
   - id: openwiki-source-1bbc3e6f58549d5e0e7eeecd
     resource: repo://src/components/admin/StepRefField.tsx
   - id: openwiki-source-e16e139fd5e136b007485681
     resource: repo://src/components/admin/StopObjectiveField.tsx
+  - id: openwiki-source-43d9550e500e16501c705dc5
+    resource: repo://src/components/admin/TablePaste.tsx
   - id: openwiki-source-adf44973ef388bebd9654b5b
     resource: repo://src/components/admin/ValidatedTextField.tsx
   - id: openwiki-source-a7371ddcaee8097eeffe6662
@@ -52,10 +58,10 @@ sources:
     resource: repo://tests/e2e/panel-ola2.spec.ts
   - id: openwiki-source-993f89ea470e9a6cd87d8250
     resource: repo://tests/e2e/panel-refrescos.spec.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Panel dashboard and editing aids
@@ -119,9 +125,14 @@ The checklist step uses `placeInTabs` (`src/collections/field-tabs.ts`), which t
 - a checklist step by the text of its first segment, or its zone;
 - a segment by its text and, when it is not plain, its kind;
 - a Dofus guide «Necesitarás» group by its group («Grupo 3: Consumibles»);
-- other rows by a text or relationship field, such as a quest or an item.
+- a table row by its first cells with text, joined by a middle dot («Fila 3: Tofu · 12 · Astrub»), so Torre finds a row among a hundred without opening it (`tableRowLabel`);
+- other rows by a text or relationship field, such as a quest, an item, a table column's header or a cell's text.
 
-Long arrays (achievement quests, «Necesitarás» rows, steps, segments) start collapsed.
+Long arrays (achievement quests, «Necesitarás» rows, steps, segments, table rows) start collapsed.
+
+## Pasting a table
+
+The «Tabla» block carries a «Pegar desde una hoja de cálculo» box (`TablePaste`, `src/components/admin/TablePaste.tsx`), a `ui` field that is never stored. Torre pastes what he copied from Google Sheets or Excel and the button replaces the block's columns and rows in the unsaved form, through `parseSpreadsheet`; nothing is saved until he saves the document. See [Guide body blocks](blocks.md#table).
 
 ## Checklist step tools (A-18, A-19)
 

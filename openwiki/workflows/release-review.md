@@ -5,7 +5,7 @@ description: How pnpm review:release reviews everything between the last release
 tags: [release, review, ai, tooling, git]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-20T11:20:16.585Z
 sources:
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json

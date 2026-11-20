@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d30bdc89d01bcbf896c9d131fbcba186b03d86d6adddd397ca8bcbbcdfe2825e",
+  "pageVersion": "sha256:7ef593e0e124e279d914fad43b8b80a49dc31de01966156e6f9b8bc71afe009e",
   "claims": [
     {
       "id": "claim_d126db27b5074cfcafc8c6c0f8ae0195",
@@ -17,8 +17,8 @@
       "statement": "readMetalogrosIndex reads as a visitor: published metalogros with their representative's image, published achievement pages with a metalogro sorted by order then name, and the published loose guides.",
       "evidence": [
         {
-          "resource": "repo://src/lib/achievements/queries.ts#L232-L282",
-          "version": "repo-lines-v1:sha256:1042be7c571e7345a3e7db9be8d1c4a95e5eb57b5f38830f2510196354004f28:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3NTRhNmQ5ZmJlYjMzNGQyNTYyYTZhNWFmN2VjYTMxMWRkMjFlOTU0ZTc4ZWFhZGE5MzZjN2FhNGE2MWYwM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg4NWVlOGU1MThhMjA4NzllZDMyYWY2ZWRkYjIzNmNjYmQ5ZDk4YWM2OTQ3NmE5OTY0ZGM5MjY4NWE2NGQ5ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/achievements/queries.ts#L233-L283",
+          "version": "repo-lines-v1:sha256:39ab2ffc3f7c047dbc325799bdebb7e0ca2b37d22e0b7189e327029b13f309e6:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YjE5ODJlOGRkNzQ4MTE4MTQ2YjM5YTJkMDA2MmY0MDgxZTM0Nzc5Yjg2NzVjMjM0YzRmYjEyNGRjMzkzOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljZGVjZmExMzg1NmIyZDBkZmM3ZmNjMzc0YTk4NTM5YThhMzYyYWRmNzg5OTQ4OGM5ZDA3NGFlZDQ1ZGQwM2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1ZmMwZjAyODlmMDBkY2I5OGRhYTkzZGExZDdjMGI1ZDYxZGU5NTY5MGMyMjA0ZmU0Y2FmOTk1YTA1MjJmY2EifQ"
         }
       ]
     },
@@ -119,8 +119,8 @@
       "statement": "Lighthouse CI includes /metalogros among its audited URLs.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L13-L13",
-          "version": "repo-lines-v1:sha256:86f1e49310bd73a7e2622cab12a7b2f110c82686a48589fdc74ef8182301d67d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODZmMWU0OTMxMGJkNzNhN2UyNjIyY2FiMTJhN2IyZjExMGM4MjY4NmE0ODU4OWZkYzc0ZWY4MTgyMzAxZDY3ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODZmMWU0OTMxMGJkNzNhN2UyNjIyY2FiMTJhN2IyZjExMGM4MjY4NmE0ODU4OWZkYzc0ZWY4MTgyMzAxZDY3ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzY2YTA4NDcxNDA1OTEyZGNiMjUzMzMwNGE0MGIyNGRiYWY2YTdlMGNiNjRjMThlNDc2M2UxZWVkNWVmZjNmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGE1Zjk4ODdmYTNmNTAxZTkwOGY3YWQ3OTk5OWM4NmU4YTM2NzNjOWMwNWIyMzMxYWJhMzlmZjFhNDFhYmMxMyJ9"
+          "resource": "repo://lighthouserc.cjs#L22-L22",
+          "version": "repo-lines-v1:sha256:6f150b04656a644bd341640c786f9ffc47ef8bf615f21ef9e73d6e689d364671:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmYxNTBiMDQ2NTZhNjQ0YmQzNDE2NDBjNzg2ZjlmZmM0N2VmOGJmNjE1ZjIxZWY5ZTczZDZlNjg5ZDM2NDY3MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmYxNTBiMDQ2NTZhNjQ0YmQzNDE2NDBjNzg2ZjlmZmM0N2VmOGJmNjE1ZjIxZWY5ZTczZDZlNjg5ZDM2NDY3MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2YyMmUyZGRjYjZkYjIxZWIzYTc1YzI2YTlkZjNkZTI2OTBhN2ZiZjJkM2M4ZTFjZjRiMjQ5MWRhZDhhZjk0MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmM1OGYxMWQ5Mjg1Njg5NjRjMTc1NDQwNGFiNjUzNzNkYmRlZWJkNmFiZTk5NGI4NGZlNGYzMmRmMzliN2RhOCJ9"
         }
       ]
     },
@@ -129,8 +129,8 @@
       "statement": "The metalogros E2E spec covers the tile panel and hash, the flat panel, tiles per row at 1024 and 1440px, the icon inside its diamond, the tile tilt with its foil and its absence on off tiles and under reduced motion, hue borders, dimmed metalogros, search with unselectable preparing items, hash on arrival, no-JavaScript links and axe in both modes.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/metalogros.spec.ts#L13-L227",
-          "version": "repo-lines-v1:sha256:2332fac2e48011bb584c15133ad155c58b8e32d64dce26be221b641f0be010ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MjE1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1MzhhODU2MWNiYTJhYjQ0NmZmZDU5ZjMwNzIwZGFmYWZhNmY4MDIzZGI1MjNmNjc2ODg4MGE3YmRlZDJmMjcxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2U5MGRhNzM1YmVkNzBiM2M1MjliYmQ5YmYxZjRhM2M1ZGFlNTAyYzhlZmM5MmE0MTFhYzhhMTI5NWMzZDcxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/metalogros.spec.ts#L13-L244",
+          "version": "repo-lines-v1:sha256:40de7209cce612de18a792c33c7bc3c5b1ddc114f43494ba7059073f6cb09735:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1MzhhODU2MWNiYTJhYjQ0NmZmZDU5ZjMwNzIwZGFmYWZhNmY4MDIzZGI1MjNmNjc2ODg4MGE3YmRlZDJmMjcxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2U5MGRhNzM1YmVkNzBiM2M1MjliYmQ5YmYxZjRhM2M1ZGFlNTAyYzhlZmM5MmE0MTFhYzhhMTI5NWMzZDcxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -225,6 +225,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-18T11:06:38.803Z"
+    "at": "2026-11-20T11:20:16.585Z"
   }
 }

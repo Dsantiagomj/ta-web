@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:f360fb21dd79a87c7fe960a94f473769f8b75b3b0941d19f425657a6c6de5edb",
+  "claims": [
+    {
+      "id": "claim_f3d462ee00ed47e58163c0a043b32bae",
+      "statement": "umamiScript returns an inline head script that posts Umami's event payload to {host}/api/send with fetch, keepalive and credentials omit, once on load and once per path change through wrapped pushState and replaceState and popstate, waiting 300 ms for the new title, sending only the path and ignoring network errors.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/analytics/umami.ts#L29-L43",
+          "version": "repo-lines-v1:sha256:50f4c16ecd4b2a5fcf8e4db3b1553b94203826a16342381ad10ec65514ec39a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdjZTQxYTc0Y2IyYWY0MzhkZmQ1MDhmM2VmMGNmYWJmMDMxZTZkNmJjN2VhMzJmM2ZmMzU5YTFlZDAxNGI0ZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/umami.test.ts#L145-L253",
+          "version": "repo-lines-v1:sha256:a83a07c3410a24b3ea59ce1e35e8415848631d384eac0f8a3e41102ef473965b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMmMxYTA2OTljZTZhM2YzYzRmZTg3NGExODBhNWM2MzdiZmYyZWYxYzc0YTA3YTNmMTg1NDAyN2NiMjFlODQxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZGJjMWUyNjk4Y2UyMGZiNzdkZmFjMWU5ZWI1NWVkOWUwYTA2OWE5YWJjYmU3MTMxMGU5ZjA0NGJiNzljZDQ1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIwNzlmNzExNmQ3YzA5NDU1YmU0OGZlOGU0MGVmYTQ0MDg2N2QxMGJiYjQ0ZTI2Mzk5MTk1M2Q1ZjYxN2I5ZmYxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_5e7a9d338a0f441c880ae4d15ac0065e",
+      "statement": "The tracker's configuration enters the script as JSON with every < escaped, and the script stays under 1 KB.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/analytics/umami.ts#L39-L42",
+          "version": "repo-lines-v1:sha256:e9bec31493a3396055f8b20e80886e781fdb9a44cdbe01ad172f773653135ceb:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzY2NmYyYjY4NWVjNzI3ZDViYzNhNTc4ODY5MDBiMjFjYjdlNDQ0OGNkNGNmNDFjYzc2MzRmOTE1Zjk1NDljZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTI5N2M1YjkzMDRlYjBiNDJlYTU1YWY4OWQ4ZTc5NmM0MzE3ZjE3YTdkMTk4MmQ1YjE1ZTRkNGNiZWE5ZmE5MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU3ZjAxZjk5MTBjOWY5MmFkNGJkZTkxNzdiOGFlY2VkZjIyYjY5OWJlODJhNzE2YjFmMGJiYmJhMDJiZGJlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/umami.test.ts#L254-L263",
+          "version": "repo-lines-v1:sha256:afb95b9b6aa4c76e8884efd03ac547006fce674d7783e193a9356ca1ba8990ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxNWZiODA5MjFkODYwZGI5ZmUyNDJjZDU4YmQ3ZWExZTdlYzBkMjE4N2M1Y2UzMGU1MWViYjIzNmEyNmJlMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhYWQ2ZDg1NGY0YWRjNWY0ZjE5OGJmM2I5NzQzNzI1YjM0MGUxNzNjNjQyNjJiNjU1NWY0ZjQ1MzZmYmQ1NTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_49d3f865d43541c197bc8cd51cefd828",
+      "statement": "umamiConfig turns analytics off in the dev environment, when UMAMI_WEBSITE_ID is not a UUID, or when UMAMI_HOST is not an http or https URL without credentials, and otherwise returns the host without a trailing slash and the website ID.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/analytics/umami.ts#L1-L28",
+          "version": "repo-lines-v1:sha256:88beed31481b7505c5fcfda4ce2d44cc9017a2f3cfd23d86faec8d2bb06ad3ba:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViZmMyYTcwOGI5MzczNzUxNzMyZWFmN2Q4N2E4NjBmOWI5MDU1ODUzYjQ5OTRjYjA5NjJjY2MyYzZkYWRmMDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyNzM1NjBiZTJhMmFhMTFmNGI4ODc1NzQzOTBmODM0NTFiODhjNzlhYWIyNzZhNTA4OTY0Y2RhMWEwNzM5OWYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/umami.test.ts#L9-L60",
+          "version": "repo-lines-v1:sha256:46e371b82c228290ac0380882fafac72bfecdf1f6a67d2e0ae92ebe118f44221:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzYjUzMzg0YTg1MjdmODcxZDY2MjZlYTQ5ODAxNTc2MDVkYjY4ZmI4MDQ5MTJlZjlkNTI3MThiZmMwODZmMjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1YjRhN2FhN2U0Y2YxNjhjZjIxNWE0ZTJiNzg4OTcyOTRjN2I5MWMyMmFiZTJjMTdlMDY0ZjljYmJmYWNhZmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM0MmE5NmIxZjhjZGRiNzUyNzQ5ZDI3NzFkZmNhNTdlYTE1ZTI2Y2E3MzAwNTViNWQ2NTQxZDFiMzliYWU1OGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJmY2E5ZTBmNjMwMjhkNmRlMTZmYTY1NGNhMDliNThjOWNjMTQ0NGUyNWM0MWE5N2YxMTc5NjkzZTYyM2UxNTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_177fdaa1b57b4f619ebdbbae729bdd89",
+      "statement": "The frontend layout reads umamiConfig on every request and renders the tracker script in head only when it returns a configuration.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/layout.tsx#L63-L65",
+          "version": "repo-lines-v1:sha256:f8b0167513908799806a1009b45efcc1714637f72adf8af12b8c078dfc95efb3:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWU3NDU3MzNhMjkyZjU5NGJiOTUwZjQ3YjNiZGM3ZTY1OWQ4Y2ExNzZmOTYzOTE5YTJjZGQzMmI2ZWRhNzFmMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGM2YmQ3MDIzNTljYTJlZGMxYTkwNDI3ZTQ1MDI4MzgxYjZmOTExYTdiOGE5NmVjZWEyY2E4NWU2NWZjOTM0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmNlNWFiMjY1OGFjZjVmNTRiOWEyMzBlMzFkNTI5NDM1ZjUxYjI1M2RmMmQ2YmNkMTgzNDRlZjE2ODExZDY3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjM2ZjIzODA4MGMzMTU1OTYwODIxOTNkZDg1YmNjNjFjZGUyNjZkYzhjMjkyNGRlNjUyMTBmYmZjYjEyYmM5ZiJ9"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/layout.tsx#L79-L82",
+          "version": "repo-lines-v1:sha256:50faaad5fda91f4f4d4d962911f72085bc7a373edccee59fc28465429b9f7d1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGU2ZjAxNzBiZmJmZjNhYTUzOGQwMGZmZDEwODcwZWViZTdmMjhlNTJhNDhhYjVhZjY0ZDYyMmY3NGVkZDZjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY5MDM1MWNjYWE2OGRhZTNkMTIxODI0NjExNzZlOTAwZjZhNmIwM2VkZmQzOWUwNGM5OTMwNjliNTdjZWQ1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzMyYmZiNWJjNzkwZDFjOWEzODljMTU1OTkwNDAzZDExZTZmYzhmZDkxNDAxN2E1Mjc5OGFlYTJkZjkyODc0YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODgyNDhmZTQ5MDc4MWNlZmU2YjllNjY1Y2NiMjczNTMyOGY2NWY1ZDQ3MjZmMjdiMWU3NzJmMDU5ZTg4Yjc1MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_178a5337714147c8937e9bd69b14defe",
+      "statement": "Only the production Railway environment declares UMAMI_HOST and UMAMI_WEBSITE_ID, as preserved secrets.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L77-L80",
+          "version": "repo-lines-v1:sha256:7abd4d31c4ff5cddb98ed9c2e589b0feda1a99513b4de9470c3eed989e89165f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTBiNmYzN2EzM2Q5YzVmNzJjZThkOTFjNDllN2JhZDA1YWNmMjNjMDU5Yzk3NzM4MTFjYjE1NTFmMzQzYTViMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWJiOTVkNjIyMjhlMzFkNDViMTc0YTQxYWM5ZDAzMWFlNDM3MzVkMzU5OWY2ZGRlZDkwNmZhNWJlZGZkOWJlMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWU3MDk2Y2UxZTEyN2ZmMDkwNmE4N2Q4MjgwY2M1Nzg0ODVlMWRjOWEwNjViMWU1ZDQ0ZDk4N2Q2MjViZmUxNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzI3MmFlODFiZGQ4MGU3NzNhNDg2Y2FlMTcwNjg0NzdiOGRjMTc1MDgzNjAyMThlZGQ3NmY3ODQ0ZjZjYWE4NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ab0a19ecf3746c8a4bec81ee9a32950",
+      "statement": "The E2E and Lighthouse app servers blank both Umami variables, while a second E2E server on the same build and database turns Umami on against https://umami.e2e.invalid, whose requests the analytics spec intercepts.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/lhci-env.ts#L31-L36",
+          "version": "repo-lines-v1:sha256:69a8c582199f9526c48fdc9993a4a739932fa614979a68651ae4cd5a6592b23b:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTFhOTA5MTA4N2FjODU1ODY4YTA3NGQ2NTE0Mzk5ZTEyMzEzYjZlMTg1NjgzMDk5ZTUyYTYwYjFkZTcxNjU0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzJlMTRmMjRjYzU1MmU4Y2RlNWY4NjJmZGY1YjMzMGI2NTI2MGM5YzNmZDgxZDgxZjY0ZGFkMTE3ODllMzgyYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+        },
+        {
+          "resource": "repo://tests/e2e/analitica.spec.ts#L1-L93",
+          "version": "repo-lines-v1:sha256:7854b62a69eb36f34a59d177c3ae731e6e6bbc23e50d2ca9308b2d0273660f8c:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZWZhNTUwYTQ1YjA2NTU3Y2U2MWRjZGY5ZTZkZmQ4ZWExZjA1OGFiMTA2ZTg5MWMwODFhODc5N2ZmMWE0MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/app-server.ts#L40-L72",
+          "version": "repo-lines-v1:sha256:8ff3fce1f66369e2b2960b245288135d44d899e56e0bcdcf6fac857e27633f00:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkYjYzMzc5YTVjNTM0MWQ0OTc1MzYyNDg3MTg4OWI0Yzk5NmVlNTc4ODc3MzY5ZjdiMTdkZmUzMmFiMzVjNWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyZTE0ZjI0Y2M1NTJlOGNkZTVmODYyZmRmNWIzMzBiNjUyNjBjOWMzZmQ4MWQ4MWY2NGRhZDExNzg5ZTM4MmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFiMzQ1NjVjZGFhNDVmMDkzOTM0ZjU5NjIxMWJlMTYzMDM3NjkxNmQyOGM1MjNkMTJlZDljMDFjMmU3ZGVlZDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_86793bc322804f4b8a5414c94eded9c7",
+      "statement": "The dev gate suite sets both Umami variables on an APP_ENV=dev server and checks that no script is rendered and no visit is sent.",
+      "evidence": [
+        {
+          "resource": "repo://playwright.dev-gate.config.ts#L26-L35",
+          "version": "repo-lines-v1:sha256:e3fa04976048daa9f952d24500a699658808e4e94328c2e17c7b4a0f0d21bf55:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyN2E1YWRjYjNlZjFlY2ExMzNkYTU1ODA1MDM4Y2U5MWUyMzUwZWY4NTExZWNkNTg2NTRkZTExMTUwYzM4NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZTZmY2RkNGQ3Mjc0ODdlOGI4ZDdhNDM3N2YwNjJjZDFiY2U1OTQ0NGQ2ZDczYWE4OGNhNTg0OGY5NGI0ZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxMmI2Yjg5MDRmYjkzYmM4ZDE4NDI4M2I2MWU5YWU5ZmRjZTJlMDFjNDc0MDZkNDhhN2M3ZTcyY2E2YzMxZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        },
+        {
+          "resource": "repo://tests/e2e-dev-gate/analitica.spec.ts#L1-L19",
+          "version": "repo-lines-v1:sha256:1b64b2527853eabe75edfb6d24a7cf2737ab9907485e1d3f910a71014e1475f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZWZhNTUwYTQ1YjA2NTU3Y2U2MWRjZGY5ZTZkZmQ4ZWExZjA1OGFiMTA2ZTg5MWMwODFhODc5N2ZmMWE0MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-20T11:20:16.585Z"
+  }
+}

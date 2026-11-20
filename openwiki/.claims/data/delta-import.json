@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:ca4145f73ab2d9411ab4c7e8372b8eebce279a1d12f7d0ecf0fc538697776deb",
+  "claims": [
+    {
+      "id": "claim_97fb6123c8994f5e934adc9c2e547591",
+      "statement": "pnpm import:inventory downloads Squarespace's sitemap and every page in it, one at a time with a pause of at least 500 ms, into raw/sitemap.xml, raw/pages/<slug>.html and raw/pages/_meta.json, resumes what is missing or failed unless --refresh, writes out/delta.json and out/delta.txt, never writes to the previous inventory, and exits 1 while a page failed.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/refresh-inventory.ts#L1-L127",
+          "version": "repo-lines-v1:sha256:a75864f951283ec8f61a0427c5fbb11f32eeedbd5adc76453cb430aa2c0790f5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3NjE1MWQ5NDViYjYxOWE2MjJhMzdmNDgwMzM2YjI1NDAzMTJkMWY5MmMzNjBhNzkyN2M2ZTUwYTIyMGIwNTFkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_069b3e53eca7424ab5cdef73a93093f1",
+      "statement": "fetchPage retries a 429 or 5xx response up to three times with a growing wait and follows a redirect only while it stays on Torre's site.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/inventory/crawl.ts#L22-L88",
+          "version": "repo-lines-v1:sha256:086ed1c8182ac6b958fffdfd44d8df21324b47098412dbc86ea70ec5676bc119:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0NDBiMjU1YWM4NmM0YzZmYjdjYzYwMDBjMjhjZjJjY2RkNjNjYjk4MDQ4NmRlMGNjZmNlOGMyNjcxZjMzMjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhODZhMmFkZDNkMWI4MTgwY2QxZTJmZjRlMzM5MmVhNDhkOGM2MzMyYmNkMDZmYWQ0ZTM5MjM5ZDY2YTIzOWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-inventory.test.ts#L111-L159",
+          "version": "repo-lines-v1:sha256:9a33eb2881ae5d9a1200410262840a2ca9efa7e023fdb34bdd3fd25914124dd7:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkYmMxNGJkMDY4OWViM2M4ZGJlNzI0NTNhNmEyNzhhYjIyMjQwNzEwOWMzNTg2MmNjYTgzYTM5YzJhODhjYWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1Mjc3OTQ2ODE3MDM4MjA4MzlkNjIyNGM2MmUzNjZhMmU2NmU2YTlkNjMzZjUyNzBmYWUyOWY5ODQxMTc4OWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8639a1170f574fbdaea60b0a045c0b65",
+      "statement": "pageFeatures compares only what is inside <main>: the text and word count, the CDN image file names, the YouTube IDs, a hash of the code blocks and the links, because the sitemap lastmod does not move when Torre fills a page.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/inventory/pages.ts#L1-L110",
+          "version": "repo-lines-v1:sha256:a920630e657c08eb68fee2ade4634eff90ea3cf5ae5af4093880f540dab18619:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0YmM4ZWFlZTFiZTUxZDM2Yjc2YzMzMjEyZWQ2MTBiZTJhNDI4ZjAxNmRjNDgzOTljYmY5NTI2M2Q4M2Y2YmY1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxYTkyOTNjNGU0YzE1OGQ5NDUxZmJmNGRhZjZlZDVkZDM1MTdiNWMwNzc5MWYwMTExZGM3YzRhYjUwYTBlMmQ5In0"
+        },
+        {
+          "resource": "repo://tests/unit/import-inventory.test.ts#L35-L58",
+          "version": "repo-lines-v1:sha256:35b71a393f804003f7eb6929e4ac12e9722494fdfa387d0d5273544c06bcbff9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhYjMwYTkwMTdhMmRhMDg4Nzk1MWIyM2JlN2E4NmEzOGZmODM3M2MyOWUxNDFhMjY0NmY4ODQ3MjhkN2VjMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExOGFkMWRjNTNiMTEyNDZmMjQ2MGExYTc1OGM2YWNmNzgyMjc3NDg2OTlmMWI2ZDQ4ODRkMWNjNTc2MDJmNGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhMTZmNTEyYzAzZGNiMDIxZjIyMTRkOGIwMjcyMjE1N2E1MWI1M2ZjYWIxZDE4YTAxYmMxYTRhZGFhMzJkMmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f5cefb81fea147edb590298e84d3356a",
+      "statement": "comparePage marks a path same, changed, filled (fewer than 20 words before and 40 or more after), emptied, new or removed, with the changed text runs word by word for a changed page.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/inventory/pages.ts#L112-L268",
+          "version": "repo-lines-v1:sha256:621def6d155219eb3925e8f315bd412c3a5ae7265f115932e6587364c0841ecc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxMGFkN2M0MjVjYWE0NTViMzg3OTE2MDgyY2FlNzI1NzkzN2YzZTYxMmZhY2VmNTMwMGNiOTVkM2E5YWUzYzJjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYjU4MGU5NjRmODNhNDczZjQzZDQ0Mzg0NjI5NDlkNjhiNTYwMGZkYTc4N2YxNjM3NDVkMDBkZTg5Y2JmMzZhIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIyM2ExNjU0ODllZjQ2N2JhMDMxMzhhYzgyZjc3MjM0NmM1M2NjZTI2MWEyOTIwMzYyZGFiNTc4ZTlmNzUwYzZjIn0"
+        },
+        {
+          "resource": "repo://tests/unit/import-inventory.test.ts#L59-L93",
+          "version": "repo-lines-v1:sha256:12117bb224a1b119b34e68d4e7a51c0eeb6d7dce31260f405cd917963ded5f7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyMmM1ZDNlZjgwMGY4M2VkZDMyMzA1NWM2YjFhYmQ1MDhkYzlhNDcwMDBhOWNjODAzMDY5Nzk5M2JmNWZkYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiYjVkZDc0ZWIwMGU5ZWQ0MGNkNzk2Y2NhYmQ5NGQyM2IxOGQ2YmMxNDZjNDk5MGU0YTM0ZTFmZWQ3NzA4YzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQyMWRjMzc5YWI5ZWE1YzNmMWVjNWM3ZWFjNWMwNTc2MWI2NzM1OGNiYjViN2I5YjZjNTU0YjFjYWQyZjM0OGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2YTMxYzk5NzZlYTE2OTFmMjRlNDdhYWY3NDliNGZmOWQ3OTc5ZTcyNjQ1YTM5NjU3ZjI3MmYyY2RmNzRhNmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e2af3a7d87c3478b8285da7acd7dbde6",
+      "statement": "pnpm import:delta refuses a remote or production database without its flag before Payload starts, compares the two inventories and, without --apply, writes nothing and uploads nothing.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/delta/load-delta.ts#L1-L11",
+          "version": "repo-lines-v1:sha256:7ef2f8df79cc864b5bc0cbdd6030ec9b273da8c9748055c95d33861d7304bd0b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxNzVmNmViNGVmMjJhOTQ3YTRhNzgyMDQ1M2Y4ZDRmMjdlMzU1ODU5MjQ4MWI3YTk3MTliMmZjYTk1NmNhMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiYTNiMjlmOTIxYjNkNjc1MjZlNDYyODY0OTI4Zjk0ZTAwOGQ4ZmZiYTEyMmY5MmEwOTkyYzViYTBkNTE3ODIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2NzNmM2EwZDUzZGM3NGZlOThmODRmZjYzNzE4OTg3ZDRmYzhkOTMxNTg1ZmNjNTVhZGQyOWNlNzQwNGFiNzEifQ"
+        },
+        {
+          "resource": "repo://scripts/import/import-delta.ts#L1-L64",
+          "version": "repo-lines-v1:sha256:cffd6698f2fc39224962a5887d095d9597d67f85ba91a9498991781fe3445bc4:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwNmExYzk2MWIzYTUwZTBlNjcwZDFkODMxNmU1MmZhN2RkZWEzNTQ1ZjAwODdjYjczMDNmNzZiMmU4MmZhNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a148370aef8e451b9dae80b94052e337",
+      "statement": "The delta import handles only changed, filled and new pages: it routes each to an imported guide by the slug of its originalUrl, a metalogro page, an achievement page's prose, or a new quest guide when the page looks like one, and lists pages owned by other collections, hand-made guide slugs, nested paths and non-guides as untreated.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/delta/load-delta.ts#L96-L210",
+          "version": "repo-lines-v1:sha256:cf541e9e745acbd1b8bb44237d646bdd744c32b5d539be14abe9b073be1d82fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMzU4ZjNmODE2YjMwYWNhMTg5MjdkYTQzOTA5NWY2Njc3Yzg2MjZjOTBmNTlmYmRjMTUzMmI2NWRjYjgyN2Y4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyN2U1Nzg4ZDVkOWQ3M2QyNGE4MWRiYzBhNWE3NGJmYTgyYzljM2IzYWY5OWU1MmFmNzk2ZTkwYjQ2OGE4YTNkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlYTUzZTFkMjhkZmRiZTg4ZGQxNjhjZGI2YTIwOGFjZTBjM2JkMjI3MWMyM2M3ZDJjYjFmM2YwMWQ4MWM2YjVkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxMThjMjhmYTI0MWYyNGQ0ZDA4OTRjZWNkOTczMDlhZWQ1NWM4ZGQyMWRjOTRkMWYxOTc5MzMxMjUxYTIwMDE2In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_665fa795d72b41c8999047b0badf9a3e",
+      "statement": "A new page is a quest guide when its text has two of the Prerrequisitos, Necesitarás and Recompensas labels or Prerrequisitos with coordinates, unless its slug is a checklist, a -datos page, a metalogro or a logro- page; its quest is matched by slug variants with and without the ñ and by title with and without the type prefix, and several matches leave it unlinked.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/delta/match.ts#L1-L83",
+          "version": "repo-lines-v1:sha256:5a07d470bb476d0c7179ee7c11093fdecee0b0b0147ff30f5ca6dd4c14f976a0:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkZTkxMTU5ZTgwZjA2ODI2OTkyYzkzM2RhMjUzMjVhYmYxNzZhNTFiZjI3NzdhMTI2YjNjOTk5OTViYjdmNDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-delta-match.test.ts#L19-L69",
+          "version": "repo-lines-v1:sha256:8d307ce97218bbddf9e1f027d9b987a8ee2e4f3d773b18a91f7fea3e941b11f5:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlYmU0OGJiYTIwYzVmMDQwZWZmMzQ4ZWMwODk5NTBiNTgxMjc5Zjg4ODZiNTNhYTM4ZjAyMzY2ZDg5Y2Y4ODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmM2FlNjI0MjlkM2Q2MWM1NWNkYmRmOTgwYTNiOTYwZGEwYmEzNTNkMTc1N2IxYzNhZmNhMmE0N2Y5ZTFjOTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4a4649ddc6424bd4b50a53d9deaad5b8",
+      "statement": "New quest guides whose path is still a legacy redirect source are reported as blocked by the table; the rest are created through loadQuestGuides as drafts.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/delta/load-delta.ts#L274-L322",
+          "version": "repo-lines-v1:sha256:7ad5a1c7b796f3d7ac5484b73f907ff27acfe1633419a8458b5c34bf4e181b96:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjMmRhM2ZlNDRkMDk3ODI5YjU1YjFkYWZhM2RlNjkwYWE3MmU3MGQ5MDEyZjM4N2VmZWE1NmZmMDRkMTc5ZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2NzliZjdjOTRkYjY1N2ZjODIxZDFkMGQ0NGJmYjc1YWZjOGQ3NmEzYjU0ZjkwNTIyOWJjNWQ5MDAyMmVhOTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4MzRmMDhiNzY1ODI5YmVkNjY3MmRlZjdiMDQ2ZDlhOWEzMDY0NjhmNTFlNDRkOThiYWE4M2M4ZDQyZmNjYTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_33a0c0c488a445e2aa2d9e7f5d95ffa5",
+      "statement": "deltaUpdate changes a tracked field only while it equals the importSnapshot or, without a snapshot, exactly what the importer made from the previous inventory's page; any other value is Torre's, stays, keeps its snapshot and is listed.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/delta/rule.ts#L1-L47",
+          "version": "repo-lines-v1:sha256:50cd836bd652f6fe4e0219a74efce3b5cd0e42bc7241edd71ea9580e98149da6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiNzZiNWJiN2MzNDg4NzI2NjkwMDVmZmZkMGEzNGMxZmQ0MGQ5OGQxYWQ3OTljMzhiNzM4MjQyOWE3YTNlODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-delta-rule.test.ts#L30-L114",
+          "version": "repo-lines-v1:sha256:7d6fc3cd50f6d247e25fe9f42492cee13e218e37b3342cd3e6e3c041815a2307:eyJzZWxlY3RlZExpbmVDb3VudCI6ODUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4ZWM2OTc2OGVlNGQ3NDk3ODQyZDM4Y2IyMzdmNGNiOGZlYjEyMTNiMzBiNzkzODkyYzRkYjUxYzFlYjQ4MzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyOGU2OTc5MTE1YWZjZTJlYjZkMTg4MDZhMGE3YzRmNzY1NGYzOTgxMDM1YjJjNWEzN2NmYzUxY2I3NTNmNDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d24746e297c04e08af66e2ed99aaf90a",
+      "statement": "An updated guide is saved with the status it had and its new importSnapshot, so a published guide stays published.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/delta/load-delta.ts#L365-L445",
+          "version": "repo-lines-v1:sha256:195db122b983a900ac2212636b0d8a9b04d46e3c1bc959fc89b0bb77a44d5bd3:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyMmE3ZDc0ODgzZGE4Njc3NDMzZjY1NjQ5NTE0OWE3YTgwODU2ODllYjg1ZjI1Y2JmMWIwMGE5YjQ4NTlhNjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5NjhmNmVlMzhjM2VkMTNkZTI1YjJhNTM0Y2E3MDY5NmEyMzBkMjc1MDZmYTU0OWZlMzQ0NWRhOGNjZmIyNzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlMTAzZWRmNjRhOGVmYmYwNzNkMWIwZTgwMjE1YWU1MmZjZmU0NWQ3MzcxODY2Y2I2NGRkNjQ2ZDI4NjQ4MWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_02e30d87fe16470197f64b2e7ea82ede",
+      "statement": "For metalogro pages the delta import only reports the slugs the Squarespace page links against the metalogro's achievement pages and loose guides in the panel, never changing them.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/delta/load-delta.ts#L500-L540",
+          "version": "repo-lines-v1:sha256:e76e5db58ee45006b19edb44e086c463d5e48c3e332dfbba7a46897d60823ae5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlOWNhOTFjYTBhNGU2YWE0ZTVkYzZkNjBiOTdlZDYzZDljYmU1NmFhMzBhYWEyMTkwNWJlOGU3MjAwZjdjM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNjdhZGIzMTY3NWQ5NTE1YmM1ZGU0YmRjMWUxMzY1MjUzY2YxNGQ0ZjJmYjAxZjk4NjJhNDYwYzU0MWJjMGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3ZDg2MzJlNTRlOTI5OGFiYjk1ODcyN2UyZDUxNDA4YWJhZjEzNjYwMzUzNzkxMDE0MGFiZjY1YjMwYWI2MTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI4ZTRmOGY3YjBmZWUxMDlkYzcwMmQyZTAzYzc1OWM3NTI1ZDkyNDExYmM0M2RiNjA5NzI1M2M5OGZjM2YxY2YifQ"
+        },
+        {
+          "resource": "repo://scripts/import/delta/metalogros.ts#L1-L60",
+          "version": "repo-lines-v1:sha256:87699ae19e884c0edf48c874b573433596636b0974f4daee280606e7a6d95335:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwZDhiMzlmNTFhODYwZGNiYWVhZTZkYjg4MWE5YmZkNmY5MDRmOTZmNzM3M2RjOTVlODI0NzNjZWExZDRmM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-delta-metalogros.test.ts#L6-L58",
+          "version": "repo-lines-v1:sha256:1bfd5678d7e49b79ac82679293b3a8406284be7d5f117150fcbbf63b319d2a1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5MmIwNGRkOGUyMzIyNzBiOWZmNWZhNmYxYjAyNzUyMmJmNmJhNDg0YjM1MmVlNTQ4Mjk2NmM5YWVjNjM0MDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhYjIxNDhhOTliYTg5NzRkOGY2ZWIyM2FiMTFmMWQxNjFkMTEwZmE4MzE2MGNlZWFmZjc5ZmYzYmZjMWMzYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-20T11:20:16.585Z"
+  }
+}

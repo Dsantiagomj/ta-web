@@ -6,6 +6,8 @@ tags: [quest-guides, payload, admin, dofusdb, autofill, workflow]
 sources:
   - id: openwiki-source-3fc9f0484081f9ab441d6219
     resource: repo://scripts/import/load-quest-guides.ts
+  - id: openwiki-source-b5ebd1b0d78d15bedec5d16c
+    resource: repo://src/collections/content-date.ts
   - id: openwiki-source-f6a77b87c2cce3530ab6695f
     resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
@@ -22,6 +24,8 @@ sources:
     resource: repo://src/components/quest-guide-admin/SummaryNote.tsx
   - id: openwiki-source-589bfa7373a4546b25115691
     resource: repo://src/lib/admin/strings.ts
+  - id: openwiki-source-355927ee171fe71b0786ac63
+    resource: repo://src/lib/content-date/rule.ts
   - id: openwiki-source-50dfb7dff241d2a5f45927cb
     resource: repo://src/lib/dofusdb/criterion.ts
   - id: openwiki-source-4b87b2bd0648fe28c52dc5e5
@@ -54,10 +58,10 @@ sources:
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Writing a quest guide
@@ -73,9 +77,9 @@ The collection schema itself (field types, validators, access) is in [Collection
 1. Create a guide under «Contenido» and pick the quest in "Misión de DofusDB". The description under the field reads "Elige primero la misión de DofusDB de la guía, solo una: al elegirla se rellenan el título, la dirección, el SEO y el resumen que estén vacíos. Lo que vacíes después se queda vacío; «Rellenar desde DofusDB» vuelve a copiar lo vacío cuando quieras. Cuando ya tiene una, solo un administrador puede cambiarla: otra misión mezclaría sus datos con los de esta." Once saved, the quest is locked for editors (`lockedOnceSet('quest')`, see [Admin panel](admin-panel.md)).
 2. The form fills the empty title, slug, SEO and summary fields right away, without saving, and marks the form as modified.
 3. Under each summary field, a note says where its value comes from (see [The notes under the summary](#the-notes-under-the-summary)). Torre edits whatever reads wrong; nothing typed is replaced later.
-4. Write the "Necesitarás" notes and, if a dungeon note shows the generic dungeon icon on the achievement page, pick its dungeon under «Mazmorras de las notas» (below). Then write the body: an introduction, the walkthrough as "Paso" blocks (each with optional X and Y and its own text, images, videos, callouts and fights; a step has no title, so a heading goes in bold at the start of its text), "Combate" blocks for fights (monsters from DofusDB with their quantities, introduced by the text before them) and a closing. See [Guide body blocks](blocks.md).
+4. Write the "Necesitarás" notes and, if a dungeon note shows the generic dungeon icon on the achievement page, pick its dungeon under «Mazmorras de las notas» (below). Then write the body: an introduction, the walkthrough as "Paso" blocks (each with optional X and Y and its own text, images, videos, callouts, fights and tables; a step has no title, so a heading goes in bold at the start of its text), "Combate" blocks for fights (monsters from DofusDB with their quantities, introduced by the text before them), "Tabla" blocks for tables (pasted from a spreadsheet with «Pegar desde una hoja de cálculo») and a closing. See [Guide body blocks](blocks.md).
 5. Check the draft with the panel's live preview (desktop or the 390 px "Móvil" breakpoint) or the preview button, both of which open the public page through `/vista-previa` with the current draft. See [Public quest guide page](../frontend/guide-page.md#draft-preview).
-6. Save a draft or publish. On a guide's first save the hook fills anything still empty; later saves fill only an empty title or slug, so a field Torre cleared on purpose stays cleared. Every save expires the cached guide pages, so a published change shows on the next visit.
+6. Save a draft or publish. On a guide's first save the hook fills anything still empty; later saves fill only an empty title or slug, so a field Torre cleared on purpose stays cleared. Every save expires the cached guide pages, so a published change shows on the next visit. Publishing a content change also moves the guide's «Actualizado el» date (the hidden `contentUpdatedAt`); a save by a script or an import does not (see [Share cards, JSON-LD and update dates](../operations/share-cards-and-structured-data.md)).
 
 A guide links a single quest, and that quest feeds the fill and the notes. One quest per guide fits the existing content: of Torre's 1,272 Squarespace guides, 1,234 match exactly one DofusDB quest, 29 match none and 9 are ambiguous, and none matches more than one. The [Squarespace import](../data/squarespace-import.md#loading-into-payload) leaves a guide that names several quest IDs unlinked for Torre to choose.
 

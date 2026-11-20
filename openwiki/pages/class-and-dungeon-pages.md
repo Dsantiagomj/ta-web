@@ -3,9 +3,6 @@ type: feature
 title: Class and dungeon pages
 description: The `class-pages` and `dungeon-pages` collections where Torre edits his class builds and dungeon pages before they have a public page, how the menu's class and dungeon lists are built from them, and `pnpm import:section-pages`, which brings them from Squarespace.
 tags: [pages, payload, navigation, squarespace, import, classes, dungeons]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-17T11:00:20.552Z
 sources:
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
@@ -41,7 +38,10 @@ sources:
     resource: repo://tests/unit/section-nav.test.ts
   - id: openwiki-source-ead0a954a62073d6b4b2a256
     resource: repo://tests/unit/section-pages-collections.test.ts
-generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-20T11:20:16.585Z
 ---
 
 # Class and dungeon pages
@@ -56,7 +56,7 @@ Torre's class pages (backlog S-10) and dungeon pages (S-11) live in two Payload 
 - **Slug.** A required, unique, non-localized slug validated like quest guide slugs, with Torre's Squarespace slugs (`feca-1`, `mazmorra-crunchidor`). Both collections are in `ROOT_SLUG_COLLECTIONS`, so `rejectSharedSlug` keeps their slugs apart from every other page at `/<slug>`, and in `SLUG_REDIRECT_COLLECTIONS`, so a published slug change stores a redirect (see [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root) and [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
 - **State.** The shared `state` field, single-valued. Its validator refuses «Publicada» with the message that the page does not exist here yet, so every document stays «En preparación». `legacyHref` («Enlace en Squarespace») shows in the sidebar only while the state is «En preparación».
 - **Menu.** «Sale en el menú» (`inMenu`, ticked by default) and «Nombre en el menú» (`menuName`, optional and localized) decide whether and how the entry appears in the menu list.
-- **Content.** Unnamed tabs only arrange the form: the body uses the quest guide blocks (rich text, image, video, callout, fight and step), and the SEO group has a title and a description of at most 160 characters. A hidden `importSnapshot` records what the import last wrote and is cleared on duplicate.
+- **Content.** Unnamed tabs only arrange the form: the body uses the quest guide blocks (rich text, image, video, callout, fight, table and step), and the SEO group has a title and a description of at most 160 characters. A hidden `importSnapshot` records what the import last wrote and is cleared on duplicate.
 - **Hooks.** `beforeValidate` runs `rejectSharedSlug`, `beforeChange` and `afterChange` record and apply slug moves, and `afterChange` and `afterDelete` expire the `section-pages` cache tag (`revalidateSectionPagesAfterChange`, `revalidateSectionPagesAfterDelete` in `src/collections/revalidate-guides.ts`).
 
 There is no live preview, since there is no page to preview. The publish status line in the sidebar (`withPublishStatus`) says, for a published version «En preparación», whether the menu takes visitors to the Squarespace page or keeps its usual link (see [Panel dashboard and editing aids](../cms/panel-editing-aids.md)). The dashboard lists preparing class and dungeon pages like the other small collections.
