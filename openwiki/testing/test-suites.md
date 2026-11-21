@@ -269,7 +269,7 @@ sources:
 generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-20T11:20:16.585Z
+    at: 2026-11-21T11:13:26.962Z
 ---
 
 # Test suites
