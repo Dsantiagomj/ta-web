@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e2a725150b955f2076423f34c2fd93e63cb651ad7f6a4b91c39ff9d8fc2b1db8",
+  "pageVersion": "sha256:a4b32086def652d5d818b09d07193dd6ea172f30e89f69bfb2e01175cfae1a74",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -846,7 +846,7 @@
         },
         {
           "resource": "repo://tests/e2e/checklist-progreso.spec.ts",
-          "version": "repo-file-v1:sha256:6182a454794b48299eec18de365128b71c84e98a9409933cf2edc9a2b26f4708"
+          "version": "repo-file-v1:sha256:c0227bb2552c72f355e540a5d17541ab23edb05a9641b4ecd8cec27aca5df67a"
         },
         {
           "resource": "repo://tests/e2e/checklist-silvestre.spec.ts#L1-L6",
@@ -1187,6 +1187,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-20T11:20:16.585Z"
+    "at": "2026-11-21T11:13:26.962Z"
   }
 }

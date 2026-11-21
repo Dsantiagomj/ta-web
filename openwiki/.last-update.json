@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-11-20T15:45:23.422Z",
+  "updatedAt": "2026-11-21T12:15:06.133Z",
   "command": "update",
-  "gitHead": "0c9108e3fd4b00e2a272aa71733dc8dc00c335b2",
+  "gitHead": "bf070a37feb5339875ea9c58bd6f1adcdb572403",
   "model": "host-agent/claude",
   "status": "complete",
   "language": "en"

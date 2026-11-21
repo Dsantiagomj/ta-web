@@ -34,10 +34,12 @@ sources:
     resource: repo://tests/unit/checklist-progress-state.test.ts
   - id: openwiki-source-451433a2fc814a425a9fc7e3
     resource: repo://tests/unit/checklist-progress-todos.test.ts
-generated: { by: "claude-code", at: "2026-11-18T11:06:38.803Z" }
+  - id: openwiki-source-55947691b7d12812838f6571
+    resource: repo://tests/unit/checklist-progress.test.ts
+generated: { by: "claude-code", at: "2026-11-21T11:13:26.962Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-18T11:06:38.803Z
+    at: 2026-11-21T11:13:26.962Z
 ---
 
 # Checklist progress engine
@@ -88,6 +90,8 @@ A quest shows as done, in this order of precedence:
 3. required as finished by another quest that is done: «La pide “Y”»;
 4. its step is marked done;
 5. done in another checklist and not here: «Hecha en la checklist del Dofus X».
+
+Only the first four can lock a quest. A quest done in another checklist is not locked (`QuestState.elsewhere` carries that checklist's name, or `null` when unknown, and `progress-ui` shows it as «Hecha en la checklist del Dofus X», or «Hecha en otra checklist»): the visitor can unmark it here. Progress is one store, so unmarking it removes it everywhere, and when the other checklist's step that recorded it is marked, that step is unmarked too, as if the visitor had unmarked the quest there.
 
 What was recorded under the checklist's old id (`nebuloso`) counts as this checklist.
 
