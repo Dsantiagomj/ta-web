@@ -1,6 +1,6 @@
 # Cutover checklist
 
-Date: 2026-11-23. The cutover moves torrentearcano.com from Squarespace to ta-web and is tagged `v1.0.0`. Production got `v0.2.0` first: the new code on the Railway URL, with the content production had on 2026-11-03.
+Date: 2026-11-23. The cutover moves torrentearcano.com from Squarespace to ta-web and is tagged `v1.0.0`. Production gets `v0.2.0` first (backlog S-28): the new code on the Railway URL, with the content production had on 2026-11-03.
 
 Moving the DNS is the last step of the day. Everything below has to be true before it, or the public site loses content or answers 404 on URLs that work today. The blocking rows of [the backlog](backlog.md) (section 1 and the P0 rows of section 3) still apply; this page adds what the backlog does not track and puts the day in order. Plan §8.7 to §8.9 (`docs/legacy/plan.md`) has the original outline.
 
