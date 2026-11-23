@@ -410,15 +410,17 @@ test.describe('página de guía', () => {
     expect(await root()).toBe('16px')
   })
 
-  // Las capturas de un paso llenan la fila de margen a margen (Torre, 2026-11-17), a 17:10,
-  // recortadas y centradas: columnas iguales con huecos de 1rem (17,6px con la raíz al
+  // Tres o más capturas de un paso llenan la fila de margen a margen (Torre, 2026-11-17), a
+  // 17:10, recortadas y centradas: columnas iguales con huecos de 1rem (17,6px con la raíz al
   // 110 %), dos hasta una fila de 81rem y tres después, así que ninguna pasa de 40rem
   // (704px). La fila es el contenido del marco (tests/e2e/frame.ts), de 110rem como mucho.
   const GAP = 17.6
   const column = (width: number, columns: number) =>
     (frame(width).width - (columns - 1) * GAP) / columns
+  // Una sola o una pareja: 36rem (633,6px) cada una como mucho, el tamaño de la web anterior.
+  const SHOT = 36 * 17.6
 
-  test('las capturas de un paso, de dos en dos a 1440px y 17:10; en el móvil, una por fila', async ({
+  test('una pareja de capturas, de 634px como mucho y 17:10; en el móvil, una por fila', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
@@ -437,16 +439,17 @@ test.describe('página de guía', () => {
       expect(first.x).toBeCloseTo(frame(page.viewportSize()!.width).left, 0)
       expect(second.x - (first.x + first.width)).toBeCloseTo(GAP, 0)
     }
-    await pair(column(1440, 2))
+    // A 1440px media fila serían 639px: la pareja se para en 36rem (633,6px), como una sola.
+    await pair(SHOT)
     expect(await shots.nth(1).evaluate((img) => getComputedStyle(img).objectFit)).toBe('cover')
 
-    // Una pareja llena la fila en cualquier pantalla: media fila menos medio hueco cada una, y
-    // la segunda acaba en el margen derecho.
+    // En una pantalla ancha la pareja no crece (Torre, 2026-11-23: a 1920px medían 855px):
+    // 36rem cada una, a la izquierda, y el resto de la fila queda vacío.
     for (const width of [1728, 1920, 2560]) {
       await page.setViewportSize({ width, height: 900 })
-      await pair(column(width, 2))
+      await pair(SHOT)
       const second = (await shots.nth(1).boundingBox())!
-      expect(frame(width).right - (second.x + second.width), `${width}px`).toBeLessThanOrEqual(GAP)
+      expect(frame(width).right - (second.x + second.width), `${width}px`).toBeGreaterThan(GAP)
     }
 
     await page.setViewportSize({ width: 1024, height: 900 })
@@ -504,13 +507,13 @@ test.describe('página de guía', () => {
     await expect(alone).toHaveCount(1)
     const shot = (await alone.boundingBox())!
     const text = (await page.locator('#paso-3 .qstep__body p').first().boundingBox())!
-    expect(shot.width).toBeCloseTo(36 * 17.6, 0)
+    expect(shot.width).toBeCloseTo(SHOT, 0)
     expect(shot.height).toBeCloseTo((shot.width * 10) / 17, 0)
     expect(shot.x).toBeCloseTo(text.x, 0)
     expect(shot.y).toBeGreaterThan(text.y + text.height)
 
     await page.setViewportSize({ width: 2560, height: 900 })
-    expect((await alone.boundingBox())!.width).toBeCloseTo(36 * 17.6, 0)
+    expect((await alone.boundingBox())!.width).toBeCloseTo(SHOT, 0)
     await page.setViewportSize({ width: 1024, height: 900 })
     expect((await alone.boundingBox())!.width).toBeCloseTo(column(1024, 2), 0)
   })
