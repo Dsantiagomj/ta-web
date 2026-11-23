@@ -26,7 +26,7 @@ The cutover is plan phase 3: the domain moves from Squarespace to ta-web, and Sq
 
 ## 1. Cutover blockers
 
-What must exist before the domain moves. The open P0 rows of section 3 (achievements, classes and dungeons) block it as well.
+What must exist before the domain moves. The open P0 rows of section 3 (achievements, classes and dungeons) block it as well. [`cutover.md`](cutover.md) orders the day and lists the decisions to take with Torre: how the content reaches production, the freeze date and where the domain lives after Squarespace.
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
