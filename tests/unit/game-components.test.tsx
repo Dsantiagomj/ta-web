@@ -456,11 +456,11 @@ describe('IMAGE_SIZES', () => {
     )
   })
 
-  // Una pareja llena la fila en cualquier pantalla: media fila menos medio hueco, 959px con
-  // el contenido parado en 110rem.
-  it('una pareja de capturas: media fila en cualquier pantalla', () => {
+  // Una pareja, como una sola: media fila hasta 36rem (633,6px) cada una, con la ventana a
+  // 1427,6px; en una pantalla más ancha no crece (Torre, 2026-11-23: a 1920px medían 855px).
+  it('una pareja de capturas: media fila hasta 634px, como una sola', () => {
     expect(IMAGE_SIZES.pair).toBe(
-      '(min-width: 134.5rem) 959px, (min-width: 64rem) calc(45vw - 9px), ' +
+      '(min-width: 89.3rem) 634px, (min-width: 64rem) calc(45vw - 9px), ' +
         '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
     )
   })

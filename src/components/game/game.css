@@ -1005,9 +1005,9 @@ ul.needs__notes {
 }
 
 /* Las capturas seguidas de un paso (GuideBlocks, .figs): una por fila en el móvil; desde
-   40rem, columnas que llenan la fila, cada una de --width-shot-max (40rem) como mucho: dos a
-   1440px, tres a 1728 y 1920px, cuatro a 2560px. Una sola, debajo del texto, como mucho
-   --width-shot (634px, el tamaño de la web anterior). */
+   40rem, tres o más en columnas que llenan la fila, cada una de --width-shot-max (40rem) como
+   mucho: dos a 1440px, tres a 1728, 1920 y 2560px. Una sola, debajo del texto, y cada una de
+   una pareja, como mucho --width-shot (634px, el tamaño de la web anterior). */
 .figs {
   display: grid;
   gap: 1rem;
@@ -1031,6 +1031,13 @@ ul.needs__notes {
 
   .figs > figure:only-child {
     max-width: var(--width-shot);
+  }
+
+  /* Una pareja no crece con la pantalla (Torre, 2026-11-23: a 1920px medían 855px cada una):
+     media fila hasta --width-shot, como una sola, a la izquierda y con el resto de la fila
+     vacío. Pesa más que las columnas de .figs de abajo, así que vale a cualquier ancho. */
+  .figs:has(> figure:nth-child(2):last-child) {
+    grid-template-columns: repeat(2, minmax(0, var(--width-shot)));
   }
 
   /* Todas las cajas del mismo tamaño: 17:10, el recorte de la web anterior (634 × 374 a
@@ -1068,17 +1075,11 @@ ul.needs__notes {
   }
 }
 
-/* Una pareja llena la fila en cualquier pantalla: media fila cada una, y la segunda acaba en
-   el margen derecho. Una sola se queda en --width-shot (634px). Un grupo de tres o cuatro con
-   sitio para más columnas ocupa una por captura, de 40rem como mucho, y lo que sobra queda a
-   la derecha. */
+/* Una sola se queda en --width-shot (634px). Un grupo de tres o cuatro con sitio para más
+   columnas ocupa una por captura, de 40rem como mucho, y lo que sobra queda a la derecha. */
 @container step (min-width: 81rem) {
   .figs:has(> figure:only-child) {
     grid-template-columns: var(--width-shot);
-  }
-
-  .figs:has(> figure:nth-child(2):last-child) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

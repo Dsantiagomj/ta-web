@@ -1,3 +1,9 @@
+// Una captura sola o cada una de una pareja (DESIGN.md, Steps): media fila menos medio hueco,
+// hasta 36rem (633,6px), que alcanza con la ventana a 1427,6px.
+const SHOT =
+  '(min-width: 89.3rem) 634px, (min-width: 64rem) calc(45vw - 9px), ' +
+  '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)'
+
 /**
  * El atributo sizes de cada sitio donde va una imagen con varios anchos (DESIGN.md,
  * Imagery): cuánto ocupa en la ventana, para que el navegador elija el archivo.
@@ -24,16 +30,10 @@ export const IMAGE_SIZES = {
     '(min-width: 134.5rem) 634px, (min-width: 99rem) calc(30vw - 12px), ' +
     '(min-width: 64rem) calc(45vw - 9px), ' +
     '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
-  // Una pareja: media fila menos medio hueco en cualquier pantalla; la segunda acaba en el
-  // margen derecho. Con el contenido parado en 110rem, 959px (1918 a 2x: la variante de 1600).
-  pair:
-    '(min-width: 134.5rem) 959px, (min-width: 64rem) calc(45vw - 9px), ' +
-    '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
-  // Una sola: media fila, hasta 36rem (633,6px), el tamaño de la web anterior, que alcanza
-  // con la ventana a 1427,6px.
-  single:
-    '(min-width: 89.3rem) 634px, (min-width: 64rem) calc(45vw - 9px), ' +
-    '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+  // Una pareja, como una sola (Torre, 2026-11-23): en una pantalla ancha no crece.
+  pair: SHOT,
+  // Una sola, del tamaño de la web anterior.
+  single: SHOT,
   // El vídeo (--width-video, 81rem: 1425,6px desde 64rem): la fila hasta que cabe entero,
   // con la ventana a 1584px.
   video:
