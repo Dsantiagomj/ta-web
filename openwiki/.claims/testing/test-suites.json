@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a4b32086def652d5d818b09d07193dd6ea172f30e89f69bfb2e01175cfae1a74",
+  "pageVersion": "sha256:2370128bf5d83222b5283efd1d0b192ee89e655455f9cf6f06fef7756b0ce17a",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -631,8 +631,8 @@
           "version": "repo-lines-v1:sha256:85a13024d8c9ca84798836cb45e7902c5f2d21fa7c19d3507cf437c22af03dfd:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxYTBjYWZkZjEzZmJiYTZiYzYyMjJhNjczNTNjODE0YmJmMjI1YjUzOTVlOGNjNmViY2UxNjI3NjRmNmM2MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlZGQyN2IzZGYzNjUzMzU5ODZhMzdiMWRhOTNkNzAwZGE1ZTE4MzJiMjU0YjVkYTFiNzNlMWRiZGFkYTQ1MDQifQ"
         },
         {
-          "resource": "repo://tests/e2e/guia.spec.ts#L20-L833",
-          "version": "repo-lines-v1:sha256:60faf49b67d5be0dd98e6a1d5852fbb0afa2b2f3736878e9cb4ee1ad18984e54:eyJzZWxlY3RlZExpbmVDb3VudCI6ODE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzMzFjNWY1OWQ4MDQyYmEzNTRjNTVjYWIzYjYzOTBkYmNhOWQ5ZmRhZGJhZDM5ODE5YWI3MGQ3YjgyNjE2ZGNiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNWE2OGUzMWZjZmQ0YjlkMzJjNTdiZmI5ZGQ4MGI2YzMxNzUxOGI0NWFmNzBjYjNlYzA2YzgyNDJhM2RhYTZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/guia.spec.ts#L20-L836",
+          "version": "repo-lines-v1:sha256:ab37fe6b8ea312ce04b383ec855369328f09c96c9499d5047087d597eecb5a96:eyJzZWxlY3RlZExpbmVDb3VudCI6ODE3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzMzFjNWY1OWQ4MDQyYmEzNTRjNTVjYWIzYjYzOTBkYmNhOWQ5ZmRhZGJhZDM5ODE5YWI3MGQ3YjgyNjE2ZGNiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNWE2OGUzMWZjZmQ0YjlkMzJjNTdiZmI5ZGQ4MGI2YzMxNzUxOGI0NWFmNzBjYjNlYzA2YzgyNDJhM2RhYTZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -786,21 +786,21 @@
     },
     {
       "id": "claim_8f23da8f57d245b4adfd76198b239309",
-      "statement": "The Dofus guides E2E spec covers the /guias-dofus index with its filter, search and no-JavaScript fallback, the seeded Dofus guide page with its step-by-step body, a 404 for a preparing Dofus, axe in both modes and the header's Dofus panel.",
+      "statement": "The Dofus guides E2E spec covers the /guias-dofus index with its filter, search and no-JavaScript fallback, the seeded Dofus guide page with its sheet and step-by-step body, a 404 for a preparing Dofus, axe in both modes and the header's Dofus panel.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L1-L595",
-          "version": "repo-lines-v1:sha256:10cb22cc99a5b9e798c27134959ac41dac19986e0aa075aa9dc1d497b12672e8:eyJzZWxlY3RlZExpbmVDb3VudCI6NTk1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5OTkyZjI2MWE0ZDMxMmIwMzQ0ZTFjYmJhZmVhMDcyOTI3MTU2Mjk2ZjhiOWIxODY2ZjJmOWJkMmU4NmM1N2EzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L1-L668",
+          "version": "repo-lines-v1:sha256:0d166b19a42c31e09d3718090e72b5fda55e92bc97af3cc335348e97f2bcfc22:eyJzZWxlY3RlZExpbmVDb3VudCI6NjY4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5OTkyZjI2MWE0ZDMxMmIwMzQ0ZTFjYmJhZmVhMDcyOTI3MTU2Mjk2ZjhiOWIxODY2ZjJmOWJkMmU4NmM1N2EzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
     {
       "id": "claim_510c537f402e47f3b8c1ce5d1e6dfbb6",
-      "statement": "expectNeedsColumns checks Necesitarás items in columns with the notes below at 1440, 390 and 320 px and is shared by the guide, achievement and Dofus guide specs.",
+      "statement": "expectNeedsColumns checks Necesitarás items in columns with the notes below at 1440, 390 and 320 px, and only the quest guide spec uses it.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L433-L447",
-          "version": "repo-lines-v1:sha256:ef90763c93f67ff371867d3eb37c425b3501abaf2815e17ab7de8b58f7031864:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiMjI4MmNhOTY5ODBiMWEyMDc0MjIzMzM0NmE3NjE3ODk0MmM4YWMzMzQ2MDQ0ZWFmODZhZjc2MjNmMmYwNTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4OTFjMjQwZWE5N2RlNjhiN2ZhYjU5Y2Q0OThmOTNmNTVmMDk1MzIzNmExMzdkMzFkZDg5Nzk3YjgwZGViNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0YjdhOTU5NGY3ZTY2OWJhYWI0NWExODBlMTEwYWEwOTdhY2M3NmIxMzUxYzUyM2IyMjA3NDJhNDQ5ZTIwODQifQ"
+          "resource": "repo://tests/e2e/guia.spec.ts#L150-L156",
+          "version": "repo-lines-v1:sha256:e7fd8c85df59d69345561c5c225dfb66f0afd6b3903518f5bc0f630f95dca61b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGNkMzY4ZjEwY2Q2OTViNzYxNTZmMmYzNTY5YTIxNjU2ODI3MzQ3OGQ0NDhmZmRjZjA0OWIzOWMwODk1YjA1MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTVlZTdjOTZmYWIzMjA1YjM5NmRmNzYwZDIxZWUxNGI0YjczNjk1YjgxNWFiNDA5YzM0NTU1ODkwMjQxMmZiMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWM1NjEzMWE5NmYxYzhlZWY0NTE5ZDhjYjU1ZjdmZmVkYzdjNWY0NGEzYTMyMTJkYjU5YTRkNWVjYjRiNDE1ZSJ9"
         },
         {
           "resource": "repo://tests/e2e/needs-layout.ts#L1-L44",
@@ -965,8 +965,8 @@
       "statement": "New E2E specs cover the themes and theme picker, the zone background, the Ko-fi buttons, the full-width frame, printing and forced colors.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/ancho.spec.ts#L56-L280",
-          "version": "repo-lines-v1:sha256:8cc5c00755bb929149e4496aa37abb670b5a7a3122a68bcb8d683a98e4ff9052:eyJzZWxlY3RlZExpbmVDb3VudCI6MjI1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5YjNiNDFiNTBhYjI3NGQxNWMwZjc0ZDYzZDFlZjk5OWU0ZGQ3MDU3NTlhYmRkZjJkYTgyZTJlMzE2MGY4ZDY5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIxNzNhYjc0NTk1Y2QyY2Y1Y2IzNDFhZDNjM2Y1OWQ2NzBmOTE0MDM2MzdlNWFhYjdkNzAyZjIzZjg1YmVlYWNmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkOWI0YTI2MTA2MDJhZGE1ODk3ZWFmOGVkMzgyMDA0YmVhMGE2ZTBhNTBmYWI2ZWNjYWIwODY3MmQxOGFjNWJjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIzOTY2NTU5NGI3Y2Y4NTc5ZDRjZTIxODAyN2FmNjU4ZTMwNmRjYjJkMDA3N2FiMjFhYjk1OGMyODExMWNjOGQxIn0"
+          "resource": "repo://tests/e2e/ancho.spec.ts#L56-L298",
+          "version": "repo-lines-v1:sha256:950d7645565df716a8af98dc81fc240584d38315e3bed0b15d16b0c2901afaa1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5YjNiNDFiNTBhYjI3NGQxNWMwZjc0ZDYzZDFlZjk5OWU0ZGQ3MDU3NTlhYmRkZjJkYTgyZTJlMzE2MGY4ZDY5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkOWI0YTI2MTA2MDJhZGE1ODk3ZWFmOGVkMzgyMDA0YmVhMGE2ZTBhNTBmYWI2ZWNjYWIwODY3MmQxOGFjNWJjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/e2e/colores-forzados.spec.ts#L27-L52",
@@ -1183,10 +1183,20 @@
           "version": "repo-lines-v1:sha256:0b2a8bbeff087e4867c4b89a6e18711f4dbb1cdca65fc1c90f3ce37cef1f78be:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E1M2JhMzUwOTY2NzZjNTI0MGNjMDg0NDgzZmUwMzU2MTdmOTRmMDkwYzJhMDlhMjg2N2MwNDBhYTM2MTllOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTdkYzhhZmI1YjMyOGMxNjA3NGM3NThkMGUyMWU3ZjNhZTM2OGJiZGIyYmRlYmZlMTlhNTgzMzNiOTQ5NzQ2OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2MxZDkwNDA5ZGNkYTc0NTQ0NGYyMDdiN2QxYTU1OTIxYWZhNjAyYmI3YTUxNzdmZWQxMjNiN2Q4Yjc1YjEzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTZhM2ZhZTQwNmZjZDZkMzI4Yzk3NzhhZDYzNTEwYTk5NWRjMTUxYmI5MTUxZWY3MWNiMTJlYzE1YTg4ZTJkMSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_e61fdab453674682ae955c416de1b4d6",
+      "statement": "The dofus-sheet unit test renders DofusSheet and DofusPart: the foldable Prerrequisitos and Necesitarás with Recompensas last, quest prerequisites with the quest icon, combat notes with the combat icon and a bold quantity, and the quests in one numbered column with the generic quest icon when the giver has no render.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/dofus-sheet.test.tsx#L106-L250",
+          "version": "repo-lines-v1:sha256:55e5a4c41bb4ca1943a350c1ac5410c90c7faff821be5594b7865c4fdfc8c0b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQ1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjNzU5ZjMxMTlhNDIwMTIzNWNkYzM5YWUzZDBhY2E5MjQ0M2FhMzU0ZjY3OGFhYjk5NGQ1Y2NkMWM5MTA1YjNmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzMzQwYzM2YjFkYjIyMTk1ZDMzOTZkOWFmMmM0N2UxYmU4MzMxYzhkYzRkMzMwZTc2YzQ5ODc0NTRlNDJiYzU4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-21T11:13:26.962Z"
+    "at": "2026-11-24T11:05:28.738Z"
   }
 }

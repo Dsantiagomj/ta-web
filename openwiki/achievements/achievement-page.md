@@ -20,6 +20,8 @@ sources:
     resource: repo://src/components/achievement/achievement.css
   - id: openwiki-source-f22b7bdcf1597ce881ef1073
     resource: repo://src/components/achievement/AchievementParts.tsx
+  - id: openwiki-source-4d5101e22a43d90e5f3610c9
+    resource: repo://src/components/dofus/DofusGuideParts.tsx
   - id: openwiki-source-7ba3e6f5057719fdf70c6941
     resource: repo://src/components/game/game.css
   - id: openwiki-source-2c139f34b50dd107e988159d
@@ -46,10 +48,10 @@ sources:
     resource: repo://tests/e2e/logro.spec.ts
   - id: openwiki-source-cc77052249edc8dcdc9064fb
     resource: repo://tests/unit/achievement-page.test.ts
-generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
+generated: { by: "claude-code", at: "2026-11-24T11:05:28.738Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-20T11:20:16.585Z
+    at: 2026-11-24T11:05:28.738Z
 ---
 
 # Achievement page
@@ -147,7 +149,7 @@ A part that yields several dungeons is a doubt, and any doubt means the note doe
 
 ## Components
 
-`AchievementView` (`src/app/(frontend)/[slug]/AchievementView.tsx`) renders the breadcrumb, `AchievementHeader` (the achievement icon, title, "3 misiones - Niveles 15 a 25 - 10 puntos" and the «Actualizado el» date from `contentDate(page).modified`), `AchievementSheet`, and a `logro__body` with Torre's `intro`, `AchievementQuests` (the numbered quest list, only when the page has quest rows) or `AchievementObjectives`, his `outro`, `AchievementCountsFor` ("Cuenta para") and `AchievementNav` (previous and next, labelled "Logros de <metalogro>"). There is no list of the metalogro's pages. When the page has a zone background, `ZoneBackground` renders first inside the page wrapper, before `<main>`. The `<main>` carries `pageSection('misiones')`, which marks «Misiones» as the current section in the header. The parts live in `src/components/achievement/AchievementParts.tsx` and their styles in `achievement.css`, which the Dofus guide page shares (`logro`, `logro__main`, `logro__prose`). The page's section color is `--color-sec-logros`.
+`AchievementView` (`src/app/(frontend)/[slug]/AchievementView.tsx`) renders the breadcrumb, `AchievementHeader` (the achievement icon, title, "3 misiones - Niveles 15 a 25 - 10 puntos" and the «Actualizado el» date from `contentDate(page).modified`), `AchievementSheet`, and a `logro__body` with Torre's `intro`, `AchievementQuests` (the numbered quest list, only when the page has quest rows; two columns read top to bottom from four quests) or `AchievementObjectives`, his `outro`, `AchievementCountsFor` ("Cuenta para") and `AchievementNav` (previous and next, labelled "Logros de <metalogro>"). There is no list of the metalogro's pages. When the page has a zone background, `ZoneBackground` renders first inside the page wrapper, before `<main>`. The `<main>` carries `pageSection('misiones')`, which marks «Misiones» as the current section in the header. The parts live in `src/components/achievement/AchievementParts.tsx` and their styles in `achievement.css`, which the Dofus guide page shares (`logro`, `logro__main`, `logro__prose`, `logro--sheet`). Two parts are exported for the Dofus guide page: `SheetFold`, one foldable part of the sheet (a `<details data-sheet>` whose summary is the part title with a chevron, closed in the HTML), and `NumberedQuests`, the numbered list itself. `NumberedQuests` takes rows of a key, an optional number (without one the diamond stays empty), whether the title link covers the row, what goes in the NPC slot and the text, plus a `columns` flag; `AchievementQuests` passes it the quest cards with `columns` from four quests, and the Dofus guide always draws one column. The page's section color is `--color-sec-logros`.
 
 ### An achievement without quests
 
@@ -155,7 +157,7 @@ Some achievements ask for no quest: the «Alineamiento» ones ask for an alignme
 
 ### Hues
 
-Each list item takes one of the eight theme hues in order through `--v` (`--color-hue-1` to `--color-hue-8`, repeating every eight; the rules sit at the end of `achievement.css`): the quest rows (`.lq__item`), the objectives of an achievement without quests (`.lobj__item`), the «Necesitarás en total» rows, the «Cuenta para» achievements (`.metas`), the Dofus guide's quest lists and the previous and next cards. A quest's number sits in a filled diamond of its hue (`.lq__n::before`, rotated 45 degrees) with the number in `--color-on-hue`. The previous and next cards (`.lnav__card`) take a 2px border and an eyebrow in their hue; on hover the eyebrow turns to ink, because a deep light-mode hue drops under 4.5:1 on `--color-raised`. The sheet's part titles take the same hues as the guide header's parts (`game.css`): Prerrequisitos `--color-hue-5`, «Necesitarás en total» `--color-hue-1` and the rewards `--color-hue-2`. Checklists never use hues.
+Each list item takes one of the eight theme hues in order through `--v` (`--color-hue-1` to `--color-hue-8`, repeating every eight; the rules sit at the end of `achievement.css`): the quest rows (`.lq__item`), the objectives of an achievement without quests (`.lobj__item`), the «Necesitarás en total» rows, the «Cuenta para» achievements (`.metas`) and the previous and next cards. The Dofus guide's quests use the same `.lq__item` rows through `NumberedQuests`, so they take the hues too. A quest's number sits in a filled diamond of its hue (`.lq__n::before`, rotated 45 degrees) with the number in `--color-on-hue`. The previous and next cards (`.lnav__card`) take a 2px border and an eyebrow in their hue; on hover the eyebrow turns to ink, because a deep light-mode hue drops under 4.5:1 on `--color-raised`. The sheet's part titles take the same hues as the guide header's parts (`game.css`): Prerrequisitos `--color-hue-5`, «Necesitarás en total» `--color-hue-1` and the rewards `--color-hue-2`. Checklists never use hues.
 
 The rules between the sheet's parts, under the header and along the quest list use `var(--zone-rule, var(--color-line))`, so over a zone background they stay at 3:1 against the landscape.
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7a7efea975d9fa107289775dbd5c59a8057d0c07b5eed30bee4aa4f907ac9a30",
+  "pageVersion": "sha256:181cd95b014a1c590212cfe95501af2d36e24f1d9dffd6cdc5b9403cf2de905e",
   "claims": [
     {
       "id": "claim_93262fb2f5024ce793cdd746a57b16e6",
@@ -269,12 +269,12 @@
       "statement": "AchievementSheet shows Prerrequisitos and Necesitás en total as foldable details and Recompensas del logro last and always visible, skips empty parts, and renders nothing when hasSheet is false.",
       "evidence": [
         {
-          "resource": "repo://src/components/achievement/AchievementParts.tsx#L210-L249",
-          "version": "repo-lines-v1:sha256:0695e96fd252d90c2c057a987511dcb891b7e7adc749a0eafb16d7188f009fd9:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEyNTljMTA3MjRmZGViY2NjZWE4Y2JlZjQ0MGY2YzNlN2Y2NDhiODNkODQxZTVjMzZmNTRhMTNhNGY2NDQzMmUifQ"
+          "resource": "repo://src/components/achievement/AchievementParts.tsx#L211-L250",
+          "version": "repo-lines-v1:sha256:0695e96fd252d90c2c057a987511dcb891b7e7adc749a0eafb16d7188f009fd9:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzZTcyNmVkM2NlN2U3NThlYWFjYTE4NDg4OTA3ZWUxOTFjMTg0ODFiYzFiNDU1NWRlZDU3ODY3NzAyMzNhNWEifQ"
         },
         {
-          "resource": "repo://src/components/achievement/AchievementParts.tsx#L73-L109",
-          "version": "repo-lines-v1:sha256:41c5e3610ad823ca2f4606d19a85e3f4fcbc53777da32915dcdcc8eafdeb32f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxOWFkYzllNTZiMDAzYzdjNzMyZWY0ZjgzYzAzMzE5YjViOWE1NWQzZjkxYTNjNjNhNWUyMzc5YWMzZWE3Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyNzg2OGJlNjk5OTYwNTVkMzVhMmUxNmUwNThkMjg2NmI4NDYxNjgzYTgyNzA2ZjNiZWMyMmY5YjFlNmY4MDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyZjM0MGI2MjM0NjUzMjBiMzNkZmE5NzMyNWEzMzUyM2ZlZDBjOGE5MjU3NGYxZjM3MGE0ZDJlZmI0YWQzZTUifQ"
+          "resource": "repo://src/components/achievement/AchievementParts.tsx#L73-L110",
+          "version": "repo-lines-v1:sha256:2cc40e7eef5db690cbfbeecf301b15d9655068b0f7fa06f5a2926922074bd9aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxOWFkYzllNTZiMDAzYzdjNzMyZWY0ZjgzYzAzMzE5YjViOWE1NWQzZjkxYTNjNjNhNWUyMzc5YWMzZWE3Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyNzg2OGJlNjk5OTYwNTVkMzVhMmUxNmUwNThkMjg2NmI4NDYxNjgzYTgyNzA2ZjNiZWMyMmY5YjFlNmY4MDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyZjM0MGI2MjM0NjUzMjBiMzNkZmE5NzMyNWEzMzUyM2ZlZDBjOGE5MjU3NGYxZjM3MGE0ZDJlZmI0YWQzZTUifQ"
         }
       ]
     },
@@ -377,8 +377,8 @@
       "statement": "Achievement list items take one of eight theme hues in order through --v: each quest number sits in a filled diamond of its hue with --color-on-hue ink, and the previous and next cards get a 2px border and eyebrow in their hue.",
       "evidence": [
         {
-          "resource": "repo://src/components/achievement/achievement.css#L1247-L1275",
-          "version": "repo-lines-v1:sha256:e9133356cd64e4b08d15e7896a17243a6d712dcc8b036b136664bbcd148366cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkYTM0YTBmNGMyYjBlNzcyOWQ1OGY5ZmIxOWQ3M2FhYTA1OTJiOWRkZDhiNGRjOTRhOTk2ZmJiMzJkNTI2OTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjYTIwODk3NTdkYmQ2YzllNDAxYzZhMTQzOTlkZDQ1NWEzZGY5YzlkMjZjYWZmNWEwMzkzNWZjNTdhYmYxMGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MjNmNWY3NzdmMDIxZDM2OGJiOWI1MmZmNmQ5N2MxMWE1YmNhMWRlNTIyMTI3NDg0N2IzZWZlYWM0ZWJhODUifQ"
+          "resource": "repo://src/components/achievement/achievement.css#L1157-L1182",
+          "version": "repo-lines-v1:sha256:6713b0627ad2effe9f025ca8a102f1ec359377fb4e455aa653081d84a1447260:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5MTMwZTIzZmI3YTVhNDE3Yzk2OTMzZmU3MmRhOGI5NzczZjQyNzE4OWZjMTYyZjc3N2NiODAxZjAzNmZhZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0ZmQ0MzU0NmU1ZDc4OTgwZjAzNmZiOTUzZWI1NTQ2NDdjYWM5OGNhYjYyODVlMjY0YjFlYzUwYjhhN2E4MTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlZjYyZDI0Y2Y0MWYyYTdhZjlhMTNmZDc1Y2VkOTQ5OTljZmYwODlkZDM3MDRiNDY4ZTAxN2Y3MDUxYTU2MmQifQ"
         },
         {
           "resource": "repo://src/components/achievement/achievement.css#L515-L533",
@@ -439,10 +439,28 @@
           "version": "repo-lines-v1:sha256:45bf34e096e683aa16582d9c4792a70f7b684e4e1a5d48a4c0311c3b10f36dc0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkYzg5MGVjMTllYTFiODRlNDA4M2MwNTMyYzk3OGRlOWZlZmU2N2QzY2JiZDhlNjJiZGZmZTQwOTY0MTU2MDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0MjUyNTcyYjQyZmI5YmMwZjg4ZWFiYThlZjFkYTg4MWM0OTM1MGU4MDNmZWFiZGYwOGRjNDE0NDc1OThjZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0YTA2ZTczNDMzNjZmZmU2ZGE2MjEwOGQzM2Y0Y2FmZjkyZjJkMjQwNDk4NWYwYmJhYTc3NzkzMDFjM2JlZDUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_602b91fa498a4e3bb471be80e9d907cf",
+      "statement": "SheetFold and NumberedQuests are exported from AchievementParts and reused by the Dofus guide page; AchievementQuests renders the quest cards through NumberedQuests in two columns from four quests, and a row without a number gets an empty diamond.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/AchievementParts.tsx#L252-L340",
+          "version": "repo-lines-v1:sha256:2e9412a6b50ea405ee91e63c47357c244b79a565832a669c0b34eb832695608b:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0NGM3YWUyZmEzNDAyNTJlNTNjYmM0ZWVhZTk2MDExZmI2M2U1ZjcxYWMxMWExYTQwYmU2OTQ2NWVmMjFhODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzNmI0NjAzOWY1NjJhYjk0MjEwOTJhZjQyY2FmNmZlYTUxZmEyY2VlMjEwYmY3MjcwYTc5ZmM3ODhlYmVlOTYifQ"
+        },
+        {
+          "resource": "repo://src/components/achievement/AchievementParts.tsx#L80-L110",
+          "version": "repo-lines-v1:sha256:97ce86c4d83d94c5cad4f0aa93bcd63b93ef17f047a739e983c1d64c6d9ec494:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwNzEyNmQzZDQwOTU0YjdkYzI4NGQ2MGYyMTNmNGMzODNkZWI5NGQ3YjRhMDBmOWIzYjUxYjlhY2EzY2MwMWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyZjM0MGI2MjM0NjUzMjBiMzNkZmE5NzMyNWEzMzUyM2ZlZDBjOGE5MjU3NGYxZjM3MGE0ZDJlZmI0YWQzZTUifQ"
+        },
+        {
+          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L1-L5",
+          "version": "repo-lines-v1:sha256:666bfd2ba53e75a78186be5dd0b5965054d8e5bd0882fb424dd795fccda3828d:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjgwOThmZWEzNGY0NjQ2ODMwNTVhNTU5NTdjZGFjZDQ1OWIwZDBlN2ZiOWUwNDg0NjIyYjk5NDE0N2RiYWViZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWMxZjY3MTcxMmU4MDA4ZGFhMjQ2OGFiYjMzNDA0NDQ5Y2UzMGZiYzhiYTNhMjQxMzlmNWMzMjUxZDFhMTAzOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI2YTAzOTE0OGVjNDk4NTMzNTU0ODA1NWY5YjBkZGZhMjNmMmI2MjJhZDQyOGQ2ZTYwNTc1ZDE1YzZkOGU2YSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-20T11:20:16.585Z"
+    "at": "2026-11-24T11:05:28.738Z"
   }
 }
