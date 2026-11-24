@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9c5bf9bc2e98b549546bfe453c5358b88166d6ff960e0b5ed2c61ca1f7c6a816",
+  "pageVersion": "sha256:e9ecc9e08e0307a87cc66b9904f2af82075b9ed240ec6e8d1a8ba406ab8b2538",
   "claims": [
     {
       "id": "claim_f3ff1b5273ca4d9da69117d030c9914e",
@@ -142,11 +142,11 @@
     },
     {
       "id": "claim_4039938161414c15898cb094958dba01",
-      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps, the next quest card, the Dofus guide cards, Necesitás, body and achievement parts, the checklist index posters, the achievement page sheet and quests, and the panel block frames among its component groups.",
+      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps, the next quest card, the Dofus guide cards, sheet, achievement parts and body, the checklist index posters, the achievement page sheet and quests, and the panel block frames among its component groups.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L126-L406",
-          "version": "repo-lines-v1:sha256:d9f5462b5eae3e493e96e557cd73d662df9427466005810fede378ee89cf719f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3M2IyZTM5OWRlZmZjMTg1ZmI0ZTZjZGY5Y2JkMzE5ZGFkYTkxN2NiMTcyMTM0NDRmNjg2NDA3NmI3OTJmZGM3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJlMTg1NjZlYzE5MzY2ZTRmODBhYTEzMTEwYmE2NWIxZjMxMWIzNjg2NmNlMmM5NjEyZGQ1NDQ4Y2FiNzVjZmEyIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmNWUxY2U5NTdlYzRiMDNmODZhNGVkNDMwNTU2MzIzNDZmYTE1MGM4ODkyZGFmMzlkMzBhNzU5NmIxYzg4YjUwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MiwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3ZjEzMTUwZDIxYzZjNjY1NGI3OTVhZDYyMGZmN2ZkYmQ0NWE0NTk1YzIyODczMmFmNGI3N2NmMDA1NTY0NjBhIn0"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L127-L414",
+          "version": "repo-lines-v1:sha256:8ae92e3c7557f6eed3091b0df4340af5c2c0792f75ef0744a9dc57be7922d13a:eyJzZWxlY3RlZExpbmVDb3VudCI6Mjg4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3M2IyZTM5OWRlZmZjMTg1ZmI0ZTZjZGY5Y2JkMzE5ZGFkYTkxN2NiMTcyMTM0NDRmNjg2NDA3NmI3OTJmZGM3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJlMTg1NjZlYzE5MzY2ZTRmODBhYTEzMTEwYmE2NWIxZjMxMWIzNjg2NmNlMmM5NjEyZGQ1NDQ4Y2FiNzVjZmEyIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmNWUxY2U5NTdlYzRiMDNmODZhNGVkNDMwNTU2MzIzNDZmYTE1MGM4ODkyZGFmMzlkMzBhNzU5NmIxYzg4YjUwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MiwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3ZjEzMTUwZDIxYzZjNjY1NGI3OTVhZDYyMGZmN2ZkYmQ0NWE0NTk1YzIyODczMmFmNGI3N2NmMDA1NTY0NjBhIn0"
         }
       ]
     },
@@ -175,7 +175,7 @@
       "statement": "The catalog shows the achievement page's sheet with the grouped Necesitás en total and the numbered quests, and an E2E test checks them.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L374-L400",
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L382-L408",
           "version": "repo-lines-v1:sha256:0b62c54b0ec884ba22ed79a538ec1c55866a370c2a2fefc84337bb1afff0fec5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1N2RiMTM0NTY1N2E5NzVhMzBjODkzYjJmMDk3YzAwOTZkZTZiYTEzNGEzNDVkMGQxNDJjYWRiNjQ5MDUxYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5N2IyMmU1OTc0MDViNDY3NTQ4YWMxMmQwYWExNWE4YTEwYjQ2NTRkNTMyNDA3MjI4NzViZGFmNzRiMDA3NGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhhN2Q3ZGM1MzU3NTNjM2M0N2M0NmZlYjc0YTZiZTVjNGUwNWVlMGVhNjg3OGY0YzA2OGM0OTZhNDc2YTU1ZTQifQ"
         },
         {
@@ -193,11 +193,11 @@
           "version": "repo-lines-v1:sha256:ecf9e970bc4432e2cd9335cd3cc885ba9f4e61548a851287ecad8ad204a4d3c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3Y2U2MjRmYzU2NzRlZGVlN2ViYjc4OWFlMGZlZWI0NTc0MzIwMDRlOWIyOTRiNzY0MzljMmIzNDU3YzlmNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZDcwZDc2MzkxZDRhMWQxNmMwZmEyN2JhMzE3ODU1MzgzNWE2YjVhOThkYTI5N2UzNzFjMzJmMDFiMGNiMWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4YmRiODhlNmNlNzU5ZTFkMzQ4ZDQ3NmQxNjI0MzIxMmQyNzI1OWM4ZWMzYmRiOGE3YjViMjY4Mzc0OGJiMTUifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/sistema/BlockThumbs.tsx#L246-L273",
-          "version": "repo-lines-v1:sha256:aca627c3dcd787cb04b7b938198e9a2763d0a8c47c9f6f4998267eec7d858d3a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmZDkwNDk4ZjU3MjRiNGM2MmYxMzhlOTZkOTE0ZGZiMzM2MzkyZWZjNjNjNjkzYTM0YWFhYWQyYzk3ZWI3NDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/sistema/BlockThumbs.tsx#L258-L286",
+          "version": "repo-lines-v1:sha256:677de12e05127234944008867c348882f748c5c0fccb676baacfddaae84ea0e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3YWQxYmMxNTU3ODVhYmFmYzJmNzA0OTVmNmVjOGE3MzIyYTEyMzcwZmIzYTNiNTBhNmU0OThiODVmNmY1NTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L401-L404",
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L409-L412",
           "version": "repo-lines-v1:sha256:391b59b24a22411610d1b106c0bd7242bca4c48d8a75b4d38bc208559979df4c:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGY2NjY0MTEyNmNiZDUwOTJkMTI2MmVhYzI4NGJkNjkxOTU4YmMzNGQ2OGRlNTViOTZlYWMyMTg0NTJmNTI4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWYyMTVmZDAzY2ZjMmJlZWJmODA0YTE3YWM1ZTk0Nzk1MWY3Y2QyZGMwNTYwNTIyNDk5YzYwNmZkYmNkNzE4NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTk3YjIyZTU5NzQwNWI0Njc1NDhhYzEyZDBhYTE1YThhMTBiNDY1NGQ1MzI0MDcyMjg3NWJkYWY3NGIwMDc0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODRjZjA4MDkwNWY4M2Y4ZmEwOTQ5Yzg0ZDY2MjY1YmM2MTY5MzMxY2M0ZTAyMzg1MWZkNjZhOWU5MTU0ZThiNiJ9"
         }
       ]
@@ -217,8 +217,8 @@
       "statement": "The catalog also shows the Ko-fi header and floating buttons, the closed theme picker, the metalogros tiles and achievement cards, the previous and next achievement cards, the checklist egg in its todo, doing and done states, a zone background under sample text, and the ambience particles.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L126-L367",
-          "version": "repo-lines-v1:sha256:538f027c8ea7299f0a8641cde32603bb40d5aab70cdf0a72e9810b3e5a7bfdec:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3M2IyZTM5OWRlZmZjMTg1ZmI0ZTZjZGY5Y2JkMzE5ZGFkYTkxN2NiMTcyMTM0NDRmNjg2NDA3NmI3OTJmZGM3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmNWUxY2U5NTdlYzRiMDNmODZhNGVkNDMwNTU2MzIzNDZmYTE1MGM4ODkyZGFmMzlkMzBhNzU5NmIxYzg4YjUwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJjNWFkYjk1ZWZhNjEwYzdkMjk5ODEzZjA3YTQ5NjY5MzkxOWRjMWYzYjdhMmNkZGYxNzhmMzZhZTcyZmJhNDU0In0"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L127-L375",
+          "version": "repo-lines-v1:sha256:e16209190a68013404e8b3f0133810a7615b1f800faecd0e179b531c944689cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQ5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3M2IyZTM5OWRlZmZjMTg1ZmI0ZTZjZGY5Y2JkMzE5ZGFkYTkxN2NiMTcyMTM0NDRmNjg2NDA3NmI3OTJmZGM3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmNWUxY2U5NTdlYzRiMDNmODZhNGVkNDMwNTU2MzIzNDZmYTE1MGM4ODkyZGFmMzlkMzBhNzU5NmIxYzg4YjUwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJjNWFkYjk1ZWZhNjEwYzdkMjk5ODEzZjA3YTQ5NjY5MzkxOWRjMWYzYjdhMmNkZGYxNzhmMzZhZTcyZmJhNDU0In0"
         }
       ]
     },
@@ -253,10 +253,38 @@
           "version": "repo-lines-v1:sha256:ae39fb0697037075a65404766bd924f57340de35d148b1d8748b59ce393b4218:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjZWUwYzBhNzA3OWNlNWU0YjMyZmY2MWE1OWU5N2U3OWUyMjIwOGExZjM4NTVjMjFjNzQwNzM1OTA1OGMyNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1OWFiMzNhMmEyYTkwMzI0YjZmMzNjZTNjMGE5NTczNDExOTFlOTg0NDEwMTA0OGZhNGRiZTliYTllM2UzMmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmYWIzNjAyZmNlMzBkZWZlYWZjZTk4NzNiMGJiNTVlZTg4ZjcyMzJkZWEwMDQ5YzMzZGJjYTAwYjUxZTA1MWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3YjcwMDM2YmZiMDlmODFiODA2YzIxNjllMjgyYWYyZWVlNTQ5MTI4OWIyYjVlYjgzODA3ZTY3ODhjOWFmODMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_8b1fce7d556448f1b66388c80a30af09",
+      "statement": "The catalog's Dofus group draws DofusSheet at its 20rem desktop column width with sample prerequisites (a sentence and a quest) and Necesitarás groups, then the achievement part in the numbered list and the step-by-step body inside a logro__main wrapper.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L323-L340",
+          "version": "repo-lines-v1:sha256:3c2d1e7ffea5443dc632726460217a72be242a781a861ec71ac51385cf8afbaf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyZTBmYjNhOTMzYmYzNzE1Mzc1NGEzMDM0NmVlNDI5ZTI0NmU2NWM4ZWI5OTViM2YxOTY3ODhkYzdhNDM3MWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5N2IyMmU1OTc0MDViNDY3NTQ4YWMxMmQwYWExNWE4YTEwYjQ2NTRkNTMyNDA3MjI4NzViZGFmNzRiMDA3NGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkY2EzOGNkZjBjMjRkYzJkZjAwYTI5ZmQ0NGZlMTRmMTYyM2E5NDU3MWNjM2E3ZTU3NWUwNmVjYmUyMGVmYjIifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/sistema/catalog-data.tsx#L374-L420",
+          "version": "repo-lines-v1:sha256:32d2c77e81d8cfe4e2ae90f29f8d5fdbfb77f3ff7c10f51fce05a87e4ccb7fdb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjJiMWE1YmZjMTBlOTA3ZDRjYjQ5M2U0NzdiYjZmNDlmNGYyZGFkZTIwY2M4MDJlMDc1OTI4ZTk5M2FiNDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxOWE1ZGE1MTBiNWZiN2JiYWY2YjUzOGM3NjgxZDc4NmQwODY3YWVlNmFlMTk1NjI4MmVmYjM1YTVjNmNmY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxZGUxMjVmMmZjMzMyYjY4MTZiZWI3NTAyMWQyMzY4ZWI0YzQ5OTg2YzMwNzkzY2VkZGZhZGI3ZTk0YjdiZTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d0a95e079a18491c9d1e370682e1bd18",
+      "statement": "The needItem and needNote panel thumbnails wrap DofusNeedGroup in lsheet and lneeds containers so they show the rows at the Dofus guide sheet's density.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/sistema/BlockThumbs.tsx#L174-L206",
+          "version": "repo-lines-v1:sha256:b6571ba47afb49ac0c33251010010898df260c8b569d7ae17c335f5750d7b273:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0Zjg3ZGM0YTEyMWRlZDFjZTE0OWE1YzY5MTU0YmZlMTI3ZGFkOWI4MGI4MWIwZGFjZjQxZDdjOTcxMTM1OWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwMTk5NWYyYTNlNGEzYTcwZjJlYzZlZWVjZjdiODE2YmQ2OTI3OGQ0ZTNhNjc2YTlmZjQ5MTk0NDBiYWM3MmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExYTgzMDAzY2UyYzczYTk5ZmU3ZjkwNTMwNWFhMjJiMWVjMmNmODk1ZTE5NmI2MzNhNDI5Y2RjMjQzNDBmMzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2MmVlYzU2YThlZWJkM2NjNjk1MjFhZDBhYTM0M2Q2N2Q5MDViMDBjMzFiNmIyY2FlMzdiMTYwMjUzNWRlOGEifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/sistema/BlockThumbs.tsx#L75-L80",
+          "version": "repo-lines-v1:sha256:6512106bc345a90c3eea00c953fc1416efcc7350eb33de7596b5e0ee24aeedc1:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjkzZjI3NzYzNmU1MWI5OWZlNzdmNGY1ZDdhZDZkYTg1Y2ZlMTg3ODQ0OGYzODU0NWY0Y2JkNjA5YTZiNzU4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTRjNDI4MDg5YTU4NmQ3NzU1YzZjZjgxNzMxNzliMDgxNDFmNzhhZWEzN2U3NmVlYzI5NTE5OTg1NjBhOGQ0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjY0NmZhMTUyZWQ3MWI2YjFlYWNlYjNmMjcxNjYwZWExMjEwMTI2OGZhNTc4N2NmYjQ2ZmIxODE1ODJiYTIyYSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-20T11:20:16.585Z"
+    "at": "2026-11-24T11:05:28.738Z"
   }
 }

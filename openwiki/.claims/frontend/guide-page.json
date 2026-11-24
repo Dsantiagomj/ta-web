@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:411ca38791d736cebebd3f867ba3bb1c53d9741c58f0cea62a937c324c8d63a3",
+  "pageVersion": "sha256:91dbe5b7a336a6b3b8ca8ee9f14ba4ae4472cd80545b6b5a6f472711b7ff8a64",
   "claims": [
     {
       "id": "claim_7b28f62adc5e40749aa22aeb92186936",
@@ -178,11 +178,11 @@
     },
     {
       "id": "claim_77a21e6aec75430ebe02718216d2cedd",
-      "statement": "The guide E2E spec checks the header, Prerrequisitos and Necesitás side by side with Recompensas below and stacked on mobile, the start line without a render, dungeon notes with their boss, the breadcrumb, steps without numbers, step screenshots filling the row, the fight block, the next quest card, the full-width left-aligned column, the rewards bag by keyboard, without JavaScript and without horizontal scroll, the fullscreen viewer, SEO, 404 with noindex, reserved routes winning over /[slug], accessibility in Arcano dark and light, and that preview JavaScript never reaches visitors.",
+      "statement": "The guide E2E spec checks the header, Prerrequisitos and Necesitás side by side with Recompensas below and stacked on mobile, the start line without a render, dungeon notes with their boss, the breadcrumb, steps without numbers, a pair of step screenshots capped at 634px each, larger groups filling the row, the fight block, the next quest card, the full-width left-aligned column, the rewards bag by keyboard, without JavaScript and without horizontal scroll, the fullscreen viewer, SEO, 404 with noindex, reserved routes winning over /[slug], accessibility in Arcano dark and light, and that preview JavaScript never reaches visitors.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/guia.spec.ts#L20-L833",
-          "version": "repo-lines-v1:sha256:60faf49b67d5be0dd98e6a1d5852fbb0afa2b2f3736878e9cb4ee1ad18984e54:eyJzZWxlY3RlZExpbmVDb3VudCI6ODE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzMzFjNWY1OWQ4MDQyYmEzNTRjNTVjYWIzYjYzOTBkYmNhOWQ5ZmRhZGJhZDM5ODE5YWI3MGQ3YjgyNjE2ZGNiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNWE2OGUzMWZjZmQ0YjlkMzJjNTdiZmI5ZGQ4MGI2YzMxNzUxOGI0NWFmNzBjYjNlYzA2YzgyNDJhM2RhYTZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/guia.spec.ts#L20-L836",
+          "version": "repo-lines-v1:sha256:ab37fe6b8ea312ce04b383ec855369328f09c96c9499d5047087d597eecb5a96:eyJzZWxlY3RlZExpbmVDb3VudCI6ODE3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzMzFjNWY1OWQ4MDQyYmEzNTRjNTVjYWIzYjYzOTBkYmNhOWQ5ZmRhZGJhZDM5ODE5YWI3MGQ3YjgyNjE2ZGNiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNWE2OGUzMWZjZmQ0YjlkMzJjNTdiZmI5ZGQ4MGI2YzMxNzUxOGI0NWFmNzBjYjNlYzA2YzgyNDJhM2RhYTZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -289,8 +289,8 @@
       "statement": "A step's consecutive screenshots fill the row in columns of at most 40rem, cropped to 17:10, adding a column at step widths of 81rem, 122rem and 163rem, while a lone screenshot stays at most --width-shot.",
       "evidence": [
         {
-          "resource": "repo://src/components/game/game.css#L1007-L1069",
-          "version": "repo-lines-v1:sha256:0ad58d272d7be846aac7820da4aa5341b7ce8a06e7c3b471055fccc97df21cee:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmMzgyMDEwMjEwMDk1NTkxNzYzNDcyNDhjZDFkZmIzYjA1NTU0MmNmMzY0ZTQ0OGQ5ZTgzMDZmMmU1MzY2OTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxOTgzZDE1N2VmMDFhMzQ1NjFkM2FhYmY0OGI3NjYxMTUzZGZiYjgxNmFjYjgzZTgzZWFlNzU4MjlmMDMzNTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyZjA1ZTY0ZmNkNWQ2Zjg0NTViNTA0Zjc0NjRlYzRlYTAxN2M1ZGRkOGNlM2Y3NGQyNDJiOWE1MzUyYTQzYmEifQ"
+          "resource": "repo://src/components/game/game.css#L1007-L1096",
+          "version": "repo-lines-v1:sha256:f5ed679f86623460a0505c76082b53dae2dbaad0e8e31b0c07f9abb1407a9e43:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmMzgyMDEwMjEwMDk1NTkxNzYzNDcyNDhjZDFkZmIzYjA1NTU0MmNmMzY0ZTQ0OGQ5ZTgzMDZmMmU1MzY2OTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxOTgzZDE1N2VmMDFhMzQ1NjFkM2FhYmY0OGI3NjYxMTUzZGZiYjgxNmFjYjgzZTgzZWFlNzU4MjlmMDMzNTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRmYTBiODJhMWY3ODgzZjMwYTFkYmEzMzVlMjZiMmM4MjQxZmM4OTBhZmRkNjZjOWZjZDI4ZWY1ZDExYzdjYzIifQ"
         },
         {
           "resource": "repo://src/styles/theme.css#L177-L190",
@@ -341,10 +341,24 @@
           "version": "repo-lines-v1:sha256:ba0ecc38a2882e65af771a0df25366275d869651b52a5130ddf168e8c0cbe6c7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4MjYwMDVjZjI4NjYxOTY3NGYzNDQxNzUxZmQ1NzE1YmRkOWY2YjJhMWRjOGY5NWNkY2U5ODU5MzliNzRhYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExZjFiZTllYjllNTRhNTEzMjhmYTQ5MDhiMWZmZDc4Nzg0ODA0NzM5NjgzZDRhNTNjYmEyYWUxZWFiMjU0Y2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0NzE4MDhkOTM3ZDI4ODQ1ZjdkZTk0Yzc0YzFlZGY5ZWZkM2RjZjk0YTJmNmUzNDAyNzBmNGQyNGQ2ZTYyMDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViOWFlYjdlOGNlNjkzNmRlZThhMjlhOGU5YjcyNzdlMDBhOWNmMTdmOTVkMWJiNTcxZTk5YTk0M2VhNDEwMjEifQ"
         }
       ]
+    },
+    {
+      "id": "claim_d216b35ad8e44de797382c670f8f58f1",
+      "statement": "A pair of step screenshots is sized like a single one: two columns of at most --width-shot each, left aligned at any width, so a wide screen leaves the rest of the row empty instead of enlarging them.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/game/game.css#L1036-L1041",
+          "version": "repo-lines-v1:sha256:105b05ab290b39391cc5adeb71ddb4c92415a53218707794bd6252d7666a77e6:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTM2NThmN2E4MWViMDgwODY1YWU4ZmQ4NmNmMzgxOGY5ZWJjNGE3NTg2MmI2YzFjNTljYWZiNjcyODQyZWM1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjU4NDhiYWM1MTA5ZGI2YzRlODQzOGJlMGE4N2JmYzE0MDdkODk5ZGRjODNjZjFmODkxZDg4ZmE3MGU4OTUwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDUwODJkNTVhYjczZjI2Mjg2MWQ5ZTU3YzEyZjM1ZWE5MGJiZjVjNzc3Yjk3N2NjMTg2YzVlYjM5YTdhY2NhMyJ9"
+        },
+        {
+          "resource": "repo://tests/e2e/guia.spec.ts#L423-L466",
+          "version": "repo-lines-v1:sha256:6d661890d283be4d109bdd75f73fbfdf01d9e6928b50f0211ad0f09f3f61a69b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmZGQxOGUwYTliZWVjZDk3MjJiN2M0ODhmMGNlYWM1ODBmZGQ2N2UyNTRmMmE5M2MyMDkwMDU4N2ZlYzU4M2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlMjY0ZWE3Yzk2MTQwNGIzNGY3Yzg5MmFhMTEwOTQ4YzU1MjQwM2RiNjdjODZlN2MxZjJhYWRlNGZjYzYzNjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0NjY4NmJiMzM2OGE1ODlmYTc1NmRhNGE0YWVlZDVhZDQwMTRkYzMyY2E1NmViNTUzNDliMTIyOGJlOWE4M2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjZTZjZmI2YzVkNzI0NGU2NjViYTNiMTA4NDEyNzRlY2FhNDRkNDYzMWE1OTgwZWJhNTczMzQwNTRkNDA4NzUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-20T11:20:16.585Z"
+    "at": "2026-11-24T11:05:28.738Z"
   }
 }

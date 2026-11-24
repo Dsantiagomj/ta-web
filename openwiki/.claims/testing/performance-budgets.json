@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ed2e8a8c3644345d037c1887727290c576b2298053b5572f69d94d6fd67ba5a3",
+  "pageVersion": "sha256:35c5a96bf0fca1c710a1839b377311edcf4445d278f510c4ee218a3b986c33fe",
   "claims": [
     {
       "id": "claim_685bcfe3a19741d7a516302d001cb6fe",
@@ -171,8 +171,8 @@
       "statement": "The Dofus guide styles live in achievement.css and the /guias-dofus index imports only dofus-index.css, keeping the number of render-blocking stylesheets low on /<slug> and the index.",
       "evidence": [
         {
-          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L2-L26",
-          "version": "repo-lines-v1:sha256:586aaf921b93a51312752575fa27a20692e54ba67baa1c9fa4a821e74b5bd555:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Mjc1MmFmMDFlNmU2OGFjOTE5MGEzNTg5ZDRjOTk0ZDlkM2FjODVlZGZhMGIxMjY4ZDhlNmZlZDFhNzNjNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3NmQ5OWRkNjc1ODg5Y2EwZWNlYzE2YWJjNjY1ZTdkZDJkYzUyY2RlZjgyNzk0NTNhNzNmYTZhMTA4MzcwYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmMjEzY2I2N2VkMmY4NWYyZDBkN2JkM2Y0M2ZjYjM0Y2NhYjc0ZWNjMmI0MWQyNjYxMjlhOWZiZGQ2NGVhZGYifQ"
+          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L1-L28",
+          "version": "repo-lines-v1:sha256:571e1a9c1df702853d9db29cde6ed204284665f013c1c99fbc0558165eef7539:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4MDk4ZmVhMzRmNDY0NjgzMDU1YTU1OTU3Y2RhY2Q0NTliMGQwZTdmYjllMDQ4NDYyMmI5OTQxNDdkYmFlYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiODg0NWIxOTRkMWI0MWMxMGM3YzMyOTI5NzA4NGQ0OWYzZTMxNzZmYWEwNzRkZjc2YzcxMzYwNGYyNGY0NjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MDQ0NzA4NDU4ZGI2YWFjNjU2MWVmYmJjYWMxMjBmZjVlNThkZDk2YTFiNzkxY2I3NmMyN2VlZGY1NTU1YzYifQ"
         },
         {
           "resource": "repo://src/components/dofus/DofusIndex.tsx#L1-L13",
@@ -291,6 +291,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-20T11:20:16.585Z"
+    "at": "2026-11-24T11:05:28.738Z"
   }
 }

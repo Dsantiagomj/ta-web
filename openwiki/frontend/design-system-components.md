@@ -58,6 +58,8 @@ sources:
     resource: repo://src/components/ui/Figure.tsx
   - id: openwiki-source-f73e21dac630e0cc973bed2f
     resource: repo://src/components/ui/icon-size.ts
+  - id: openwiki-source-f3fa63035efb10bac212f3f4
+    resource: repo://src/components/ui/image-sizes.ts
   - id: openwiki-source-c06f260af2030542bb0982bd
     resource: repo://src/components/ui/MetaParts.tsx
   - id: openwiki-source-da1687298e4439edac4a41be
@@ -70,10 +72,14 @@ sources:
     resource: repo://src/components/ui/ui.css
   - id: openwiki-source-cb54348c19015ee5658b61f6
     resource: repo://src/components/ui/UpdatedDate.tsx
+  - id: openwiki-source-af2465572edd8138ad48c4b8
+    resource: repo://src/lib/dofus-guides/page.ts
   - id: openwiki-source-ceae51c9393b901fd8fffc80
     resource: repo://src/lib/guides/coordinates.ts
   - id: openwiki-source-c2c770807aee2aa0cc927079
     resource: repo://src/lib/guides/display.ts
+  - id: openwiki-source-4513ebda7e77dd9e187db81b
+    resource: repo://src/lib/guides/rich-links.ts
   - id: openwiki-source-5d625b6c9ec96bb42f058c48
     resource: repo://src/lib/guides/video.ts
   - id: openwiki-source-0d7ee8b23c7e115457b05c3b
@@ -102,10 +108,10 @@ sources:
     resource: repo://tests/unit/updated-date.test.tsx
   - id: openwiki-source-b58f839a189d87a7e1f37d39
     resource: repo://vitest.config.mts
-generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
+generated: { by: "claude-code", at: "2026-11-24T11:05:28.738Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-20T11:20:16.585Z
+    at: 2026-11-24T11:05:28.738Z
 ---
 
 # Design system components
@@ -129,7 +135,7 @@ All of them except `PageEnhancements` are server components with no state. The [
 - **Inline styles only pass data.** A `style={…}` only sets custom properties that carry data into the CSS, such as an icon's size in `--icon`, the emblem's size in `--emblem` or the viewer image's `--w` and `--h`. `css-units.test.ts` fails on a `style` with any other key, except in `src/lib/seo/share-card-image.tsx`: what `next/og` draws on the server has no stylesheets and never reaches the browser as HTML.
 - **`cx()`** (`ui/cx.ts`) joins class names and drops empty ones.
 - **Text lives in string modules.** `ui/strings.ts` (`uiStrings`) and `game/strings.ts` (`gameStrings`) hold every Spanish label, so a second language would translate those modules.
-- **Images are already converted.** `ImageAsset` (`ui/types.ts`) is a WebP `src`, an optional `avif`, the file's `width` and `height`, and optional `srcSet`/`avifSrcSet` lists of narrower widths. The app never optimizes images on request; `IMAGE_SIZES` (`ui/image-sizes.ts`) holds the `sizes` value for each slot, such as `prose`, the reading column (880 px from 58rem, the viewport minus its margins below), and `card`, the next quest card's art (280 px from 40rem).
+- **Images are already converted.** `ImageAsset` (`ui/types.ts`) is a WebP `src`, an optional `avif`, the file's `width` and `height`, and optional `srcSet`/`avifSrcSet` lists of narrower widths. The app never optimizes images on request; `IMAGE_SIZES` (`ui/image-sizes.ts`) holds the `sizes` value for each slot, such as `prose`, the reading column (880 px from 58rem, the viewport minus its margins below), and `card`, the next quest card's art (280 px from 40rem). A single step screenshot (`single`) and each of a pair (`pair`) share one value since 2026-11-23: half the row minus half the gap, up to 634 px from an 89.3rem viewport.
 
 ### Hit targets
 
@@ -171,7 +177,7 @@ Controls drawn smaller than 40px carry the `hit-target` class together with Tail
 | `NextQuestCard` | The next quest of the achievement, at the end of the guide (DESIGN.md, Next quest card): the whole card is one link to its guide, with its first screenshot as art, "Siguiente misión", the title, and its level and giver with coordinates. What is missing is not rendered |
 | `TorreTips` | Torre's recommendations (DESIGN.md, Torre's tips): his decorative avatar and a speech bubble with the heading "Recomendaciones de Torre". A `tip` callout in a guide renders as this |
 | `GuideBody`, `GuideSteps`, `GuideBlocks` | Render a guide's blocks on the server: rich text, `Figure`, `VideoFacade`, `FightBlock`, `GuideTable` for tables (see [Guide body blocks](../cms/blocks.md#table)), a `Callout` for warnings and `TorreTips` for tips. `GuideBody` wraps the introduction or closing; `GuideSteps` feeds `QuestSteps` with one anchor, pin and block list per step. Consecutive screenshots of a step go together in a `.figs` grid, two per row from 40rem (a single one too), each with the narrower `sizes`. Headings inside a step start at `h3`, inside a callout at `h4` |
-| `GuideRichText` | A Lexical state rendered with Payload's `RichText` and custom converters: every `[x,y]` in text becomes a coordinates chip except inside a link or code, links keep only `http`, `https`, `mailto` and same-site URLs (`safeHref`), a link to Torre's own site that ends in an empty `#` (an imported coordinate that pointed at the guide itself, absolute or already made relative; `isPlaceholderHref`) is dropped so its text is plain prose again and its `[x,y]` becomes a chip, an internal link to a guide points at `/<slug>`, a link to another site always opens in a new tab with `noopener noreferrer` and the screen reader note «(se abre en otra pestaña)» (`NewTabNote`) even when Torre did not tick «Abrir en nueva pestaña», headings are clamped to at least the given level so the guide title stays the only `h1`, an uploaded image renders as a `Figure` (only the first one gets priority when asked), a video block inside the text (`proseVideo`) renders as a `VideoFacade` with its optional poster, and unknown nodes render nothing |
+| `GuideRichText` | A Lexical state rendered with Payload's `RichText` and custom converters: every `[x,y]` in text becomes a coordinates chip except inside a link or code, where a link goes is decided by `linkHref` in `src/lib/guides/rich-links.ts` (pure code, so the Dofus guide view model reuses it to spot a prerequisite that is only a link): links keep only `http`, `https`, `mailto` and same-site URLs (`safeHref`), a link to Torre's own site that ends in an empty `#` (an imported coordinate that pointed at the guide itself, absolute or already made relative; `isPlaceholderHref`) is dropped so its text is plain prose again and its `[x,y]` becomes a chip, an internal link to a guide points at `/<slug>`, a link to another site always opens in a new tab with `noopener noreferrer` and the screen reader note «(se abre en otra pestaña)» (`NewTabNote`) even when Torre did not tick «Abrir en nueva pestaña», headings are clamped to at least the given level so the guide title stays the only `h1`, an uploaded image renders as a `Figure` (only the first one gets priority when asked), a video block inside the text (`proseVideo`) renders as a `VideoFacade` with its optional poster, and unknown nodes render nothing |
 | `AchievementChain` | The achievement's quests on one line: the current quest as text with `aria-current="page"`, the others as links. Arrows are CSS, so a screen reader hears a numbered list. Chains longer than five are trimmed by `chainWindow` |
 | `VideoFacade` | See below |
 

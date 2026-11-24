@@ -53,7 +53,7 @@ sources:
 generated: { by: "claude-code", at: "2026-11-20T11:20:16.585Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-20T11:20:16.585Z
+    at: 2026-11-24T11:05:28.738Z
 ---
 
 # Performance budgets (Lighthouse CI)
