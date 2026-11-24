@@ -20,7 +20,7 @@ import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
 import { VideoFacade } from '@/components/game/VideoFacade'
 import { ZoneBackground } from '@/components/game/ZoneBackground'
-import { DofusBody, DofusNeeds, DofusParts } from '@/components/dofus/DofusGuideParts'
+import { DofusBody, DofusParts, DofusSheet } from '@/components/dofus/DofusGuideParts'
 import { ChecklistPosters } from '@/components/checklists/ChecklistsIndex'
 import { DofusCards } from '@/components/dofus/DofusIndex'
 import { CopyIcon } from '@/components/game/icons'
@@ -57,6 +57,7 @@ import {
   checklistTeaserCard,
   dofusCards,
   dofusNeeds,
+  dofusPrerequisites,
   fight,
   nextQuest,
   guide,
@@ -324,9 +325,16 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
               <div className="dg-index !p-0">
                 <DofusCards cards={dofusCards} />
               </div>
-              <DofusNeeds needs={dofusNeeds} />
-              <DofusBody content={dofusAchievementView.body} />
-              <DofusParts view={dofusAchievementView} />
+              {/* La ficha, al ancho de su columna del escritorio. */}
+              <div className="w-full max-w-80">
+                <DofusSheet
+                  view={{ prerequisites: dofusPrerequisites, needs: dofusNeeds, rewards: null }}
+                />
+              </div>
+              <div className="logro__main">
+                <DofusParts view={dofusAchievementView} />
+                <DofusBody content={dofusAchievementView.body} />
+              </div>
             </div>
           </Group>
 

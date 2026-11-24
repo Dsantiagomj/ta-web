@@ -72,6 +72,13 @@ const DOFUS_BLOCKS = new Set<BlockThumbnailSlug>([
   'dofusNote',
 ])
 
+/** Las filas de Necesitarás, con la densidad de la ficha de la guía de Dofus (DofusSheet). */
+const NeedsSheet = ({ children }: { children: ReactNode }) => (
+  <div className="lsheet">
+    <div className="lneeds">{children}</div>
+  </div>
+)
+
 /** Lo que va en cada marco: el bloque con el componente que lo pinta en la web. */
 const previews: Record<BlockThumbnailSlug, (prefix: string) => ReactNode> = {
   richText: () => <GuideBody blocks={[{ kind: 'richText', key: 'texto', content: startText }]} />,
@@ -164,32 +171,38 @@ const previews: Record<BlockThumbnailSlug, (prefix: string) => ReactNode> = {
       <VideoFacade url={video.url} title={video.title} poster={images.video} />
     </div>
   ),
-  needItem: () => (
-    <DofusNeedGroup
-      group={{
-        key: 'recursos',
-        name: 'Recursos',
-        parts: [
-          {
-            rows: [
-              { kind: 'item', item: items.intestino, quantity: 3 },
-              { kind: 'item', item: items.pelos, quantity: 1 },
-              { kind: 'item', item: items.ojo, quantity: 5 },
-              { kind: 'item', item: items.pico, quantity: 10 },
-            ],
-          },
-        ],
-      }}
-    />
+  needItem: (prefix) => (
+    <NeedsSheet>
+      <DofusNeedGroup
+        id={`${prefix}-bloque-objetos`}
+        group={{
+          key: 'recursos',
+          name: 'Recursos',
+          parts: [
+            {
+              rows: [
+                { kind: 'item', item: items.intestino, quantity: 3 },
+                { kind: 'item', item: items.pelos, quantity: 1 },
+                { kind: 'item', item: items.ojo, quantity: 5 },
+                { kind: 'item', item: items.pico, quantity: 10 },
+              ],
+            },
+          ],
+        }}
+      />
+    </NeedsSheet>
   ),
-  needNote: () => (
-    <DofusNeedGroup
-      group={{
-        key: 'mazmorras',
-        name: 'Mazmorras',
-        parts: dofusNeeds.groups.find((group) => group.key === 'mazmorras')?.parts ?? [],
-      }}
-    />
+  needNote: (prefix) => (
+    <NeedsSheet>
+      <DofusNeedGroup
+        id={`${prefix}-bloque-notas`}
+        group={{
+          key: 'mazmorras',
+          name: 'Mazmorras',
+          parts: dofusNeeds.groups.find((group) => group.key === 'mazmorras')?.parts ?? [],
+        }}
+      />
+    </NeedsSheet>
   ),
   dofusAchievement: () => quest && <DofusPart part={quest} />,
   dofusMetalogro: () => (

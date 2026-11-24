@@ -24,9 +24,11 @@ import {
   type RichTextState,
 } from '@/lib/guides/page'
 import { isDungeonNote, needKey, needNote } from '@/lib/guides/need-notes'
+import { linkHref, type LinkFields } from '@/lib/guides/rich-links'
 import { youtubeId } from '@/lib/guides/video'
 import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
+import { isExternalHref } from '@/lib/site/external'
 import { type LiveSlug, ownSitePath, siteLinkHref } from '@/lib/site/site-links'
 import type { Media } from '@/payload-types'
 
@@ -201,11 +203,28 @@ function ownLink(data: DofusGuideData, href: string): string {
 
 /**
  * Una fila de Necesitarás. Una nota que va como mazmorra (dungeon) lleva en su hueco el jefe
- * de la mazmorra que nombra (boss) o, si no nombra una sola, el icono de mazmorra.
+ * de la mazmorra que nombra (boss) o, si no nombra una sola, el icono de mazmorra; una de
+ * Combates que no es mazmorra (combat), el icono de combate. quantity es el «3 x» con que
+ * empieza la nota de Torre, que la ficha pinta aparte, en negrita; text sigue sin él.
  */
 export type NeedRowView =
   | { kind: 'item'; item: GameItem; quantity: number; note?: string }
-  | { kind: 'note'; text: RichTextState; dungeon?: true; boss?: ImageAsset }
+  | {
+      kind: 'note'
+      text: RichTextState
+      quantity?: number
+      combat?: true
+      dungeon?: true
+      boss?: ImageAsset
+    }
+
+/**
+ * Una fila de Prerrequisitos en la ficha: un enlace solo a una página del sitio es una misión
+ * (su texto, sin la negrita ni el punto final, con el icono de misión); lo demás, la frase de
+ * Torre tal cual, con sus enlaces.
+ */
+export type PrerequisiteLine =
+  { kind: 'quest'; label: string; href: string } | { kind: 'text'; text: RichTextState }
 
 export interface AchievementPartView {
   name: string
@@ -252,7 +271,7 @@ export interface DofusGuideView {
   tag?: string
   /** «7 logros», «40 misiones», «Nivel 180». */
   meta: string[]
-  prerequisites: RichTextState | null
+  prerequisites: PrerequisiteLine[]
   rewards: RichTextState | null
   intro: RichTextState | null
   outro: RichTextState | null
@@ -358,6 +377,81 @@ function plainText(node: unknown): string {
     : ''
 }
 
+/** Un nodo del texto enriquecido, lo justo para recorrerlo. */
+interface LexicalNode {
+  type?: string
+  text?: string
+  fields?: LinkFields
+  children?: LexicalNode[]
+}
+
+type RichRoot = NonNullable<RichTextState>['root']
+
+/** El texto enriquecido con solo estos nodos en su raíz. */
+const withChildren = (state: NonNullable<RichTextState>, children: LexicalNode[]) =>
+  ({ ...state, root: { ...state.root, children } }) as RichTextState
+
+const paragraphOf = (children: LexicalNode[]): LexicalNode =>
+  ({ type: 'paragraph', format: '', indent: 0, version: 1, direction: null, children }) as never
+
+/** Las líneas de un texto: cada punto de una lista (y los de sus sublistas) y cada párrafo. */
+function textLines(nodes: LexicalNode[]): LexicalNode[] {
+  return nodes.flatMap((node): LexicalNode[] => {
+    if (node.type !== 'list') return [node]
+    return (node.children ?? []).flatMap((item) => {
+      const inline = (item.children ?? []).filter((child) => child.type !== 'list')
+      const nested = (item.children ?? []).filter((child) => child.type === 'list')
+      const own = inline.some((child) => plainText(child).trim()) ? [paragraphOf(inline)] : []
+      return [...own, ...textLines(nested)]
+    })
+  })
+}
+
+/**
+ * Si una línea es solo un enlace a la web de Torre, esta o la de siempre (sin contar
+ * espacios ni el punto final), su texto y adónde lleva: es una misión de Prerrequisitos.
+ */
+function loneSiteLink(line: LexicalNode): { label: string; href: string } | null {
+  const parts = (line.children ?? []).filter(
+    (child) => child.type !== 'text' || !/^[\s.]*$/u.test(child.text ?? ''),
+  )
+  const [only] = parts
+  if (parts.length !== 1 || (only!.type !== 'link' && only!.type !== 'autolink')) return null
+  const href = linkHref(only!.fields ?? {})
+  const label = plainText(only).trim().replace(/\.$/u, '').trim()
+  const page = href && /^(\/(?!\/)|https?:)/u.test(href) && !isExternalHref(href)
+  return page && label ? { label, href } : null
+}
+
+/** Prerrequisitos de Torre, línea a línea, para la ficha (PrerequisiteLine). */
+function prerequisiteLines(state: RichTextState | null | undefined): PrerequisiteLine[] {
+  if (!state?.root) return []
+  const nodes = (state.root as RichRoot).children as LexicalNode[]
+  return textLines(nodes)
+    .filter((line) => plainText(line).trim() || line.type === 'upload')
+    .map((line) => {
+      const link = loneSiteLink(line)
+      return link ? { kind: 'quest', ...link } : { kind: 'text', text: withChildren(state, [line]) }
+    })
+}
+
+// «3 x combates (solo).»: la cantidad, aparte, como en «Necesitarás en total».
+const NOTE_QUANTITY = /^(\d+)\s*[x×]\s+/u
+
+/** La nota de Torre sin el «3 x» del principio, y esa cantidad. Sin él, la nota tal cual. */
+function noteQuantity(state: RichTextState): { quantity?: number; text: RichTextState } {
+  const [first, ...rest] = (state?.root?.children ?? []) as LexicalNode[]
+  const [lead, ...after] = first?.children ?? []
+  const match = lead?.type === 'text' ? NOTE_QUANTITY.exec(lead.text ?? '') : null
+  if (first?.type !== 'paragraph' || !lead || !match) return { text: state }
+  const left = lead.text!.slice(match[0].length)
+  const children = [...(left ? [{ ...lead, text: left }] : []), ...after]
+  return {
+    quantity: Number(match[1]),
+    text: withChildren(state!, [{ ...first, children }, ...rest]),
+  }
+}
+
 /** Lo que dice una nota sin cantidad ni punto final («Mazmorra Wey Wabbit»). */
 const noteLabel = (text: RichTextState) => needNote(plainText(text?.root).trim()).label
 
@@ -394,10 +488,13 @@ function needRows(
   return rows.flatMap((row): NeedRowView[] => {
     if (row.blockType === 'needNote') {
       const label = noteLabel(row.text)
-      if (!isDungeonRow(group, label)) return [{ kind: 'note', text: row.text }]
-      // El texto de Torre no cambia: el jefe va en el hueco, al lado.
+      // El texto de Torre no cambia: la cantidad va aparte y el icono, en el hueco.
+      const note = { kind: 'note' as const, ...noteQuantity(row.text) }
+      if (!isDungeonRow(group, label)) {
+        return [group === 'combates' ? { ...note, combat: true } : note]
+      }
       const boss = image(bosses.get(needKey(label)))
-      return [{ kind: 'note', text: row.text, dungeon: true, ...(boss && { boss }) }]
+      return [{ ...note, dungeon: true, ...(boss && { boss }) }]
     }
     // Un objeto que Torre ocultó no sale.
     if (hiddenByTorre(row.item)) return []
@@ -707,7 +804,7 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
     ...(guide.color && { color: guide.color }),
     ...(guide.tag && { tag: dofusGuideStrings.tags[guide.tag] }),
     meta: dofusMeta({ ...counts, level: guide.level }),
-    prerequisites: guide.prerequisites ?? null,
+    prerequisites: prerequisiteLines(guide.prerequisites),
     rewards: guide.rewards ?? null,
     intro: guide.intro ?? null,
     outro: guide.outro ?? null,

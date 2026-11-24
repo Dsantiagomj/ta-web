@@ -538,8 +538,8 @@ describe('Necesitarás: cada mazmorra con su jefe', () => {
       dungeon: true,
       boss: { src: '/media/dragocerdo.png' },
     })
-    // El texto de Torre, el mismo que guardó.
-    expect(rows[0]).toMatchObject({ text: text('1 x Mazmorra Wey Wabbit.') })
+    // El texto de Torre, el mismo que guardó, con la cantidad aparte para la ficha.
+    expect(rows[0]).toMatchObject({ quantity: 1, text: text('Mazmorra Wey Wabbit.') })
   })
 
   it('en «Combates» solo va como mazmorra una nota que dice «mazmorra»', () => {
@@ -958,5 +958,105 @@ describe('dofusGuideView: la corrección de Torre gana a DofusDB', () => {
     const part = view.parts.find((candidate) => candidate.kind === 'achievement')
     expect(JSON.stringify(part)).toContain('de-torre')
     expect(JSON.stringify(part)).not.toContain('pnj')
+  })
+})
+
+// La ficha de la guía (DESIGN.md, Dofus guide page, 2026-11-23): Prerrequisitos fila a fila y
+// las notas de Necesitarás con su cantidad aparte, en negrita, como en la ficha del logro.
+describe('dofusGuideView: la ficha', () => {
+  const inline = (value: string, format = 0) => ({ type: 'text', text: value, format, version: 1 })
+  const link = (url: string, children: object[]) => ({
+    type: 'link',
+    version: 1,
+    fields: { url, linkType: 'custom' },
+    children,
+  })
+  const list = (...items: object[][]): RichTextState => ({
+    root: {
+      type: 'root',
+      direction: null,
+      format: '',
+      indent: 0,
+      version: 1,
+      children: [
+        {
+          type: 'list',
+          listType: 'bullet',
+          tag: 'ul',
+          version: 1,
+          children: items.map((children, index) => ({
+            type: 'listitem',
+            value: index + 1,
+            version: 1,
+            children,
+          })),
+        },
+      ],
+    },
+  })
+  const plain = (state: RichTextState) => JSON.stringify(state).match(/"text":"([^"]*)"/g)
+
+  it('Prerrequisitos: una fila por punto; un enlace solo a la web de Torre es una misión, sin negrita ni punto', () => {
+    const view = dofusGuideView(
+      data({
+        prerequisites: list(
+          [inline('Nivel mínimo 120 para las últimas misiones.')],
+          [link('/la-hechicera-de-los-pantanos', [inline('La hechicera de los pantanos.', 1)])],
+          [inline('Logro: ', 1), link('/un-clan-variopinto', [inline('Un clan variopinto.', 1)])],
+          [link('https://dofusdb.fr/es/quest/1', [inline('Otra web.')])],
+          // Una guía que el sitio aún no sirve: withSiteLinks la deja en la web de siempre.
+          [link('https://www.torrentearcano.com/caza-de-cascasaurios', [inline('Caza.', 1)])],
+        ),
+      }),
+    )
+    const [level, quest, achievement, external, legacy] = view.prerequisites
+    expect(view.prerequisites).toHaveLength(5)
+    expect(level).toMatchObject({ kind: 'text' })
+    expect(plain((level as { text: RichTextState }).text)).toEqual([
+      '"text":"Nivel mínimo 120 para las últimas misiones."',
+    ])
+    expect(quest).toEqual({
+      kind: 'quest',
+      label: 'La hechicera de los pantanos',
+      href: '/la-hechicera-de-los-pantanos',
+    })
+    // Con más texto que el enlace, o hacia otra web, la frase de Torre tal cual.
+    expect(achievement).toMatchObject({ kind: 'text' })
+    expect(JSON.stringify(achievement)).toContain('/un-clan-variopinto')
+    expect(external).toMatchObject({ kind: 'text' })
+    expect(legacy).toEqual({
+      kind: 'quest',
+      label: 'Caza',
+      href: 'https://www.torrentearcano.com/caza-de-cascasaurios',
+    })
+  })
+
+  it('Prerrequisitos: un párrafo suelto es una fila; sin nada, ninguna', () => {
+    expect(dofusGuideView(data()).prerequisites).toEqual([
+      { kind: 'text', text: text('Nivel mínimo 180.') },
+    ])
+    expect(dofusGuideView(data({ prerequisites: null })).prerequisites).toEqual([])
+  })
+
+  it('Necesitarás: la cantidad de una nota va aparte y el texto sigue tal cual', () => {
+    const note = (line: string) => ({ blockType: 'needNote' as const, text: text(line) })
+    const [combats, others] = dofusGuideView(
+      data({
+        needs: {
+          title: null,
+          groups: [
+            { name: 'combates', rows: [note('3 x combates (solo).'), note('Algunos combates.')] },
+            { name: 'otros', rows: [note('1 100 kamas.')] },
+          ],
+        },
+      }),
+    ).needs!.groups
+    const [counted, loose] = combats!.parts[0]!.rows
+    expect(counted).toMatchObject({ kind: 'note', quantity: 3, combat: true })
+    expect(plain((counted as { text: RichTextState }).text)).toEqual(['"text":"combates (solo)."'])
+    // Sin cantidad, la nota no cambia; en Combates lleva el icono de combate igualmente.
+    expect(loose).toEqual({ kind: 'note', text: text('Algunos combates.'), combat: true })
+    // Fuera de Combates y Mazmorras, sin icono; «1 100 kamas» no es una cantidad de veces.
+    expect(others!.parts[0]!.rows[0]).toEqual({ kind: 'note', text: text('1 100 kamas.') })
   })
 })

@@ -372,10 +372,16 @@ type DofusNeedRow = NonNullable<
 >['groups'][number]['parts'][number]['rows'][number]
 
 /**
- * Necesitarás y un logro de una guía de Dofus, como los calcula dofusGuideView: la nota de
- * Torre arriba, los grupos en su orden y, en Mazmorras, un subtítulo con sus opciones. La nota
- * que Torre escribió entre los objetos sale detrás de ellos.
+ * La ficha de una guía de Dofus, como la calcula dofusGuideView: Prerrequisitos fila a fila
+ * (la frase de Torre y una misión) y Necesitarás con la nota de Torre arriba, los grupos en su
+ * orden, la cantidad de cada nota aparte y, en Mazmorras, un subtítulo con sus opciones. La
+ * nota que Torre escribió entre los objetos sale detrás de ellos.
  */
+export const dofusPrerequisites: DofusGuideView['prerequisites'] = [
+  { kind: 'text', text: needNote('Nivel mínimo 120 para las últimas misiones.') },
+  { kind: 'quest', label: 'La hechicera de los pantanos', href: '#la-hechicera' },
+]
+
 export const dofusNeeds: NonNullable<DofusGuideView['needs']> = {
   title: 'Necesitarás',
   note: '(no te he puesto los recursos de Incarnam porque todos se obtienen de manera artesanal)',
@@ -383,18 +389,29 @@ export const dofusNeeds: NonNullable<DofusGuideView['needs']> = {
     {
       key: 'combates',
       name: 'Combates',
-      parts: [{ rows: [{ kind: 'note', text: needNote('1 x combates.') }] }],
+      parts: [
+        {
+          rows: [
+            { kind: 'note', text: needNote('combates (solo).'), quantity: 3, combat: true },
+            { kind: 'note', text: needNote('combate táctico (solo).'), quantity: 1, combat: true },
+          ],
+        },
+      ],
     },
     {
       key: 'mazmorras',
       name: 'Mazmorras',
       parts: [
-        { rows: [{ kind: 'note', text: needNote('1 x Mazmorra Rey Nidas.') }] },
+        {
+          rows: [
+            { kind: 'note', text: needNote('Mazmorra Rey Nidas.'), quantity: 1, dungeon: true },
+          ],
+        },
         {
           subtitle: '1 × Mazmorra:',
           rows: [
-            { kind: 'note', text: needNote('Mazmorra Malefíscof.') },
-            { kind: 'note', text: needNote('Mazmorra Fraktal.') },
+            { kind: 'note', text: needNote('Mazmorra Malefíscof.'), dungeon: true },
+            { kind: 'note', text: needNote('Mazmorra Fraktal.'), dungeon: true },
           ],
         },
       ],
@@ -419,7 +436,7 @@ export const dofusNeeds: NonNullable<DofusGuideView['needs']> = {
 export const dofusAchievementView: DofusGuideView = {
   title: 'Dofus Esmeralda',
   meta: [],
-  prerequisites: null,
+  prerequisites: [],
   rewards: null,
   intro: null,
   outro: null,

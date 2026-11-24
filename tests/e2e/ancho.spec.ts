@@ -185,12 +185,13 @@ const columns: { name: string; path: string; column: string; edge: string }[] = 
     column: 'main.quest > article',
     edge: 'main.quest',
   },
-  // La ficha, pegada al margen derecho; las misiones, hasta la ficha.
+  // La ficha, pegada al margen derecho; las misiones, hasta la ficha. La guía de Dofus tiene
+  // la disposición del logro (DESIGN.md, Dofus guide page).
   { name: 'un logro', path: `/${seedAchievement.slug}`, column: '.lsheet', edge: 'main.logro' },
   {
     name: 'una guía de Dofus',
     path: `/${seedDofus.ocre.slug}`,
-    column: 'main.logro > .logro__main',
+    column: '.lsheet',
     edge: 'main.logro',
   },
   // El paso abierto llena su panel: la cabecera del paso y sus secciones, hasta el borde.
@@ -215,13 +216,18 @@ for (const width of [1728, 1920, 2560]) {
       })
     }
 
-    test('un logro: las misiones llegan hasta la ficha', async ({ page }) => {
-      await page.goto(`/${seedAchievement.slug}`)
-      const body = (await page.locator('.logro__body').boundingBox())!
-      const sheet = (await page.locator('.lsheet').boundingBox())!
-      // Solo el hueco entre las dos columnas (3rem).
-      expect(sheet.x - (body.x + body.width)).toBeLessThanOrEqual(3 * 17.6 + 1)
-    })
+    for (const [name, slug] of [
+      ['un logro', seedAchievement.slug],
+      ['una guía de Dofus', seedDofus.ocre.slug],
+    ]) {
+      test(`${name}: las misiones llegan hasta la ficha`, async ({ page }) => {
+        await page.goto(`/${slug}`)
+        const body = (await page.locator('.logro__body').boundingBox())!
+        const sheet = (await page.locator('.lsheet').boundingBox())!
+        // Solo el hueco entre las dos columnas (3rem).
+        expect(sheet.x - (body.x + body.width)).toBeLessThanOrEqual(3 * 17.6 + 1)
+      })
+    }
   })
 }
 
@@ -266,20 +272,27 @@ test('el texto corrido no crece con la columna en una pantalla ancha; las cajas,
 
 // El vídeo crece con la fila de capturas hasta dos de 40rem y su hueco (81rem, 1425,6px con
 // la raíz al 110 %): ni pequeño junto a la rejilla ni de margen a margen.
-for (const { name, path } of [
-  { name: 'la guía de misión', path: `/${seedGuide.slug}` },
-  { name: 'la guía de Dofus', path: `/${seedDofus.ocre.slug}` },
-]) {
-  test(`el vídeo de ${name} llega a 81rem y no pasa de ahí`, async ({ page }) => {
-    await page.setViewportSize({ width: 1920, height: 900 })
-    await page.goto(path)
+test('el vídeo de la guía de misión llega a 81rem y no pasa de ahí', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 900 })
+  await page.goto(`/${seedGuide.slug}`)
+  const video = (await page.locator('.video__frame').first().boundingBox())!
+  expect(video.width).toBeCloseTo(81 * 17.6, 0)
+  expect(video.x).toBeCloseTo(frame(1920).left, 0)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  expect((await page.locator('.video__frame').first().boundingBox())!.width).toBeCloseTo(
+    frame(1440).width,
+    0,
+  )
+})
+
+// En la guía de Dofus, junto a la ficha, el vídeo llena la columna de la izquierda, hasta 81rem.
+test('el vídeo de la guía de Dofus llena su columna, hasta 81rem', async ({ page }) => {
+  for (const width of [2560, 1920, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto(`/${seedDofus.ocre.slug}`)
+    const body = (await page.locator('.logro__body').boundingBox())!
     const video = (await page.locator('.video__frame').first().boundingBox())!
-    expect(video.width).toBeCloseTo(81 * 17.6, 0)
-    expect(video.x).toBeCloseTo(frame(1920).left, 0)
-    await page.setViewportSize({ width: 1440, height: 900 })
-    expect((await page.locator('.video__frame').first().boundingBox())!.width).toBeCloseTo(
-      frame(1440).width,
-      0,
-    )
-  })
-}
+    expect(video.x).toBeCloseTo(frame(width).left, 0)
+    expect(video.width).toBeCloseTo(Math.min(81 * 17.6, body.width), 0)
+  }
+})
