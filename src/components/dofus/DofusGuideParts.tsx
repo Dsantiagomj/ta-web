@@ -1,14 +1,16 @@
-import { UpdatedDate } from '@/components/ui/UpdatedDate'
-import { type CSSProperties, Fragment } from 'react'
+import { type CSSProperties, Fragment, useId } from 'react'
 
+import { NumberedQuests, SheetFold } from '@/components/achievement/AchievementParts'
 import { GuideSections } from '@/components/game/GuideBody'
 import { GuideRichText } from '@/components/game/GuideRichText'
 import { IconWell } from '@/components/game/IconWell'
 import { CopyName } from '@/components/game/Item'
+import { PrerequisiteRows } from '@/components/game/QuestFacts'
 import { VideoFacade } from '@/components/game/VideoFacade'
 import { SiteOrWebLink } from '@/components/site/NewTab'
 import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
+import { UpdatedDate } from '@/components/ui/UpdatedDate'
 import type {
   AchievementPartView,
   DofusGuideView,
@@ -16,6 +18,7 @@ import type {
   DofusQuestCard,
   NeedRowView,
   PartView,
+  PrerequisiteLine,
 } from '@/lib/dofus-guides/page'
 import { dofusPageStrings as s } from '@/lib/dofus-guides/strings'
 import { formatAmount } from '@/lib/guides/display'
@@ -32,9 +35,9 @@ function PreparingTag() {
 }
 
 /**
- * La cabecera de la guía: el huevo del Dofus en su hueco, el nombre, «7 logros - 40
- * misiones - Nivel 180» con la etiqueta (Primordial o Evento) y las columnas de
- * Prerrequisitos y Recompensas, el texto de Torre tal cual con sus enlaces.
+ * La cabecera de la guía, la del logro (DESIGN.md, Dofus guide page): el huevo del Dofus en
+ * su hueco, el nombre y «1 logro - 8 misiones - Nivel 110» con la etiqueta (Primordial o
+ * Evento). Prerrequisitos, Necesitarás y Recompensas van en la ficha (DofusSheet).
  */
 export function DofusHeader({
   view,
@@ -44,9 +47,8 @@ export function DofusHeader({
   /** La fecha en que Torre cambió la guía: «Actualizado el …» bajo el subtítulo. */
   updated?: string | null
 }) {
-  const hasFacts = Boolean(view.prerequisites || view.rewards)
   return (
-    <header className="qhead lhead dg-head" style={eggStyle(view.color)}>
+    <header className="qhead lhead lhead--logro dg-head" style={eggStyle(view.color)}>
       <span className="lhead__icon dg-head__egg" aria-hidden="true">
         {view.egg && <Picture image={view.egg} alt="" priority />}
       </span>
@@ -58,22 +60,6 @@ export function DofusHeader({
         </p>
       )}
       <UpdatedDate value={updated} />
-      {hasFacts && (
-        <div className="qhead__facts">
-          {view.prerequisites && (
-            <section aria-labelledby="dg-pre" className="dg-facts">
-              <h2 id="dg-pre">{s.prerequisites}</h2>
-              <GuideRichText content={view.prerequisites} />
-            </section>
-          )}
-          {view.rewards && (
-            <section aria-labelledby="dg-rec" className="dg-facts">
-              <h2 id="dg-rec">{s.rewards}</h2>
-              <GuideRichText content={view.rewards} />
-            </section>
-          )}
-        </div>
-      )}
     </header>
   )
 }
@@ -85,7 +71,7 @@ function NeedItem({ row }: { row: NeedItemRow }) {
   return (
     <li className="row copyhost">
       <IconWell image={row.item.icon} />
-      <span>
+      <span className="lneeds__t">
         <b>{formatAmount(row.quantity)} ×</b> <CopyName name={row.item.name} />
         {row.note && <span className="dg-muted"> {row.note}</span>}
       </span>
@@ -93,94 +79,132 @@ function NeedItem({ row }: { row: NeedItemRow }) {
   )
 }
 
+/** El hueco de una nota: el jefe de la mazmorra que nombra, la mazmorra o el combate. */
+function NoteSlot({ row }: { row: NeedNoteRow }) {
+  if (row.dungeon) {
+    return row.boss ? <IconWell image={row.boss} kind="dungeon" /> : <IconWell icon="dungeon" />
+  }
+  return row.combat ? <IconWell icon="combat" /> : null
+}
+
 /**
- * Una nota de Torre tal cual. Si va como mazmorra, a su lado el hueco con el jefe de la
- * mazmorra que nombra, o el icono de mazmorra si no nombra una sola (como en «Necesitarás en
- * total» de las páginas de logro).
+ * Una nota de Torre tal cual, con su cantidad delante en negrita («3 ×»), como en la ficha del
+ * logro. Una mazmorra lleva a su lado el jefe que nombra (o el icono de mazmorra) y un combate
+ * el icono de combate; en los demás grupos, sin hueco.
  */
 function NeedNote({ row }: { row: NeedNoteRow }) {
-  if (!row.dungeon) {
-    return (
-      <li className="row dg-note">
-        <GuideRichText content={row.text} />
-      </li>
-    )
-  }
   return (
-    <li className="row dg-note dg-note--slot">
-      {row.boss ? <IconWell image={row.boss} kind="dungeon" /> : <IconWell icon="dungeon" />}
-      <div className="dg-note__t">
+    <li className="row dg-note">
+      <NoteSlot row={row} />
+      <div className="lneeds__t dg-note__t">
+        {row.quantity != null && (
+          <>
+            <b>{formatAmount(row.quantity)} ×</b>{' '}
+          </>
+        )}
         <GuideRichText content={row.text} />
       </div>
     </li>
   )
 }
 
-/** Un grupo: sus objetos en columnas y después sus notas, cada uno en el orden de Torre. */
-type NeedRows = NonNullable<DofusGuideView['needs']>['groups'][number]['parts'][number]['rows']
-
-/** Unas filas de Necesitarás: los objetos en columnas y después las notas de Torre. */
-function NeedRowsList({ rows }: { rows: NeedRows }) {
-  const items = rows.filter((row): row is NeedItemRow => row.kind === 'item')
-  const notes = rows.filter((row): row is NeedNoteRow => row.kind === 'note')
-  return (
-    <>
-      {items.length > 0 && (
-        <ul role="list" className="needs__items">
-          {items.map((row, index) => (
-            <NeedItem key={index} row={row} />
-          ))}
-        </ul>
-      )}
-      {notes.length > 0 && (
-        <ul role="list" className="needs__notes">
-          {notes.map((row, index) => (
-            <NeedNote key={index} row={row} />
-          ))}
-        </ul>
-      )}
-    </>
-  )
-}
+type NeedGroupView = NonNullable<DofusGuideView['needs']>['groups'][number]
 
 /**
- * Un grupo: su nombre y, por partes, el subtítulo de Torre encima de sus filas. El catálogo
- * /sistema lo pinta solo, para la miniatura de las filas en el panel.
+ * Un grupo de Necesitarás en la ficha: su nombre y, por partes, el subtítulo de Torre encima
+ * de sus filas, una por línea; en cada parte, los objetos primero y después las notas, cada
+ * uno en el orden de Torre. El catálogo /sistema lo pinta solo, para la miniatura del panel.
  */
-export function DofusNeedGroup({
-  group,
-}: {
-  group: NonNullable<DofusGuideView['needs']>['groups'][number]
-}) {
+export function DofusNeedGroup({ id, group }: { id: string; group: NeedGroupView }) {
   return (
-    <div className="dg-needs__g">
-      {group.name && <h3 className="dg-h3">{group.name}</h3>}
+    <div className="lneeds__g">
+      {group.name && (
+        <h3 className="lneeds__k" id={id}>
+          {group.name}
+        </h3>
+      )}
       {group.parts.map((part, index) => (
         <Fragment key={index}>
           {part.subtitle && <p className="dg-needs__sub">{part.subtitle}</p>}
-          <NeedRowsList rows={part.rows} />
+          {part.rows.length > 0 && (
+            <ul
+              role="list"
+              className="lneeds__list lneeds__items"
+              aria-labelledby={group.name ? id : undefined}
+            >
+              {part.rows.map((row, at) => row.kind === 'item' && <NeedItem key={at} row={row} />)}
+              {part.rows.map((row, at) => row.kind === 'note' && <NeedNote key={at} row={row} />)}
+            </ul>
+          )}
         </Fragment>
       ))}
     </div>
   )
 }
 
-/**
- * Necesitarás por grupos («Mazmorras», «Recursos»), uno debajo de otro. En cada grupo, los
- * objetos en columnas (como en la cabecera de la guía) y debajo las notas de Torre tal cual.
- * Cada objeto copia su nombre para buscarlo en el juego.
- */
-export function DofusNeeds({ needs }: { needs: NonNullable<DofusGuideView['needs']> }) {
+/** Una fila de Prerrequisitos: una misión con su icono, o la frase de Torre sin icono. */
+function PrerequisiteRow({ line }: { line: PrerequisiteLine }) {
+  if (line.kind === 'quest') {
+    return <PrerequisiteRows lines={[{ label: line.label, href: line.href, quest: true }]} />
+  }
   return (
-    <section className="dg-sec dg-needs" aria-labelledby="dg-nec">
-      <h2 className="lq__h" id="dg-nec">
-        {needs.title}
-      </h2>
-      {needs.note && <p className="dg-needs__note">{needs.note}</p>}
-      {needs.groups.map((group, index) => (
-        <DofusNeedGroup key={`${group.name ?? ''}-${index}`} group={group} />
-      ))}
-    </section>
+    <li className="row dg-pre">
+      <div className="dg-pre__t">
+        <GuideRichText content={line.text} />
+      </div>
+    </li>
+  )
+}
+
+type SheetView = Pick<DofusGuideView, 'prerequisites' | 'needs' | 'rewards'>
+
+/** Si la ficha tiene algo que enseñar. Sin ella, la página es una sola columna. */
+export const hasDofusSheet = (view: SheetView) =>
+  view.prerequisites.length > 0 || Boolean(view.needs) || Boolean(view.rewards)
+
+/**
+ * La ficha de la guía (DESIGN.md, Dofus guide page): la de la página de logro, con
+ * Prerrequisitos y Necesitarás plegables y Recompensas al final, siempre a la vista. Desde
+ * 64rem es una columna a la derecha, abierta; en el móvil y la tableta va entre la cabecera y
+ * la entrada, plegada. Una parte vacía no se pinta; sin nada, no hay ficha.
+ */
+export function DofusSheet({ view }: { view: SheetView }) {
+  // Ids propios: el catálogo (/sistema) pinta la ficha en cada tema y modo.
+  const id = useId()
+  if (!hasDofusSheet(view)) return null
+  const { prerequisites, needs, rewards } = view
+  return (
+    <div className="lsheet">
+      {prerequisites.length > 0 && (
+        <SheetFold id={`${id}-pre`} label={s.prerequisites}>
+          <ul role="list" className="lsheet__pre">
+            {prerequisites.map((line, index) => (
+              <PrerequisiteRow key={index} line={line} />
+            ))}
+          </ul>
+        </SheetFold>
+      )}
+      {needs && (
+        <SheetFold id={`${id}-nec`} label={needs.title} className="lsheet__p lneeds">
+          {needs.note && <p className="dg-needs__note">{needs.note}</p>}
+          <div className="lneeds__groups">
+            {needs.groups.map((group, index) => (
+              <DofusNeedGroup key={index} id={`${id}-g${index}`} group={group} />
+            ))}
+          </div>
+        </SheetFold>
+      )}
+      {rewards && (
+        <section className="lsheet__p" aria-labelledby={`${id}-rec`}>
+          <h2 className="lsheet__k" id={`${id}-rec`}>
+            {s.rewards}
+          </h2>
+          <div className="dg-rew">
+            <GuideRichText content={rewards} />
+          </div>
+        </section>
+      )}
+    </div>
   )
 }
 
@@ -197,48 +221,42 @@ function QuestTitle({ quest }: { quest: DofusQuestCard }) {
       ),
     )
   }
-  return quest.href ? (
-    <SiteOrWebLink className="dg-ql__a" href={quest.href}>
-      {quest.title}
-    </SiteOrWebLink>
-  ) : (
-    quest.title
-  )
+  return quest.href ? <SiteOrWebLink href={quest.href}>{quest.title}</SiteOrWebLink> : quest.title
 }
 
-function QuestItem({ quest, kicker }: { quest: DofusQuestCard; kicker?: string }) {
-  // Lo que Torre enlaza que no es una misión («Logro: Cazadores cazados») va sin número.
-  const isLink = quest.kind === 'link'
+/**
+ * Las misiones de una parte en la lista numerada de la página de logro (NumberedQuests), en una
+ * sola columna: el número, el PNJ (o el icono de misión), el título de Torre que abre su guía,
+ * «Nivel 20», su nota y «Sin guía todavía» si no la tiene. Lo que Torre enlaza que no es una
+ * misión va sin número; una fila de varias guías enlaza cada trozo y no abre la fila entera.
+ */
+function QuestList({ quests, alone = false }: { quests: DofusQuestCard[]; alone?: boolean }) {
   return (
-    <li className={`dg-ql__i${quest.href ? ' dg-ql__i--link' : ''}`}>
-      <span className="dg-ql__npc" aria-hidden="true">
-        {quest.giver ? (
-          <Picture image={quest.giver} alt="" sizes="48px" />
-        ) : (
-          <IconWell icon="quest" />
-        )}
-      </span>
-      <div>
-        {!isLink && (
-          <p className="dg-ql__k">{kicker ?? s.questKicker(quest.position, quest.level)}</p>
-        )}
-        <p className="dg-ql__t">
-          <QuestTitle quest={quest} />
-        </p>
-        {quest.note && <p className="dg-qnote">{quest.note}</p>}
-        {!isLink && !quest.href && !quest.links && <span className="ztag">{s.noGuide}</span>}
-      </div>
-    </li>
-  )
-}
-
-function QuestList({ quests }: { quests: DofusQuestCard[] }) {
-  return (
-    <ol role="list" className={`dg-ql${quests.length > 3 ? ' dg-ql--cols' : ''}`}>
-      {quests.map((quest, index) => (
-        <QuestItem key={index} quest={quest} />
-      ))}
-    </ol>
+    <NumberedQuests
+      quests={quests.map((quest, index) => {
+        const isLink = quest.kind === 'link'
+        return {
+          key: index,
+          ...(!isLink && !alone && { number: quest.position }),
+          link: Boolean(quest.href),
+          npc: quest.giver ? (
+            <Picture image={quest.giver} alt="" sizes="48px" />
+          ) : (
+            <IconWell icon="quest" />
+          ),
+          children: (
+            <>
+              <p className="lq__t">
+                <QuestTitle quest={quest} />
+              </p>
+              {!isLink && quest.level && <p className="lq__k">{s.level(quest.level)}</p>}
+              {quest.note && <p className="dg-qnote">{quest.note}</p>}
+              {!isLink && !quest.href && !quest.links && <span className="ztag">{s.noGuide}</span>}
+            </>
+          ),
+        }
+      })}
+    />
   )
 }
 
@@ -295,9 +313,7 @@ export function DofusPart({ part }: { part: PartView }) {
     case 'quest':
       return (
         <section className="dg-ach">
-          <ol role="list" className="dg-ql">
-            <QuestItem quest={part.quest} kicker={s.questAlone(part.quest.level)} />
-          </ol>
+          <QuestList quests={[part.quest]} alone />
         </section>
       )
     case 'note':
@@ -317,7 +333,7 @@ export function DofusParts({ view }: { view: DofusGuideView }) {
   if (view.parts.length === 0) return null
   const onlyQuests = view.achievementCount === 0
   return (
-    <section className="dg-sec" aria-labelledby="dg-logros">
+    <section className="lq dg-parts" aria-labelledby="dg-logros">
       <h2 className="lq__h" id="dg-logros">
         {onlyQuests ? s.questHeading : s.partsHeading(view.achievementCount)}
       </h2>

@@ -5,7 +5,6 @@ import { contrastRatio } from '../../src/lib/checklists/poster-ink.ts'
 import { FREE_THEMES, MODES } from '../../src/lib/theme/theme.ts'
 import { computedContrast } from './colors.ts'
 import { visualLines } from './meta-lines.ts'
-import { expectNeedsColumns } from './needs-layout.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
 import { seedDofus as dofus } from './seed/dofus-guides.ts'
 import { seedChecklists } from './seed/checklists.ts'
@@ -393,7 +392,7 @@ test.describe('índice de las guías de Dofus', () => {
 test.describe('página de una guía de Dofus', () => {
   const url = `/${dofus.ocre.slug}`
 
-  test('las migas, la cabecera con el huevo y Prerrequisitos, la checklist y la intro', async ({
+  test('las migas, la cabecera con el huevo, la ficha con Prerrequisitos, la checklist y la intro', async ({
     page,
   }) => {
     const response = await page.goto(url)
@@ -407,8 +406,10 @@ test.describe('página de una guía de Dofus', () => {
     await expect(header.getByRole('heading', { level: 1, name: dofus.ocre.name })).toBeVisible()
     await expect(header.locator('.qhead__meta')).toContainText(dofus.ocre.meta)
     await expect(header.locator('.qhead__meta')).toContainText(dofus.ocre.tag)
-    await expect(header.getByRole('heading', { name: 'Prerrequisitos' })).toBeVisible()
-    await expect(header.getByText(dofus.ocre.prerequisite)).toBeVisible()
+    // La cabecera del logro: nada más que el huevo, el título y el subtítulo.
+    await expect(header.getByRole('heading', { level: 2 })).toHaveCount(0)
+    const prerequisites = page.locator('.lsheet').getByRole('region', { name: 'Prerrequisitos' })
+    await expect(prerequisites.getByText(dofus.ocre.prerequisite)).toBeVisible()
     // La checklist de su Dofus publicada en la web (la semilla del Nebuloso apunta a esta
     // guía), no la de Squarespace que guarda la guía.
     await expect(
@@ -417,11 +418,61 @@ test.describe('página de una guía de Dofus', () => {
     await expect(page.getByText(dofus.ocre.intro)).toBeVisible()
   })
 
+  test('la ficha va a la derecha desde 64rem, abierta, a la altura de las migas', async ({
+    page,
+  }) => {
+    const crumbs = page.getByRole('navigation', { name: 'Ruta de navegación' })
+    const parts = page.getByRole('region', { name: 'El logro' })
+    const sheet = page.locator('.lsheet')
+    for (const width of [1440, 1024]) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(url)
+      const [side, list, top] = [
+        (await sheet.boundingBox())!,
+        (await parts.boundingBox())!,
+        (await crumbs.boundingBox())!,
+      ]
+      expect(side.x).toBeGreaterThanOrEqual(list.x + list.width)
+      expect(Math.abs(side.y - top.y)).toBeLessThan(2)
+      // Como la ficha del logro: unos 20rem, no pegajosa.
+      expect(side.width).toBeLessThan(21 * 17.6)
+      await expect(sheet).not.toHaveCSS('position', 'sticky')
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        width,
+      )
+    }
+    // Abierta y quieta: pulsar su título no la pliega.
+    for (const name of ['Prerrequisitos', 'Necesitarás']) {
+      const part = sheet.getByRole('region', { name })
+      await expect(part.locator('details')).toHaveAttribute('open', '')
+      await part.locator('summary').click()
+      await expect(part.locator('details')).toHaveAttribute('open', '')
+    }
+  })
+
+  test('en el móvil la ficha va plegada entre la cabecera y la entrada, y se abre al pulsarla', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const header = (await page.locator('header.dg-head').boundingBox())!
+    const sheet = (await page.locator('.lsheet').boundingBox())!
+    const intro = (await page.getByText(dofus.ocre.intro).boundingBox())!
+    expect(sheet.y).toBeGreaterThanOrEqual(header.y + header.height)
+    expect(intro.y).toBeGreaterThanOrEqual(sheet.y + sheet.height)
+    const needs = page.locator('.lsheet').getByRole('region', { name: 'Necesitarás' })
+    await expect(needs.locator('details')).not.toHaveAttribute('open', '')
+    await expect(needs.getByText(dofus.ocre.needsNote)).toBeHidden()
+    await needs.locator('summary').click()
+    await expect(needs.getByText(dofus.ocre.needsNote)).toBeVisible()
+  })
+
   test('Necesitarás: el objeto copia su nombre para buscarlo en el juego', async ({
     page,
     context,
   }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
     const needs = page.getByRole('region', { name: 'Necesitarás' })
     await expect(needs.getByText(dofus.ocre.needsNote)).toBeVisible()
@@ -430,32 +481,27 @@ test.describe('página de una guía de Dofus', () => {
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(item!.name)
   })
 
-  test('Necesitarás: los objetos en columnas y la nota de Torre después, aunque vaya en medio', async ({
+  test('Necesitarás: una fila por línea, los objetos y después la nota de Torre, aunque vaya en medio', async ({
     page,
   }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
     const needs = page.getByRole('region', { name: 'Necesitarás' })
-    await expect(needs.locator('.needs__items > li')).toHaveCount(dofus.ocre.needsItems.length)
-    await expect(needs.locator('.needs__notes')).toContainText(dofus.ocre.needsNote)
-    await expectNeedsColumns(page, needs)
+    const rows = needs.locator('.lneeds__list > li')
+    await expect(rows).toHaveCount(dofus.ocre.needsItems.length + 1)
+    await expect(rows.last()).toContainText(dofus.ocre.needsNote)
+    const boxes = await rows.evaluateAll((items) =>
+      items.map((item) => item.getBoundingClientRect().toJSON() as DOMRect),
+    )
+    for (const [above, below] of boxes.slice(0, -1).map((box, i) => [box, boxes[i + 1]!])) {
+      expect(below.y).toBeGreaterThanOrEqual(above.y + above.height - 1)
+      expect(Math.abs(below.x - above.x)).toBeLessThan(1)
+    }
     // Una nota de dos párrafos los pone uno debajo del otro, no lado a lado.
     const first = await needs.getByText(dofus.ocre.needsNote, { exact: true }).boundingBox()
     const second = await needs.getByText(dofus.ocre.needsNoteMore, { exact: true }).boundingBox()
     expect(second!.y).toBeGreaterThanOrEqual(first!.y + first!.height - 1)
     expect(Math.abs(second!.x - first!.x)).toBeLessThan(2)
-  })
-
-  test('Necesitarás: una nota sola no se aprieta en una columna; llega a la medida del texto', async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto(url)
-    const notes = page.getByRole('region', { name: 'Necesitarás' }).locator('.needs__notes > li')
-    await expect(notes).toHaveCount(1)
-    const note = (await notes.first().boundingBox())!
-    // Una columna de objetos mide 15rem (264px a la raíz del 110 %); la medida del texto, 50rem.
-    expect(note.width).toBeGreaterThan(30 * 17.6)
-    expect(note.width).toBeLessThanOrEqual(50 * 17.6 + 1)
   })
 
   test('el logro trae las misiones como las escribe Torre; la suelta lleva su nota', async ({
@@ -509,7 +555,23 @@ test.describe('página de una guía de Dofus', () => {
     await expect(linkRow).not.toContainText(/Misión \d/)
   })
 
-  test('una sola columna, sin lista lateral, con el Dofus anterior', async ({ page }) => {
+  test('las misiones en la lista numerada del logro, en una sola columna', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    const parts = page.getByRole('region', { name: 'El logro' })
+    const rows = parts.locator('.lq__list').first().locator('.lq__item')
+    await expect(rows.first().locator('.lq__n')).toHaveText('1')
+    const xs = await rows.evaluateAll((items) =>
+      items.map((item) => item.getBoundingClientRect().x),
+    )
+    expect(new Set(xs).size).toBe(1)
+    // Toda la fila abre la guía.
+    const first = (await rows.first().boundingBox())!
+    await page.mouse.click(first.x + first.width - 8, first.y + first.height / 2)
+    await expect(page).toHaveURL(`/${seedGuide.prerequisite.slug}`)
+  })
+
+  test('sin lista lateral, con el Dofus anterior', async ({ page }) => {
     await page.goto(url)
     await expect(page.getByRole('complementary')).toHaveCount(0)
     const nav = page.getByRole('navigation', { name: 'Guías de Dofus' })
@@ -535,13 +597,17 @@ test.describe('página de una guía de Dofus', () => {
   test('Necesitarás: cada mazmorra lleva el jefe que nombra, o el icono de mazmorra', async ({
     page,
   }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(`/${dofus.dofawa.slug}`)
     const needs = page.getByRole('region', { name: 'Necesitarás' })
     const [kumijo, generic] = dofus.dofawa.needsDungeons
-    const row = (text: string) => needs.locator('.needs__notes > li').filter({ hasText: text })
-    // La nota de Torre, tal cual; a su lado, el jefe de la Casa de los Espíritus.
-    await expect(row(kumijo!)).toHaveText(kumijo!)
-    const boss = row(kumijo!).locator('.well img')
+    const row = (text: string) => needs.locator('.lneeds__list > li').filter({ hasText: text })
+    // La nota de Torre, con su cantidad en negrita; a su lado, el jefe de la Casa de los
+    // Espíritus.
+    const named = row('Mazmorra Kumijo')
+    await expect(named).toHaveText(kumijo!.replace(' x ', ' × '))
+    await expect(named.locator('b')).toHaveText('1 ×')
+    const boss = named.locator('.well img')
     await expect(boss).toHaveAttribute('src', /\/api\/media\/file\//)
     await boss.scrollIntoViewIfNeeded()
     await expect
@@ -552,13 +618,20 @@ test.describe('página de una guía de Dofus', () => {
       'src',
       '/img/game/jefes/crunchidor.webp',
     )
-    // Un combate no es una mazmorra: sin hueco.
-    await expect(row(dofus.dofawa.needsCombat).locator('.well')).toHaveCount(0)
+    // Un combate lleva el icono de combate.
+    await expect(row(dofus.dofawa.needsCombat).locator('.well')).toHaveAttribute(
+      'data-icon',
+      'combat',
+    )
     // El hueco va a la altura de la primera línea de la nota.
-    const slot = await row(kumijo!).locator('.well').boundingBox()
-    // La nota de una línea: su párrafo, sin el relleno que la baja.
-    const line = await row(kumijo!).locator('.dg-note__t > *').first().boundingBox()
-    expect(Math.abs(slot!.y + slot!.height / 2 - (line!.y + line!.height / 2))).toBeLessThan(2)
+    const slot = (await named.locator('.well').boundingBox())!
+    const line = await named.locator('.dg-note__t p').evaluate((p) => {
+      const range = document.createRange()
+      range.selectNodeContents(p)
+      const [first] = range.getClientRects()
+      return { y: first!.y, height: first!.height }
+    })
+    expect(Math.abs(slot.y + slot.height / 2 - (line.y + line.height / 2))).toBeLessThan(2)
   })
 
   test('un Dofus En preparación no tiene página', async ({ page }) => {

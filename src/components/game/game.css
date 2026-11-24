@@ -628,7 +628,7 @@ ul.needs__notes {
   object-fit: contain;
 }
 
-:where(.lneeds__list > li, .metas > li, .dg-ql__i, .acards > li, .lnav__card) .well {
+:where(.lneeds__list > li, .metas > li, .acards > li, .lnav__card) .well {
   --dia: var(--v);
 }
 

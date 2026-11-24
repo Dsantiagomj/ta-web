@@ -113,9 +113,6 @@ export const dofusPageStrings = {
     achievements === 1 ? 'El logro' : 'Los logros, en orden',
   questHeading: 'La misión',
   metalogro: (number: number) => `Metalogro ${number}`,
-  questKicker: achievementPageStrings.questKicker,
-  /** Una misión que es una parte por sí sola, sin número. */
-  questAlone: (level?: number) => (level ? `Misión - Nivel ${level}` : 'Misión'),
   noGuide: 'Sin guía todavía',
   preparing: achievementPageStrings.preparing,
   body: 'Paso a paso',

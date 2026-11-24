@@ -75,7 +75,7 @@ export const catalogStrings = {
     table:
       'Una tabla de Torre: su título, la primera columna como encabezado de fila y las cifras a la derecha. Si no cabe, se desplaza de lado dentro de su caja (se enfoca con el teclado) y la primera columna se queda a la vista.',
     dofus:
-      'Tarjetas del índice (una con su etiqueta, otra En preparación, apagada y sin enlace), Necesitarás por grupos (el objeto copia su nombre) y un logro con sus misiones en lista con filetes, sin cajas.',
+      'Tarjetas del índice (una con su etiqueta, otra En preparación, apagada y sin enlace), la ficha de la guía (Prerrequisitos y Necesitarás por grupos, una fila por línea; el objeto copia su nombre) y un logro con sus misiones en la lista numerada del logro, en una columna.',
     checklists:
       'Tarjetas del índice: una Publicada que abre su página, una En preparación que abre la web anterior y lo dice, y otra sin enlace, apagada.',
     achievement:

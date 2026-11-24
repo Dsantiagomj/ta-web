@@ -791,35 +791,19 @@
 }
 
 /* ==========================================================================
-   La página de una guía de Dofus (DESIGN.md, Dofus guides components), sobre las piezas de
-   la página de logro. Va en este archivo y no aparte: la ruta /<slug> sirve guías, logros y
-   guías de Dofus, y cada hoja de estilos más es una petición que bloquea el primer pintado
-   (el LCP de las guías pasó el límite con dofus.css aparte). Sin cajas dentro de cajas: el
-   metalogro y el logro son títulos, las misiones una lista con filetes.
+   La página de una guía de Dofus (DESIGN.md, Dofus guide page): la disposición de la página
+   de logro (logro--sheet, la ficha, la lista numerada de misiones), con lo que el Dofus añade.
+   Va en este archivo y no aparte: la ruta /<slug> sirve guías, logros y guías de Dofus, y cada
+   hoja de estilos más es una petición que bloquea el primer pintado (el LCP de las guías pasó
+   el límite con dofus.css aparte). Sin cajas dentro de cajas: el metalogro y el logro son
+   títulos y sus misiones la lista numerada del logro.
    ========================================================================== */
 
 .dg-page {
   --color-section: var(--color-sec-dofus);
 }
 
-/* ---------- cabecera ---------- */
-/* La rejilla de la cabecera del logro, con más especificidad: aquí game.css (.qhead) puede
-   cargar después de achievement.css y dejaría el huevo sin su área. */
-.qhead.dg-head {
-  grid-template: 'icon title' 'icon meta' 'icon updated' 'facts facts' / 3.75rem minmax(0, 1fr);
-  column-gap: 1rem;
-}
-@media (min-width: 36rem) {
-  .qhead.dg-head {
-    grid-template-columns: 5rem minmax(0, 1fr);
-    column-gap: 1.5rem;
-  }
-
-  /* Prerrequisitos y Recompensas de Torre, uno al lado del otro: son textos cortos. */
-  .dg-head .qhead__facts {
-    grid-template-columns: auto 1fr;
-  }
-}
+/* ---------- cabecera: la del logro, con el huevo en su hueco ---------- */
 .dg-head__egg {
   background:
     radial-gradient(
@@ -829,14 +813,15 @@
     ),
     var(--color-slot);
 }
-.dg-head__egg img {
-  width: 4rem;
-  height: 4rem;
+/* El huevo llena más su hueco que el icono de un logro (56px, 68px desde 576px). */
+.lhead--logro .dg-head__egg img {
+  width: 2.875rem;
+  height: 2.875rem;
 }
 @media (min-width: 36rem) {
-  .dg-head__egg img {
-    width: 4.5rem;
-    height: 4.5rem;
+  .lhead--logro .dg-head__egg img {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 }
 .dg-tagpill {
@@ -851,17 +836,84 @@
   color: var(--color-on-hue);
   font: 700 0.6875rem / 1 var(--font-body);
 }
-.dg-facts .guide-rich :where(ul, ol) {
-  margin: 0;
+
+/* ---------- la ficha: Prerrequisitos, Necesitarás y Recompensas de Torre ---------- */
+/* Prerrequisitos: cada fila arriba, como las de Necesitarás; la misión, con su icono a la
+   altura de la primera línea, y la frase de Torre, sin icono, en el gris del texto. */
+.dg-page .lsheet__pre .row {
+  align-items: flex-start;
+}
+.dg-page .lsheet__pre .row > a {
+  padding-top: calc((2rem - 1lh) / 2);
+}
+/* Sin hueco, la frase ocupa lo mismo que una fila con él: su línea, centrada en los 32px. */
+.dg-page .lsheet__pre .dg-pre {
+  min-height: 0;
+}
+.dg-pre__t {
+  min-width: 0;
+  padding-block: calc((2rem - 1lh) / 2);
+  color: var(--color-ink-2);
+}
+.dg-pre__t > * + * {
+  margin-top: 0.25rem;
+}
+/* La nota de Torre sobre todo Necesitarás, encima de los grupos. */
+.dg-needs__note {
+  margin: 0 0 0.875rem;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+/* El subtítulo de Torre de unas filas («1 × Mazmorra:»), bajo el nombre del grupo. */
+.dg-needs__sub {
+  margin: 0.5rem 0 0.25rem;
+  color: var(--color-ink-2);
+  font: 600 var(--text-sm) / 1.4 var(--font-body);
+}
+.lneeds__k + .dg-needs__sub {
+  margin-top: 0;
+}
+/* Una nota de Torre: «3 ×» y su primer párrafo en una línea, como «Necesitarás en total»; si
+   trae más párrafos o una lista, van debajo. */
+.dg-note__t > p:first-of-type {
+  display: inline;
+}
+.dg-note__t > * + :not(p:first-of-type) {
+  margin-top: 0.25rem;
+}
+.dg-note__t :where(ul, ol) {
   padding-left: 1.1em;
 }
-.dg-facts :where(p, li) {
-  margin: 0 0 0.375rem;
+/* Las recompensas de Torre, su texto tal cual, siempre a la vista. */
+.dg-rew {
+  padding-bottom: 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+/* Una línea por punto, como las filas de la ficha, sin sangría. */
+.dg-rew :where(ul, ol) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dg-rew :where(p, li) + :where(p, li) {
+  margin-top: 0.25rem;
+}
+@media (min-width: 64rem) {
+  .dg-rew {
+    padding-bottom: 0;
+  }
 }
 
 /* ---------- prosa y secciones ---------- */
+/* La entrada de Torre, justo bajo la cabecera (o bajo la ficha plegada). */
 .dg-intro {
-  margin-top: 1.75rem;
+  margin-top: 1.25rem;
+}
+@media (min-width: 64rem) {
+  .dg-intro {
+    margin-top: 1.5rem;
+  }
 }
 .dg-prose--note {
   margin: 0.5rem 0 0.25rem;
@@ -874,79 +926,12 @@
   font-size: var(--text-sm);
 }
 .dg-sec {
-  margin-top: 2.5rem;
+  margin-top: 3rem;
   container-type: inline-size;
 }
 /* El vídeo de Torre, como el de la guía: hasta --width-video, aunque la columna sea más ancha. */
 .dg-sec > figure {
   max-width: var(--width-video);
-}
-.dg-h3 {
-  margin: 0 0 0.5rem;
-  color: var(--color-section);
-  font: 600 1rem / 1.3 var(--font-body);
-}
-
-/* ---------- Necesitarás, por grupos, uno debajo de otro ---------- */
-/* Las columnas de objetos y de notas (needs__items, needs__notes) vienen de game.css. */
-.dg-needs__g + .dg-needs__g {
-  margin-top: 1.5rem;
-}
-/* La nota de Torre sobre todo Necesitarás, encima de los grupos. */
-.dg-needs__note {
-  margin: 0 0 1rem;
-  color: var(--color-ink-2);
-  font-size: var(--text-sm);
-}
-/* El subtítulo de Torre de unas filas («1 × Mazmorra:»), bajo el nombre del grupo. */
-.dg-needs__sub {
-  margin: 0.75rem 0 0.375rem;
-  color: var(--color-ink-2);
-  font: 600 var(--text-sm) / 1.4 var(--font-body);
-}
-.dg-needs__g > .dg-h3 + .dg-needs__sub {
-  margin-top: 0;
-}
-/* La nota de Torre de un objeto («(o fabricarlo)»), bajo su nombre. */
-.dg-needs .needs__items .dg-muted {
-  grid-column: 2;
-}
-/* Las notas de Torre son frases, no nombres: las columnas se reparten la fila (auto-fit), así
-   que una nota sola o dos no se aprietan en columnas de 15rem con la fila vacía al lado. Cada
-   una, como mucho a la medida del texto. */
-.dg-needs ul.needs__notes {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-}
-.dg-needs .needs__notes > .dg-note {
-  max-width: var(--width-prose);
-}
-/* Una nota de Torre puede traer varios párrafos o una lista: van uno debajo del otro, no en
-   la fila flex de .row. */
-.needs__notes > .row.dg-note {
-  display: block;
-}
-/* Una mazmorra: el hueco con su jefe a la altura de la primera línea de la nota, que baja la
-   mitad de lo que el hueco mide de más que su línea (como en «Necesitarás en total»). */
-.needs__notes > .row.dg-note--slot {
-  display: flex;
-  align-items: flex-start;
-}
-.dg-note__t {
-  min-width: 0;
-  padding-top: calc((1.75rem - 1lh) / 2);
-}
-/* El texto va al lado del hueco, no debajo: sin el hueco entre párrafos de .dg-note. */
-.dg-note--slot > .dg-note__t {
-  margin-top: 0;
-}
-.dg-note__t > * + * {
-  margin-top: 0.25rem;
-}
-.dg-note :where(p) {
-  margin: 0;
-}
-.dg-note > * + * {
-  margin-top: 0.25rem;
 }
 
 /* ---------- logros y misiones ---------- */
@@ -974,15 +959,16 @@
 .dg-ach {
   margin-top: 1.75rem;
 }
+.dg-parts > .lq__h + .dg-ach,
 .dg-meta > .dg-ach:first-of-type {
-  margin-top: 1.25rem;
+  margin-top: 1rem;
 }
 .dg-ach__head {
   display: grid;
   grid-template-columns: 3rem minmax(0, 1fr);
   align-items: center;
   gap: 0.875rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 .dg-ach__icon {
   display: grid;
@@ -1020,7 +1006,6 @@
   text-decoration-thickness: 2px;
 }
 .dg-ach__t--plain {
-  margin-bottom: 0.75rem;
   font-size: 1.125rem;
 }
 .dg-ach__m {
@@ -1034,106 +1019,30 @@
 .dg-ach__note {
   margin: 0.25rem 0 0.5rem 3.875rem;
 }
-
-.dg-ql {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+/* Las misiones de cada logro: la lista numerada de la página de logro, en una sola columna. */
+.dg-ach .lq__list {
+  margin-top: 0.5rem;
 }
-@container (min-width: 37.5rem) {
-  .dg-ql--cols {
-    columns: 2;
-    column-gap: 2rem;
-  }
-}
-.dg-ql__i {
-  position: relative;
-  display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr);
-  align-items: center;
-  column-gap: 0.875rem;
-  min-height: 3.75rem;
-  padding: 0.5rem 0.5rem 0.5rem 0;
-  border-top: 1px solid var(--color-line);
-  break-inside: avoid;
-}
-.dg-ql__i > div {
-  min-width: 0;
-}
-.dg-ql__npc {
-  display: grid;
-  place-items: end center;
-  height: 3rem;
-}
-/* Solo el render del PNJ: el icono genérico de misión (IconWell) mide lo de su hueco; con esta
-   regla salía a 44px en los 42 de dentro del hueco. */
-.dg-ql__npc > picture img {
-  width: auto;
-  height: auto;
-  max-width: 2.75rem;
-  max-height: 3rem;
-  filter: drop-shadow(0 2px 0.1875rem rgb(0 0 0 / 0.25));
-}
-.dg-ql__k {
-  margin: 0;
-  color: var(--color-ink-2);
-  font-size: var(--text-xs);
-  line-height: 1.4;
-}
-.dg-ql__t {
-  margin: 1px 0 0;
-  color: var(--color-ink);
-  font: 600 1rem / 1.35 var(--font-body);
-}
-/* El título enlazado cubre la fila: toda la fila abre la guía. */
-.dg-ql__a {
-  color: inherit;
-  text-decoration: none;
-}
-.dg-ql__a::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 0.625rem;
+/* Sin el render del PNJ, el icono genérico de misión en su hueco, centrado en la fila. */
+.dg-parts .lq__npc > .well {
+  align-self: center;
 }
 /* Una fila que enlaza varias guías («La fatalidad - El destino - La rivalidad»): cada trozo es
-   su enlace, subrayado, y la fila no se abre entera. */
-.dg-ql__t a:not(.dg-ql__a) {
-  color: var(--color-accent);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.1875rem;
+   su enlace y la fila no se abre entera. */
+.dg-parts .lq__item:not([data-link]) .lq__t a::after {
+  content: none;
 }
-.dg-ql__t a:not(.dg-ql__a):hover {
-  text-decoration-thickness: 2px;
-}
-.dg-ql__a:focus-visible {
-  outline: none;
-}
-.dg-ql__a:focus-visible::after {
-  outline: 2px solid var(--color-ink);
-  outline-offset: -2px;
-}
-@media (hover: hover) and (pointer: fine) {
-  .dg-ql__i--link {
-    transition: background-color var(--duration-fast) var(--ease-standard);
-  }
-  .dg-ql__i--link:hover {
-    background: color-mix(in srgb, var(--color-raised) 55%, transparent);
-  }
-  .dg-ql__i--link:hover .dg-ql__a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.1875rem;
-  }
-}
-.dg-ql .ztag {
-  margin-top: 0.25rem;
+.dg-parts .lq__item:not([data-link]) .lq__t a {
+  position: relative;
+  z-index: 1;
 }
 .dg-qnote {
   margin: 2px 0 0;
   color: var(--color-ink-2);
   font-size: var(--text-sm);
+}
+.dg-parts .lq__txt .ztag {
+  margin-top: 0.25rem;
 }
 
 /* ---------- checklist ---------- */
@@ -1196,7 +1105,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dg-ach__t a,
-  .dg-ql__i--link,
   .dg-chk {
     transition: none;
   }
@@ -1248,44 +1156,28 @@
 
 /* Uno de los ocho tonos de theme.css por elemento, en orden, en --v: lo toman el rombo de su
    número o de su hueco, su borde o su antetítulo. Nunca en las checklists. */
-:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
-  8n + 1
-) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .lnav__card):nth-child(8n + 1) {
   --v: var(--color-hue-1);
 }
-:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
-  8n + 2
-) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .lnav__card):nth-child(8n + 2) {
   --v: var(--color-hue-2);
 }
-:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
-  8n + 3
-) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .lnav__card):nth-child(8n + 3) {
   --v: var(--color-hue-3);
 }
-:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
-  8n + 4
-) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .lnav__card):nth-child(8n + 4) {
   --v: var(--color-hue-4);
 }
-:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
-  8n + 5
-) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .lnav__card):nth-child(8n + 5) {
   --v: var(--color-hue-5);
 }
-:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
-  8n + 6
-) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .lnav__card):nth-child(8n + 6) {
   --v: var(--color-hue-6);
 }
-:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
-  8n + 7
-) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .lnav__card):nth-child(8n + 7) {
   --v: var(--color-hue-7);
 }
-:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .dg-ql__i, .lnav__card):nth-child(
-  8n + 8
-) {
+:is(.lq__item, .lobj__item, .lneeds__list > li, .metas > li, .lnav__card):nth-child(8n + 8) {
   --v: var(--color-hue-8);
 }
 
