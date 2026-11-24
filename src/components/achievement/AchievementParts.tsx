@@ -1,4 +1,4 @@
-import { type CSSProperties, useId } from 'react'
+import { type CSSProperties, type Key, type ReactNode, useId } from 'react'
 
 import { ChevronIcon } from '@/components/game/icons'
 import { IconWell } from '@/components/game/IconWell'
@@ -80,9 +80,10 @@ export const hasSheet = (facts: SheetFacts, needs: Needs) =>
 /**
  * Una parte plegable de la ficha: su título es el resumen de un <details>, con el chevron.
  * Cerrada en el HTML: en el móvil y la tableta se abre al pulsarla; desde 64rem el CSS ya la
- * enseña abierta y la isla de la página la abre y no deja cerrarla.
+ * enseña abierta y la isla de la página la abre y no deja cerrarla. La guía de Dofus pinta su
+ * ficha con ella.
  */
-function SheetFold({
+export function SheetFold({
   id,
   label,
   className = 'lsheet__p',
@@ -91,7 +92,7 @@ function SheetFold({
   id: string
   label: string
   className?: string
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <section className={className} aria-labelledby={id}>
@@ -120,7 +121,7 @@ function NeedsGroup({
   label: string
   className: string
   modifier?: string
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <div className={modifier ? `lneeds__g ${modifier}` : 'lneeds__g'}>
@@ -248,53 +249,92 @@ export function AchievementSheet({ facts, needs }: { facts: SheetFacts; needs: N
   )
 }
 
+/** Una fila de la lista numerada: su número, el PNJ (o lo que va en su sitio) y su texto. */
+export interface NumberedQuest {
+  key: Key
+  /** El número en su rombo; sin él, el rombo va vacío. */
+  number?: number
+  /** El enlace del título cubre la fila: toda la fila abre la guía. */
+  link: boolean
+  npc?: ReactNode
+  /** El título (lq__t) y lo que va debajo. */
+  children: ReactNode
+}
+
+/**
+ * La lista numerada de misiones (DESIGN.md, Achievement page, «Las misiones, en orden»): el
+ * número en un rombo sobre la línea que las une, el PNJ que la da y el texto. Con columns, en
+ * dos columnas que se leen de arriba abajo: la línea acaba al final de la primera y sigue en
+ * la segunda. La guía de Dofus pinta con ella las misiones de cada logro, en una columna.
+ */
+export function NumberedQuests({
+  quests,
+  columns = false,
+}: {
+  quests: NumberedQuest[]
+  columns?: boolean
+}) {
+  const rows = columns ? Math.ceil(quests.length / 2) : quests.length
+  return (
+    <ol
+      className={`lq__list${columns ? ' lq__list--cols' : ''}`}
+      role="list"
+      style={columns ? ({ '--rows': rows } as CSSProperties) : undefined}
+    >
+      {quests.map((quest, index) => (
+        <li
+          key={quest.key}
+          className="lq__item"
+          data-link={quest.link ? '' : undefined}
+          data-first={index === 0 ? '' : undefined}
+          data-last={index === quests.length - 1 ? '' : undefined}
+          data-col-end={columns && index === rows - 1 ? '' : undefined}
+          data-col-start={columns && index === rows ? '' : undefined}
+        >
+          {/* El <ol> ya dice el número a los lectores de pantalla. */}
+          <span className="lq__n" aria-hidden="true">
+            {quest.number}
+          </span>
+          <span className="lq__npc" aria-hidden="true">
+            {quest.npc}
+          </span>
+          <div className="lq__txt">{quest.children}</div>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
 /**
  * Las misiones del logro, en orden (DESIGN.md, Achievement page): una lista numerada, con
  * el número en un círculo sobre la línea que las une, el PNJ que la da, el título y «Nivel
- * 20». Con cuatro o más, en dos columnas que se leen de arriba abajo: la línea acaba al
- * final de la primera y sigue en la segunda. Toda la fila abre la guía; sin guía publicada,
- * no es un enlace. Sin progreso: ni casillas ni contadores.
+ * 20». Con cuatro o más, en dos columnas. Toda la fila abre la guía; sin guía publicada, no
+ * es un enlace. Sin progreso: ni casillas ni contadores.
  */
 export function AchievementQuests({ quests }: { quests: QuestCard[] }) {
   const id = useId()
-  const columns = quests.length >= 4
-  const rows = columns ? Math.ceil(quests.length / 2) : quests.length
   return (
     <section className="lq" aria-labelledby={id}>
       <h2 className="lq__h" id={id}>
         {s.questsHeading}
       </h2>
-      <ol
-        className={`lq__list${columns ? ' lq__list--cols' : ''}`}
-        role="list"
-        style={columns ? ({ '--rows': rows } as CSSProperties) : undefined}
-      >
-        {quests.map((quest, index) => (
-          <li
-            key={quest.position}
-            className="lq__item"
-            data-link={quest.href ? '' : undefined}
-            data-first={index === 0 ? '' : undefined}
-            data-last={index === quests.length - 1 ? '' : undefined}
-            data-col-end={columns && index === rows - 1 ? '' : undefined}
-            data-col-start={columns && index === rows ? '' : undefined}
-          >
-            {/* El <ol> ya dice el número a los lectores de pantalla. */}
-            <span className="lq__n" aria-hidden="true">
-              {quest.position}
-            </span>
-            <span className="lq__npc" aria-hidden="true">
-              {quest.giver && <Picture image={quest.giver} alt="" sizes="48px" />}
-            </span>
-            <div className="lq__txt">
+      <NumberedQuests
+        columns={quests.length >= 4}
+        quests={quests.map((quest) => ({
+          key: quest.position,
+          number: quest.position,
+          link: Boolean(quest.href),
+          npc: quest.giver && <Picture image={quest.giver} alt="" sizes="48px" />,
+          children: (
+            <>
               <h3 className="lq__t">
                 {quest.href ? <a href={quest.href}>{quest.title}</a> : quest.title}
               </h3>
               {quest.level && <p className="lq__k">{s.questLevel(quest.level)}</p>}
-            </div>
-          </li>
-        ))}
-      </ol>
+            </>
+          ),
+        }))}
+      />
     </section>
   )
 }
